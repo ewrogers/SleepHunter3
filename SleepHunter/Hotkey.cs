@@ -33,51 +33,51 @@ namespace SleepHunter
         [DllImport("kernel32", SetLastError = true)]
         public static extern short GlobalDeleteAtom(short nAtom);
 
-        public short HotkeyID => this.hotkeyID;
+        public short HotkeyID => hotkeyID;
 
-        public Keys ShortcutKey => this.hotkeyKey;
+        public Keys ShortcutKey => hotkeyKey;
 
         public bool Enabled
         {
-            get => this.enabled;
+            get => enabled;
             set
             {
                 if (value)
-                    this.ReRegisterGlobalHotKey();
+                    ReRegisterGlobalHotKey();
                 else
-                    this.UnregisterGlobalHotKey();
+                    UnregisterGlobalHotKey();
             }
         }
 
         public IntPtr WindowHandle
         {
-            get => this.targethWnd;
-            set => this.targethWnd = value;
+            get => targethWnd;
+            set => targethWnd = value;
         }
 
-        public bool UseCTRL => (this.modifiers & 2) != 0;
+        public bool UseCTRL => (modifiers & 2) != 0;
 
-        public bool UseALT => (this.modifiers & 1) != 0;
+        public bool UseALT => (modifiers & 1) != 0;
 
-        public bool UseWinKey => (this.modifiers & 8) != 0;
+        public bool UseWinKey => (modifiers & 8) != 0;
 
-        public bool UseSHIFT => (this.modifiers & 4) != 0;
+        public bool UseSHIFT => (modifiers & 4) != 0;
 
         public Hotkey(IntPtr hWnd, Keys keys, int modifiers)
         {
-            this.targethWnd = hWnd;
-            this.hotkeyKey = keys;
+            targethWnd = hWnd;
+            hotkeyKey = keys;
             this.modifiers = modifiers;
-            this.RegisterGlobalHotKey(this.hotkeyKey, this.modifiers);
+            RegisterGlobalHotKey(hotkeyKey, this.modifiers);
         }
 
-        ~Hotkey() => this.UnregisterGlobalHotKey();
+        ~Hotkey() => UnregisterGlobalHotKey();
 
-        public void Dispose() => this.UnregisterGlobalHotKey();
+        public void Dispose() => UnregisterGlobalHotKey();
 
         public void SetHotkey(Keys keys, int modifiers)
         {
-            this.hotkeyKey = keys;
+            hotkeyKey = keys;
             this.modifiers = modifiers;
         }
 
@@ -86,37 +86,37 @@ namespace SleepHunter
             try
             {
                 int num = Thread.CurrentThread.ManagedThreadId;
-                this.hotkeyID = Hotkey.GlobalAddAtom(num.ToString("X8") + (object)(int)(hotkey + modifiers * 65536 /*0x010000*/));
-                if (this.hotkeyID == (short)0)
+                hotkeyID = GlobalAddAtom(num.ToString("X8") + (int)(hotkey + modifiers * 65536 /*0x010000*/));
+                if (hotkeyID == 0)
                 {
                     num = Marshal.GetLastWin32Error();
-                    throw new Exception("Unable to generate unique hotkey ID. Error code: " + num.ToString());
+                    throw new Exception("Unable to generate unique hotkey ID. Error code: " + num);
                 }
-                if (Hotkey.RegisterHotKey(this.targethWnd, (int)this.hotkeyID, modifiers, (int)hotkey) == 0)
+                if (RegisterHotKey(targethWnd, hotkeyID, modifiers, (int)hotkey) == 0)
                 {
                     num = Marshal.GetLastWin32Error();
-                    throw new Exception("Unable to register hotkey. Error code: " + num.ToString());
+                    throw new Exception("Unable to register hotkey. Error code: " + num);
                 }
             }
             catch (Exception)
             {
-                this.UnregisterGlobalHotKey();
+                UnregisterGlobalHotKey();
             }
         }
 
         public void ReRegisterGlobalHotKey()
         {
-            this.UnregisterGlobalHotKey();
-            this.RegisterGlobalHotKey(this.hotkeyKey, this.modifiers);
+            UnregisterGlobalHotKey();
+            RegisterGlobalHotKey(hotkeyKey, modifiers);
         }
 
         private void UnregisterGlobalHotKey()
         {
-            if (this.hotkeyID == (short)0)
+            if (hotkeyID == 0)
                 return;
-            Hotkey.UnregisterHotKey(this.targethWnd, (int)this.hotkeyID);
-            int num = (int)Hotkey.GlobalDeleteAtom(this.hotkeyID);
-            this.hotkeyID = (short)0;
+            UnregisterHotKey(targethWnd, hotkeyID);
+            int num = GlobalDeleteAtom(hotkeyID);
+            hotkeyID = 0;
         }
     }
 }

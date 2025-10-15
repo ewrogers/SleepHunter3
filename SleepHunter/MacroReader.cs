@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
 
 namespace SleepHunter
@@ -9,9 +8,9 @@ namespace SleepHunter
         public string[] GetCommands(string FileName)
         {
             StreamReader streamReader = new StreamReader(FileName);
-            ulong result = 0;
+            ulong result;
             if (!ulong.TryParse(streamReader.ReadLine(), out result))
-                return (string[])null;
+                return null;
             streamReader.ReadLine();
             string[] commands = new string[result];
             for (ulong index = 0; index < result; ++index)
@@ -23,9 +22,9 @@ namespace SleepHunter
         public string[] GetArguments(string FileName)
         {
             StreamReader streamReader = new StreamReader(FileName);
-            ulong result = 0;
+            ulong result;
             if (!ulong.TryParse(streamReader.ReadLine(), out result))
-                return (string[])null;
+                return null;
             streamReader.ReadLine();
             string[] arguments = new string[result];
             for (ulong index = 0; index < result; ++index)
@@ -39,7 +38,7 @@ namespace SleepHunter
             StreamReader streamReader = new StreamReader(FileName);
             ulong result = 0;
             if (!ulong.TryParse(streamReader.ReadLine(), out result))
-                return (string)null;
+                return null;
             string fileTitle = streamReader.ReadLine();
             streamReader.Close();
             return fileTitle;
@@ -53,7 +52,7 @@ namespace SleepHunter
             {
                 lvwList.Items.Add("");
                 lvwList.Items[index].SubItems.Add(commandLibrary.GetFormattedString(command, ArgList[index].Split(',')));
-                lvwList.Items[index].Tag = (object)$"{command}|{ArgList[index]}";
+                lvwList.Items[index].Tag = $"{command}|{ArgList[index]}";
                 ++index;
             }
             return index + 1;

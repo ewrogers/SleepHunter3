@@ -9,7 +9,7 @@ namespace SleepHunter
         private static void Main()
         {
             Application.EnableVisualStyles();
-            Application.Run((Form)new frmMain());
+            Application.Run(new frmMain());
         }
     }
 }

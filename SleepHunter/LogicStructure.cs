@@ -3,51 +3,51 @@ namespace SleepHunter
 {
     public class LogicStructure
     {
-        public LogicStructure.LogicItem[] CreateLogicStructure(string[] CommandList, string[] Args)
+        public LogicItem[] CreateLogicStructure(string[] CommandList, string[] Args)
         {
-            LogicStructure.LogicItem[] logicStructure = new LogicStructure.LogicItem[this.GetLogicCount(CommandList)];
+            LogicItem[] logicStructure = new LogicItem[GetLogicCount(CommandList)];
             if (logicStructure.Length < 1)
-                return (LogicStructure.LogicItem[])null;
+                return null;
             int num1 = 1;
             int index = 0;
             foreach (string command in CommandList)
             {
-                logicStructure[index].CommandType = this.GetLogicType(command);
-                if (logicStructure[index].CommandType != LogicStructure.LogicCommandType.NonLogic)
+                logicStructure[index].CommandType = GetLogicType(command);
+                if (logicStructure[index].CommandType != LogicCommandType.NonLogic)
                 {
                     if (command.EndsWith("G"))
-                        logicStructure[index].CompareType = LogicStructure.CompareOpType.GreaterThan;
+                        logicStructure[index].CompareType = CompareOpType.GreaterThan;
                     if (command.EndsWith("L"))
-                        logicStructure[index].CompareType = LogicStructure.CompareOpType.LessThan;
+                        logicStructure[index].CompareType = CompareOpType.LessThan;
                     if (command.EndsWith("E"))
-                        logicStructure[index].CompareType = LogicStructure.CompareOpType.EqualTo;
+                        logicStructure[index].CompareType = CompareOpType.EqualTo;
                     if (command.EndsWith("N"))
-                        logicStructure[index].CompareType = LogicStructure.CompareOpType.NotEqualTo;
+                        logicStructure[index].CompareType = CompareOpType.NotEqualTo;
                     int startIndex = 0;
                     switch (logicStructure[index].CommandType)
                     {
-                        case LogicStructure.LogicCommandType.IfStatement:
+                        case LogicCommandType.IfStatement:
                             startIndex = 5;
                             break;
-                        case LogicStructure.LogicCommandType.WhileStatement:
+                        case LogicCommandType.WhileStatement:
                             startIndex = 8;
                             break;
-                        case LogicStructure.LogicCommandType.LoopStatement:
+                        case LogicCommandType.LoopStatement:
                             startIndex = -1;
                             break;
                     }
                     if (startIndex > 0)
                     {
                         if (command.IndexOf("HP", startIndex) > 0)
-                            logicStructure[index].CriteriaType = LogicStructure.CompareCriteriaType.HP;
+                            logicStructure[index].CriteriaType = CompareCriteriaType.HP;
                         if (command.IndexOf("MP", startIndex) > 0)
-                            logicStructure[index].CriteriaType = LogicStructure.CompareCriteriaType.MP;
+                            logicStructure[index].CriteriaType = CompareCriteriaType.MP;
                         if (command.IndexOf("MAP", startIndex) > 0)
-                            logicStructure[index].CriteriaType = LogicStructure.CompareCriteriaType.MAP;
+                            logicStructure[index].CriteriaType = CompareCriteriaType.MAP;
                         if (command.IndexOf("X", startIndex) > 0)
-                            logicStructure[index].CriteriaType = LogicStructure.CompareCriteriaType.XLOC;
+                            logicStructure[index].CriteriaType = CompareCriteriaType.XLOC;
                         if (command.IndexOf("Y", startIndex) > 0)
-                            logicStructure[index].CriteriaType = LogicStructure.CompareCriteriaType.YLOC;
+                            logicStructure[index].CriteriaType = CompareCriteriaType.YLOC;
                     }
                     long.TryParse(Args[num1 - 1], out logicStructure[index].Value);
                     ++index;
@@ -60,7 +60,7 @@ namespace SleepHunter
             int num3 = 1;
             foreach (string command in CommandList)
             {
-                if (this.IsAStartLogicCommand(command))
+                if (IsAStartLogicCommand(command))
                 {
                     ++num2;
                     while (logicStructure[num2 - 1].Handled)
@@ -71,12 +71,12 @@ namespace SleepHunter
                     }
                     logicStructure[num2 - 1].StartLine = num3;
                 }
-                if (num2 > 0 && this.IsAnElseCommand(command) & !logicStructure[num2 - 1].HasElse)
+                if (num2 > 0 && IsAnElseCommand(command) & !logicStructure[num2 - 1].HasElse)
                 {
                     logicStructure[num2 - 1].HasElse = true;
                     logicStructure[num2 - 1].ElseLine = num3;
                 }
-                if (this.IsAnEndCommand(command) & this.GetLogicType(command) == logicStructure[num2 - 1].CommandType)
+                if (IsAnEndCommand(command) & GetLogicType(command) == logicStructure[num2 - 1].CommandType)
                 {
                     logicStructure[num2 - 1].EndLine = num3;
                     logicStructure[num2 - 1].Handled = true;
@@ -107,13 +107,13 @@ namespace SleepHunter
             return logicCount;
         }
 
-        public LogicStructure.LogicCommandType GetLogicType(string ArgCode)
+        public LogicCommandType GetLogicType(string ArgCode)
         {
             if (ArgCode.IndexOf("IF", 3) > 0)
-                return LogicStructure.LogicCommandType.IfStatement;
+                return LogicCommandType.IfStatement;
             if (ArgCode.IndexOf("WHILE", 3) > 0)
-                return LogicStructure.LogicCommandType.WhileStatement;
-            return ArgCode.StartsWith("LP") ? LogicStructure.LogicCommandType.LoopStatement : LogicStructure.LogicCommandType.NonLogic;
+                return LogicCommandType.WhileStatement;
+            return ArgCode.StartsWith("LP") ? LogicCommandType.LoopStatement : LogicCommandType.NonLogic;
         }
 
         public bool IsAStartLogicCommand(string ArgCode)
@@ -133,10 +133,10 @@ namespace SleepHunter
             return ArgCode.Trim().StartsWith("LO_BREAK") | ArgCode.Trim().StartsWith("LP_BREAK");
         }
 
-        public int GetLogicStartRef(LogicStructure.LogicItem[] LogicData, int LineNo)
+        public int GetLogicStartRef(LogicItem[] LogicData, int LineNo)
         {
             int logicStartRef = 0;
-            foreach (LogicStructure.LogicItem logicItem in LogicData)
+            foreach (LogicItem logicItem in LogicData)
             {
                 if (logicItem.StartLine == LineNo)
                     return logicStartRef;
@@ -145,10 +145,10 @@ namespace SleepHunter
             return -1;
         }
 
-        public int GetLogicElseRef(LogicStructure.LogicItem[] LogicData, int LineNo)
+        public int GetLogicElseRef(LogicItem[] LogicData, int LineNo)
         {
             int logicElseRef = 0;
-            foreach (LogicStructure.LogicItem logicItem in LogicData)
+            foreach (LogicItem logicItem in LogicData)
             {
                 if (logicItem.ElseLine == LineNo)
                     return logicElseRef;
@@ -157,10 +157,10 @@ namespace SleepHunter
             return -1;
         }
 
-        public int GetLogicEndRef(LogicStructure.LogicItem[] LogicData, int LineNo)
+        public int GetLogicEndRef(LogicItem[] LogicData, int LineNo)
         {
             int logicEndRef = 0;
-            foreach (LogicStructure.LogicItem logicItem in LogicData)
+            foreach (LogicItem logicItem in LogicData)
             {
                 if (logicItem.EndLine == LineNo)
                     return logicEndRef;
@@ -169,7 +169,7 @@ namespace SleepHunter
             return -1;
         }
 
-        public int GetWithinRef(int ListItemCount, LogicStructure.LogicItem[] LogicData, int LineNo)
+        public int GetWithinRef(int ListItemCount, LogicItem[] LogicData, int LineNo)
         {
             for (int LineNo1 = LineNo; LineNo1 <= ListItemCount & LineNo1 > 0; --LineNo1)
             {
@@ -180,21 +180,21 @@ namespace SleepHunter
             return -1;
         }
 
-        public int GetWithinLoopRef(int ListItemCount, LogicStructure.LogicItem[] LogicData, int LineNo)
+        public int GetWithinLoopRef(int ListItemCount, LogicItem[] LogicData, int LineNo)
         {
             for (int LineNo1 = LineNo; LineNo1 <= ListItemCount & LineNo1 > 0; --LineNo1)
             {
-                int logicStartRef = this.GetLogicStartRef(LogicData, LineNo1);
-                if (logicStartRef >= 0 && LogicData[logicStartRef].CommandType == LogicStructure.LogicCommandType.LoopStatement)
+                int logicStartRef = GetLogicStartRef(LogicData, LineNo1);
+                if (logicStartRef >= 0 && LogicData[logicStartRef].CommandType == LogicCommandType.LoopStatement)
                     return logicStartRef;
             }
             return -1;
         }
 
-        public int GetLoopRefByEnd(LogicStructure.LogicItem[] LogicData, int LineNo)
+        public int GetLoopRefByEnd(LogicItem[] LogicData, int LineNo)
         {
             int loopRefByEnd = 0;
-            foreach (LogicStructure.LogicItem logicItem in LogicData)
+            foreach (LogicItem logicItem in LogicData)
             {
                 if (logicItem.EndLine == LineNo)
                     return loopRefByEnd;
@@ -203,10 +203,10 @@ namespace SleepHunter
             return -1;
         }
 
-        public int GetLoopDataRef(LogicStructure.LoopData[] LoopData, int StartLine)
+        public int GetLoopDataRef(LoopData[] LoopData, int StartLine)
         {
             int loopDataRef = 0;
-            foreach (LogicStructure.LoopData loopData in LoopData)
+            foreach (LoopData loopData in LoopData)
             {
                 if (loopData.LineNo == StartLine)
                     return loopDataRef;
@@ -244,9 +244,9 @@ namespace SleepHunter
 
         public struct LogicItem
         {
-            public LogicStructure.LogicCommandType CommandType;
-            public LogicStructure.CompareOpType CompareType;
-            public LogicStructure.CompareCriteriaType CriteriaType;
+            public LogicCommandType CommandType;
+            public CompareOpType CompareType;
+            public CompareCriteriaType CriteriaType;
             public bool HasElse;
             public bool Handled;
             public long Value;

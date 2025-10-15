@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SleepHunter
@@ -14,40 +12,40 @@ namespace SleepHunter
         public frmArgs(string argsTitle, string argsCaption)
         {
             InitializeComponent();
-            this.lblTitle.Text = argsTitle;
-            this.lblCaption.Text = argsCaption;
+            lblTitle.Text = argsTitle;
+            lblCaption.Text = argsCaption;
         }
 
         private void cmdCancel_Click(object sender, EventArgs e)
         {
-            this.CancelSelected = true;
-            this.ArgInput = null;
-            this.Hide();
+            CancelSelected = true;
+            ArgInput = null;
+            Hide();
         }
 
         private void cmdAdd_Click(object sender, EventArgs e)
         {
-            this.AddCommand();
+            AddCommand();
         }
 
         private void AddCommand()
         {
-            string[] strArray = this.txtArgs.Text.Trim().Split(',');
+            string[] strArray = txtArgs.Text.Trim().Split(',');
             bool flag = false;
             foreach (string str in strArray)
             {
-                if ((str == null || str.Trim() == "") && this.MinArgCount > 0)
+                if ((str == null || str.Trim() == "") && MinArgCount > 0)
                     flag = true;
             }
-            if (strArray.Length != this.MinArgCount || flag)
+            if (strArray.Length != MinArgCount || flag)
             {
-                this.lblInvalid.Visible = true;
+                lblInvalid.Visible = true;
             }
             else
             {
-                this.CancelSelected = false;
-                this.ArgInput = strArray;
-                this.Hide();
+                CancelSelected = false;
+                ArgInput = strArray;
+                Hide();
             }
         }
 
@@ -57,7 +55,7 @@ namespace SleepHunter
                 return;
             e.Handled = true;
             e.SuppressKeyPress = true;
-            this.AddCommand();
+            AddCommand();
         }
     }
 }

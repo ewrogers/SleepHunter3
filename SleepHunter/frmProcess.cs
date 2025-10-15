@@ -9,7 +9,7 @@ namespace SleepHunter
 {
     public class frmProcess : Form
     {
-        private IContainer components = (IContainer)null;
+        private IContainer components;
         private Panel pnlProcess;
         private ImageList ilsIcons;
         private ToolStrip toolStrip1;

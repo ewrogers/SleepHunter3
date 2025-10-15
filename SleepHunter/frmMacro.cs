@@ -1,6 +1,5 @@
 ﻿using ProcessMemory;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -15,24 +14,24 @@ namespace SleepHunter
     {
         public LogicStructure.LogicItem[] LogicData;
         public LogicStructure.LoopData[] LoopData;
-        public MemoryReader memRead = (MemoryReader)null;
-        public int LinePointer = 0;
+        public MemoryReader memRead;
+        public int LinePointer;
         public Hotkey hotkey;
-        public static frmMacro.ClipboardData m_ClipboardData;
+        public static ClipboardData m_ClipboardData;
         public static Point SavedCursorPos;
-        public frmMacro.EndMacroReason MacroEndReason;
+        public EndMacroReason MacroEndReason;
         public bool MacroRunning;
         public bool MacroPaused;
 
-        public frmMacro() => this.InitializeComponent();
+        public frmMacro() => InitializeComponent();
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
-            if (this.txtName.Text.Trim() == "")
-                this.Text = "Macro Data";
+            if (txtName.Text.Trim() == "")
+                Text = "Macro Data";
             else
-                this.Text = this.txtName.Text + " - Macro Data";
-            frmMain mdiParent = (frmMain)this.MdiParent;
+                Text = txtName.Text + " - Macro Data";
+            frmMain mdiParent = (frmMain)MdiParent;
         }
 
         public void AddCommand(string cmdData)
@@ -48,37 +47,39 @@ namespace SleepHunter
             frmArgs.MinArgCount = commandLibrary.GetArgumentCount(ArgCode);
             if (argumentHelp != null)
             {
-                int num = (int)frmArgs.ShowDialog((IWin32Window)this);
+                int num = (int)frmArgs.ShowDialog(this);
             }
+
             if (!frmArgs.CancelSelected)
             {
-                string str2 = (string)null;
+                string str2 = null;
                 if (frmArgs.ArgInput != null)
-                    str2 = this.ArrayToString((Array)frmArgs.ArgInput);
-                if (this.lvwMacro.SelectedIndices.Count < 1)
+                    str2 = ArrayToString(frmArgs.ArgInput);
+                if (lvwMacro.SelectedIndices.Count < 1)
                 {
-                    int count = this.lvwMacro.Items.Count;
-                    this.lvwMacro.Items.Add("");
-                    this.lvwMacro.Items[count].SubItems.Add(commandLibrary.GetFormattedString(ArgCode, frmArgs.ArgInput));
-                    this.lvwMacro.Items[count].Tag = (object)$"{ArgCode}|{str2}";
+                    int count = lvwMacro.Items.Count;
+                    lvwMacro.Items.Add("");
+                    lvwMacro.Items[count].SubItems.Add(commandLibrary.GetFormattedString(ArgCode, frmArgs.ArgInput));
+                    lvwMacro.Items[count].Tag = $"{ArgCode}|{str2}";
                 }
                 else
                 {
-                    int index = this.lvwMacro.SelectedIndices[this.lvwMacro.SelectedIndices.Count - 1] + 1;
-                    this.lvwMacro.Items.Insert(index, "");
-                    this.lvwMacro.Items[index].SubItems.Add(commandLibrary.GetFormattedString(ArgCode, frmArgs.ArgInput));
-                    this.lvwMacro.Items[index].Tag = (object)$"{ArgCode}|{str2}";
+                    int index = lvwMacro.SelectedIndices[lvwMacro.SelectedIndices.Count - 1] + 1;
+                    lvwMacro.Items.Insert(index, "");
+                    lvwMacro.Items[index].SubItems.Add(commandLibrary.GetFormattedString(ArgCode, frmArgs.ArgInput));
+                    lvwMacro.Items[index].Tag = $"{ArgCode}|{str2}";
                 }
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
         private void lvwMacro_DragDrop(object sender, DragEventArgs e)
         {
             string data = (string)e.Data.GetData(DataFormats.Text, true);
-            this.AddCommand(data);
+            AddCommand(data);
             uint result = 0;
             if (!uint.TryParse(data, out result))
                 e.Effect = DragDropEffects.Copy;
@@ -113,17 +114,17 @@ namespace SleepHunter
             }
             else
             {
-                this.memRead = new MemoryReader(result);
-                this.lblProcessName.Text = "Process Name: " + this.memRead.ProcessName;
-                this.lblProcessID.Text = "Process ID: " + this.memRead.ProcessID.ToString();
-                this.lblWindowHandle.Text = "Window Handle: " + this.memRead.WindowHandle.ToString();
-                this.lblCharName.Text = "Character Name: " + this.memRead.ReadString((IntPtr)6585504);
+                memRead = new MemoryReader(result);
+                lblProcessName.Text = "Process Name: " + memRead.ProcessName;
+                lblProcessID.Text = "Process ID: " + memRead.ProcessID;
+                lblWindowHandle.Text = "Window Handle: " + memRead.WindowHandle;
+                lblCharName.Text = "Character Name: " + memRead.ReadString((IntPtr)6585504);
             }
         }
 
         private void splMacroData_Panel2_Paint(object sender, PaintEventArgs e)
         {
-            Rectangle clientRectangle = this.splMacroData.Panel2.ClientRectangle;
+            Rectangle clientRectangle = splMacroData.Panel2.ClientRectangle;
             clientRectangle.Inflate(-4, -4);
             clientRectangle.Height += 4;
             clientRectangle.Offset(0, -4);
@@ -135,40 +136,43 @@ namespace SleepHunter
             try
             {
                 LogicStructure logicStructure = new LogicStructure();
-                string[] CommandList = new string[this.lvwMacro.Items.Count];
-                string[] Args = new string[this.lvwMacro.Items.Count];
+                string[] CommandList = new string[lvwMacro.Items.Count];
+                string[] Args = new string[lvwMacro.Items.Count];
                 int index = 0;
-                foreach (ListViewItem listViewItem in this.lvwMacro.Items)
+                foreach (ListViewItem listViewItem in lvwMacro.Items)
                 {
                     string[] strArray = listViewItem.Tag.ToString().Split(new char[1]
                     {
-          '|'
+                        '|'
                     }, 2);
                     CommandList[index] = strArray[0];
                     Args[index] = strArray[1];
                     ++index;
                 }
+
                 frmLogicSkel frmLogicSkel = new frmLogicSkel();
-                frmLogicSkel.MdiParent = this.MdiParent;
-                this.LogicData = logicStructure.CreateLogicStructure(CommandList, Args);
-                if (this.LogicData == null)
+                frmLogicSkel.MdiParent = MdiParent;
+                LogicData = logicStructure.CreateLogicStructure(CommandList, Args);
+                if (LogicData == null)
                 {
-                    int num1 = (int)MessageBox.Show((IWin32Window)this, "No logic commands present, cannot generate skeleton structure.", "Invalid Parameters", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    int num1 = (int)MessageBox.Show(this,
+                        "No logic commands present, cannot generate skeleton structure.", "Invalid Parameters",
+                        MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 }
                 else
                 {
                     int num2 = 0;
-                    foreach (LogicStructure.LogicItem logicItem in this.LogicData)
+                    foreach (LogicStructure.LogicItem logicItem in LogicData)
                     {
                         RichTextBox rtbStruct1 = frmLogicSkel.rtbStruct;
                         string[] strArray1 = new string[6]
                         {
-            rtbStruct1.Text,
-            "[Logic Structure ",
-            null,
-            null,
-            null,
-            null
+                            rtbStruct1.Text,
+                            "[Logic Structure ",
+                            null,
+                            null,
+                            null,
+                            null
                         };
                         string[] strArray2 = strArray1;
                         int num3 = num2 + 1;
@@ -176,21 +180,26 @@ namespace SleepHunter
                         strArray2[2] = str1;
                         strArray1[3] = " of ";
                         string[] strArray3 = strArray1;
-                        num3 = this.LogicData.Length;
+                        num3 = LogicData.Length;
                         string str2 = num3.ToString();
                         strArray3[4] = str2;
                         strArray1[5] = "]";
                         rtbStruct1.Text = string.Concat(strArray1);
                         RichTextBox rtbStruct2 = frmLogicSkel.rtbStruct;
-                        rtbStruct2.Text = $"{rtbStruct2.Text}{Environment.NewLine}---------------------------{Environment.NewLine}";
+                        rtbStruct2.Text =
+                            $"{rtbStruct2.Text}{Environment.NewLine}---------------------------{Environment.NewLine}";
                         RichTextBox rtbStruct3 = frmLogicSkel.rtbStruct;
-                        rtbStruct3.Text = $"{rtbStruct3.Text}TYPE:\t\t{logicItem.CommandType.ToString()}{Environment.NewLine}";
+                        rtbStruct3.Text =
+                            $"{rtbStruct3.Text}TYPE:\t\t{logicItem.CommandType.ToString()}{Environment.NewLine}";
                         RichTextBox rtbStruct4 = frmLogicSkel.rtbStruct;
-                        rtbStruct4.Text = $"{rtbStruct4.Text}COMPARE:\t{logicItem.CompareType.ToString()}{Environment.NewLine}";
+                        rtbStruct4.Text =
+                            $"{rtbStruct4.Text}COMPARE:\t{logicItem.CompareType.ToString()}{Environment.NewLine}";
                         RichTextBox rtbStruct5 = frmLogicSkel.rtbStruct;
-                        rtbStruct5.Text = $"{rtbStruct5.Text}CRITERIA:\t{logicItem.CriteriaType.ToString()}{Environment.NewLine}";
+                        rtbStruct5.Text =
+                            $"{rtbStruct5.Text}CRITERIA:\t{logicItem.CriteriaType.ToString()}{Environment.NewLine}";
                         RichTextBox rtbStruct6 = frmLogicSkel.rtbStruct;
-                        rtbStruct6.Text = $"{rtbStruct6.Text}VALUE:\t\t{logicItem.Value.ToString()}{Environment.NewLine}";
+                        rtbStruct6.Text =
+                            $"{rtbStruct6.Text}VALUE:\t\t{logicItem.Value.ToString()}{Environment.NewLine}";
                         RichTextBox rtbStruct7 = frmLogicSkel.rtbStruct;
                         string text1 = rtbStruct7.Text;
                         num3 = logicItem.StartLine;
@@ -210,17 +219,22 @@ namespace SleepHunter
                         string newLine3 = Environment.NewLine;
                         rtbStruct9.Text = $"{text3}END:\t\tLine {str5}{newLine3}";
                         RichTextBox rtbStruct10 = frmLogicSkel.rtbStruct;
-                        rtbStruct10.Text = $"{rtbStruct10.Text}Has Else:\t{logicItem.HasElse.ToString()}{Environment.NewLine}";
+                        rtbStruct10.Text =
+                            $"{rtbStruct10.Text}Has Else:\t{logicItem.HasElse.ToString()}{Environment.NewLine}";
                         RichTextBox rtbStruct11 = frmLogicSkel.rtbStruct;
-                        rtbStruct11.Text = $"{rtbStruct11.Text}Was Handled:\t{logicItem.Handled.ToString()}{Environment.NewLine}{Environment.NewLine}";
+                        rtbStruct11.Text =
+                            $"{rtbStruct11.Text}Was Handled:\t{logicItem.Handled.ToString()}{Environment.NewLine}{Environment.NewLine}";
                         ++num2;
                     }
+
                     frmLogicSkel.Show();
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                int num = (int)MessageBox.Show((IWin32Window)this, "No logic commands present or malformed macro detected, cannot generate skeleton structure.", "Invalid Parameters", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                int num = (int)MessageBox.Show(this,
+                    "No logic commands present or malformed macro detected, cannot generate skeleton structure.",
+                    "Invalid Parameters", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
 
@@ -233,24 +247,26 @@ namespace SleepHunter
                     str += ",";
                 str += baseArray.GetValue(index).ToString();
             }
+
             return str;
         }
 
         public int ReNumberLines()
         {
             int num = 1;
-            foreach (ListViewItem listViewItem in this.lvwMacro.Items)
+            foreach (ListViewItem listViewItem in lvwMacro.Items)
             {
                 listViewItem.SubItems[0].Text = num.ToString().PadLeft(4, '0');
                 ++num;
             }
+
             return num;
         }
 
         public int ClearNullEntries()
         {
             int num = 0;
-            foreach (ListViewItem listViewItem in this.lvwMacro.Items)
+            foreach (ListViewItem listViewItem in lvwMacro.Items)
             {
                 if (listViewItem.Tag == null | listViewItem.SubItems.Count < 2)
                 {
@@ -258,6 +274,7 @@ namespace SleepHunter
                     ++num;
                 }
             }
+
             return num;
         }
 
@@ -265,12 +282,13 @@ namespace SleepHunter
         {
             LogicStructure logicStructure = new LogicStructure();
             int num1 = 0;
-            foreach (ListViewItem listViewItem in this.lvwMacro.Items)
+            foreach (ListViewItem listViewItem in lvwMacro.Items)
             {
                 if (listViewItem.SubItems.Count > 1)
                     listViewItem.SubItems[1].Text = listViewItem.SubItems[1].Text.Trim();
             }
-            foreach (ListViewItem listViewItem in this.lvwMacro.Items)
+
+            foreach (ListViewItem listViewItem in lvwMacro.Items)
             {
                 string ArgCode = "";
                 if (listViewItem.Tag != null)
@@ -281,6 +299,7 @@ namespace SleepHunter
                     if (num1 < 0)
                         num1 = 0;
                 }
+
                 string str;
                 if (logicStructure.IsAnElseCommand(ArgCode))
                 {
@@ -292,6 +311,7 @@ namespace SleepHunter
                 }
                 else
                     str = new string(' ', num1 * 4);
+
                 if (logicStructure.IsAStartLogicCommand(ArgCode))
                     ++num1;
                 if (listViewItem.SubItems.Count > 1)
@@ -308,6 +328,7 @@ namespace SleepHunter
                     return -1;
                 return First ? selectedIndices[0] : selectedIndices[selectedIndices.Count - 1];
             }
+
             ListView.SelectedIndexCollection selectedIndices1 = lvwList.SelectedIndices;
             return selectedIndices1.Count > 0 ? selectedIndices1[0] : -1;
         }
@@ -320,12 +341,12 @@ namespace SleepHunter
 
         public int MakeDWord(short LoWord, short HiWord)
         {
-            return (int)HiWord * 65536 /*0x010000*/ | (int)LoWord & (int)ushort.MaxValue;
+            return HiWord * 65536 /*0x010000*/ | LoWord & ushort.MaxValue;
         }
 
         private void CopyToClipboard(bool EraseData)
         {
-            ListView.SelectedListViewItemCollection selectedItems = this.lvwMacro.SelectedItems;
+            ListView.SelectedListViewItemCollection selectedItems = lvwMacro.SelectedItems;
             int num = -1;
             bool flag = true;
             foreach (ListViewItem listViewItem in selectedItems)
@@ -336,8 +357,11 @@ namespace SleepHunter
                     flag = false;
                 num = listViewItem.Index;
             }
+
             if (!flag)
-                ((frmMain)this.MdiParent).nidIcon.ShowBalloonTip(2500, "Clipboard Data Warning", $"The macro command lines you have copied to the clipboard are not in immediate succession.{Environment.NewLine}{Environment.NewLine}Please note that when you paste these lines from the clipboard, they will be placed in immediate succession based on the order of the selected items.", ToolTipIcon.Warning);
+                ((frmMain)MdiParent).nidIcon.ShowBalloonTip(2500, "Clipboard Data Warning",
+                    $"The macro command lines you have copied to the clipboard are not in immediate succession.{Environment.NewLine}{Environment.NewLine}Please note that when you paste these lines from the clipboard, they will be placed in immediate succession based on the order of the selected items.",
+                    ToolTipIcon.Warning);
             string[] strArray1 = new string[selectedItems.Count];
             string[] strArray2 = new string[selectedItems.Count];
             int index = 0;
@@ -348,8 +372,9 @@ namespace SleepHunter
                 strArray2[index] = strArray3[1];
                 ++index;
             }
-            frmMacro.m_ClipboardData.CommandData = strArray1;
-            frmMacro.m_ClipboardData.ArgData = strArray2;
+
+            m_ClipboardData.CommandData = strArray1;
+            m_ClipboardData.ArgData = strArray2;
             if (EraseData)
             {
                 foreach (ListViewItem listViewItem in selectedItems)
@@ -358,52 +383,55 @@ namespace SleepHunter
                     listViewItem.Remove();
                 }
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
         private void SwapLines(int LineA, int LineB)
         {
-            string str1 = this.lvwMacro.Items[LineA].Tag.ToString();
-            string str2 = this.lvwMacro.Items[LineB].Tag.ToString();
+            string str1 = lvwMacro.Items[LineA].Tag.ToString();
+            string str2 = lvwMacro.Items[LineB].Tag.ToString();
             string str3 = str1;
             string str4 = str2;
             string str5 = str3;
-            this.lvwMacro.Items[LineA].Tag = (object)str4;
-            this.lvwMacro.Items[LineB].Tag = (object)str5;
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+            lvwMacro.Items[LineA].Tag = str4;
+            lvwMacro.Items[LineB].Tag = str5;
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
         public string GetLineCommand(int LineNo)
         {
-            if (LineNo - 1 > this.lvwMacro.Items.Count - 1)
-                return (string)null;
-            return this.lvwMacro.Items[LineNo - 1].Tag.ToString().Split('|')[0];
+            if (LineNo - 1 > lvwMacro.Items.Count - 1)
+                return null;
+            return lvwMacro.Items[LineNo - 1].Tag.ToString().Split('|')[0];
         }
 
         public string GetLineArgs(int LineNo)
         {
-            if (LineNo - 1 > this.lvwMacro.Items.Count - 1)
-                return (string)null;
-            return this.lvwMacro.Items[LineNo - 1].Tag.ToString().Split('|')[1];
+            if (LineNo - 1 > lvwMacro.Items.Count - 1)
+                return null;
+            return lvwMacro.Items[LineNo - 1].Tag.ToString().Split('|')[1];
         }
 
         private void frmMacro_Activated(object sender, EventArgs e)
         {
-            ((frmMain)this.MdiParent).ActiveMacro = this;
+            ((frmMain)MdiParent).ActiveMacro = this;
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (this.MacroRunning)
-                ((frmMain)this.MdiParent).nidIcon.ShowBalloonTip(2500, "Edit at Runtime Warning", $"You have attempted to edit a command at runtime.{Environment.NewLine}{Environment.NewLine}While this is allowed, it is suggested you stop the macro before editing to prevent any undesired actions.", ToolTipIcon.Warning);
-            int singleSel = this.GetSingleSel(this.lvwMacro, true);
+            if (MacroRunning)
+                ((frmMain)MdiParent).nidIcon.ShowBalloonTip(2500, "Edit at Runtime Warning",
+                    $"You have attempted to edit a command at runtime.{Environment.NewLine}{Environment.NewLine}While this is allowed, it is suggested you stop the macro before editing to prevent any undesired actions.",
+                    ToolTipIcon.Warning);
+            int singleSel = GetSingleSel(lvwMacro, true);
             if (singleSel < 0)
                 return;
-            string tagData = this.GetTagData(this.lvwMacro.Items[singleSel].Tag, true);
+            string tagData = GetTagData(lvwMacro.Items[singleSel].Tag, true);
             CommandLibrary commandLibrary = new CommandLibrary();
             string argumentHelp = commandLibrary.GetArgumentHelp(tagData);
             frmArgs frmArgs = new frmArgs(commandLibrary.GetCommandName(tagData), argumentHelp);
@@ -411,166 +439,185 @@ namespace SleepHunter
             if (argumentHelp != null)
             {
                 frmArgs.cmdAdd.Text = "Edit Command";
-                int num = (int)frmArgs.ShowDialog((IWin32Window)this);
+                int num = (int)frmArgs.ShowDialog(this);
             }
+
             if (!frmArgs.CancelSelected & argumentHelp != null)
             {
-                string str = (string)null;
+                string str = null;
                 if (frmArgs.ArgInput != null)
-                    str = this.ArrayToString((Array)frmArgs.ArgInput);
-                this.lvwMacro.Items[singleSel].Tag = (object)$"{tagData}|{str}";
-                this.lvwMacro.Items[singleSel].SubItems[1].Text = commandLibrary.GetFormattedString(tagData, str.Split(','));
+                    str = ArrayToString(frmArgs.ArgInput);
+                lvwMacro.Items[singleSel].Tag = $"{tagData}|{str}";
+                lvwMacro.Items[singleSel].SubItems[1].Text = commandLibrary.GetFormattedString(tagData, str.Split(','));
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
         public void PlayButton()
         {
-            if (this.MacroPaused)
+            if (MacroPaused)
             {
-                this.MacroPaused = false;
-                this.btnPlay.Enabled = false;
+                MacroPaused = false;
+                btnPlay.Enabled = false;
             }
             else
             {
-                this.btnPlay.Enabled = false;
-                this.MacroRunning = true;
-                this.MacroPaused = false;
-                if (this.lvwMacro.Items.Count < 1)
+                btnPlay.Enabled = false;
+                MacroRunning = true;
+                MacroPaused = false;
+                if (lvwMacro.Items.Count < 1)
                 {
-                    int num = (int)MessageBox.Show("No commands found to execute, macro will not run.", "Empty Macro", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    this.btnPlay.Enabled = true;
-                    this.MacroRunning = false;
+                    int num = (int)MessageBox.Show("No commands found to execute, macro will not run.", "Empty Macro",
+                        MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    btnPlay.Enabled = true;
+                    MacroRunning = false;
                 }
-                else if (this.memRead == null)
+                else if (memRead == null)
                 {
-                    int num = (int)MessageBox.Show("No process attached, macro will not run.", "No Target Process", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    this.btnPlay.Enabled = true;
-                    this.MacroRunning = false;
+                    int num = (int)MessageBox.Show("No process attached, macro will not run.", "No Target Process",
+                        MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    btnPlay.Enabled = true;
+                    MacroRunning = false;
                 }
-                else if (this.memRead.ProcessID <= 0U)
+                else if (memRead.ProcessID <= 0U)
                 {
-                    int num = (int)MessageBox.Show("No process attached, macro will not run.", "No Target Process", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    this.btnPlay.Enabled = true;
+                    int num = (int)MessageBox.Show("No process attached, macro will not run.", "No Target Process",
+                        MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    btnPlay.Enabled = true;
                 }
-                else if (!this.memRead.IsRunning)
+                else if (!memRead.IsRunning)
                 {
-                    int num = (int)MessageBox.Show("The target process could not be located, please re-attach.", "Invalid Target Process", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                    this.btnPlay.Enabled = true;
+                    int num = (int)MessageBox.Show("The target process could not be located, please re-attach.",
+                        "Invalid Target Process", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    btnPlay.Enabled = true;
                 }
                 else
                 {
-                    int map1 = (int)this.GetMAP(this.memRead);
+                    int map1 = (int)GetMAP(memRead);
                     if (map1 == 509 | map1 == 5335)
                     {
-                        int num = (int)MessageBox.Show("In order to keep the arena fair for everyone, macros cannot be activated in the arena.", "Arena Macros Disabled", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        int num = (int)MessageBox.Show(
+                            "In order to keep the arena fair for everyone, macros cannot be activated in the arena.",
+                            "Arena Macros Disabled", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     }
                     else
                     {
                         LogicStructure logicStructure = new LogicStructure();
-                        this.lblStatus.Text = "Generating Logic Structure...";
-                        this.lblStatus.Image = this.ilsStatusIcons.Images[3];
-                        string[] CommandList = new string[this.lvwMacro.Items.Count];
-                        string[] Args = new string[this.lvwMacro.Items.Count];
+                        lblStatus.Text = "Generating Logic Structure...";
+                        lblStatus.Image = ilsStatusIcons.Images[3];
+                        string[] CommandList = new string[lvwMacro.Items.Count];
+                        string[] Args = new string[lvwMacro.Items.Count];
                         int index1 = 0;
-                        foreach (ListViewItem listViewItem in this.lvwMacro.Items)
+                        foreach (ListViewItem listViewItem in lvwMacro.Items)
                         {
                             string[] strArray = listViewItem.Tag.ToString().Split(new char[1]
                             {
-              '|'
+                                '|'
                             }, 2);
                             CommandList[index1] = strArray[0];
                             Args[index1] = strArray[1];
                             ++index1;
                         }
-                        this.LogicData = logicStructure.CreateLogicStructure(CommandList, Args);
-                        this.LinePointer = 1;
+
+                        LogicData = logicStructure.CreateLogicStructure(CommandList, Args);
+                        LinePointer = 1;
                         int length = 0;
-                        if (this.LogicData != null)
+                        if (LogicData != null)
                         {
-                            foreach (LogicStructure.LogicItem logicItem in this.LogicData)
+                            foreach (LogicStructure.LogicItem logicItem in LogicData)
                             {
                                 if (logicItem.CommandType == LogicStructure.LogicCommandType.LoopStatement)
                                     ++length;
                             }
                         }
-                        this.LoopData = (LogicStructure.LoopData[])null;
+
+                        LoopData = null;
                         int index2 = 0;
                         if (length > 0)
                         {
-                            this.LoopData = new LogicStructure.LoopData[length];
-                            for (int LineNo = 1; LineNo <= this.lvwMacro.Items.Count; ++LineNo)
+                            LoopData = new LogicStructure.LoopData[length];
+                            for (int LineNo = 1; LineNo <= lvwMacro.Items.Count; ++LineNo)
                             {
-                                string lineCommand = this.GetLineCommand(LineNo);
-                                string lineArgs = this.GetLineArgs(LineNo);
-                                if (logicStructure.GetLogicType(lineCommand) == LogicStructure.LogicCommandType.LoopStatement & logicStructure.IsAStartLogicCommand(lineCommand))
+                                string lineCommand = GetLineCommand(LineNo);
+                                string lineArgs = GetLineArgs(LineNo);
+                                if (logicStructure.GetLogicType(lineCommand) ==
+                                    LogicStructure.LogicCommandType.LoopStatement &
+                                    logicStructure.IsAStartLogicCommand(lineCommand))
                                 {
-                                    this.LoopData[index2].LineNo = LineNo;
-                                    this.LoopData[index2].LoopCounter = 0UL;
-                                    ulong result = 0;
+                                    LoopData[index2].LineNo = LineNo;
+                                    LoopData[index2].LoopCounter = 0UL;
+                                    ulong result;
                                     ulong.TryParse(lineArgs.Split(',')[0], out result);
-                                    this.LoopData[index2].LoopMax = result;
+                                    LoopData[index2].LoopMax = result;
                                     ++index2;
                                 }
                             }
                         }
-                        while (this.MacroRunning & !this.IsDisposed)
+
+                        while (MacroRunning & !IsDisposed)
                         {
-                            if (!this.MacroPaused & this.MacroRunning)
+                            if (!MacroPaused & MacroRunning)
                             {
-                                this.lblStatus.Text = "Macro is running...";
-                                this.lblStatus.Image = this.ilsStatusIcons.Images[0];
-                                this.btnPause.Enabled = true;
-                                this.btnStop.Enabled = true;
-                                string lineCommand = this.GetLineCommand(this.LinePointer);
-                                string lineArgs = this.GetLineArgs(this.LinePointer);
-                                if (this.memRead != null)
+                                lblStatus.Text = "Macro is running...";
+                                lblStatus.Image = ilsStatusIcons.Images[0];
+                                btnPause.Enabled = true;
+                                btnStop.Enabled = true;
+                                string lineCommand = GetLineCommand(LinePointer);
+                                string lineArgs = GetLineArgs(LinePointer);
+                                if (memRead != null)
                                 {
-                                    if (this.memRead.ProcessID == 0U | this.memRead.WindowHandle == 0UL)
+                                    if (memRead.ProcessID == 0U | memRead.WindowHandle == 0UL)
                                     {
-                                        this.MacroEndReason = frmMacro.EndMacroReason.BadProcessInfo;
+                                        MacroEndReason = EndMacroReason.BadProcessInfo;
                                         break;
                                     }
-                                    int map2 = (int)this.GetMAP(this.memRead);
+
+                                    int map2 = (int)GetMAP(memRead);
                                     if (map2 == 509 | map2 == 5235)
                                     {
-                                        this.MacroEndReason = frmMacro.EndMacroReason.ArenaMap;
+                                        MacroEndReason = EndMacroReason.ArenaMap;
                                         break;
                                     }
-                                    this.LinePointer = this.ExecuteCommand(lineCommand, lineArgs, this.LinePointer);
-                                    if (this.LinePointer > this.lvwMacro.Items.Count)
+
+                                    LinePointer = ExecuteCommand(lineCommand, lineArgs, LinePointer);
+                                    if (LinePointer > lvwMacro.Items.Count)
                                     {
-                                        this.MacroEndReason = frmMacro.EndMacroReason.EndOfMacroReached;
+                                        MacroEndReason = EndMacroReason.EndOfMacroReached;
                                         break;
                                     }
                                 }
                                 else
                                 {
-                                    this.MacroEndReason = frmMacro.EndMacroReason.NotAttached;
+                                    MacroEndReason = EndMacroReason.NotAttached;
                                     break;
                                 }
                             }
                             else
                             {
-                                this.lblStatus.Text = "Macro is paused!";
-                                this.lblStatus.Image = this.ilsStatusIcons.Images[1];
-                                this.btnPause.Enabled = false;
-                                this.btnPlay.Enabled = true;
+                                lblStatus.Text = "Macro is paused!";
+                                lblStatus.Image = ilsStatusIcons.Images[1];
+                                btnPause.Enabled = false;
+                                btnPlay.Enabled = true;
                             }
+
                             Application.DoEvents();
                         }
-                        if (this.MacroEndReason == frmMacro.EndMacroReason.ArenaMap)
-                            ((frmMain)this.MdiParent).nidIcon.ShowBalloonTip(5000, "Entering an Arena Map", $"You have entered an arena map while your macro was running.{Environment.NewLine}{Environment.NewLine}The macro will be stopped in order to ensure the fairness of the arena gameplay.", ToolTipIcon.Warning);
-                        if (this.IsDisposed)
+
+                        if (MacroEndReason == EndMacroReason.ArenaMap)
+                            ((frmMain)MdiParent).nidIcon.ShowBalloonTip(5000, "Entering an Arena Map",
+                                $"You have entered an arena map while your macro was running.{Environment.NewLine}{Environment.NewLine}The macro will be stopped in order to ensure the fairness of the arena gameplay.",
+                                ToolTipIcon.Warning);
+                        if (IsDisposed)
                             return;
-                        this.btnPause.Enabled = false;
-                        this.btnStop.Enabled = false;
-                        this.btnPlay.Enabled = true;
-                        this.MacroRunning = false;
-                        this.lblStatus.Text = "Macro is not running.";
-                        this.lblStatus.Image = this.ilsStatusIcons.Images[2];
+                        btnPause.Enabled = false;
+                        btnStop.Enabled = false;
+                        btnPlay.Enabled = true;
+                        MacroRunning = false;
+                        lblStatus.Text = "Macro is not running.";
+                        lblStatus.Image = ilsStatusIcons.Images[2];
                     }
                 }
             }
@@ -578,46 +625,47 @@ namespace SleepHunter
 
         public void StopButton()
         {
-            this.btnPause.Enabled = false;
-            this.btnStop.Enabled = false;
-            this.lblStatus.Text = "Macro is stopping...Please Wait.";
-            this.lblStatus.Image = this.ilsStatusIcons.Images[3];
-            this.MacroRunning = false;
-            this.MacroPaused = false;
+            btnPause.Enabled = false;
+            btnStop.Enabled = false;
+            lblStatus.Text = "Macro is stopping...Please Wait.";
+            lblStatus.Image = ilsStatusIcons.Images[3];
+            MacroRunning = false;
+            MacroPaused = false;
         }
 
-        public void PauseButton() => this.MacroPaused = true;
+        public void PauseButton() => MacroPaused = true;
 
-        private void btnPlay_Click(object sender, EventArgs e) => this.PlayButton();
+        private void btnPlay_Click(object sender, EventArgs e) => PlayButton();
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            ListView.SelectedListViewItemCollection selectedItems = this.lvwMacro.SelectedItems;
+            ListView.SelectedListViewItemCollection selectedItems = lvwMacro.SelectedItems;
             if (selectedItems.Count < 1)
                 return;
             foreach (ListViewItem listViewItem in selectedItems)
             {
                 listViewItem.Selected = false;
-                this.lvwMacro.Items.Remove(listViewItem);
+                lvwMacro.Items.Remove(listViewItem);
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
-        private void btnCut_Click(object sender, EventArgs e) => this.CopyToClipboard(true);
+        private void btnCut_Click(object sender, EventArgs e) => CopyToClipboard(true);
 
-        private void btnCopy_Click(object sender, EventArgs e) => this.CopyToClipboard(false);
+        private void btnCopy_Click(object sender, EventArgs e) => CopyToClipboard(false);
 
         private void btnPaste_Click(object sender, EventArgs e)
         {
-            frmMacro.ClipboardData clipboardData = frmMacro.m_ClipboardData;
+            ClipboardData clipboardData = m_ClipboardData;
             if (clipboardData.CommandData == null | clipboardData.ArgData == null)
                 return;
-            int index1 = this.GetSingleSel(this.lvwMacro, false) + 1;
+            int index1 = GetSingleSel(lvwMacro, false) + 1;
             int index2 = 0;
             bool flag = false;
-            if (index1 > this.lvwMacro.Items.Count - 1)
+            if (index1 > lvwMacro.Items.Count - 1)
                 flag = true;
             if (index1 < 0)
                 flag = true;
@@ -626,26 +674,29 @@ namespace SleepHunter
             {
                 if (flag)
                 {
-                    this.lvwMacro.Items.Add("");
-                    index1 = this.lvwMacro.Items.Count - 1;
+                    lvwMacro.Items.Add("");
+                    index1 = lvwMacro.Items.Count - 1;
                 }
                 else
-                    this.lvwMacro.Items.Insert(index1, "");
-                this.lvwMacro.Items[index1].Tag = (object)$"{clipboardData.CommandData[index2]}|{clipboardData.ArgData[index2]}";
-                this.lvwMacro.Items[index1].SubItems.Add(commandLibrary.GetFormattedString(clipboardData.CommandData[index2], clipboardData.ArgData[index2].Split(',')));
+                    lvwMacro.Items.Insert(index1, "");
+
+                lvwMacro.Items[index1].Tag = $"{clipboardData.CommandData[index2]}|{clipboardData.ArgData[index2]}";
+                lvwMacro.Items[index1].SubItems.Add(commandLibrary.GetFormattedString(clipboardData.CommandData[index2],
+                    clipboardData.ArgData[index2].Split(',')));
                 ++index2;
                 ++index1;
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
-        private void frmMacro_Shown(object sender, EventArgs e) => this.txtName.Focus();
+        private void frmMacro_Shown(object sender, EventArgs e) => txtName.Focus();
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            ListView.SelectedIndexCollection selectedIndices = this.lvwMacro.SelectedIndices;
+            ListView.SelectedIndexCollection selectedIndices = lvwMacro.SelectedIndices;
             if (selectedIndices.Count < 1)
                 return;
             CommandLibrary commandLibrary = new CommandLibrary();
@@ -653,24 +704,29 @@ namespace SleepHunter
             {
                 if (num >= 1)
                 {
-                    this.SwapLines(num, num - 1);
-                    this.lvwMacro.Items[num].SubItems[1].Text = commandLibrary.GetFormattedString(this.lvwMacro.Items[num].Tag.ToString().Split('|')[0], this.lvwMacro.Items[num].Tag.ToString().Split('|')[1].Split(','));
-                    this.lvwMacro.Items[num - 1].SubItems[1].Text = commandLibrary.GetFormattedString(this.lvwMacro.Items[num - 1].Tag.ToString().Split('|')[0], this.lvwMacro.Items[num - 1].Tag.ToString().Split('|')[1].Split(','));
-                    this.lvwMacro.Items[num].Selected = false;
-                    this.lvwMacro.Items[num - 1].Selected = true;
+                    SwapLines(num, num - 1);
+                    lvwMacro.Items[num].SubItems[1].Text = commandLibrary.GetFormattedString(
+                        lvwMacro.Items[num].Tag.ToString().Split('|')[0],
+                        lvwMacro.Items[num].Tag.ToString().Split('|')[1].Split(','));
+                    lvwMacro.Items[num - 1].SubItems[1].Text = commandLibrary.GetFormattedString(
+                        lvwMacro.Items[num - 1].Tag.ToString().Split('|')[0],
+                        lvwMacro.Items[num - 1].Tag.ToString().Split('|')[1].Split(','));
+                    lvwMacro.Items[num].Selected = false;
+                    lvwMacro.Items[num - 1].Selected = true;
                 }
                 else
                     break;
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            ListView.SelectedIndexCollection selectedIndices = this.lvwMacro.SelectedIndices;
-            Array array = (Array)new int[selectedIndices.Count];
+            ListView.SelectedIndexCollection selectedIndices = lvwMacro.SelectedIndices;
+            Array array = new int[selectedIndices.Count];
             selectedIndices.CopyTo(array, 0);
             Array.Reverse(array);
             if (selectedIndices.Count < 1)
@@ -678,29 +734,36 @@ namespace SleepHunter
             CommandLibrary commandLibrary = new CommandLibrary();
             foreach (int num in array)
             {
-                if (num + 1 <= this.lvwMacro.Items.Count - 1)
+                if (num + 1 <= lvwMacro.Items.Count - 1)
                 {
-                    this.SwapLines(num, num + 1);
-                    this.lvwMacro.Items[num].SubItems[1].Text = commandLibrary.GetFormattedString(this.lvwMacro.Items[num].Tag.ToString().Split('|')[0], this.lvwMacro.Items[num].Tag.ToString().Split('|')[1].Split(','));
-                    this.lvwMacro.Items[num + 1].SubItems[1].Text = commandLibrary.GetFormattedString(this.lvwMacro.Items[num + 1].Tag.ToString().Split('|')[0], this.lvwMacro.Items[num + 1].Tag.ToString().Split('|')[1].Split(','));
-                    this.lvwMacro.Items[num].Selected = false;
-                    this.lvwMacro.Items[num + 1].Selected = true;
+                    SwapLines(num, num + 1);
+                    lvwMacro.Items[num].SubItems[1].Text = commandLibrary.GetFormattedString(
+                        lvwMacro.Items[num].Tag.ToString().Split('|')[0],
+                        lvwMacro.Items[num].Tag.ToString().Split('|')[1].Split(','));
+                    lvwMacro.Items[num + 1].SubItems[1].Text = commandLibrary.GetFormattedString(
+                        lvwMacro.Items[num + 1].Tag.ToString().Split('|')[0],
+                        lvwMacro.Items[num + 1].Tag.ToString().Split('|')[1].Split(','));
+                    lvwMacro.Items[num].Selected = false;
+                    lvwMacro.Items[num + 1].Selected = true;
                 }
                 else
                     break;
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
         private void tmrProcess_Tick(object sender, EventArgs e)
         {
-            if (this.memRead == null || this.memRead.IsRunning)
+            if (memRead == null || memRead.IsRunning)
                 return;
-            frmMain mdiParent = (frmMain)this.MdiParent;
-            mdiParent.nidIcon.ShowBalloonTip(2500, "Invalid Process Reference", $"The process, {this.lblProcessName.Text}, is either no longer running or could not be found running.{Environment.NewLine}{Environment.NewLine}All macros attached to this process will be detached and their macros stopped, if running.", ToolTipIcon.Error);
-            mdiParent.DetachByPID(this.memRead.ProcessID);
+            frmMain mdiParent = (frmMain)MdiParent;
+            mdiParent.nidIcon.ShowBalloonTip(2500, "Invalid Process Reference",
+                $"The process, {lblProcessName.Text}, is either no longer running or could not be found running.{Environment.NewLine}{Environment.NewLine}All macros attached to this process will be detached and their macros stopped, if running.",
+                ToolTipIcon.Error);
+            mdiParent.DetachByPID(memRead.ProcessID);
         }
 
         private int ExecuteCommand(string Command, string Args, int LineNo)
@@ -708,43 +771,56 @@ namespace SleepHunter
             LogicStructure logicStructure = new LogicStructure();
             if (Command.StartsWith("LO_IF"))
             {
-                int logicStartRef = logicStructure.GetLogicStartRef(this.LogicData, LineNo);
-                if (logicStartRef < 0 || this.EvaluateCriteria(this.LogicData, LineNo, true))
+                int logicStartRef = logicStructure.GetLogicStartRef(LogicData, LineNo);
+                if (logicStartRef < 0 || EvaluateCriteria(LogicData, LineNo, true))
                     return LineNo + 1;
-                return this.LogicData[logicStartRef].HasElse ? this.LogicData[logicStartRef].ElseLine + 1 : this.LogicData[logicStartRef].EndLine + 1;
+                return LogicData[logicStartRef].HasElse
+                    ? LogicData[logicStartRef].ElseLine + 1
+                    : LogicData[logicStartRef].EndLine + 1;
             }
+
             if (Command.StartsWith("LO_WHILE"))
             {
-                int logicStartRef = logicStructure.GetLogicStartRef(this.LogicData, LineNo);
+                int logicStartRef = logicStructure.GetLogicStartRef(LogicData, LineNo);
                 if (logicStartRef >= 0)
-                    return this.EvaluateCriteria(this.LogicData, LineNo, true) ? LineNo + 1 : this.LogicData[logicStartRef].EndLine + 1;
+                    return EvaluateCriteria(LogicData, LineNo, true)
+                        ? LineNo + 1
+                        : LogicData[logicStartRef].EndLine + 1;
             }
+
             switch (Command.ToUpper())
             {
                 case "GS_STATUS":
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)71U, (UIntPtr)2228225U);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)71U,
+                        (UIntPtr)2228225U);
                     return LineNo + 1;
                 case "GS_CHAT":
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)70U, (UIntPtr)2162689U);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)70U,
+                        (UIntPtr)2162689U);
                     return LineNo + 1;
                 case "GS_INVENTORY":
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)65U, (UIntPtr)1966081U);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)65U,
+                        (UIntPtr)1966081U);
                     return LineNo + 1;
                 case "GS_MEDSKILL":
-                    this.ShiftMessage(true);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)83U, (UIntPtr)2031617U);
-                    this.ShiftMessage(false);
+                    ShiftMessage(true);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)83U,
+                        (UIntPtr)2031617U);
+                    ShiftMessage(false);
                     return LineNo + 1;
                 case "GS_MEDSPELL":
-                    this.ShiftMessage(true);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)68U, (UIntPtr)2097153U /*0x200001*/);
-                    this.ShiftMessage(false);
+                    ShiftMessage(true);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)68U,
+                        (UIntPtr)2097153U /*0x200001*/);
+                    ShiftMessage(false);
                     return LineNo + 1;
                 case "GS_TEMSKILL":
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)83U, (UIntPtr)2031617U);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)83U,
+                        (UIntPtr)2031617U);
                     return LineNo + 1;
                 case "GS_TEMSPELL":
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)68U, (UIntPtr)2097153U /*0x200001*/);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)68U,
+                        (UIntPtr)2097153U /*0x200001*/);
                     return LineNo + 1;
                 case "KB_SENDKEYS":
                     string str1 = Args.Split(',')[0];
@@ -770,7 +846,8 @@ namespace SleepHunter
                                 }
                             }
                         }
-                        frmMacro.KeystrokeItem[] keystrokeItemArray = new frmMacro.KeystrokeItem[length];
+
+                        KeystrokeItem[] keystrokeItemArray = new KeystrokeItem[length];
                         string str3 = str1;
                         int index = 0;
                         while (str3.Length > 0)
@@ -795,13 +872,17 @@ namespace SleepHunter
                                 }
                             }
                         }
+
                         uint num1 = 0;
-                        foreach (frmMacro.KeystrokeItem keystrokeItem in keystrokeItemArray)
+                        foreach (KeystrokeItem keystrokeItem in keystrokeItemArray)
                         {
                             if (!keystrokeItem.IsSpecialChar)
                             {
-                                short num2 = (short)Encoding.ASCII.GetBytes(keystrokeItem.Keystroke.ToUpper())[0];
-                                frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)(ulong)num2, (UIntPtr)(ulong)this.MakeDWord((short)0, (short)frmMacro.User32.MapVirtualKey((uint)num2, 0U)));
+                                short num2 = Encoding.ASCII.GetBytes(keystrokeItem.Keystroke.ToUpper())[0];
+                                User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/,
+                                    (UIntPtr)(ulong)num2,
+                                    (UIntPtr)(ulong)MakeDWord(0,
+                                        (short)User32.MapVirtualKey((uint)num2, 0U)));
                             }
                             else
                             {
@@ -840,84 +921,96 @@ namespace SleepHunter
                                         num3 = short.MaxValue;
                                         break;
                                 }
-                                if (num3 != (short)-1 & num3 != short.MaxValue)
+
+                                if (num3 != -1 & num3 != short.MaxValue)
                                 {
-                                    var lParam = (UIntPtr)((ulong)this.MakeDWord((short)0, (short)frmMacro.User32.MapVirtualKey((uint)num3, 0U)) | (ulong)num1);
-                                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)(ulong)num3, lParam);
+                                    var lParam =
+                                        (UIntPtr)((ulong)MakeDWord(0, (short)User32.MapVirtualKey((uint)num3, 0U)) |
+                                                  num1);
+                                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/,
+                                        (UIntPtr)(ulong)num3, lParam);
                                 }
                             }
                         }
                     }
+
                     return LineNo + 1;
                 case "LO_BREAK":
-                    int withinRef = logicStructure.GetWithinRef(this.lvwMacro.Items.Count, this.LogicData, LineNo);
-                    return withinRef >= 0 ? this.LogicData[withinRef].EndLine + 1 : LineNo + 1;
+                    int withinRef = logicStructure.GetWithinRef(lvwMacro.Items.Count, LogicData, LineNo);
+                    return withinRef >= 0 ? LogicData[withinRef].EndLine + 1 : LineNo + 1;
                 case "LO_ELSE":
-                    int logicElseRef = logicStructure.GetLogicElseRef(this.LogicData, LineNo);
-                    return logicElseRef >= 0 ? this.LogicData[logicElseRef].EndLine : LineNo + 1;
+                    int logicElseRef = logicStructure.GetLogicElseRef(LogicData, LineNo);
+                    return logicElseRef >= 0 ? LogicData[logicElseRef].EndLine : LineNo + 1;
                 case "LO_ENDIF":
                     return LineNo + 1;
                 case "LO_ENDWHILE":
-                    int logicEndRef = logicStructure.GetLogicEndRef(this.LogicData, LineNo);
-                    return logicEndRef >= 0 && this.EvaluateCriteria(this.LogicData, LineNo, false) ? this.LogicData[logicEndRef].StartLine + 1 : LineNo + 1;
+                    int logicEndRef = logicStructure.GetLogicEndRef(LogicData, LineNo);
+                    return logicEndRef >= 0 && EvaluateCriteria(LogicData, LineNo, false)
+                        ? LogicData[logicEndRef].StartLine + 1
+                        : LineNo + 1;
                 case "LP_BREAK":
-                    int withinLoopRef1 = logicStructure.GetWithinLoopRef(this.lvwMacro.Items.Count, this.LogicData, LineNo);
-                    return withinLoopRef1 >= 0 ? this.LogicData[withinLoopRef1].EndLine + 1 : LineNo + 1;
+                    int withinLoopRef1 = logicStructure.GetWithinLoopRef(lvwMacro.Items.Count, LogicData, LineNo);
+                    return withinLoopRef1 >= 0 ? LogicData[withinLoopRef1].EndLine + 1 : LineNo + 1;
                 case "LP_GOTO":
-                    int result1 = 0;
+                    int result1;
                     return int.TryParse(Args.Split(',')[0], out result1) ? result1 : LineNo + 1;
                 case "LP_END":
-                    int loopRefByEnd = logicStructure.GetLoopRefByEnd(this.LogicData, LineNo);
+                    int loopRefByEnd = logicStructure.GetLoopRefByEnd(LogicData, LineNo);
                     if (loopRefByEnd < 0)
                         return LineNo + 1;
-                    int startLine1 = this.LogicData[loopRefByEnd].StartLine;
-                    int loopDataRef1 = logicStructure.GetLoopDataRef(this.LoopData, startLine1);
+                    int startLine1 = LogicData[loopRefByEnd].StartLine;
+                    int loopDataRef1 = logicStructure.GetLoopDataRef(LoopData, startLine1);
                     if (loopDataRef1 < 0)
                         return LineNo + 1;
-                    ++this.LoopData[loopDataRef1].LoopCounter;
-                    return this.LoopData[loopDataRef1].LoopCounter >= this.LoopData[loopDataRef1].LoopMax & this.LoopData[loopDataRef1].LoopMax != 0UL ? this.LogicData[loopRefByEnd].EndLine + 1 : this.LogicData[loopRefByEnd].StartLine;
+                    ++LoopData[loopDataRef1].LoopCounter;
+                    return LoopData[loopDataRef1].LoopCounter >= LoopData[loopDataRef1].LoopMax &
+                           LoopData[loopDataRef1].LoopMax != 0UL
+                        ? LogicData[loopRefByEnd].EndLine + 1
+                        : LogicData[loopRefByEnd].StartLine;
                 case "LP_RESET":
-                    int withinLoopRef2 = logicStructure.GetWithinLoopRef(this.lvwMacro.Items.Count, this.LogicData, LineNo);
+                    int withinLoopRef2 = logicStructure.GetWithinLoopRef(lvwMacro.Items.Count, LogicData, LineNo);
                     if (withinLoopRef2 < 0)
                         return LineNo + 1;
-                    int startLine2 = this.LogicData[withinLoopRef2].StartLine;
-                    int loopDataRef2 = logicStructure.GetLoopDataRef(this.LoopData, startLine2);
+                    int startLine2 = LogicData[withinLoopRef2].StartLine;
+                    int loopDataRef2 = logicStructure.GetLoopDataRef(LoopData, startLine2);
                     if (loopDataRef2 < 0)
                         return LineNo + 1;
-                    this.LoopData[loopDataRef2].LoopCounter = 0UL;
+                    LoopData[loopDataRef2].LoopCounter = 0UL;
                     return LineNo + 1;
                 case "LP_RESTART":
-                    int withinLoopRef3 = logicStructure.GetWithinLoopRef(this.lvwMacro.Items.Count, this.LogicData, LineNo);
+                    int withinLoopRef3 = logicStructure.GetWithinLoopRef(lvwMacro.Items.Count, LogicData, LineNo);
                     if (withinLoopRef3 < 0)
                         return LineNo + 1;
-                    int startLine3 = this.LogicData[withinLoopRef3].StartLine;
-                    int loopDataRef3 = logicStructure.GetLoopDataRef(this.LoopData, startLine3);
-                    return loopDataRef3 >= 0 ? this.LoopData[loopDataRef3].LineNo + 1 : LineNo + 1;
+                    int startLine3 = LogicData[withinLoopRef3].StartLine;
+                    int loopDataRef3 = logicStructure.GetLoopDataRef(LoopData, startLine3);
+                    return loopDataRef3 >= 0 ? LoopData[loopDataRef3].LineNo + 1 : LineNo + 1;
                 case "LP_START":
                     return LineNo + 1;
                 case "MO_LEFTCLICK":
-                    int lParam1 = this.MakeDWord((short)0, (short)0);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 513U, (UIntPtr)1UL, (UIntPtr)(ulong)lParam1);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 514U, (UIntPtr)0U, (UIntPtr)(ulong)lParam1);
+                    int lParam1 = MakeDWord(0, 0);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 513U, (UIntPtr)1UL, (UIntPtr)(ulong)lParam1);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 514U, (UIntPtr)0U, (UIntPtr)(ulong)lParam1);
                     return LineNo + 1;
                 case "MO_MOVE":
                     short result2 = 0;
                     short result3 = 0;
                     short.TryParse(Args.Split(',')[0], out result2);
                     short.TryParse(Args.Split(',')[1], out result3);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 512U /*0x0200*/, (UIntPtr)0U, (UIntPtr)(ulong)this.MakeDWord(result2, result3));
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 512U /*0x0200*/, (UIntPtr)0U,
+                        (UIntPtr)(ulong)MakeDWord(result2, result3));
                     return LineNo + 1;
                 case "MO_RECALL":
-                    Point savedCursorPos = frmMacro.SavedCursorPos;
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 512U /*0x0200*/, (UIntPtr)0U, (UIntPtr)(ulong)this.MakeDWord((short)frmMacro.SavedCursorPos.X, (short)frmMacro.SavedCursorPos.Y));
+                    Point savedCursorPos = SavedCursorPos;
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 512U /*0x0200*/, (UIntPtr)0U,
+                        (UIntPtr)(ulong)MakeDWord((short)SavedCursorPos.X, (short)SavedCursorPos.Y));
                     return LineNo + 1;
                 case "MO_RIGHTCLICK":
-                    int lParam2 = this.MakeDWord((short)0, (short)0);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 516U, (UIntPtr)2UL, (UIntPtr)(ulong)lParam2);
-                    frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 517U, (UIntPtr)0U, (UIntPtr)(ulong)lParam2);
+                    int lParam2 = MakeDWord(0, 0);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 516U, (UIntPtr)2UL, (UIntPtr)(ulong)lParam2);
+                    User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 517U, (UIntPtr)0U, (UIntPtr)(ulong)lParam2);
                     return LineNo + 1;
                 case "MO_SAVE":
-                    frmMacro.SavedCursorPos = Cursor.Position;
+                    SavedCursorPos = Cursor.Position;
                     return LineNo + 1;
                 case "TI_WAIT":
                     int result4 = 0;
@@ -932,64 +1025,79 @@ namespace SleepHunter
         public void ShiftMessage(bool ShiftDown)
         {
             if (ShiftDown)
-                frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)16UL /*0x10*/, (UIntPtr)2752512U /*0x2A0000*/);
+                User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 256U /*0x0100*/, (UIntPtr)16UL /*0x10*/,
+                    (UIntPtr)2752512U /*0x2A0000*/);
             else
-                frmMacro.User32.PostMessage((IntPtr)(long)this.memRead.WindowHandle, 257U, (UIntPtr)16UL /*0x10*/, (UIntPtr)3223978176U);
+                User32.PostMessage((IntPtr)(long)memRead.WindowHandle, 257U, (UIntPtr)16UL /*0x10*/,
+                    (UIntPtr)3223978176U);
         }
 
         public long GetHP(MemoryReader memRead)
         {
-            return memRead == null || !memRead.IsAttached | !memRead.IsRunning ? long.MinValue : (long)this.memRead.ReadInt32((IntPtr)(long)(this.memRead.ReadUInt32((IntPtr)6190784) + 412U));
+            return memRead == null || !memRead.IsAttached | !memRead.IsRunning
+                ? long.MinValue
+                : memRead.ReadInt32((IntPtr)(memRead.ReadUInt32((IntPtr)6190784) + 412U));
         }
 
         public long GetMP(MemoryReader memRead)
         {
-            return memRead == null || !memRead.IsAttached | !memRead.IsRunning ? long.MinValue : (long)this.memRead.ReadInt32((IntPtr)((long)(this.memRead.ReadUInt32((IntPtr)6190784) + 412U) + 4L));
+            return memRead == null || !memRead.IsAttached | !memRead.IsRunning
+                ? long.MinValue
+                : memRead.ReadInt32((IntPtr)((memRead.ReadUInt32((IntPtr)6190784) + 412U) + 4L));
         }
 
         public long GetMAP(MemoryReader memRead)
         {
-            return memRead == null || !memRead.IsAttached | !memRead.IsRunning ? long.MinValue : (long)this.memRead.ReadInt32((IntPtr)6787760);
+            return memRead == null || !memRead.IsAttached | !memRead.IsRunning
+                ? long.MinValue
+                : memRead.ReadInt32((IntPtr)6787760);
         }
 
         public long GetXCoord(MemoryReader memRead)
         {
-            return memRead == null || !memRead.IsAttached | !memRead.IsRunning ? long.MinValue : (long)this.memRead.ReadInt32((IntPtr)6787732);
+            return memRead == null || !memRead.IsAttached | !memRead.IsRunning
+                ? long.MinValue
+                : memRead.ReadInt32((IntPtr)6787732);
         }
 
         public long GetYCoord(MemoryReader memRead)
         {
-            return memRead == null || !memRead.IsAttached | !memRead.IsRunning ? long.MinValue : (long)this.memRead.ReadInt32((IntPtr)6787728);
+            return memRead == null || !memRead.IsAttached | !memRead.IsRunning
+                ? long.MinValue
+                : memRead.ReadInt32((IntPtr)6787728);
         }
 
         public bool EvaluateCriteria(LogicStructure.LogicItem[] LogicData, int LineNo, bool StartLine)
         {
             LogicStructure logicStructure = new LogicStructure();
             long num1 = 0;
-            int index = !StartLine ? logicStructure.GetLogicEndRef(LogicData, LineNo) : logicStructure.GetLogicStartRef(LogicData, LineNo);
+            int index = !StartLine
+                ? logicStructure.GetLogicEndRef(LogicData, LineNo)
+                : logicStructure.GetLogicStartRef(LogicData, LineNo);
             if (index < 0)
                 return false;
-            long num2 = this.LogicData[index].Value;
-            switch (this.LogicData[index].CriteriaType)
+            long num2 = LogicData[index].Value;
+            switch (LogicData[index].CriteriaType)
             {
                 case LogicStructure.CompareCriteriaType.HP:
-                    num1 = this.GetHP(this.memRead);
+                    num1 = GetHP(memRead);
                     break;
                 case LogicStructure.CompareCriteriaType.MP:
-                    num1 = this.GetMP(this.memRead);
+                    num1 = GetMP(memRead);
                     break;
                 case LogicStructure.CompareCriteriaType.MAP:
-                    num1 = this.GetMAP(this.memRead);
+                    num1 = GetMAP(memRead);
                     break;
                 case LogicStructure.CompareCriteriaType.XLOC:
-                    num1 = this.GetXCoord(this.memRead);
+                    num1 = GetXCoord(memRead);
                     break;
                 case LogicStructure.CompareCriteriaType.YLOC:
-                    num1 = this.GetYCoord(this.memRead);
+                    num1 = GetYCoord(memRead);
                     break;
             }
+
             bool criteria = false;
-            switch (this.LogicData[index].CompareType)
+            switch (LogicData[index].CompareType)
             {
                 case LogicStructure.CompareOpType.GreaterThan:
                     if (num1 > num2)
@@ -997,6 +1105,7 @@ namespace SleepHunter
                         criteria = true;
                         break;
                     }
+
                     break;
                 case LogicStructure.CompareOpType.LessThan:
                     if (num1 < num2)
@@ -1004,6 +1113,7 @@ namespace SleepHunter
                         criteria = true;
                         break;
                     }
+
                     break;
                 case LogicStructure.CompareOpType.EqualTo:
                     if (num1 == num2)
@@ -1011,6 +1121,7 @@ namespace SleepHunter
                         criteria = true;
                         break;
                     }
+
                     break;
                 case LogicStructure.CompareOpType.NotEqualTo:
                     if (num1 != num2)
@@ -1018,511 +1129,111 @@ namespace SleepHunter
                         criteria = true;
                         break;
                     }
+
                     break;
             }
+
             return criteria;
         }
 
-        private void btnStop_Click(object sender, EventArgs e) => this.StopButton();
+        private void btnStop_Click(object sender, EventArgs e) => StopButton();
 
         private void QuickSelect(object sender, EventArgs e)
         {
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
-            uint result = 0;
+            uint result;
             uint.TryParse(toolStripMenuItem.Tag.ToString(), out result);
-            this.memRead = new MemoryReader(result);
-            this.lblProcessName.Text = "Process Name: " + this.memRead.ProcessName;
-            this.lblProcessID.Text = "Process ID: " + this.memRead.ProcessID.ToString();
-            this.lblWindowHandle.Text = "Window Handle: " + this.memRead.WindowHandle.ToString();
-            this.lblCharName.Text = "Character Name: " + this.memRead.ReadString((IntPtr)6585504);
+            memRead = new MemoryReader(result);
+            lblProcessName.Text = "Process Name: " + memRead.ProcessName;
+            lblProcessID.Text = "Process ID: " + memRead.ProcessID;
+            lblWindowHandle.Text = "Window Handle: " + memRead.WindowHandle;
+            lblCharName.Text = "Character Name: " + memRead.ReadString((IntPtr)6585504);
         }
 
         private void btnQuickProc_DropDownOpening(object sender, EventArgs e)
         {
             Process[] processes = Process.GetProcesses();
-            this.btnQuickProc.DropDownItems.Clear();
+            btnQuickProc.DropDownItems.Clear();
             foreach (Process process in processes)
             {
                 if (process.ProcessName.ToUpper() == "DARKAGES")
                 {
                     string str = new MemoryReader((uint)process.Id).ReadString((IntPtr)6585504);
                     if (str.Trim() == "")
-                        this.btnQuickProc.DropDownItems.Add("Darkages.exe", (Image)null, new EventHandler(this.QuickSelect));
+                        btnQuickProc.DropDownItems.Add("Darkages.exe", null, QuickSelect);
                     else
-                        this.btnQuickProc.DropDownItems.Add($"Darkages.exe ({str})", (Image)null, new EventHandler(this.QuickSelect));
-                    this.btnQuickProc.DropDownItems[this.btnQuickProc.DropDownItems.Count - 1].Tag = (object)process.Id;
+                        btnQuickProc.DropDownItems.Add($"Darkages.exe ({str})", null, QuickSelect);
+                    btnQuickProc.DropDownItems[btnQuickProc.DropDownItems.Count - 1].Tag = process.Id;
                 }
             }
-            if (this.btnQuickProc.DropDownItems.Count >= 1)
+
+            if (btnQuickProc.DropDownItems.Count >= 1)
                 return;
-            this.btnQuickProc.DropDownItems.Add("No DA Processes Running.");
-            this.btnQuickProc.DropDownItems[this.btnQuickProc.DropDownItems.Count - 1].Enabled = false;
+            btnQuickProc.DropDownItems.Add("No DA Processes Running.");
+            btnQuickProc.DropDownItems[btnQuickProc.DropDownItems.Count - 1].Enabled = false;
         }
 
-        private void btnPause_Click(object sender, EventArgs e) => this.PauseButton();
+        private void btnPause_Click(object sender, EventArgs e) => PauseButton();
 
         private void txtHotkey_KeyDown(object sender, KeyEventArgs e)
         {
             int modifiers = 0;
-            this.txtHotkey.Text = string.Empty;
+            txtHotkey.Text = string.Empty;
             if (e.Control & e.KeyCode != Keys.ControlKey)
             {
                 modifiers |= 2;
-                this.txtHotkey.Text += "CTRL + ";
+                txtHotkey.Text += "CTRL + ";
             }
+
             if (e.Alt & e.KeyCode != Keys.Alt)
             {
                 modifiers |= 1;
-                this.txtHotkey.Text += "ALT + ";
+                txtHotkey.Text += "ALT + ";
             }
+
             if (e.Shift & e.KeyCode != Keys.ShiftKey)
             {
                 modifiers |= 4;
-                this.txtHotkey.Text += "SHIFT + ";
+                txtHotkey.Text += "SHIFT + ";
             }
+
             Keys keyCode = e.KeyCode;
-            this.txtHotkey.Text += (string)(object)e.KeyCode;
-            this.hotkey.SetHotkey(keyCode, modifiers);
-            this.hotkey.ReRegisterGlobalHotKey();
+            txtHotkey.Text += (string)(object)e.KeyCode;
+            hotkey.SetHotkey(keyCode, modifiers);
+            hotkey.ReRegisterGlobalHotKey();
         }
 
         private void chkHotkey_CheckedChanged(object sender, EventArgs e)
         {
-            this.txtHotkey.Enabled = this.chkHotkey.Checked;
-            this.hotkey.Enabled = this.chkHotkey.Checked;
+            txtHotkey.Enabled = chkHotkey.Checked;
+            hotkey.Enabled = chkHotkey.Checked;
         }
 
         private void frmMacro_Load(object sender, EventArgs e)
         {
-            this.hotkey = new Hotkey(this.MdiParent.Handle, Keys.None, 0);
+            hotkey = new Hotkey(MdiParent.Handle, Keys.None, 0);
         }
 
-        private void frmMacro_FormClosing(object sender, FormClosingEventArgs e) => this.hotkey.Dispose();
+        private void frmMacro_FormClosing(object sender, FormClosingEventArgs e) => hotkey.Dispose();
 
         private void lvwMacro_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Delete && e.KeyCode != Keys.Back)
                 return;
-            ListView.SelectedListViewItemCollection selectedItems = this.lvwMacro.SelectedItems;
+            ListView.SelectedListViewItemCollection selectedItems = lvwMacro.SelectedItems;
             if (selectedItems.Count < 1)
                 return;
             foreach (ListViewItem listViewItem in selectedItems)
             {
                 listViewItem.Selected = false;
-                this.lvwMacro.Items.Remove(listViewItem);
+                lvwMacro.Items.Remove(listViewItem);
             }
-            this.ClearNullEntries();
-            this.ReNumberLines();
-            this.IndentLines();
+
+            ClearNullEntries();
+            ReNumberLines();
+            IndentLines();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && this.components != null)
-                this.components.Dispose();
-            base.Dispose(disposing);
-        }
-
-        private void InitializeComponent()
-        {
-            this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(frmMacro));
-            this.stbMain = new StatusStrip();
-            this.lblStatus = new ToolStripStatusLabel();
-            this.mnuDebug = new ToolStripDropDownButton();
-            this.mnuLogic = new ToolStripMenuItem();
-            this.splMacroData = new SplitContainer();
-            this.splHeader = new SplitContainer();
-            this.grpProcess = new GroupBox();
-            this.lblCharName = new Label();
-            this.lblWindowHandle = new Label();
-            this.lblProcessID = new Label();
-            this.lblProcessName = new Label();
-            this.grpMacro = new GroupBox();
-            this.floMacro = new FlowLayoutPanel();
-            this.chkHotkey = new CheckBox();
-            this.txtHotkey = new TextBox();
-            this.lblName = new Label();
-            this.txtName = new TextBox();
-            this.lblVersion = new Label();
-            this.lvwMacro = new ListView();
-            this.colLine = new ColumnHeader();
-            this.colCommand = new ColumnHeader();
-            this.tlbMacro = new ToolStrip();
-            this.btnEdit = new ToolStripButton();
-            this.btnDelete = new ToolStripButton();
-            this.btnCut = new ToolStripButton();
-            this.btnCopy = new ToolStripButton();
-            this.btnPaste = new ToolStripButton();
-            this.btnMoveUp = new ToolStripButton();
-            this.btnMoveDown = new ToolStripButton();
-            this.toolStripSeparator1 = new ToolStripSeparator();
-            this.btnPlay = new ToolStripButton();
-            this.btnPause = new ToolStripButton();
-            this.btnStop = new ToolStripButton();
-            this.toolStripSeparator2 = new ToolStripSeparator();
-            this.btnQuickProc = new ToolStripDropDownButton();
-            this.ilsStatusIcons = new ImageList(this.components);
-            this.tmrProcess = new System.Windows.Forms.Timer(this.components);
-            this.stbMain.SuspendLayout();
-            this.splMacroData.Panel1.SuspendLayout();
-            this.splMacroData.Panel2.SuspendLayout();
-            this.splMacroData.SuspendLayout();
-            this.splHeader.Panel1.SuspendLayout();
-            this.splHeader.Panel2.SuspendLayout();
-            this.splHeader.SuspendLayout();
-            this.grpProcess.SuspendLayout();
-            this.grpMacro.SuspendLayout();
-            this.floMacro.SuspendLayout();
-            this.tlbMacro.SuspendLayout();
-            this.SuspendLayout();
-            this.stbMain.Items.AddRange(new ToolStripItem[2]
-            {
-      (ToolStripItem) this.lblStatus,
-      (ToolStripItem) this.mnuDebug
-            });
-            this.stbMain.LayoutStyle = ToolStripLayoutStyle.Table;
-            this.stbMain.Location = new Point(0, 326);
-            this.stbMain.Name = "stbMain";
-            this.stbMain.Size = new Size(452, 27);
-            this.stbMain.TabIndex = 1;
-            this.stbMain.Text = "statusStrip1";
-            this.lblStatus.Image = (Image)componentResourceManager.GetObject("lblStatus.Image");
-            this.lblStatus.ImageAlign = ContentAlignment.MiddleLeft;
-            this.lblStatus.ImageScaling = ToolStripItemImageScaling.None;
-            this.lblStatus.MergeAction = MergeAction.Replace;
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Spring = true;
-            this.lblStatus.Text = "Macro is not running.";
-            this.lblStatus.TextAlign = ContentAlignment.MiddleLeft;
-            this.mnuDebug.DropDownItems.AddRange(new ToolStripItem[1]
-            {
-      (ToolStripItem) this.mnuLogic
-            });
-            this.mnuDebug.Image = (Image)componentResourceManager.GetObject("mnuDebug.Image");
-            this.mnuDebug.ImageTransparentColor = Color.Magenta;
-            this.mnuDebug.MergeAction = MergeAction.Replace;
-            this.mnuDebug.Name = "mnuDebug";
-            this.mnuDebug.Text = " Debug";
-            this.mnuLogic.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            this.mnuLogic.MergeAction = MergeAction.Replace;
-            this.mnuLogic.Name = "mnuLogic";
-            this.mnuLogic.Text = "Generate Logic Skeleton";
-            this.mnuLogic.Click += new EventHandler(this.mnuLogic_Click);
-            this.splMacroData.Dock = DockStyle.Fill;
-            this.splMacroData.FixedPanel = FixedPanel.Panel1;
-            this.splMacroData.Location = new Point(0, 0);
-            this.splMacroData.Name = "splMacroData";
-            this.splMacroData.Orientation = Orientation.Horizontal;
-            this.splMacroData.Panel1.Controls.Add((Control)this.splHeader);
-            this.splMacroData.Panel1.Padding = new Padding(4);
-            this.splMacroData.Panel2.Controls.Add((Control)this.lvwMacro);
-            this.splMacroData.Panel2.Controls.Add((Control)this.tlbMacro);
-            this.splMacroData.Panel2.Margin = new Padding(4);
-            this.splMacroData.Panel2.Padding = new Padding(5, 1, 4, 4);
-            this.splMacroData.Panel2.Paint += new PaintEventHandler(this.splMacroData_Panel2_Paint);
-            this.splMacroData.Size = new Size(452, 326);
-            this.splMacroData.SplitterDistance = 140;
-            this.splMacroData.TabIndex = 2;
-            this.splMacroData.Text = "splitContainer1";
-            this.splHeader.Dock = DockStyle.Fill;
-            this.splHeader.FixedPanel = FixedPanel.Panel1;
-            this.splHeader.Location = new Point(4, 4);
-            this.splHeader.Name = "splHeader";
-            this.splHeader.Panel1.AllowDrop = true;
-            this.splHeader.Panel1.Controls.Add((Control)this.grpProcess);
-            this.splHeader.Panel1.Padding = new Padding(0, 0, 1, 0);
-            this.splHeader.Panel1.DragDrop += new DragEventHandler(this.splHeader_Panel1_DragDrop);
-            this.splHeader.Panel1.DragEnter += new DragEventHandler(this.splHeader_Panel1_DragEnter);
-            this.splHeader.Panel2.Controls.Add((Control)this.grpMacro);
-            this.splHeader.Panel2.Padding = new Padding(1, 0, 0, 0);
-            this.splHeader.Size = new Size(444, 132);
-            this.splHeader.SplitterDistance = 211;
-            this.splHeader.TabIndex = 0;
-            this.splHeader.Text = "splitContainer1";
-            this.grpProcess.Controls.Add((Control)this.lblCharName);
-            this.grpProcess.Controls.Add((Control)this.lblWindowHandle);
-            this.grpProcess.Controls.Add((Control)this.lblProcessID);
-            this.grpProcess.Controls.Add((Control)this.lblProcessName);
-            this.grpProcess.Dock = DockStyle.Fill;
-            this.grpProcess.ForeColor = SystemColors.ActiveCaption;
-            this.grpProcess.Location = new Point(0, 0);
-            this.grpProcess.Name = "grpProcess";
-            this.grpProcess.Size = new Size(210, 132);
-            this.grpProcess.TabIndex = 0;
-            this.grpProcess.TabStop = false;
-            this.grpProcess.Text = "Process Details";
-            this.lblCharName.AutoEllipsis = true;
-            this.lblCharName.AutoSize = true;
-            this.lblCharName.Enabled = false;
-            this.lblCharName.ForeColor = SystemColors.ControlText;
-            this.lblCharName.Location = new Point(8, 56);
-            this.lblCharName.Name = "lblCharName";
-            this.lblCharName.Size = new Size(85, 13);
-            this.lblCharName.TabIndex = 3;
-            this.lblCharName.Text = "Character Name:";
-            this.lblWindowHandle.AutoEllipsis = true;
-            this.lblWindowHandle.AutoSize = true;
-            this.lblWindowHandle.Enabled = false;
-            this.lblWindowHandle.ForeColor = SystemColors.ControlText;
-            this.lblWindowHandle.Location = new Point(8, 43);
-            this.lblWindowHandle.Name = "lblWindowHandle";
-            this.lblWindowHandle.Size = new Size(81, 13);
-            this.lblWindowHandle.TabIndex = 2;
-            this.lblWindowHandle.Text = "Window Handle:";
-            this.lblProcessID.AutoEllipsis = true;
-            this.lblProcessID.AutoSize = true;
-            this.lblProcessID.Enabled = false;
-            this.lblProcessID.ForeColor = SystemColors.ControlText;
-            this.lblProcessID.Location = new Point(8, 30);
-            this.lblProcessID.Name = "lblProcessID";
-            this.lblProcessID.Size = new Size(58, 13);
-            this.lblProcessID.TabIndex = 1;
-            this.lblProcessID.Text = "Process ID:";
-            this.lblProcessName.AutoEllipsis = true;
-            this.lblProcessName.AutoSize = true;
-            this.lblProcessName.Enabled = false;
-            this.lblProcessName.ForeColor = SystemColors.ControlText;
-            this.lblProcessName.Location = new Point(8, 17);
-            this.lblProcessName.Name = "lblProcessName";
-            this.lblProcessName.Size = new Size(74, 13);
-            this.lblProcessName.TabIndex = 0;
-            this.lblProcessName.Text = "Process Name:";
-            this.grpMacro.Controls.Add((Control)this.floMacro);
-            this.grpMacro.Dock = DockStyle.Fill;
-            this.grpMacro.ForeColor = SystemColors.ActiveCaption;
-            this.grpMacro.Location = new Point(1, 0);
-            this.grpMacro.Name = "grpMacro";
-            this.grpMacro.Size = new Size(228, 132);
-            this.grpMacro.TabIndex = 0;
-            this.grpMacro.TabStop = false;
-            this.grpMacro.Text = "Macro Details";
-            this.floMacro.Controls.Add((Control)this.chkHotkey);
-            this.floMacro.Controls.Add((Control)this.txtHotkey);
-            this.floMacro.Controls.Add((Control)this.lblName);
-            this.floMacro.Controls.Add((Control)this.txtName);
-            this.floMacro.Controls.Add((Control)this.lblVersion);
-            this.floMacro.Dock = DockStyle.Fill;
-            this.floMacro.FlowDirection = FlowDirection.TopDown;
-            this.floMacro.Location = new Point(3, 17);
-            this.floMacro.Margin = new Padding(3, 5, 3, 5);
-            this.floMacro.Name = "floMacro";
-            this.floMacro.Padding = new Padding(2);
-            this.floMacro.Size = new Size(222, 112 /*0x70*/);
-            this.floMacro.TabIndex = 0;
-            this.chkHotkey.AutoSize = true;
-            this.chkHotkey.Checked = true;
-            this.chkHotkey.CheckState = CheckState.Checked;
-            this.chkHotkey.FlatStyle = FlatStyle.System;
-            this.chkHotkey.ForeColor = SystemColors.ControlText;
-            this.chkHotkey.Location = new Point(5, 5);
-            this.chkHotkey.Name = "chkHotkey";
-            this.chkHotkey.Size = new Size(98, 18);
-            this.chkHotkey.TabIndex = 5;
-            this.chkHotkey.Text = "Macro Hotkey:";
-            this.chkHotkey.CheckedChanged += new EventHandler(this.chkHotkey_CheckedChanged);
-            this.txtHotkey.Dock = DockStyle.Fill;
-            this.txtHotkey.Location = new Point(5, 29);
-            this.txtHotkey.Name = "txtHotkey";
-            this.txtHotkey.ReadOnly = true;
-            this.txtHotkey.Size = new Size(212, 21);
-            this.txtHotkey.TabIndex = 4;
-            this.txtHotkey.Text = "Press Key Combination";
-            this.txtHotkey.KeyDown += new KeyEventHandler(this.txtHotkey_KeyDown);
-            this.lblName.AutoSize = true;
-            this.lblName.ForeColor = SystemColors.ControlText;
-            this.lblName.Location = new Point(5, 53);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new Size(66, 13);
-            this.lblName.TabIndex = 0;
-            this.lblName.Text = "Macro Name:";
-            this.txtName.Dock = DockStyle.Fill;
-            this.txtName.Location = new Point(5, 69);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new Size(212, 21);
-            this.txtName.TabIndex = 1;
-            this.txtName.TextChanged += new EventHandler(this.txtName_TextChanged);
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Enabled = false;
-            this.lblVersion.ForeColor = SystemColors.ControlText;
-            this.lblVersion.Location = new Point(5, 93);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new Size(61, 13);
-            this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "File Version:";
-            this.lblVersion.Visible = false;
-            this.lvwMacro.AllowDrop = true;
-            this.lvwMacro.BorderStyle = BorderStyle.None;
-            this.lvwMacro.Columns.AddRange(new ColumnHeader[2]
-            {
-      this.colLine,
-      this.colCommand
-            });
-            this.lvwMacro.Dock = DockStyle.Fill;
-            this.lvwMacro.FullRowSelect = true;
-            this.lvwMacro.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            this.lvwMacro.HideSelection = false;
-            this.lvwMacro.Location = new Point(5, 26);
-            this.lvwMacro.Margin = new Padding(10);
-            this.lvwMacro.Name = "lvwMacro";
-            this.lvwMacro.Size = new Size(443, 152);
-            this.lvwMacro.TabIndex = 0;
-            this.lvwMacro.View = View.Details;
-            this.lvwMacro.DragEnter += new DragEventHandler(this.lvwMacro_DragEnter);
-            this.lvwMacro.DragDrop += new DragEventHandler(this.lvwMacro_DragDrop);
-            this.lvwMacro.KeyDown += new KeyEventHandler(this.lvwMacro_KeyDown);
-            this.colLine.Text = "Line #";
-            this.colLine.Width = 45;
-            this.colCommand.Text = "Command";
-            this.colCommand.Width = 375;
-            this.tlbMacro.Items.AddRange(new ToolStripItem[13]
-            {
-      (ToolStripItem) this.btnEdit,
-      (ToolStripItem) this.btnDelete,
-      (ToolStripItem) this.btnCut,
-      (ToolStripItem) this.btnCopy,
-      (ToolStripItem) this.btnPaste,
-      (ToolStripItem) this.btnMoveUp,
-      (ToolStripItem) this.btnMoveDown,
-      (ToolStripItem) this.toolStripSeparator1,
-      (ToolStripItem) this.btnPlay,
-      (ToolStripItem) this.btnPause,
-      (ToolStripItem) this.btnStop,
-      (ToolStripItem) this.toolStripSeparator2,
-      (ToolStripItem) this.btnQuickProc
-            });
-            this.tlbMacro.Location = new Point(5, 1);
-            this.tlbMacro.Margin = new Padding(0, 10, 0, 10);
-            this.tlbMacro.Name = "tlbMacro";
-            this.tlbMacro.Size = new Size(443, 25);
-            this.tlbMacro.TabIndex = 1;
-            this.tlbMacro.Text = "toolStrip1";
-            this.btnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnEdit.Image = (Image)componentResourceManager.GetObject("btnEdit.Image");
-            this.btnEdit.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnEdit.ImageTransparentColor = Color.Magenta;
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Text = "toolStripButton1";
-            this.btnEdit.ToolTipText = "Edit Command";
-            this.btnEdit.Click += new EventHandler(this.btnEdit_Click);
-            this.btnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = (Image)componentResourceManager.GetObject("btnDelete.Image");
-            this.btnDelete.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnDelete.ImageTransparentColor = Color.Magenta;
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Text = "toolStripButton2";
-            this.btnDelete.ToolTipText = "Delete Command(s)";
-            this.btnDelete.Click += new EventHandler(this.btnDelete_Click);
-            this.btnCut.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnCut.Image = (Image)componentResourceManager.GetObject("btnCut.Image");
-            this.btnCut.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnCut.ImageTransparentColor = Color.Magenta;
-            this.btnCut.Name = "btnCut";
-            this.btnCut.Text = "toolStripButton3";
-            this.btnCut.ToolTipText = "Cut Command(s)";
-            this.btnCut.Click += new EventHandler(this.btnCut_Click);
-            this.btnCopy.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnCopy.Image = (Image)componentResourceManager.GetObject("btnCopy.Image");
-            this.btnCopy.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnCopy.ImageTransparentColor = Color.Magenta;
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Text = "toolStripButton4";
-            this.btnCopy.ToolTipText = "Copy Command(s)";
-            this.btnCopy.Click += new EventHandler(this.btnCopy_Click);
-            this.btnPaste.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPaste.Image = (Image)componentResourceManager.GetObject("btnPaste.Image");
-            this.btnPaste.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnPaste.ImageTransparentColor = Color.Magenta;
-            this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Text = "toolStripButton5";
-            this.btnPaste.ToolTipText = "Paste Command(s)";
-            this.btnPaste.Click += new EventHandler(this.btnPaste_Click);
-            this.btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnMoveUp.Image = (Image)componentResourceManager.GetObject("btnMoveUp.Image");
-            this.btnMoveUp.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnMoveUp.ImageTransparentColor = Color.Magenta;
-            this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Text = "toolStripButton6";
-            this.btnMoveUp.ToolTipText = "Move Up";
-            this.btnMoveUp.Click += new EventHandler(this.btnMoveUp_Click);
-            this.btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = (Image)componentResourceManager.GetObject("btnMoveDown.Image");
-            this.btnMoveDown.ImageTransparentColor = Color.Magenta;
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Text = "toolStripButton7";
-            this.btnMoveDown.ToolTipText = "Move Down";
-            this.btnMoveDown.Click += new EventHandler(this.btnMoveDown_Click);
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.btnPlay.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPlay.Image = (Image)componentResourceManager.GetObject("btnPlay.Image");
-            this.btnPlay.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnPlay.ImageTransparentColor = Color.Magenta;
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Text = "Play Macro";
-            this.btnPlay.Click += new EventHandler(this.btnPlay_Click);
-            this.btnPause.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPause.Enabled = false;
-            this.btnPause.Image = (Image)componentResourceManager.GetObject("btnPause.Image");
-            this.btnPause.ImageTransparentColor = Color.Magenta;
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Text = "Pause Macro";
-            this.btnPause.Click += new EventHandler(this.btnPause_Click);
-            this.btnStop.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnStop.Enabled = false;
-            this.btnStop.Image = (Image)componentResourceManager.GetObject("btnStop.Image");
-            this.btnStop.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnStop.ImageTransparentColor = Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Text = "Stop Macro";
-            this.btnStop.Click += new EventHandler(this.btnStop_Click);
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.btnQuickProc.Image = (Image)componentResourceManager.GetObject("btnQuickProc.Image");
-            this.btnQuickProc.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnQuickProc.ImageTransparentColor = Color.Magenta;
-            this.btnQuickProc.Name = "btnQuickProc";
-            this.btnQuickProc.Text = " Quick Attach";
-            this.btnQuickProc.ToolTipText = "Attach to Process";
-            this.btnQuickProc.DropDownOpening += new EventHandler(this.btnQuickProc_DropDownOpening);
-            this.ilsStatusIcons.ImageStream = (ImageListStreamer)componentResourceManager.GetObject("ilsStatusIcons.ImageStream");
-            this.ilsStatusIcons.Images.SetKeyName(0, "macro_play.ico");
-            this.ilsStatusIcons.Images.SetKeyName(1, "macro_pause.ico");
-            this.ilsStatusIcons.Images.SetKeyName(2, "macro_stop.ico");
-            this.ilsStatusIcons.Images.SetKeyName(3, "services.ico");
-            this.ilsStatusIcons.Images.SetKeyName(4, "Web_GlobalAppClass.ico");
-            this.tmrProcess.Enabled = true;
-            this.tmrProcess.Interval = 250;
-            this.tmrProcess.Tick += new EventHandler(this.tmrProcess_Tick);
-            this.AutoScaleDimensions = new SizeF(6f, 13f);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(452, 353);
-            this.Controls.Add((Control)this.splMacroData);
-            this.Controls.Add((Control)this.stbMain);
-            this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
-            this.Name = nameof(frmMacro);
-            this.StartPosition = FormStartPosition.Manual;
-            this.Text = "Macro Data";
-            this.Load += new EventHandler(this.frmMacro_Load);
-            this.Shown += new EventHandler(this.frmMacro_Shown);
-            this.Activated += new EventHandler(this.frmMacro_Activated);
-            this.FormClosing += new FormClosingEventHandler(this.frmMacro_FormClosing);
-            this.stbMain.ResumeLayout(false);
-            this.splMacroData.Panel1.ResumeLayout(false);
-            this.splMacroData.Panel2.ResumeLayout(false);
-            this.splMacroData.Panel2.PerformLayout();
-            this.splMacroData.ResumeLayout(false);
-            this.splHeader.Panel1.ResumeLayout(false);
-            this.splHeader.Panel2.ResumeLayout(false);
-            this.splHeader.ResumeLayout(false);
-            this.grpProcess.ResumeLayout(false);
-            this.grpProcess.PerformLayout();
-            this.grpMacro.ResumeLayout(false);
-            this.floMacro.ResumeLayout(false);
-            this.floMacro.PerformLayout();
-            this.tlbMacro.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-        }
 
         public class User32
         {
@@ -1593,7 +1304,7 @@ namespace SleepHunter
             EndOfMacroReached,
             BadProcessInfo,
             NotAttached,
-            ArenaMap,
+            ArenaMap
         }
     }
 }

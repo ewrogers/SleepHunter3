@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -39,12 +37,12 @@ namespace SleepHunter
             streamWriter.Flush();
             streamWriter.Close();
             File.SetAttributes("donate.htm", FileAttributes.ReadOnly | FileAttributes.Hidden);
-            this.webDonate.Navigate(Application.StartupPath + "\\donate.htm");
+            webDonate.Navigate(Application.StartupPath + "\\donate.htm");
         }
 
         private void webDonate_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
-            this.webDonate.Visible = true;
+            webDonate.Visible = true;
         }
     }
 }

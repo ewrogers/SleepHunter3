@@ -76,6 +76,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SleepHunter\frmLogicSkel.Designer.cs" />
+    <Compile Include="SleepHunter\frmMacro.Designer.cs">
+      <DependentUpon>frmMacro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SleepHunter\frmMain.Designer.cs" />
     <Compile Include="SleepHunter\frmOptions.Designer.cs" />
     <Compile Include="SleepHunter\frmStatus.Designer.cs">
       <DependentUpon>frmStatus.cs</DependentUpon>
@@ -90,16 +94,13 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SleepHunter\frmStatus.Designer.cs" />
-    <Compile Include="SleepHunter\frmTest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SleepHunter\frmTest.Designer.cs">
-      <DependentUpon>frmTest.cs</DependentUpon>
-    </Compile>
     <Compile Include="SleepHunter\MacroReader.cs" />
     <Compile Include="SleepHunter\MacroWriter.cs" />
     <Compile Include="SleepHunter\frmMain.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SleepHunter\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="SleepHunter\frmLogicSkel.cs">
       <SubType>Form</SubType>
@@ -158,9 +159,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SleepHunter\frmStatus.resx">
       <LogicalName>SleepHunter.frmStatus.resources</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmTest.resx">
-      <DependentUpon>frmTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SleepHunter\Properties\Resources.resx">
       <LogicalName>SleepHunter.Properties.Resources.resources</LogicalName>

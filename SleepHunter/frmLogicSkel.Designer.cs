@@ -9,7 +9,7 @@ namespace SleepHunter
         private IContainer components = null;
         private TabControl tabSkeleton;
         private TabPage tpgStruct;
-        private RichTextBox rtbStruct;
+        internal RichTextBox rtbStruct;
 
         protected override void Dispose(bool disposing)
         {

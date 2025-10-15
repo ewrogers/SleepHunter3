@@ -1,7 +1,5 @@
 ﻿using ProcessMemory;
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -11,64 +9,67 @@ namespace SleepHunter
 {
     public partial class frmChat : Form
     {
-        private string m_ChatBuffer = (string)null;
-        private string m_Chat = (string)null;
-        private string m_CharName = (string)null;
-        private MemoryReader memReader = (MemoryReader)null;
+        private string m_ChatBuffer;
+        private string m_Chat;
+        private string m_CharName;
+        private MemoryReader memReader;
         private Form myParent;
-        private bool enableOnTop = false;
+        private bool enableOnTop;
         private static int SPOKENMAX = 67;
         private static int GUILDMAX = 66;
         private static int WHISPERMAX = 64 /*0x40*/;
         private int charNameLength;
         private int maxChatLength;
-        private int chatType = 0;
-        private bool hasProcess = false;
-
-
-
+        private int chatType;
+        private bool hasProcess;
+        
         public frmChat()
         {
-            this.InitializeComponent();
-            this.cmbChatType.SelectedIndex = 0;
+            InitializeComponent();
+            cmbChatType.SelectedIndex = 0;
         }
 
         private void tmrUpdate_Tick(object sender, EventArgs e)
         {
-            if (this.IsDisposed || this.memReader == null)
+            if (IsDisposed || memReader == null)
                 return;
-            if (!this.memReader.IsAttached | !this.memReader.IsRunning)
+            if (!memReader.IsAttached | !memReader.IsRunning)
             {
-                this.Text = "Process Lost! -- Re-Attach";
-                this.m_Chat = (string)null;
-                this.m_ChatBuffer = (string)null;
-                this.tmrUpdate.Enabled = false;
+                Text = "Process Lost! -- Re-Attach";
+                m_Chat = null;
+                m_ChatBuffer = null;
+                tmrUpdate.Enabled = false;
             }
             else
             {
-                this.m_CharName = this.memReader.ReadString((IntPtr)6585504);
-                this.m_ChatBuffer = this.memReader.ReadString((IntPtr)this.memReader.ReadInt32((IntPtr)(this.memReader.ReadInt32((IntPtr)(this.memReader.ReadInt32((IntPtr)(this.memReader.ReadInt32((IntPtr)6585540) + 468)) + 448)) + 24)));
+                m_CharName = memReader.ReadString((IntPtr)6585504);
+                m_ChatBuffer = memReader.ReadString((IntPtr)memReader.ReadInt32((IntPtr)(memReader.ReadInt32((IntPtr)(memReader.ReadInt32((IntPtr)(memReader.ReadInt32((IntPtr)6585540) + 468)) + 448)) + 24)));
             }
-            if (this.m_CharName != null)
+            if (m_CharName != null)
             {
-                this.Text = this.m_CharName + "'s Chat";
-                this.label1.Text = this.m_CharName + "'s Chat is located to the left.";
-                this.charNameLength = this.m_CharName.Length;
+                Text = m_CharName + "'s Chat";
+                label1.Text = m_CharName + "'s Chat is located to the left.";
+                charNameLength = m_CharName.Length;
             }
             else
-                this.Text = "Chat Window";
-            if (this.m_ChatBuffer != null)
             {
-                if (this.checkNewChat(this.m_ChatBuffer, this.m_Chat))
+                Text = "Chat Window";
+            }
+
+            if (m_ChatBuffer != null)
+            {
+                if (checkNewChat(m_ChatBuffer, m_Chat))
                 {
-                    this.m_Chat = this.m_ChatBuffer;
-                    this.rtbChatLog.Text = this.m_Chat.Replace('\n', ' ');
-                    this.rtbChatLog.SelectionStart = this.rtbChatLog.Text.Length;
-                    this.rtbChatLog.ScrollToCaret();
+                    m_Chat = m_ChatBuffer;
+                    rtbChatLog.Text = m_Chat.Replace('\n', ' ');
+                    rtbChatLog.SelectionStart = rtbChatLog.Text.Length;
+                    rtbChatLog.ScrollToCaret();
                 }
             }
             else
-                this.rtbChatLog.Text = "No Chat Detected";
+            {
+                rtbChatLog.Text = "No Chat Detected";
+            }
         }
 
         private void frmChat_DragEnter(object sender, DragEventArgs e)
@@ -82,7 +83,7 @@ namespace SleepHunter
 
         private void frmChat_DragDrop(object sender, DragEventArgs e)
         {
-            uint result = 0;
+            uint result;
             if (!uint.TryParse((string)e.Data.GetData(DataFormats.Text), out result))
                 e.Effect = DragDropEffects.None;
             else if (result < 1U)
@@ -91,11 +92,11 @@ namespace SleepHunter
             }
             else
             {
-                this.memReader = new MemoryReader(result);
-                if (!this.memReader.IsAttached)
+                memReader = new MemoryReader(result);
+                if (!memReader.IsAttached)
                     return;
-                this.tmrUpdate.Enabled = true;
-                this.hasProcess = true;
+                tmrUpdate.Enabled = true;
+                hasProcess = true;
             }
         }
 
@@ -103,41 +104,41 @@ namespace SleepHunter
 
         private void floatChatWindow()
         {
-            this.myParent = this.MdiParent;
-            this.MdiParent = (Form)null;
-            this.Refresh();
+            myParent = MdiParent;
+            MdiParent = null;
+            Refresh();
         }
 
         private void dockChatWindow()
         {
-            this.MdiParent = this.myParent;
-            this.Refresh();
+            MdiParent = myParent;
+            Refresh();
         }
 
         private void btnSendChat_Click(object sender, EventArgs e)
         {
-            if (this.hasProcess)
+            if (hasProcess)
             {
-                if (this.txtChatInput.Text == "")
+                if (txtChatInput.Text == "")
                 {
-                    if (!(this.txtWhisperTrgt.Text == ""))
+                    if (!(txtWhisperTrgt.Text == ""))
                         return;
                     int num = (int)MessageBox.Show("No text to send!", "Error: No input", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    this.txtChatInput.Focus();
+                    txtChatInput.Focus();
                 }
-                else if (this.cmbChatType.SelectedIndex == 1)
+                else if (cmbChatType.SelectedIndex == 1)
                 {
                     int num = (int)MessageBox.Show("Error: You have not specified a Whisper Target", "Error: No Target", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    this.txtWhisperTrgt.Focus();
+                    txtWhisperTrgt.Focus();
                 }
                 else
                 {
-                    this.txtChatInput.Enabled = false;
-                    this.ProcessChat(this.txtChatInput.Text);
-                    this.txtChatInput.Text = "";
-                    this.rtbChatLog.SelectionStart = this.rtbChatLog.Text.Length;
-                    this.rtbChatLog.ScrollToCaret();
-                    this.txtChatInput.Enabled = true;
+                    txtChatInput.Enabled = false;
+                    ProcessChat(txtChatInput.Text);
+                    txtChatInput.Text = "";
+                    rtbChatLog.SelectionStart = rtbChatLog.Text.Length;
+                    rtbChatLog.ScrollToCaret();
+                    txtChatInput.Enabled = true;
                 }
             }
             else
@@ -148,96 +149,96 @@ namespace SleepHunter
 
         public int MakeDWord(short LoWord, short HiWord)
         {
-            return (int)HiWord * 65536 /*0x010000*/ | (int)LoWord & (int)ushort.MaxValue;
+            return HiWord * 65536 /*0x010000*/ | LoWord & ushort.MaxValue;
         }
 
         private void ProcessChat(string chatString)
         {
-            this.PostMessage((short)256 /*0x0100*/, Keys.Escape);
-            switch (this.chatType)
+            PostMessage(256 /*0x0100*/, Keys.Escape);
+            switch (chatType)
             {
                 case 0:
-                    this.PostMessage((short)256 /*0x0100*/, Keys.Return);
+                    PostMessage(256 /*0x0100*/, Keys.Return);
                     break;
                 case 1:
-                    this.PostMessage((short)256 /*0x0100*/, Keys.ShiftKey);
-                    frmChat.User32.PostMessage((IntPtr)(long)this.memReader.WindowHandle, 256U /*0x0100*/, (UIntPtr)222U, (UIntPtr)2621440U /*0x280000*/);
-                    this.PostMessage((short)257, Keys.ShiftKey);
+                    PostMessage(256 /*0x0100*/, Keys.ShiftKey);
+                    User32.PostMessage((IntPtr)(long)memReader.WindowHandle, 256U /*0x0100*/, (UIntPtr)222U, (UIntPtr)2621440U /*0x280000*/);
+                    PostMessage(257, Keys.ShiftKey);
                     Thread.Sleep(80 /*0x50*/);
-                    this.PostString(this.txtWhisperTrgt.Text);
-                    this.PostMessage((short)256 /*0x0100*/, Keys.Return);
+                    PostString(txtWhisperTrgt.Text);
+                    PostMessage(256 /*0x0100*/, Keys.Return);
                     break;
                 case 2:
                     byte postKey1 = Encoding.ASCII.GetBytes("!")[0];
-                    this.PostMessage((short)256 /*0x0100*/, Keys.ShiftKey);
-                    frmChat.User32.PostMessage((IntPtr)(long)this.memReader.WindowHandle, 256U /*0x0100*/, (UIntPtr)222U, (UIntPtr)2621440U /*0x280000*/);
-                    this.PostMessage((short)257, Keys.ShiftKey);
+                    PostMessage(256 /*0x0100*/, Keys.ShiftKey);
+                    User32.PostMessage((IntPtr)(long)memReader.WindowHandle, 256U /*0x0100*/, (UIntPtr)222U, (UIntPtr)2621440U /*0x280000*/);
+                    PostMessage(257, Keys.ShiftKey);
                     Thread.Sleep(80 /*0x50*/);
-                    this.PostMessage((short)258, (short)postKey1);
-                    this.PostMessage((short)256 /*0x0100*/, Keys.Return);
+                    PostMessage(258, postKey1);
+                    PostMessage(256 /*0x0100*/, Keys.Return);
                     break;
                 case 3:
                     byte postKey2 = Encoding.ASCII.GetBytes("!")[0];
-                    this.PostMessage((short)256 /*0x0100*/, Keys.ShiftKey);
-                    frmChat.User32.PostMessage((IntPtr)(long)this.memReader.WindowHandle, 256U /*0x0100*/, (UIntPtr)222U, (UIntPtr)2621440U /*0x280000*/);
-                    this.PostMessage((short)257, Keys.ShiftKey);
+                    PostMessage(256 /*0x0100*/, Keys.ShiftKey);
+                    User32.PostMessage((IntPtr)(long)memReader.WindowHandle, 256U /*0x0100*/, (UIntPtr)222U, (UIntPtr)2621440U /*0x280000*/);
+                    PostMessage(257, Keys.ShiftKey);
                     Thread.Sleep(80 /*0x50*/);
-                    this.PostMessage((short)258, (short)postKey2);
+                    PostMessage(258, postKey2);
                     Thread.Sleep(60);
-                    this.PostMessage((short)258, (short)postKey2);
-                    this.PostMessage((short)256 /*0x0100*/, Keys.Return);
+                    PostMessage(258, postKey2);
+                    PostMessage(256 /*0x0100*/, Keys.Return);
                     break;
             }
-            this.PostString(chatString);
+            PostString(chatString);
             Thread.Sleep(50);
-            this.PostMessage((short)256 /*0x0100*/, Keys.Return);
+            PostMessage(256 /*0x0100*/, Keys.Return);
         }
 
         private void cmbChatType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (this.cmbChatType.SelectedIndex)
+            switch (cmbChatType.SelectedIndex)
             {
                 case 0:
-                    this.chatType = 0;
-                    this.Height = 459;
-                    this.lblWhisperTo.Visible = false;
-                    this.txtWhisperTrgt.Visible = false;
+                    chatType = 0;
+                    Height = 459;
+                    lblWhisperTo.Visible = false;
+                    txtWhisperTrgt.Visible = false;
                     break;
                 case 1:
-                    this.chatType = 1;
-                    this.Height = 477;
-                    this.lblWhisperTo.Visible = true;
-                    this.txtWhisperTrgt.Visible = true;
+                    chatType = 1;
+                    Height = 477;
+                    lblWhisperTo.Visible = true;
+                    txtWhisperTrgt.Visible = true;
                     break;
                 case 2:
-                    this.chatType = 2;
-                    this.Height = 459;
-                    this.lblWhisperTo.Visible = false;
-                    this.txtWhisperTrgt.Visible = false;
+                    chatType = 2;
+                    Height = 459;
+                    lblWhisperTo.Visible = false;
+                    txtWhisperTrgt.Visible = false;
                     break;
                 case 3:
-                    this.chatType = 3;
-                    this.Height = 459;
-                    this.lblWhisperTo.Visible = false;
-                    this.txtWhisperTrgt.Visible = false;
+                    chatType = 3;
+                    Height = 459;
+                    lblWhisperTo.Visible = false;
+                    txtWhisperTrgt.Visible = false;
                     break;
                 default:
-                    this.chatType = 0;
-                    this.Height = 459;
-                    this.lblWhisperTo.Visible = false;
-                    this.txtWhisperTrgt.Visible = false;
+                    chatType = 0;
+                    Height = 459;
+                    lblWhisperTo.Visible = false;
+                    txtWhisperTrgt.Visible = false;
                     break;
             }
         }
 
         private void PostMessage(short keyState, Keys postKey)
         {
-            frmChat.User32.PostMessage((IntPtr)(long)this.memReader.WindowHandle, (uint)keyState, (UIntPtr)(ulong)postKey, (UIntPtr)(ulong)this.MakeDWord((short)0, (short)frmChat.User32.MapVirtualKey((uint)postKey, 0U)));
+            User32.PostMessage((IntPtr)(long)memReader.WindowHandle, (uint)keyState, (UIntPtr)(ulong)postKey, (UIntPtr)(ulong)MakeDWord(0, (short)User32.MapVirtualKey((uint)postKey, 0U)));
         }
 
         private void PostMessage(short keyState, short postKey)
         {
-            frmChat.User32.PostMessage((IntPtr)(long)this.memReader.WindowHandle, (uint)keyState, (UIntPtr)(ulong)postKey, (UIntPtr)(ulong)this.MakeDWord((short)0, (short)frmChat.User32.MapVirtualKey((uint)postKey, 0U)));
+            User32.PostMessage((IntPtr)(long)memReader.WindowHandle, (uint)keyState, (UIntPtr)(ulong)postKey, (UIntPtr)(ulong)MakeDWord(0, (short)User32.MapVirtualKey((uint)postKey, 0U)));
         }
 
         private void PostString(string postString)
@@ -253,18 +254,18 @@ namespace SleepHunter
                 ch = str2[0];
                 ++length;
             }
-            frmChat.KeystrokeItem[] keystrokeItemArray = new frmChat.KeystrokeItem[length];
+            KeystrokeItem[] keystrokeItemArray = new KeystrokeItem[length];
             for (string str3 = str1; str3.Length > 0; str3 = str3.Remove(0, 1))
             {
                 ch = str3[0];
                 keystrokeItemArray[index].Keystroke = str3.Substring(0, 1);
                 ++index;
             }
-            foreach (frmChat.KeystrokeItem keystrokeItem in keystrokeItemArray)
+            foreach (KeystrokeItem keystrokeItem in keystrokeItemArray)
             {
-                short postKey = (short)Encoding.ASCII.GetBytes(keystrokeItem.Keystroke.ToString())[0];
+                short postKey = Encoding.ASCII.GetBytes(keystrokeItem.Keystroke)[0];
                 Thread.Sleep(60);
-                this.PostMessage((short)258, postKey);
+                PostMessage(258, postKey);
             }
         }
 
@@ -272,42 +273,42 @@ namespace SleepHunter
         {
             if (e.KeyCode != Keys.Return)
                 return;
-            this.btnSendChat_Click(sender, (EventArgs)e);
+            btnSendChat_Click(sender, e);
         }
 
         private void btnFloat_Click(object sender, EventArgs e)
         {
-            this.btnFloat.Enabled = false;
-            this.btnDock.Enabled = true;
-            this.btnToggleTopmost.Enabled = true;
-            this.btnToggleTopmost.Visible = true;
-            this.floatChatWindow();
+            btnFloat.Enabled = false;
+            btnDock.Enabled = true;
+            btnToggleTopmost.Enabled = true;
+            btnToggleTopmost.Visible = true;
+            floatChatWindow();
         }
 
         private void btnDock_Click(object sender, EventArgs e)
         {
-            this.btnFloat.Enabled = true;
-            this.btnDock.Enabled = false;
-            this.btnToggleTopmost.Enabled = false;
-            this.btnToggleTopmost.Visible = false;
-            this.dockChatWindow();
+            btnFloat.Enabled = true;
+            btnDock.Enabled = false;
+            btnToggleTopmost.Enabled = false;
+            btnToggleTopmost.Visible = false;
+            dockChatWindow();
         }
 
         private void btnToggleTopmost_Click(object sender, EventArgs e)
         {
-            if (!this.enableOnTop)
+            if (!enableOnTop)
             {
-                this.enableOnTop = true;
-                this.TopMost = true;
-                this.btnToggleTopmost.Text = "Toggle Stay On Top (Enabled)";
-                this.Refresh();
+                enableOnTop = true;
+                TopMost = true;
+                btnToggleTopmost.Text = "Toggle Stay On Top (Enabled)";
+                Refresh();
             }
             else
             {
-                this.enableOnTop = false;
-                this.TopMost = false;
-                this.btnToggleTopmost.Text = "Toggle Stay On Top";
-                this.Refresh();
+                enableOnTop = false;
+                TopMost = false;
+                btnToggleTopmost.Text = "Toggle Stay On Top";
+                Refresh();
             }
         }
 

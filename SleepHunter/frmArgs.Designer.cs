@@ -14,7 +14,7 @@ namespace SleepHunter
         private Label lblCaption;
         private Label lblTitle;
         private Label lblInvalid;
-        private Button cmdAdd;
+        internal Button cmdAdd;
 
         protected override void Dispose(bool disposing)
         {
