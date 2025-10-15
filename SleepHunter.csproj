@@ -54,15 +54,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SleepHunter\frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SleepHunter\frmArgs.Designer.cs">
+      <DependentUpon>frmArgs.cs</DependentUpon>
+    </Compile>
     <Compile Include="SleepHunter\frmChat.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SleepHunter\frmArgs.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SleepHunter\frmStatus.Designer.cs">
+      <DependentUpon>frmStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="SleepHunter\frmAbout.cs">
       <SubType>Form</SubType>
@@ -72,6 +83,13 @@
     </Compile>
     <Compile Include="SleepHunter\frmMacro.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SleepHunter\frmStatus.Designer.cs" />
+    <Compile Include="SleepHunter\frmTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SleepHunter\frmTest.Designer.cs">
+      <DependentUpon>frmTest.cs</DependentUpon>
     </Compile>
     <Compile Include="SleepHunter\MacroReader.cs" />
     <Compile Include="SleepHunter\MacroWriter.cs" />
@@ -129,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SleepHunter\frmStatus.resx">
       <LogicalName>SleepHunter.frmStatus.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmTest.resx">
+      <DependentUpon>frmTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SleepHunter\Properties\Resources.resx">
       <LogicalName>SleepHunter.Properties.Resources.resources</LogicalName>
