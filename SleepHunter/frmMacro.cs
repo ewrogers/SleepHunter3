@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace SleepHunter
 {
 
-    public class frmMacro : Form
+    public partial class frmMacro : Form
     {
         public LogicStructure.LogicItem[] LogicData;
         public LogicStructure.LoopData[] LoopData;
@@ -23,44 +23,6 @@ namespace SleepHunter
         public frmMacro.EndMacroReason MacroEndReason;
         public bool MacroRunning;
         public bool MacroPaused;
-        private IContainer components = (IContainer)null;
-        private StatusStrip stbMain;
-        private SplitContainer splMacroData;
-        private SplitContainer splHeader;
-        private GroupBox grpProcess;
-        private GroupBox grpMacro;
-        private FlowLayoutPanel floMacro;
-        private Label lblName;
-        private Label lblVersion;
-        private ColumnHeader colLine;
-        private ColumnHeader colCommand;
-        private ToolStripDropDownButton mnuDebug;
-        private ToolStripMenuItem mnuLogic;
-        public ListView lvwMacro;
-        public TextBox txtName;
-        private ToolStrip tlbMacro;
-        private ToolStripButton btnEdit;
-        private ToolStripButton btnDelete;
-        private ToolStripButton btnCut;
-        private ToolStripButton btnCopy;
-        private ToolStripButton btnPaste;
-        private ToolStripButton btnMoveUp;
-        private ToolStripButton btnMoveDown;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton btnPlay;
-        private ToolStripButton btnPause;
-        private ToolStripButton btnStop;
-        private System.Windows.Forms.Timer tmrProcess;
-        public Label lblProcessName;
-        public Label lblCharName;
-        public Label lblWindowHandle;
-        public Label lblProcessID;
-        public ToolStripStatusLabel lblStatus;
-        public ImageList ilsStatusIcons;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripDropDownButton btnQuickProc;
-        private TextBox txtHotkey;
-        private CheckBox chkHotkey;
 
         public frmMacro() => this.InitializeComponent();
 

@@ -6,43 +6,8 @@ using System.Windows.Forms;
 
 namespace SleepHunter
 {
-    public class frmMain : Form
+    public partial class frmMain : Form
     {
-        private IContainer components = (IContainer)null;
-        private MenuStrip mnuMain;
-        private ToolStripMenuItem mnuFile;
-        private ToolStripMenuItem mnuNew;
-        private ToolStripMenuItem mnuTools;
-        private ToolStripMenuItem mnuWindow;
-        private ToolStripMenuItem mnuHelp;
-        private ToolStripMenuItem mnuOpen;
-        private ToolStripMenuItem mnuSave;
-        private ToolStripSeparator SeperatorA;
-        private ToolStripMenuItem mnuExit;
-        private ToolStripMenuItem mnuSearch;
-        private ToolStripMenuItem mnuDocumentation;
-        private ToolStripMenuItem mnuAbout;
-        private ToolStripSeparator SeperatorB;
-        private ToolStripMenuItem mnuAttach;
-        private StatusStrip stbMain;
-        private ToolStripStatusLabel lblStatus;
-        private Panel pnlCommands;
-        private ImageList ilsNodes;
-        private TreeView tvwCommands;
-        private ToolStripMenuItem mnuMinAll;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem mnuCloseAll;
-        private Timer tmrDblTargetChk;
-        private OpenFileDialog dlgOpen;
-        private SaveFileDialog dlgSave;
-        public NotifyIcon nidIcon;
-        private ToolStripMenuItem optionsToolStripMenuItem;
-        private ToolStripMenuItem mnuStatus;
-        private ToolStripMenuItem chatWindowToolStripMenuItem;
-        private ToolStripMenuItem mnuCascade;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem mnuTileVert;
-        private ToolStripMenuItem mnuTileHoriz;
         private uint[] HandledDupes = new uint[0];
         public frmProcess ProcessWindow = new frmProcess();
         public frmMacro ActiveMacro = (frmMacro)null;

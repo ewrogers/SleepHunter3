@@ -69,9 +69,14 @@
     <Compile Include="SleepHunter\frmChat.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SleepHunter\frmChat.Designer.cs">
+      <DependentUpon>frmChat.cs</DependentUpon>
+    </Compile>
     <Compile Include="SleepHunter\frmArgs.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SleepHunter\frmLogicSkel.Designer.cs" />
+    <Compile Include="SleepHunter\frmOptions.Designer.cs" />
     <Compile Include="SleepHunter\frmStatus.Designer.cs">
       <DependentUpon>frmStatus.cs</DependentUpon>
     </Compile>
@@ -99,12 +104,18 @@
     <Compile Include="SleepHunter\frmLogicSkel.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SleepHunter\frmLogicSkel.Designer.cs">
+      <DependentUpon>frmLogicSkel.cs</DependentUpon>
+    </Compile>
     <Compile Include="SleepHunter\LogicStructure.cs" />
     <Compile Include="SleepHunter\frmProcess.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SleepHunter\frmOptions.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SleepHunter\frmOptions.Designer.cs">
+      <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="SleepHunter\Hotkey.cs" />
     <Compile Include="SleepHunter\Program.cs" />
