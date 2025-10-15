@@ -58,40 +58,40 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SleepHunterv3\frmChat.cs">
+    <Compile Include="SleepHunter\frmChat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\frmArgs.cs">
+    <Compile Include="SleepHunter\frmArgs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\frmAbout.cs">
+    <Compile Include="SleepHunter\frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\frmStatus.cs">
+    <Compile Include="SleepHunter\frmStatus.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\frmMacro.cs">
+    <Compile Include="SleepHunter\frmMacro.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\MacroReader.cs" />
-    <Compile Include="SleepHunterv3\MacroWriter.cs" />
-    <Compile Include="SleepHunterv3\frmMain.cs">
+    <Compile Include="SleepHunter\MacroReader.cs" />
+    <Compile Include="SleepHunter\MacroWriter.cs" />
+    <Compile Include="SleepHunter\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\frmLogicSkel.cs">
+    <Compile Include="SleepHunter\frmLogicSkel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\LogicStructure.cs" />
-    <Compile Include="SleepHunterv3\frmProcess.cs">
+    <Compile Include="SleepHunter\LogicStructure.cs" />
+    <Compile Include="SleepHunter\frmProcess.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\frmOptions.cs">
+    <Compile Include="SleepHunter\frmOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunterv3\Hotkey.cs" />
-    <Compile Include="SleepHunterv3\Program.cs" />
-    <Compile Include="SleepHunterv3\CommandLibrary.cs" />
-    <Compile Include="SleepHunterv3\Properties\Resources.cs" />
+    <Compile Include="SleepHunter\Hotkey.cs" />
+    <Compile Include="SleepHunter\Program.cs" />
+    <Compile Include="SleepHunter\CommandLibrary.cs" />
+    <Compile Include="SleepHunter\Properties\Resources.cs" />
     <Compile Include="ProcessMemory\Kernel32.cs" />
     <Compile Include="ProcessMemory\User32.cs" />
     <Compile Include="ProcessMemory\ProcessAccess.cs" />
@@ -103,16 +103,36 @@
     <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SleepHunterv3\frmAbout.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmArgs.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmChat.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmLogicSkel.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmMacro.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmMain.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmOptions.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmProcess.resx" />
-    <EmbeddedResource Include="SleepHunterv3\frmStatus.resx" />
-    <EmbeddedResource Include="SleepHunterv3\Properties\Resources.resx" />
+    <EmbeddedResource Include="SleepHunter\frmAbout.resx">
+      <LogicalName>SleepHunter.frmAbout.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmArgs.resx">
+      <LogicalName>SleepHunter.frmArgs.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmChat.resx">
+      <LogicalName>SleepHunter.frmChat.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmLogicSkel.resx">
+      <LogicalName>SleepHunter.frmLogicSkel.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmMacro.resx">
+      <LogicalName>SleepHunter.frmMacro.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmMain.resx">
+      <LogicalName>SleepHunter.frmMain.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmOptions.resx">
+      <LogicalName>SleepHunter.frmOptions.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmProcess.resx">
+      <LogicalName>SleepHunter.frmProcess.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\frmStatus.resx">
+      <LogicalName>SleepHunter.frmStatus.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SleepHunter\Properties\Resources.resx">
+      <LogicalName>SleepHunter.Properties.Resources.resources</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
