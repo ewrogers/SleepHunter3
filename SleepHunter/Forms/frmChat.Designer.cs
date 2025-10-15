@@ -36,6 +36,7 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChat));
             this.rtbChatLog = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();

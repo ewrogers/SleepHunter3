@@ -22,6 +22,7 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogicSkel));
             this.tabSkeleton = new System.Windows.Forms.TabControl();
             this.tpgStruct = new System.Windows.Forms.TabPage();

@@ -27,6 +27,7 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmArgs));
             this.txtArgs = new System.Windows.Forms.TextBox();
             this.cmdAdd = new System.Windows.Forms.Button();

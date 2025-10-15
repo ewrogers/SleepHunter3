@@ -38,6 +38,7 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStatus));
             this.picHP = new System.Windows.Forms.PictureBox();
             this.lblHPCaption = new System.Windows.Forms.Label();

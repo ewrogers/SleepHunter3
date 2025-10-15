@@ -7,7 +7,7 @@ namespace SleepHunter.Forms
 {
     public partial class frmProcess : Form
     {
-        private IContainer components;
+        private IContainer components = null;
         private Panel pnlProcess;
         private ImageList ilsIcons;
         private ToolStrip toolStrip1;
@@ -23,6 +23,7 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(frmProcess));
             ListViewGroup listViewGroup1 = new ListViewGroup("System Processes", HorizontalAlignment.Left);
             ListViewGroup listViewGroup2 = new ListViewGroup("User Processes", HorizontalAlignment.Left);

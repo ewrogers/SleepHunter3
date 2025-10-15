@@ -57,6 +57,7 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(frmMacro));
             this.stbMain = new StatusStrip();
             this.lblStatus = new ToolStripStatusLabel();

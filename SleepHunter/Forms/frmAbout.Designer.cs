@@ -29,8 +29,8 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
+            this.components = (IContainer)new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
-
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblThanks = new System.Windows.Forms.Label();
             this.Seperator = new System.Windows.Forms.GroupBox();
