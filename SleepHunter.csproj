@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="SleepHunter\frmMain.Designer.cs" />
     <Compile Include="SleepHunter\frmOptions.Designer.cs" />
+    <Compile Include="SleepHunter\frmProcess.Designer.cs" />
     <Compile Include="SleepHunter\frmStatus.Designer.cs">
       <DependentUpon>frmStatus.cs</DependentUpon>
     </Compile>
@@ -111,6 +112,9 @@
     <Compile Include="SleepHunter\LogicStructure.cs" />
     <Compile Include="SleepHunter\frmProcess.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SleepHunter\frmProcess.Designer.cs">
+      <DependentUpon>frmProcess.cs</DependentUpon>
     </Compile>
     <Compile Include="SleepHunter\frmOptions.cs">
       <SubType>Form</SubType>
