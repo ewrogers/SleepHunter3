@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ABB6F691-AE73-4E10-923B-99A2DBD1B9C6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>SleepHunterv3</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SleepHunterv3\frmChat.cs" />
+    <Compile Include="SleepHunterv3\frmArgs.cs" />
+    <Compile Include="SleepHunterv3\frmAbout.cs" />
+    <Compile Include="SleepHunterv3\frmStatus.cs" />
+    <Compile Include="SleepHunterv3\frmMacro.cs" />
+    <Compile Include="SleepHunterv3\MacroReader.cs" />
+    <Compile Include="SleepHunterv3\MacroWriter.cs" />
+    <Compile Include="SleepHunterv3\frmMain.cs" />
+    <Compile Include="SleepHunterv3\frmLogicSkel.cs" />
+    <Compile Include="SleepHunterv3\LogicStructure.cs" />
+    <Compile Include="SleepHunterv3\frmProcess.cs" />
+    <Compile Include="SleepHunterv3\frmOptions.cs" />
+    <Compile Include="SleepHunterv3\Hotkey.cs" />
+    <Compile Include="SleepHunterv3\Program.cs" />
+    <Compile Include="SleepHunterv3\CommandLibrary.cs" />
+    <Compile Include="SleepHunterv3\Properties\Resources.cs" />
+    <Compile Include="ProcessMemory\Kernel32.cs" />
+    <Compile Include="ProcessMemory\User32.cs" />
+    <Compile Include="ProcessMemory\ProcessAccess.cs" />
+    <Compile Include="ProcessMemory\MEMORY_BASIC_INFORMATION.cs" />
+    <Compile Include="ProcessMemory\AllocationTypes.cs" />
+    <Compile Include="ProcessMemory\MemoryReader.cs" />
+    <Compile Include="ProcessMemory\MemoryWriter.cs" />
+    <Compile Include="ProcessMemory\MemoryAlloc.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SleepHunterv3\frmAbout.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmArgs.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmChat.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmLogicSkel.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmMacro.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmMain.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmOptions.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmProcess.resx" />
+    <EmbeddedResource Include="SleepHunterv3\frmStatus.resx" />
+    <EmbeddedResource Include="SleepHunterv3\Properties\Resources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
