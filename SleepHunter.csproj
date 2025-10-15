@@ -144,5 +144,11 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SleepHunter.Interop\SleepHunter.Interop.csproj">
+      <Project>{290ec21c-7267-4f58-bda7-5427cb8524bd}</Project>
+      <Name>SleepHunter.Interop</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
