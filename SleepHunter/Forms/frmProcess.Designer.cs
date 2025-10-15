@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     public partial class frmProcess : Form
     {
@@ -23,8 +23,7 @@ namespace SleepHunter
 
         private void InitializeComponent()
         {
-            this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(frmProcess));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(frmProcess));
             ListViewGroup listViewGroup1 = new ListViewGroup("System Processes", HorizontalAlignment.Left);
             ListViewGroup listViewGroup2 = new ListViewGroup("User Processes", HorizontalAlignment.Left);
             ListViewGroup listViewGroup3 = new ListViewGroup("Dark Ages Processes", HorizontalAlignment.Left);
@@ -36,7 +35,7 @@ namespace SleepHunter
             this.pnlProcess.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            this.ilsIcons.ImageStream = (ImageListStreamer)componentResourceManager.GetObject("ilsIcons.ImageStream");
+            this.ilsIcons.ImageStream = (ImageListStreamer)resources.GetObject("ilsIcons.ImageStream");
             this.ilsIcons.Images.SetKeyName(0, "da-Main.ico");
             this.pnlProcess.Controls.Add((Control)this.lvwProcess);
             this.pnlProcess.Controls.Add((Control)this.toolStrip1);
@@ -79,7 +78,7 @@ namespace SleepHunter
             this.toolStrip1.Size = new Size(569, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
-            this.btnRefresh.Image = (Image)componentResourceManager.GetObject("btnRefresh.Image");
+            this.btnRefresh.Image = (Image)resources.GetObject("btnRefresh.Image");
             this.btnRefresh.ImageScaling = ToolStripItemImageScaling.None;
             this.btnRefresh.ImageTransparentColor = Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
@@ -90,8 +89,8 @@ namespace SleepHunter
             this.ClientSize = new Size(578, 121);
             this.Controls.Add((Control)this.pnlProcess);
             this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
-            this.Name = nameof(frmProcess);
+            this.Icon = (Icon)resources.GetObject("$this.Icon");
+            this.Name = "frmProcess";
             this.StartPosition = FormStartPosition.Manual;
             this.Text = "Process Manager";
             this.Shown += new EventHandler(this.frmProcess_Shown);

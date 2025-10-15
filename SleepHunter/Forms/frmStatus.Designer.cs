@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     partial class frmStatus
     {
@@ -38,8 +38,7 @@ namespace SleepHunter
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(frmStatus));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStatus));
             this.picHP = new System.Windows.Forms.PictureBox();
             this.lblHPCaption = new System.Windows.Forms.Label();
             this.picMP = new System.Windows.Forms.PictureBox();
@@ -103,7 +102,7 @@ namespace SleepHunter
             // 
             // lblMAPCaption
             // 
-            this.lblMAPCaption.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("lblMAPCaption.Image")));
+            this.lblMAPCaption.Image = ((System.Drawing.Image)(resources.GetObject("lblMAPCaption.Image")));
             this.lblMAPCaption.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblMAPCaption.Location = new System.Drawing.Point(11, 87);
             this.lblMAPCaption.Name = "lblMAPCaption";
@@ -114,7 +113,7 @@ namespace SleepHunter
             // 
             // lblXCaption
             // 
-            this.lblXCaption.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("lblXCaption.Image")));
+            this.lblXCaption.Image = ((System.Drawing.Image)(resources.GetObject("lblXCaption.Image")));
             this.lblXCaption.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblXCaption.Location = new System.Drawing.Point(11, 110);
             this.lblXCaption.Name = "lblXCaption";
@@ -125,7 +124,7 @@ namespace SleepHunter
             // 
             // lblYCaption
             // 
-            this.lblYCaption.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("lblYCaption.Image")));
+            this.lblYCaption.Image = ((System.Drawing.Image)(resources.GetObject("lblYCaption.Image")));
             this.lblYCaption.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblYCaption.Location = new System.Drawing.Point(10, 132);
             this.lblYCaption.Name = "lblYCaption";
@@ -265,7 +264,7 @@ namespace SleepHunter
             this.Controls.Add(this.picHP);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(componentResourceManager.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmStatus";
             this.Text = "Status Window";

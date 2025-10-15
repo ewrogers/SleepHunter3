@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     public partial class frmMain : Form
     {

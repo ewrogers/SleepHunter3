@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     partial class frmArgs
     {
@@ -27,7 +27,7 @@ namespace SleepHunter
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(frmArgs));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmArgs));
             this.txtArgs = new System.Windows.Forms.TextBox();
             this.cmdAdd = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@ namespace SleepHunter
             // 
             this.cmdAdd.AutoSize = true;
             this.cmdAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmdAdd.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("cmdAdd.Image")));
+            this.cmdAdd.Image = ((System.Drawing.Image)(resources.GetObject("cmdAdd.Image")));
             this.cmdAdd.Location = new System.Drawing.Point(12, 246);
             this.cmdAdd.Name = "cmdAdd";
             this.cmdAdd.Size = new System.Drawing.Size(139, 28);
@@ -65,7 +65,7 @@ namespace SleepHunter
             // 
             this.cmdCancel.AutoSize = true;
             this.cmdCancel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmdCancel.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("cmdCancel.Image")));
+            this.cmdCancel.Image = ((System.Drawing.Image)(resources.GetObject("cmdCancel.Image")));
             this.cmdCancel.Location = new System.Drawing.Point(286, 246);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(139, 28);
@@ -130,7 +130,7 @@ namespace SleepHunter
             this.Controls.Add(this.txtArgs);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(componentResourceManager.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmArgs";

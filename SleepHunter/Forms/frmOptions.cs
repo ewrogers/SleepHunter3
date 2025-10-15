@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     public partial class frmOptions : Form
     {

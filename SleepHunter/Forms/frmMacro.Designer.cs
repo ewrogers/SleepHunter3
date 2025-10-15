@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     public partial class frmMacro : Form
     {
@@ -57,8 +57,7 @@ namespace SleepHunter
 
         private void InitializeComponent()
         {
-            this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(frmMacro));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(frmMacro));
             this.stbMain = new StatusStrip();
             this.lblStatus = new ToolStripStatusLabel();
             this.mnuDebug = new ToolStripDropDownButton();
@@ -119,7 +118,7 @@ namespace SleepHunter
             this.stbMain.Size = new Size(452, 27);
             this.stbMain.TabIndex = 1;
             this.stbMain.Text = "statusStrip1";
-            this.lblStatus.Image = (Image)componentResourceManager.GetObject("lblStatus.Image");
+            this.lblStatus.Image = (Image)resources.GetObject("lblStatus.Image");
             this.lblStatus.ImageAlign = ContentAlignment.MiddleLeft;
             this.lblStatus.ImageScaling = ToolStripItemImageScaling.None;
             this.lblStatus.MergeAction = MergeAction.Replace;
@@ -131,7 +130,7 @@ namespace SleepHunter
             {
                 (ToolStripItem)this.mnuLogic
             });
-            this.mnuDebug.Image = (Image)componentResourceManager.GetObject("mnuDebug.Image");
+            this.mnuDebug.Image = (Image)resources.GetObject("mnuDebug.Image");
             this.mnuDebug.ImageTransparentColor = Color.Magenta;
             this.mnuDebug.MergeAction = MergeAction.Replace;
             this.mnuDebug.Name = "mnuDebug";
@@ -330,7 +329,7 @@ namespace SleepHunter
             this.tlbMacro.TabIndex = 1;
             this.tlbMacro.Text = "toolStrip1";
             this.btnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnEdit.Image = (Image)componentResourceManager.GetObject("btnEdit.Image");
+            this.btnEdit.Image = (Image)resources.GetObject("btnEdit.Image");
             this.btnEdit.ImageScaling = ToolStripItemImageScaling.None;
             this.btnEdit.ImageTransparentColor = Color.Magenta;
             this.btnEdit.Name = "btnEdit";
@@ -338,7 +337,7 @@ namespace SleepHunter
             this.btnEdit.ToolTipText = "Edit Command";
             this.btnEdit.Click += new EventHandler(this.btnEdit_Click);
             this.btnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = (Image)componentResourceManager.GetObject("btnDelete.Image");
+            this.btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
             this.btnDelete.ImageScaling = ToolStripItemImageScaling.None;
             this.btnDelete.ImageTransparentColor = Color.Magenta;
             this.btnDelete.Name = "btnDelete";
@@ -346,7 +345,7 @@ namespace SleepHunter
             this.btnDelete.ToolTipText = "Delete Command(s)";
             this.btnDelete.Click += new EventHandler(this.btnDelete_Click);
             this.btnCut.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnCut.Image = (Image)componentResourceManager.GetObject("btnCut.Image");
+            this.btnCut.Image = (Image)resources.GetObject("btnCut.Image");
             this.btnCut.ImageScaling = ToolStripItemImageScaling.None;
             this.btnCut.ImageTransparentColor = Color.Magenta;
             this.btnCut.Name = "btnCut";
@@ -354,7 +353,7 @@ namespace SleepHunter
             this.btnCut.ToolTipText = "Cut Command(s)";
             this.btnCut.Click += new EventHandler(this.btnCut_Click);
             this.btnCopy.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnCopy.Image = (Image)componentResourceManager.GetObject("btnCopy.Image");
+            this.btnCopy.Image = (Image)resources.GetObject("btnCopy.Image");
             this.btnCopy.ImageScaling = ToolStripItemImageScaling.None;
             this.btnCopy.ImageTransparentColor = Color.Magenta;
             this.btnCopy.Name = "btnCopy";
@@ -362,7 +361,7 @@ namespace SleepHunter
             this.btnCopy.ToolTipText = "Copy Command(s)";
             this.btnCopy.Click += new EventHandler(this.btnCopy_Click);
             this.btnPaste.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPaste.Image = (Image)componentResourceManager.GetObject("btnPaste.Image");
+            this.btnPaste.Image = (Image)resources.GetObject("btnPaste.Image");
             this.btnPaste.ImageScaling = ToolStripItemImageScaling.None;
             this.btnPaste.ImageTransparentColor = Color.Magenta;
             this.btnPaste.Name = "btnPaste";
@@ -370,7 +369,7 @@ namespace SleepHunter
             this.btnPaste.ToolTipText = "Paste Command(s)";
             this.btnPaste.Click += new EventHandler(this.btnPaste_Click);
             this.btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnMoveUp.Image = (Image)componentResourceManager.GetObject("btnMoveUp.Image");
+            this.btnMoveUp.Image = (Image)resources.GetObject("btnMoveUp.Image");
             this.btnMoveUp.ImageScaling = ToolStripItemImageScaling.None;
             this.btnMoveUp.ImageTransparentColor = Color.Magenta;
             this.btnMoveUp.Name = "btnMoveUp";
@@ -378,7 +377,7 @@ namespace SleepHunter
             this.btnMoveUp.ToolTipText = "Move Up";
             this.btnMoveUp.Click += new EventHandler(this.btnMoveUp_Click);
             this.btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = (Image)componentResourceManager.GetObject("btnMoveDown.Image");
+            this.btnMoveDown.Image = (Image)resources.GetObject("btnMoveDown.Image");
             this.btnMoveDown.ImageTransparentColor = Color.Magenta;
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Text = "toolStripButton7";
@@ -386,7 +385,7 @@ namespace SleepHunter
             this.btnMoveDown.Click += new EventHandler(this.btnMoveDown_Click);
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.btnPlay.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPlay.Image = (Image)componentResourceManager.GetObject("btnPlay.Image");
+            this.btnPlay.Image = (Image)resources.GetObject("btnPlay.Image");
             this.btnPlay.ImageScaling = ToolStripItemImageScaling.None;
             this.btnPlay.ImageTransparentColor = Color.Magenta;
             this.btnPlay.Name = "btnPlay";
@@ -394,28 +393,28 @@ namespace SleepHunter
             this.btnPlay.Click += new EventHandler(this.btnPlay_Click);
             this.btnPause.DisplayStyle = ToolStripItemDisplayStyle.Image;
             this.btnPause.Enabled = false;
-            this.btnPause.Image = (Image)componentResourceManager.GetObject("btnPause.Image");
+            this.btnPause.Image = (Image)resources.GetObject("btnPause.Image");
             this.btnPause.ImageTransparentColor = Color.Magenta;
             this.btnPause.Name = "btnPause";
             this.btnPause.Text = "Pause Macro";
             this.btnPause.Click += new EventHandler(this.btnPause_Click);
             this.btnStop.DisplayStyle = ToolStripItemDisplayStyle.Image;
             this.btnStop.Enabled = false;
-            this.btnStop.Image = (Image)componentResourceManager.GetObject("btnStop.Image");
+            this.btnStop.Image = (Image)resources.GetObject("btnStop.Image");
             this.btnStop.ImageScaling = ToolStripItemImageScaling.None;
             this.btnStop.ImageTransparentColor = Color.Magenta;
             this.btnStop.Name = "btnStop";
             this.btnStop.Text = "Stop Macro";
             this.btnStop.Click += new EventHandler(this.btnStop_Click);
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.btnQuickProc.Image = (Image)componentResourceManager.GetObject("btnQuickProc.Image");
+            this.btnQuickProc.Image = (Image)resources.GetObject("btnQuickProc.Image");
             this.btnQuickProc.ImageScaling = ToolStripItemImageScaling.None;
             this.btnQuickProc.ImageTransparentColor = Color.Magenta;
             this.btnQuickProc.Name = "btnQuickProc";
             this.btnQuickProc.Text = " Quick Attach";
             this.btnQuickProc.ToolTipText = "Attach to Process";
             this.btnQuickProc.DropDownOpening += new EventHandler(this.btnQuickProc_DropDownOpening);
-            this.ilsStatusIcons.ImageStream = (ImageListStreamer)componentResourceManager.GetObject("ilsStatusIcons.ImageStream");
+            this.ilsStatusIcons.ImageStream = (ImageListStreamer)resources.GetObject("ilsStatusIcons.ImageStream");
             this.ilsStatusIcons.Images.SetKeyName(0, "macro_play.ico");
             this.ilsStatusIcons.Images.SetKeyName(1, "macro_pause.ico");
             this.ilsStatusIcons.Images.SetKeyName(2, "macro_stop.ico");
@@ -430,8 +429,8 @@ namespace SleepHunter
             this.Controls.Add((Control)this.splMacroData);
             this.Controls.Add((Control)this.stbMain);
             this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
-            this.Name = nameof(frmMacro);
+            this.Icon = (Icon)resources.GetObject("$this.Icon");
+            this.Name = "frmMacro";
             this.StartPosition = FormStartPosition.Manual;
             this.Text = "Macro Data";
             this.Load += new EventHandler(this.frmMacro_Load);

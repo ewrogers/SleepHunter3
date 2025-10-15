@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     partial class frmChat
     {
@@ -36,8 +36,7 @@ namespace SleepHunter
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager componentResourceManager = new System.ComponentModel.ComponentResourceManager(typeof(frmChat));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChat));
             this.rtbChatLog = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
@@ -95,7 +94,7 @@ namespace SleepHunter
             // 
             // btnFloat
             // 
-            this.btnFloat.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("btnFloat.Image")));
+            this.btnFloat.Image = ((System.Drawing.Image)(resources.GetObject("btnFloat.Image")));
             this.btnFloat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFloat.Name = "btnFloat";
             this.btnFloat.Size = new System.Drawing.Size(92, 22);
@@ -166,7 +165,7 @@ namespace SleepHunter
             // btnDock
             // 
             this.btnDock.Enabled = false;
-            this.btnDock.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("btnDock.Image")));
+            this.btnDock.Image = ((System.Drawing.Image)(resources.GetObject("btnDock.Image")));
             this.btnDock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDock.Name = "btnDock";
             this.btnDock.Size = new System.Drawing.Size(91, 22);
@@ -180,7 +179,7 @@ namespace SleepHunter
             // 
             // btnToggleTopmost
             // 
-            this.btnToggleTopmost.Image = ((System.Drawing.Image)(componentResourceManager.GetObject("btnToggleTopmost.Image")));
+            this.btnToggleTopmost.Image = ((System.Drawing.Image)(resources.GetObject("btnToggleTopmost.Image")));
             this.btnToggleTopmost.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToggleTopmost.Name = "btnToggleTopmost";
             this.btnToggleTopmost.Size = new System.Drawing.Size(122, 22);
@@ -225,7 +224,7 @@ namespace SleepHunter
             this.Controls.Add(this.label1);
             this.Controls.Add(this.rtbChatLog);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(componentResourceManager.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmChat";
             this.Text = "Chat Window";

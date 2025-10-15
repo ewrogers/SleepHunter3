@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
     public partial class frmMain : Form
     {
@@ -55,7 +55,7 @@ namespace SleepHunter
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(frmMain));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(frmMain));
             TreeNode treeNode1 = new TreeNode("Character Status Pane", 1, 1);
             TreeNode treeNode2 = new TreeNode("Chat Dialog Pane", 1, 1);
             TreeNode treeNode3 = new TreeNode("Inventory Pane", 1, 1);
@@ -280,21 +280,21 @@ namespace SleepHunter
             this.mnuFile.Name = "mnuFile";
             this.mnuFile.Size = new Size(35, 20);
             this.mnuFile.Text = "&File";
-            this.mnuNew.Image = (Image)componentResourceManager.GetObject("mnuNew.Image");
+            this.mnuNew.Image = (Image)resources.GetObject("mnuNew.Image");
             this.mnuNew.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuNew.Name = "mnuNew";
             this.mnuNew.ShortcutKeys = Keys.N | Keys.Control;
             this.mnuNew.Size = new Size(186, 22);
             this.mnuNew.Text = "&New Macro";
             this.mnuNew.Click += new EventHandler(this.mnuNew_Click);
-            this.mnuOpen.Image = (Image)componentResourceManager.GetObject("mnuOpen.Image");
+            this.mnuOpen.Image = (Image)resources.GetObject("mnuOpen.Image");
             this.mnuOpen.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeys = Keys.O | Keys.Control;
             this.mnuOpen.Size = new Size(186, 22);
             this.mnuOpen.Text = "&Open Macro";
             this.mnuOpen.Click += new EventHandler(this.mnuOpen_Click);
-            this.mnuSave.Image = (Image)componentResourceManager.GetObject("mnuSave.Image");
+            this.mnuSave.Image = (Image)resources.GetObject("mnuSave.Image");
             this.mnuSave.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.ShortcutKeys = Keys.S | Keys.Control;
@@ -303,7 +303,7 @@ namespace SleepHunter
             this.mnuSave.Click += new EventHandler(this.mnuSave_Click);
             this.SeperatorA.Name = "SeperatorA";
             this.SeperatorA.Size = new Size(183, 6);
-            this.mnuExit.Image = (Image)componentResourceManager.GetObject("mnuExit.Image");
+            this.mnuExit.Image = (Image)resources.GetObject("mnuExit.Image");
             this.mnuExit.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuExit.Name = "mnuExit";
             this.mnuExit.ShortcutKeys = Keys.Q | Keys.Control;
@@ -320,14 +320,14 @@ namespace SleepHunter
             this.mnuTools.Name = "mnuTools";
             this.mnuTools.Size = new Size(44, 20);
             this.mnuTools.Text = "&Tools";
-            this.mnuStatus.Image = (Image)componentResourceManager.GetObject("mnuStatus.Image");
+            this.mnuStatus.Image = (Image)resources.GetObject("mnuStatus.Image");
             this.mnuStatus.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuStatus.Name = "mnuStatus";
             this.mnuStatus.ShortcutKeys = Keys.H | Keys.Control;
             this.mnuStatus.Size = new Size(205, 22);
             this.mnuStatus.Text = "S&tatus Window";
             this.mnuStatus.Click += new EventHandler(this.mnuStatus_Click);
-            this.mnuAttach.Image = (Image)componentResourceManager.GetObject("mnuAttach.Image");
+            this.mnuAttach.Image = (Image)resources.GetObject("mnuAttach.Image");
             this.mnuAttach.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuAttach.Name = "mnuAttach";
             this.mnuAttach.ShortcutKeys = Keys.P | Keys.Control;
@@ -335,7 +335,7 @@ namespace SleepHunter
             this.mnuAttach.Text = "&Process Manager";
             this.mnuAttach.Click += new EventHandler(this.mnuAttach_Click);
             this.chatWindowToolStripMenuItem.Enabled = false;
-            this.chatWindowToolStripMenuItem.Image = (Image)componentResourceManager.GetObject("chatWindowToolStripMenuItem.Image");
+            this.chatWindowToolStripMenuItem.Image = (Image)resources.GetObject("chatWindowToolStripMenuItem.Image");
             this.chatWindowToolStripMenuItem.Name = "chatWindowToolStripMenuItem";
             this.chatWindowToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
             this.chatWindowToolStripMenuItem.ShortcutKeys = Keys.C | Keys.Control;
@@ -343,7 +343,7 @@ namespace SleepHunter
             this.chatWindowToolStripMenuItem.Text = "&Chat Window";
             this.chatWindowToolStripMenuItem.Click += new EventHandler(this.chatWindowToolStripMenuItem_Click);
             this.optionsToolStripMenuItem.Enabled = false;
-            this.optionsToolStripMenuItem.Image = (Image)componentResourceManager.GetObject("optionsToolStripMenuItem.Image");
+            this.optionsToolStripMenuItem.Image = (Image)resources.GetObject("optionsToolStripMenuItem.Image");
             this.optionsToolStripMenuItem.ImageScaling = ToolStripItemImageScaling.None;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+O";
@@ -400,7 +400,7 @@ namespace SleepHunter
             this.mnuHelp.Size = new Size(40, 20);
             this.mnuHelp.Text = "&Help";
             this.mnuSearch.Enabled = false;
-            this.mnuSearch.Image = (Image)componentResourceManager.GetObject("mnuSearch.Image");
+            this.mnuSearch.Image = (Image)resources.GetObject("mnuSearch.Image");
             this.mnuSearch.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuSearch.Name = "mnuSearch";
             this.mnuSearch.ShortcutKeys = Keys.F3;
@@ -408,7 +408,7 @@ namespace SleepHunter
             this.mnuSearch.Text = "S&earch...";
             this.mnuSearch.Visible = false;
             this.mnuDocumentation.Enabled = false;
-            this.mnuDocumentation.Image = (Image)componentResourceManager.GetObject("mnuDocumentation.Image");
+            this.mnuDocumentation.Image = (Image)resources.GetObject("mnuDocumentation.Image");
             this.mnuDocumentation.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuDocumentation.Name = "mnuDocumentation";
             this.mnuDocumentation.ShortcutKeys = Keys.F1;
@@ -418,14 +418,14 @@ namespace SleepHunter
             this.SeperatorB.Name = "SeperatorB";
             this.SeperatorB.Size = new Size(185, 6);
             this.SeperatorB.Visible = false;
-            this.mnuAbout.Image = (Image)componentResourceManager.GetObject("mnuAbout.Image");
+            this.mnuAbout.Image = (Image)resources.GetObject("mnuAbout.Image");
             this.mnuAbout.ImageScaling = ToolStripItemImageScaling.None;
             this.mnuAbout.Name = "mnuAbout";
             this.mnuAbout.ShortcutKeys = Keys.F12 | Keys.Control;
             this.mnuAbout.Size = new Size(188, 22);
             this.mnuAbout.Text = "&About SleepHunter";
             this.mnuAbout.Click += new EventHandler(this.mnuAbout_Click);
-            this.nidIcon.Icon = (Icon)componentResourceManager.GetObject("nidIcon.Icon");
+            this.nidIcon.Icon = (Icon)resources.GetObject("nidIcon.Icon");
             this.nidIcon.Text = "SleepHunter";
             this.nidIcon.Visible = true;
             this.stbMain.Items.AddRange(new ToolStripItem[1]
@@ -471,7 +471,7 @@ namespace SleepHunter
             this.tvwCommands.TabIndex = 0;
             this.tvwCommands.DoubleClick += new EventHandler(this.tvwCommands_DoubleClick);
             this.tvwCommands.ItemDrag += new ItemDragEventHandler(this.tvwCommands_ItemDrag);
-            this.ilsNodes.ImageStream = (ImageListStreamer)componentResourceManager.GetObject("ilsNodes.ImageStream");
+            this.ilsNodes.ImageStream = (ImageListStreamer)resources.GetObject("ilsNodes.ImageStream");
             this.ilsNodes.TransparentColor = Color.Transparent;
             this.ilsNodes.Images.SetKeyName(0, "class_library.ico");
             this.ilsNodes.Images.SetKeyName(1, "class_method.ico");
@@ -494,10 +494,10 @@ namespace SleepHunter
             this.Controls.Add((Control)this.stbMain);
             this.Controls.Add((Control)this.mnuMain);
             this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
+            this.Icon = (Icon)resources.GetObject("$this.Icon");
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mnuMain;
-            this.Name = nameof(frmMain);
+            this.Name = "frmMain";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "SleepHunter";
             this.MdiChildActivate += new EventHandler(this.frmMain_MdiChildActivate);

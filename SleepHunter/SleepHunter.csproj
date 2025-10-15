@@ -13,17 +13,6 @@
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,72 +49,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SleepHunter\frmAbout.Designer.cs">
+    <Compile Include="Forms\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmAbout.Designer.cs">
       <DependentUpon>frmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="SleepHunter\frmArgs.Designer.cs">
+    <Compile Include="Forms\frmArgs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmArgs.Designer.cs">
       <DependentUpon>frmArgs.cs</DependentUpon>
     </Compile>
-    <Compile Include="SleepHunter\frmChat.cs">
+    <Compile Include="Forms\frmChat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunter\frmChat.Designer.cs">
+    <Compile Include="Forms\frmChat.Designer.cs">
       <DependentUpon>frmChat.cs</DependentUpon>
     </Compile>
-    <Compile Include="SleepHunter\frmArgs.cs">
+    <Compile Include="Forms\frmLogicSkel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunter\frmLogicSkel.Designer.cs" />
-    <Compile Include="SleepHunter\frmMacro.Designer.cs">
-      <DependentUpon>frmMacro.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SleepHunter\frmMain.Designer.cs" />
-    <Compile Include="SleepHunter\frmOptions.Designer.cs" />
-    <Compile Include="SleepHunter\frmProcess.Designer.cs" />
-    <Compile Include="SleepHunter\frmStatus.Designer.cs">
-      <DependentUpon>frmStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SleepHunter\frmAbout.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SleepHunter\frmStatus.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SleepHunter\frmMacro.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SleepHunter\frmStatus.Designer.cs" />
-    <Compile Include="SleepHunter\MacroReader.cs" />
-    <Compile Include="SleepHunter\MacroWriter.cs" />
-    <Compile Include="SleepHunter\frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SleepHunter\frmMain.Designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SleepHunter\frmLogicSkel.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SleepHunter\frmLogicSkel.Designer.cs">
+    <Compile Include="Forms\frmLogicSkel.Designer.cs">
       <DependentUpon>frmLogicSkel.cs</DependentUpon>
     </Compile>
-    <Compile Include="SleepHunter\LogicStructure.cs" />
-    <Compile Include="SleepHunter\frmProcess.cs">
+    <Compile Include="Forms\frmMacro.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunter\frmProcess.Designer.cs">
-      <DependentUpon>frmProcess.cs</DependentUpon>
+    <Compile Include="Forms\frmMacro.Designer.cs">
+      <DependentUpon>frmMacro.cs</DependentUpon>
     </Compile>
-    <Compile Include="SleepHunter\frmOptions.cs">
+    <Compile Include="Forms\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SleepHunter\frmOptions.Designer.cs">
+    <Compile Include="Forms\frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmOptions.Designer.cs">
       <DependentUpon>frmOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="SleepHunter\Hotkey.cs" />
-    <Compile Include="SleepHunter\Program.cs" />
-    <Compile Include="SleepHunter\CommandLibrary.cs" />
-    <Compile Include="SleepHunter\Properties\Resources.cs" />
+    <Compile Include="Forms\frmProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmProcess.Designer.cs">
+      <DependentUpon>frmProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmStatus.Designer.cs">
+      <DependentUpon>frmStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MacroReader.cs" />
+    <Compile Include="MacroWriter.cs" />
+    <Compile Include="LogicStructure.cs" />
+    <Compile Include="Hotkey.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="CommandLibrary.cs" />
+    <Compile Include="Properties\Resources.cs" />
     <Compile Include="ProcessMemory\Kernel32.cs" />
     <Compile Include="ProcessMemory\User32.cs" />
     <Compile Include="ProcessMemory\ProcessAccess.cs" />
@@ -134,52 +118,60 @@
     <Compile Include="ProcessMemory\MemoryReader.cs" />
     <Compile Include="ProcessMemory\MemoryWriter.cs" />
     <Compile Include="ProcessMemory\MemoryAlloc.cs" />
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SleepHunter\frmAbout.resx">
+    <EmbeddedResource Include="Forms\frmAbout.resx">
       <LogicalName>SleepHunter.frmAbout.resources</LogicalName>
+      <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmArgs.resx">
+    <EmbeddedResource Include="Forms\frmArgs.resx">
       <LogicalName>SleepHunter.frmArgs.resources</LogicalName>
+      <DependentUpon>frmArgs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmChat.resx">
+    <EmbeddedResource Include="Forms\frmChat.resx">
       <LogicalName>SleepHunter.frmChat.resources</LogicalName>
+      <DependentUpon>frmChat.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmLogicSkel.resx">
+    <EmbeddedResource Include="Forms\frmLogicSkel.resx">
       <LogicalName>SleepHunter.frmLogicSkel.resources</LogicalName>
+      <DependentUpon>frmLogicSkel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmMacro.resx">
+    <EmbeddedResource Include="Forms\frmMacro.resx">
       <LogicalName>SleepHunter.frmMacro.resources</LogicalName>
+      <DependentUpon>frmMacro.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmMain.resx">
+    <EmbeddedResource Include="Forms\frmMain.resx">
       <LogicalName>SleepHunter.frmMain.resources</LogicalName>
+      <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmOptions.resx">
+    <EmbeddedResource Include="Forms\frmOptions.resx">
       <LogicalName>SleepHunter.frmOptions.resources</LogicalName>
+      <DependentUpon>frmOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmProcess.resx">
+    <EmbeddedResource Include="Forms\frmProcess.resx">
       <LogicalName>SleepHunter.frmProcess.resources</LogicalName>
+      <DependentUpon>frmProcess.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\frmStatus.resx">
+    <EmbeddedResource Include="Forms\frmStatus.resx">
       <LogicalName>SleepHunter.frmStatus.resources</LogicalName>
+      <DependentUpon>frmStatus.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SleepHunter\Properties\Resources.resx">
-      <LogicalName>SleepHunter.Properties.Resources.resources</LogicalName>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <DependentUpon>Resources.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="SleepHunter.Interop\SleepHunter.Interop.csproj">
+    <ProjectReference Include="..\SleepHunter.Interop\SleepHunter.Interop.csproj">
       <Project>{290ec21c-7267-4f58-bda7-5427cb8524bd}</Project>
       <Name>SleepHunter.Interop</Name>
     </ProjectReference>
