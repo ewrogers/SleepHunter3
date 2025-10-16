@@ -118,53 +118,43 @@
     <Compile Include="ProcessMemory\MemoryReader.cs" />
     <Compile Include="ProcessMemory\MemoryWriter.cs" />
     <Compile Include="ProcessMemory\MemoryAlloc.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\frmAbout.resx">
-      <LogicalName>SleepHunter.frmAbout.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmAbout.resources</LogicalName>
       <DependentUpon>frmAbout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmArgs.resx">
-      <LogicalName>SleepHunter.frmArgs.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmArgs.resources</LogicalName>
       <DependentUpon>frmArgs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmChat.resx">
-      <LogicalName>SleepHunter.frmChat.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmChat.resources</LogicalName>
       <DependentUpon>frmChat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmLogicSkel.resx">
-      <LogicalName>SleepHunter.frmLogicSkel.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmLogicSkel.resources</LogicalName>
       <DependentUpon>frmLogicSkel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMacro.resx">
-      <LogicalName>SleepHunter.frmMacro.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmMacro.resources</LogicalName>
       <DependentUpon>frmMacro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
-      <LogicalName>SleepHunter.frmMain.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmMain.resources</LogicalName>
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmOptions.resx">
-      <LogicalName>SleepHunter.frmOptions.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmOptions.resources</LogicalName>
       <DependentUpon>frmOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmProcess.resx">
-      <LogicalName>SleepHunter.frmProcess.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmProcess.resources</LogicalName>
       <DependentUpon>frmProcess.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmStatus.resx">
-      <LogicalName>SleepHunter.frmStatus.resources</LogicalName>
+      <LogicalName>SleepHunter.Forms.frmStatus.resources</LogicalName>
       <DependentUpon>frmStatus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <DependentUpon>Resources.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +165,11 @@
       <Project>{290ec21c-7267-4f58-bda7-5427cb8524bd}</Project>
       <Name>SleepHunter.Interop</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <DependentUpon>Resources.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
