@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace SleepHunter.Forms
 {
 
-    public partial class frmMacro : Form
+    public partial class MacroForm : Form
     {
         public LogicStructure.LogicItem[] LogicData;
         public LogicStructure.LoopData[] LoopData;
@@ -23,7 +23,7 @@ namespace SleepHunter.Forms
         public bool MacroRunning;
         public bool MacroPaused;
 
-        public frmMacro() => InitializeComponent();
+        public MacroForm() => InitializeComponent();
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
@@ -31,7 +31,7 @@ namespace SleepHunter.Forms
                 Text = "Macro Data";
             else
                 Text = txtName.Text + " - Macro Data";
-            frmMain mdiParent = (frmMain)MdiParent;
+            MainForm mdiParent = (MainForm)MdiParent;
         }
 
         public void AddCommand(string cmdData)
@@ -43,7 +43,7 @@ namespace SleepHunter.Forms
             string ArgCode = strArray[1];
             CommandLibrary commandLibrary = new CommandLibrary();
             string argumentHelp = commandLibrary.GetArgumentHelp(ArgCode);
-            frmArgs frmArgs = new frmArgs(strArray[0], argumentHelp);
+            ArgumentsForm frmArgs = new ArgumentsForm(strArray[0], argumentHelp);
             frmArgs.MinArgCount = commandLibrary.GetArgumentCount(ArgCode);
             if (argumentHelp != null)
             {
@@ -150,7 +150,7 @@ namespace SleepHunter.Forms
                     ++index;
                 }
 
-                frmLogicSkel frmLogicSkel = new frmLogicSkel();
+                LogicForm frmLogicSkel = new LogicForm();
                 frmLogicSkel.MdiParent = MdiParent;
                 LogicData = logicStructure.CreateLogicStructure(CommandList, Args);
                 if (LogicData == null)
@@ -359,7 +359,7 @@ namespace SleepHunter.Forms
             }
 
             if (!flag)
-                ((frmMain)MdiParent).nidIcon.ShowBalloonTip(2500, "Clipboard Data Warning",
+                ((MainForm)MdiParent).nidIcon.ShowBalloonTip(2500, "Clipboard Data Warning",
                     $"The macro command lines you have copied to the clipboard are not in immediate succession.{Environment.NewLine}{Environment.NewLine}Please note that when you paste these lines from the clipboard, they will be placed in immediate succession based on the order of the selected items.",
                     ToolTipIcon.Warning);
             string[] strArray1 = new string[selectedItems.Count];
@@ -419,13 +419,13 @@ namespace SleepHunter.Forms
 
         private void frmMacro_Activated(object sender, EventArgs e)
         {
-            ((frmMain)MdiParent).ActiveMacro = this;
+            ((MainForm)MdiParent).ActiveMacro = this;
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (MacroRunning)
-                ((frmMain)MdiParent).nidIcon.ShowBalloonTip(2500, "Edit at Runtime Warning",
+                ((MainForm)MdiParent).nidIcon.ShowBalloonTip(2500, "Edit at Runtime Warning",
                     $"You have attempted to edit a command at runtime.{Environment.NewLine}{Environment.NewLine}While this is allowed, it is suggested you stop the macro before editing to prevent any undesired actions.",
                     ToolTipIcon.Warning);
             int singleSel = GetSingleSel(lvwMacro, true);
@@ -434,7 +434,7 @@ namespace SleepHunter.Forms
             string tagData = GetTagData(lvwMacro.Items[singleSel].Tag, true);
             CommandLibrary commandLibrary = new CommandLibrary();
             string argumentHelp = commandLibrary.GetArgumentHelp(tagData);
-            frmArgs frmArgs = new frmArgs(commandLibrary.GetCommandName(tagData), argumentHelp);
+            ArgumentsForm frmArgs = new ArgumentsForm(commandLibrary.GetCommandName(tagData), argumentHelp);
             frmArgs.MinArgCount = commandLibrary.GetArgumentCount(tagData);
             if (argumentHelp != null)
             {
@@ -607,7 +607,7 @@ namespace SleepHunter.Forms
                         }
 
                         if (MacroEndReason == EndMacroReason.ArenaMap)
-                            ((frmMain)MdiParent).nidIcon.ShowBalloonTip(5000, "Entering an Arena Map",
+                            ((MainForm)MdiParent).nidIcon.ShowBalloonTip(5000, "Entering an Arena Map",
                                 $"You have entered an arena map while your macro was running.{Environment.NewLine}{Environment.NewLine}The macro will be stopped in order to ensure the fairness of the arena gameplay.",
                                 ToolTipIcon.Warning);
                         if (IsDisposed)
@@ -759,7 +759,7 @@ namespace SleepHunter.Forms
         {
             if (memRead == null || memRead.IsRunning)
                 return;
-            frmMain mdiParent = (frmMain)MdiParent;
+            MainForm mdiParent = (MainForm)MdiParent;
             mdiParent.nidIcon.ShowBalloonTip(2500, "Invalid Process Reference",
                 $"The process, {lblProcessName.Text}, is either no longer running or could not be found running.{Environment.NewLine}{Environment.NewLine}All macros attached to this process will be detached and their macros stopped, if running.",
                 ToolTipIcon.Error);

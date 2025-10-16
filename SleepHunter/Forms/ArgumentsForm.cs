@@ -3,13 +3,13 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmArgs : Form
+    public partial class ArgumentsForm : Form
     {
         public string[] ArgInput;
         public bool CancelSelected;
         public int MinArgCount;
 
-        public frmArgs(string argsTitle, string argsCaption)
+        public ArgumentsForm(string argsTitle, string argsCaption)
         {
             InitializeComponent();
             lblTitle.Text = argsTitle;

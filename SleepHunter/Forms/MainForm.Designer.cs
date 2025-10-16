@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmMain : Form
+    public partial class MainForm : Form
     {
         private IContainer components = null;
         private MenuStrip mnuMain;
@@ -55,7 +55,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(frmMain));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(MainForm));
             TreeNode treeNode1 = new TreeNode("Character Status Pane", 1, 1);
             TreeNode treeNode2 = new TreeNode("Chat Dialog Pane", 1, 1);
             TreeNode treeNode3 = new TreeNode("Inventory Pane", 1, 1);
@@ -497,7 +497,7 @@ namespace SleepHunter.Forms
             this.Icon = (Icon)resources.GetObject("$this.Icon");
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mnuMain;
-            this.Name = "frmMain";
+            this.Name = "MainForm";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "SleepHunter";
             this.MdiChildActivate += new EventHandler(this.frmMain_MdiChildActivate);

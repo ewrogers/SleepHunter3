@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmProcess : Form
+    public partial class ProcessesForm : Form
     {
-        public frmProcess() => InitializeComponent();
+        public ProcessesForm() => InitializeComponent();
 
         private void GetProcesses()
         {

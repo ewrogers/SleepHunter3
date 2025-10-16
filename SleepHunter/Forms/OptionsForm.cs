@@ -2,9 +2,9 @@
 
 namespace SleepHunter.Forms
 {
-    public partial class frmOptions : Form
+    public partial class OptionsForm : Form
     {
-        public frmOptions()
+        public OptionsForm()
         {
             InitializeComponent();
         }

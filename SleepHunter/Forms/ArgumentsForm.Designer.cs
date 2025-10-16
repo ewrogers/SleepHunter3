@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    partial class frmArgs
+    partial class ArgumentsForm
     {
         private IContainer components = null;
         private TextBox txtArgs;
@@ -28,7 +28,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmArgs));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArgumentsForm));
             this.txtArgs = new System.Windows.Forms.TextBox();
             this.cmdAdd = new System.Windows.Forms.Button();
             this.cmdCancel = new System.Windows.Forms.Button();
@@ -120,7 +120,7 @@ namespace SleepHunter.Forms
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Command Name";
             // 
-            // frmArgs
+            // ArgumentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -134,7 +134,7 @@ namespace SleepHunter.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmArgs";
+            this.Name = "ArgumentsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Input Arguments";

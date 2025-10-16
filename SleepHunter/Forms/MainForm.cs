@@ -5,19 +5,27 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmMain : Form
+    public partial class MainForm : Form
     {
+        private readonly IServiceProvider _serviceProvider;
+
         private uint[] HandledDupes = new uint[0];
-        public frmProcess ProcessWindow = new frmProcess();
-        public frmMacro ActiveMacro;
+        public ProcessesForm ProcessWindow = new ProcessesForm();
+        public MacroForm ActiveMacro;
         private bool DialogCancel = true;
 
-        
-        public frmMain() => InitializeComponent();
+
+        public MainForm(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+           
+           
+            InitializeComponent();
+        }
 
         private void mnuNew_Click(object sender, EventArgs e)
         {
-            frmMacro frmMacro = new frmMacro();
+            MacroForm frmMacro = new MacroForm();
             frmMacro.MdiParent = this;
             frmMacro.Show();
         }
@@ -34,7 +42,7 @@ namespace SleepHunter.Forms
         {
             if (ProcessWindow.IsDisposed)
             {
-                ProcessWindow = new frmProcess();
+                ProcessWindow = new ProcessesForm();
                 ProcessWindow.MdiParent = this;
                 ProcessWindow.Location = new Point(0, 0);
                 ProcessWindow.Width = ClientRectangle.Width - pnlCommands.ClientRectangle.Width - 4;
@@ -49,7 +57,7 @@ namespace SleepHunter.Forms
 
         private void mnuStatus_Click(object sender, EventArgs e)
         {
-            frmStatus frmStatus = new frmStatus();
+            StatusForm frmStatus = new StatusForm();
             frmStatus.MdiParent = this;
             frmStatus.Show();
         }
@@ -61,9 +69,9 @@ namespace SleepHunter.Forms
             int index1 = 0;
             foreach (Form form in mdiChildren)
             {
-                if (form is frmMacro)
+                if (form is MacroForm)
                 {
-                    frmMacro frmMacro = (frmMacro)form;
+                    MacroForm frmMacro = (MacroForm)form;
                     if (frmMacro.memRead != null)
                         array[index1] = frmMacro.memRead.ProcessID;
                 }
@@ -99,7 +107,7 @@ namespace SleepHunter.Forms
                     string[] arguments = macroReader.GetArguments(str.Trim());
                     string fileTitle = macroReader.GetFileTitle(str.Trim());
                     lblStatus.Text = $"Opening {str}...";
-                    frmMacro frmMacro = new frmMacro();
+                    MacroForm frmMacro = new MacroForm();
                     macroReader.AddCommandsToList(frmMacro.lvwMacro, commands, arguments);
                     frmMacro.MdiParent = this;
                     frmMacro.txtName.Text = fileTitle;
@@ -166,7 +174,7 @@ namespace SleepHunter.Forms
 
         private void mnuAbout_Click(object sender, EventArgs e)
         {
-            int num = (int)new frmAbout().ShowDialog(this);
+            int num = (int)new AboutForm().ShowDialog(this);
         }
 
         private void mnuExit_Click(object sender, EventArgs e) => Application.Exit();
@@ -175,9 +183,9 @@ namespace SleepHunter.Forms
         {
             foreach (Form mdiChild in MdiChildren)
             {
-                if (mdiChild is frmMacro)
+                if (mdiChild is MacroForm)
                 {
-                    frmMacro frmMacro = (frmMacro)mdiChild;
+                    MacroForm frmMacro = (MacroForm)mdiChild;
                     if (frmMacro.lblProcessID.Text.EndsWith(processID.ToString()))
                     {
                         frmMacro.MacroRunning = false;
@@ -206,9 +214,9 @@ namespace SleepHunter.Forms
         {
             foreach (Form mdiChild in MdiChildren)
             {
-                if (mdiChild is frmMacro)
+                if (mdiChild is MacroForm)
                 {
-                    frmMacro frmMacro = (frmMacro)mdiChild;
+                    MacroForm frmMacro = (MacroForm)mdiChild;
                     if (frmMacro.hotkey.HotkeyID == hotkeyID)
                     {
                         if (frmMacro.MacroRunning)
@@ -233,21 +241,21 @@ namespace SleepHunter.Forms
 
         private void frmMain_MdiChildActivate(object sender, EventArgs e)
         {
-            if (!(ActiveMdiChild is frmMacro))
+            if (!(ActiveMdiChild is MacroForm))
                 return;
-            ActiveMacro = (frmMacro)ActiveMdiChild;
+            ActiveMacro = (MacroForm)ActiveMdiChild;
         }
 
         private void chatWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmChat frmChat = new frmChat();
+            ChatForm frmChat = new ChatForm();
             frmChat.MdiParent = this;
             frmChat.Show();
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmOptions frmOptions = new frmOptions();
+            OptionsForm frmOptions = new OptionsForm();
             frmOptions.MdiParent = this;
             frmOptions.Show();
         }

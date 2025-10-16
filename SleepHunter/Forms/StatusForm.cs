@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmStatus : Form
+    public partial class StatusForm : Form
     {
         private const int chatShowHeight = 415;
         private const int chatHideHeight = 187;
@@ -33,7 +33,7 @@ namespace SleepHunter.Forms
         private int BarSpacing = 1;
         private MemoryReader memRead;
 
-        public frmStatus()
+        public StatusForm()
         {
             InitializeComponent();
         }

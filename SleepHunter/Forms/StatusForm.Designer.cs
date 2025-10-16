@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    partial class frmStatus
+    partial class StatusForm
     {
         private IContainer components = null;
         private PictureBox picHP;
@@ -39,7 +39,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmStatus));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatusForm));
             this.picHP = new System.Windows.Forms.PictureBox();
             this.lblHPCaption = new System.Windows.Forms.Label();
             this.picMP = new System.Windows.Forms.PictureBox();
@@ -240,7 +240,7 @@ namespace SleepHunter.Forms
             this.cbShowChat.Text = "Enable Chat";
             this.cbShowChat.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // frmStatus
+            // StatusForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,7 +267,7 @@ namespace SleepHunter.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "frmStatus";
+            this.Name = "StatusForm";
             this.Text = "Status Window";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmStatus_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmStatus_DragEnter);
