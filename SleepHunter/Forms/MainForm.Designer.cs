@@ -306,12 +306,11 @@ namespace SleepHunter.Forms
             // 
             // optionsMenu
             // 
-            this.optionsMenu.Enabled = false;
             this.optionsMenu.Image = ((System.Drawing.Image)(resources.GetObject("optionsMenu.Image")));
             this.optionsMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.optionsMenu.Name = "optionsMenu";
-            this.optionsMenu.ShortcutKeyDisplayString = "Ctrl+O";
-            this.optionsMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.optionsMenu.ShortcutKeyDisplayString = "";
+            this.optionsMenu.ShortcutKeys = System.Windows.Forms.Keys.F10;
             this.optionsMenu.Size = new System.Drawing.Size(222, 22);
             this.optionsMenu.Text = "&Options...";
             this.optionsMenu.Click += new System.EventHandler(this.OptionsWindowMenu_Click);
@@ -387,7 +386,7 @@ namespace SleepHunter.Forms
             this.searchMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.searchMenu.Name = "searchMenu";
             this.searchMenu.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.searchMenu.Size = new System.Drawing.Size(243, 22);
+            this.searchMenu.Size = new System.Drawing.Size(214, 22);
             this.searchMenu.Text = "S&earch...";
             this.searchMenu.Visible = false;
             // 
@@ -398,14 +397,14 @@ namespace SleepHunter.Forms
             this.docsMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.docsMenu.Name = "docsMenu";
             this.docsMenu.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.docsMenu.Size = new System.Drawing.Size(243, 22);
+            this.docsMenu.Size = new System.Drawing.Size(214, 22);
             this.docsMenu.Text = "&Documentation...";
             this.docsMenu.Visible = false;
             // 
             // helpMenuSeparator
             // 
             this.helpMenuSeparator.Name = "helpMenuSeparator";
-            this.helpMenuSeparator.Size = new System.Drawing.Size(240, 6);
+            this.helpMenuSeparator.Size = new System.Drawing.Size(211, 6);
             this.helpMenuSeparator.Visible = false;
             // 
             // aboutMenu
@@ -413,8 +412,8 @@ namespace SleepHunter.Forms
             this.aboutMenu.Image = ((System.Drawing.Image)(resources.GetObject("aboutMenu.Image")));
             this.aboutMenu.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.aboutMenu.Name = "aboutMenu";
-            this.aboutMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F12)));
-            this.aboutMenu.Size = new System.Drawing.Size(243, 22);
+            this.aboutMenu.ShortcutKeys = System.Windows.Forms.Keys.F12;
+            this.aboutMenu.Size = new System.Drawing.Size(214, 22);
             this.aboutMenu.Text = "&About SleepHunter";
             this.aboutMenu.Click += new System.EventHandler(this.AboutMenu_Click);
             // 
