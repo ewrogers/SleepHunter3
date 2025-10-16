@@ -2,7 +2,6 @@
 using System;
 using System.Buffers;
 using System.IO;
-using System.Text;
 
 namespace SleepHunter.Interop.Process
 {
@@ -13,7 +12,6 @@ namespace SleepHunter.Interop.Process
 
         private IntPtr _handle;
         private readonly ProcessAccess _access;
-        private readonly Encoding _encoding;
         private readonly bool _leaveOpen;
 
         private long _position = 0x400000;
@@ -42,7 +40,7 @@ namespace SleepHunter.Interop.Process
 
         public override long Length => throw new NotSupportedException();
 
-        public ProcessMemoryStream(int processId, ProcessAccess desiredAccess, Encoding encoding = null, bool leaveOpen = false)
+        public ProcessMemoryStream(int processId, ProcessAccess desiredAccess, bool leaveOpen = false)
         {
             var processAccessFlags = Win32ProcessAccessFlags.VmOperation;
             if (desiredAccess.HasFlag(ProcessAccess.Read))
@@ -63,7 +61,6 @@ namespace SleepHunter.Interop.Process
             ProcessId = processId;
             _handle = processHandle;
             _access = desiredAccess;
-            _encoding = encoding ?? Encoding.ASCII;
             _leaveOpen = leaveOpen;
         }
 
