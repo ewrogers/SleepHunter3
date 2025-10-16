@@ -18,83 +18,31 @@ namespace SleepHunter.Forms
         public MainForm(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            
+
             InitializeComponent();
         }
 
-        private void mnuNew_Click(object sender, EventArgs e)
+        private void MdiChild_Activate(object sender, EventArgs e)
+        {
+            if (!(ActiveMdiChild is MacroForm))
+                return;
+
+            ActiveMacro = (MacroForm)ActiveMdiChild;
+        }
+
+        #region File Menu Actions
+        private void NewMacroMenu_Click(object sender, EventArgs e)
         {
             MacroForm frmMacro = new MacroForm();
             frmMacro.MdiParent = this;
             frmMacro.Show();
         }
 
-        private void tvwCommands_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-            TreeNode treeNode = (TreeNode)e.Item;
-            if (treeNode.Parent == null | treeNode.Tag == null)
-                return;
-            int num = (int)DoDragDrop($"{treeNode.Text}|{treeNode.Tag}", DragDropEffects.Copy);
-        }
-
-        private void mnuAttach_Click(object sender, EventArgs e)
-        {
-            if (ProcessWindow.IsDisposed)
-            {
-                ProcessWindow = new ProcessesForm();
-                ProcessWindow.MdiParent = this;
-                ProcessWindow.Location = new Point(0, 0);
-                ProcessWindow.Width = ClientRectangle.Width - pnlCommands.ClientRectangle.Width - 4;
-                ProcessWindow.Show();
-            }
-            else
-            {
-                ProcessWindow.MdiParent = this;
-                ProcessWindow.Show();
-            }
-        }
-
-        private void mnuStatus_Click(object sender, EventArgs e)
-        {
-            StatusForm frmStatus = new StatusForm();
-            frmStatus.MdiParent = this;
-            frmStatus.Show();
-        }
-
-        private void tmrDblTargetChk_Tick(object sender, EventArgs e)
-        {
-            Form[] mdiChildren = MdiChildren;
-            uint[] array = new uint[mdiChildren.Length];
-            int index1 = 0;
-            foreach (Form form in mdiChildren)
-            {
-                if (form is MacroForm)
-                {
-                    MacroForm frmMacro = (MacroForm)form;
-                    if (frmMacro.memRead != null)
-                        array[index1] = frmMacro.memRead.ProcessID;
-                }
-                ++index1;
-            }
-            for (int index2 = 0; index2 < array.Length; ++index2)
-            {
-                if (Array.IndexOf(array, array[index2]) != Array.LastIndexOf(array, array[index2]) & array[index2] > 0U && Array.IndexOf(HandledDupes, array[index2]) < 0)
-                {
-                    nidIcon.ShowBalloonTip(2500, "Overloaded Process", $"You have attached two different macros to the same process.{Environment.NewLine}{Environment.NewLine}It is suggested that you correct this unless you are sure the actions of both macros will not interfere with each other.", ToolTipIcon.Warning);
-                    uint[] handledDupes = HandledDupes;
-                    uint[] numArray = new uint[handledDupes.Length + 1];
-                    handledDupes.CopyTo(numArray, 0);
-                    numArray[numArray.Length - 1] = array[index2];
-                    HandledDupes = numArray;
-                }
-            }
-        }
-
-        private void mnuOpen_Click(object sender, EventArgs e)
+        private void OpenMacroMenu_Click(object sender, EventArgs e)
         {
             DialogCancel = true;
-            int num = (int)dlgOpen.ShowDialog(this);
-            string[] fileNames = dlgOpen.FileNames;
+            int num = (int)openFileDialog.ShowDialog(this);
+            string[] fileNames = openFileDialog.FileNames;
             if (fileNames == null | DialogCancel)
                 return;
             MacroReader macroReader = new MacroReader();
@@ -119,7 +67,7 @@ namespace SleepHunter.Forms
             lblStatus.Text = "Idle.";
         }
 
-        private void mnuSave_Click(object sender, EventArgs e)
+        private void SaveMacroMenu_Click(object sender, EventArgs e)
         {
             if (ActiveMacro == null)
             {
@@ -131,12 +79,12 @@ namespace SleepHunter.Forms
             }
             else
             {
-                dlgSave.FileName = ActiveMacro.txtName.Text + ".sh3";
+                saveFileDialog.FileName = ActiveMacro.txtName.Text + ".sh3";
                 DialogCancel = true;
-                int num3 = (int)dlgSave.ShowDialog(this);
+                int num3 = (int)saveFileDialog.ShowDialog(this);
                 if (DialogCancel)
                     return;
-                string fileName = dlgSave.FileName;
+                string fileName = saveFileDialog.FileName;
                 if (fileName == null || fileName.Trim() == "")
                     return;
                 lblStatus.Text = $"Saving {fileName}...";
@@ -155,28 +103,143 @@ namespace SleepHunter.Forms
             }
         }
 
-        private void dlgOpen_FileOk(object sender, CancelEventArgs e) => DialogCancel = false;
+        private void ExitMenu_Click(object sender, EventArgs e)
+        {
+            // Do any additional cleanup here
+            Application.Exit();
+        }
+        #endregion
 
-        private void dlgSave_FileOk(object sender, CancelEventArgs e) => DialogCancel = false;
+        #region Tools Menu Actions
 
-        private void mnuMinAll_Click(object sender, EventArgs e)
+        private void StatusWindowMenu_Click(object sender, EventArgs e)
+        {
+            StatusForm frmStatus = new StatusForm();
+            frmStatus.MdiParent = this;
+            frmStatus.Show();
+        }
+
+        private void ProcessManagerMenu_Click(object sender, EventArgs e)
+        {
+            if (ProcessWindow.IsDisposed)
+            {
+                ProcessWindow = new ProcessesForm();
+                ProcessWindow.MdiParent = this;
+                ProcessWindow.Location = new Point(0, 0);
+                ProcessWindow.Width = ClientRectangle.Width - commandsPanel.ClientRectangle.Width - 4;
+                ProcessWindow.Show();
+            }
+            else
+            {
+                ProcessWindow.MdiParent = this;
+                ProcessWindow.Show();
+            }
+        }
+
+        // This is no longer used!
+        private void ChatWindowMenu_Click(object sender, EventArgs e)
+        {
+            ChatForm frmChat = new ChatForm();
+            frmChat.MdiParent = this;
+            frmChat.Show();
+        }
+
+        private void OptionsWindowMenu_Click(object sender, EventArgs e)
+        {
+            OptionsForm frmOptions = new OptionsForm();
+            frmOptions.MdiParent = this;
+            frmOptions.Show();
+        }
+
+        #endregion
+
+        #region Window Layout Menu Actions
+        private void MinimizeAllMenu_Click(object sender, EventArgs e)
         {
             foreach (Form mdiChild in MdiChildren)
+            {
                 mdiChild.WindowState = FormWindowState.Minimized;
+            }
         }
 
-        private void mnuCloseAll_Click(object sender, EventArgs e)
+
+        private void CloseAllWindowsMenu_Click(object sender, EventArgs e)
         {
             foreach (Component mdiChild in MdiChildren)
+            {
                 mdiChild.Dispose();
+            }
         }
 
-        private void mnuAbout_Click(object sender, EventArgs e)
+        private void ArrangeWindowsMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.ArrangeIcons);
+        private void CascadeWindowsMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.Cascade);
+        private void TileVerticalMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.TileVertical);
+        private void TileHorizontalMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.TileHorizontal);
+        #endregion
+
+        #region Help Menu Actions
+        private void AboutMenu_Click(object sender, EventArgs e)
         {
-            int num = (int)new AboutForm().ShowDialog(this);
+            var aboutForm = new AboutForm();
+            aboutForm.ShowDialog(this);
         }
 
-        private void mnuExit_Click(object sender, EventArgs e) => Application.Exit();
+        #endregion
+
+        private void CommandsTreeView_DoubleClick(object sender, EventArgs e)
+        {
+            TreeNode selectedNode = commandsTreeView.SelectedNode;
+            if (selectedNode.Nodes.Count != 0 || ActiveMacro == null || ActiveMacro.IsDisposed)
+                return;
+
+            var commandText = $"{selectedNode.Text}|{selectedNode.Tag}";
+            ActiveMacro.AddCommand(commandText);
+        }
+
+        private void CommandsTreeView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (!(e.Item is TreeNode treeNode) || treeNode.Parent == null | treeNode.Tag == null)
+                return;
+
+            var commandText = $"{treeNode.Text}|{treeNode.Tag}";
+            DoDragDrop(commandText, DragDropEffects.Copy);
+        }
+
+        private void DoubleClickTimer_Tick(object sender, EventArgs e)
+        {
+            Form[] mdiChildren = MdiChildren;
+            uint[] array = new uint[mdiChildren.Length];
+            int index1 = 0;
+            foreach (Form form in mdiChildren)
+            {
+                if (form is MacroForm)
+                {
+                    MacroForm frmMacro = (MacroForm)form;
+                    if (frmMacro.memRead != null)
+                        array[index1] = frmMacro.memRead.ProcessID;
+                }
+                ++index1;
+            }
+
+            for (int index2 = 0; index2 < array.Length; ++index2)
+            {
+                if (Array.IndexOf(array, array[index2]) != Array.LastIndexOf(array, array[index2]) & array[index2] > 0U && Array.IndexOf(HandledDupes, array[index2]) < 0)
+                {
+                    notifyIcon.ShowBalloonTip(2500, "Overloaded Process", $"You have attached two different macros to the same process.{Environment.NewLine}{Environment.NewLine}It is suggested that you correct this unless you are sure the actions of both macros will not interfere with each other.", ToolTipIcon.Warning);
+                    uint[] handledDupes = HandledDupes;
+                    uint[] numArray = new uint[handledDupes.Length + 1];
+                    handledDupes.CopyTo(numArray, 0);
+                    numArray[numArray.Length - 1] = array[index2];
+                    HandledDupes = numArray;
+                }
+            }
+        }
+
+        #region File Dialog Handlers
+        private void OpenFileDialog_FileOk(object sender, CancelEventArgs e) => DialogCancel = false;
+
+        private void SaveFileDialog_FileOk(object sender, CancelEventArgs e) => DialogCancel = false;
+        #endregion
 
         public void DetachByPID(uint processID)
         {
@@ -230,50 +293,8 @@ namespace SleepHunter.Forms
             }
         }
 
-        private void tvwCommands_DoubleClick(object sender, EventArgs e)
-        {
-            TreeNode selectedNode = tvwCommands.SelectedNode;
-            if (selectedNode.Nodes.Count != 0 || ActiveMacro == null || ActiveMacro.IsDisposed)
-                return;
-            ActiveMacro.AddCommand($"{selectedNode.Text}|{selectedNode.Tag}");
-        }
 
-        private void frmMain_MdiChildActivate(object sender, EventArgs e)
-        {
-            if (!(ActiveMdiChild is MacroForm))
-                return;
-            ActiveMacro = (MacroForm)ActiveMdiChild;
-        }
 
-        private void chatWindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChatForm frmChat = new ChatForm();
-            frmChat.MdiParent = this;
-            frmChat.Show();
-        }
-
-        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OptionsForm frmOptions = new OptionsForm();
-            frmOptions.MdiParent = this;
-            frmOptions.Show();
-        }
-
-        private void mnuArrange_Click(object sender, EventArgs e)
-        {
-            LayoutMdi(MdiLayout.ArrangeIcons);
-        }
-
-        private void mnuCascade_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.Cascade);
-
-        private void mnuTileVert_Click(object sender, EventArgs e)
-        {
-            LayoutMdi(MdiLayout.TileVertical);
-        }
-
-        private void mnuTileHoriz_Click(object sender, EventArgs e)
-        {
-            LayoutMdi(MdiLayout.TileHorizontal);
-        }
+        
     }
 }

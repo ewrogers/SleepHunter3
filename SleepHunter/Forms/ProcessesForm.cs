@@ -11,7 +11,10 @@ namespace SleepHunter.Forms
     {
         private readonly IWindowEnumerator _windowEnumerator;
 
-        public ProcessesForm() => InitializeComponent();
+        public ProcessesForm()
+        {
+            InitializeComponent();
+        }
 
         private void GetProcesses()
         {

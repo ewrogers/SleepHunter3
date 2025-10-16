@@ -359,7 +359,7 @@ namespace SleepHunter.Forms
             }
 
             if (!flag)
-                ((MainForm)MdiParent).nidIcon.ShowBalloonTip(2500, "Clipboard Data Warning",
+                ((MainForm)MdiParent).notifyIcon.ShowBalloonTip(2500, "Clipboard Data Warning",
                     $"The macro command lines you have copied to the clipboard are not in immediate succession.{Environment.NewLine}{Environment.NewLine}Please note that when you paste these lines from the clipboard, they will be placed in immediate succession based on the order of the selected items.",
                     ToolTipIcon.Warning);
             string[] strArray1 = new string[selectedItems.Count];
@@ -425,7 +425,7 @@ namespace SleepHunter.Forms
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (MacroRunning)
-                ((MainForm)MdiParent).nidIcon.ShowBalloonTip(2500, "Edit at Runtime Warning",
+                ((MainForm)MdiParent).notifyIcon.ShowBalloonTip(2500, "Edit at Runtime Warning",
                     $"You have attempted to edit a command at runtime.{Environment.NewLine}{Environment.NewLine}While this is allowed, it is suggested you stop the macro before editing to prevent any undesired actions.",
                     ToolTipIcon.Warning);
             int singleSel = GetSingleSel(lvwMacro, true);
@@ -607,7 +607,7 @@ namespace SleepHunter.Forms
                         }
 
                         if (MacroEndReason == EndMacroReason.ArenaMap)
-                            ((MainForm)MdiParent).nidIcon.ShowBalloonTip(5000, "Entering an Arena Map",
+                            ((MainForm)MdiParent).notifyIcon.ShowBalloonTip(5000, "Entering an Arena Map",
                                 $"You have entered an arena map while your macro was running.{Environment.NewLine}{Environment.NewLine}The macro will be stopped in order to ensure the fairness of the arena gameplay.",
                                 ToolTipIcon.Warning);
                         if (IsDisposed)
@@ -760,7 +760,7 @@ namespace SleepHunter.Forms
             if (memRead == null || memRead.IsRunning)
                 return;
             MainForm mdiParent = (MainForm)MdiParent;
-            mdiParent.nidIcon.ShowBalloonTip(2500, "Invalid Process Reference",
+            mdiParent.notifyIcon.ShowBalloonTip(2500, "Invalid Process Reference",
                 $"The process, {lblProcessName.Text}, is either no longer running or could not be found running.{Environment.NewLine}{Environment.NewLine}All macros attached to this process will be detached and their macros stopped, if running.",
                 ToolTipIcon.Error);
             mdiParent.DetachByPID(memRead.ProcessID);
