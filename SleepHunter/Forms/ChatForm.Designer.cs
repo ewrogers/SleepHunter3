@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    partial class frmChat
+    partial class ChatForm
     {
         private IContainer components = null;
         private RichTextBox rtbChatLog;
@@ -37,7 +37,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmChat));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChatForm));
             this.rtbChatLog = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
@@ -208,7 +208,7 @@ namespace SleepHunter.Forms
             this.lblWhisperTo.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.lblWhisperTo.Visible = false;
             // 
-            // frmChat
+            // ChatForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -227,7 +227,7 @@ namespace SleepHunter.Forms
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "frmChat";
+            this.Name = "ChatForm";
             this.Text = "Chat Window";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmChat_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmChat_DragEnter);

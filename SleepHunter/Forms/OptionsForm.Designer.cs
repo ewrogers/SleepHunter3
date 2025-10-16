@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    partial class frmOptions
+    partial class OptionsForm
     {
         private IContainer components = null;
 
@@ -20,17 +20,17 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOptions));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsForm));
             this.SuspendLayout();
             // 
-            // frmOptions
+            // OptionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 273);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmOptions";
-            this.Text = "frmOptions";
+            this.Name = "OptionsForm";
+            this.Text = "OptionsForm";
             this.ResumeLayout(false);
         }
     }

@@ -2,9 +2,9 @@
 
 namespace SleepHunter.Forms
 {
-    public partial class frmLogicSkel : Form
+    public partial class LogicForm : Form
     {
-        public frmLogicSkel()
+        public LogicForm()
         {
             InitializeComponent();
         }

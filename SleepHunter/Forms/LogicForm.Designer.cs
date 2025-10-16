@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    partial class frmLogicSkel
+    partial class LogicForm
     {
         private IContainer components = null;
         private TabControl tabSkeleton;
@@ -23,7 +23,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogicSkel));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogicForm));
             this.tabSkeleton = new System.Windows.Forms.TabControl();
             this.tpgStruct = new System.Windows.Forms.TabPage();
             this.rtbStruct = new System.Windows.Forms.RichTextBox();
@@ -66,7 +66,7 @@ namespace SleepHunter.Forms
             this.rtbStruct.TabIndex = 0;
             this.rtbStruct.Text = "";
             // 
-            // frmLogicSkel
+            // LogicForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -74,7 +74,7 @@ namespace SleepHunter.Forms
             this.Controls.Add(this.tabSkeleton);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmLogicSkel";
+            this.Name = "LogicForm";
             this.Padding = new System.Windows.Forms.Padding(4);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

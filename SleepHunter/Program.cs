@@ -19,7 +19,7 @@ namespace SleepHunter
             var provider = services.BuildServiceProvider();
             try
             {
-                var mainForm = provider.GetRequiredService<frmMain>();
+                var mainForm = provider.GetRequiredService<MainForm>();
                 Application.Run(mainForm);
             }
             finally
@@ -33,7 +33,7 @@ namespace SleepHunter
             // Application services
 
             // Forms
-            services.AddSingleton<frmMain>();
+            services.AddSingleton<MainForm>();
         }
     }
 }

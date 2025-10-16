@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmProcess : Form
+    public partial class ProcessesForm : Form
     {
         private IContainer components = null;
         private Panel pnlProcess;
@@ -24,7 +24,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(frmProcess));
+            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(ProcessesForm));
             ListViewGroup listViewGroup1 = new ListViewGroup("System Processes", HorizontalAlignment.Left);
             ListViewGroup listViewGroup2 = new ListViewGroup("User Processes", HorizontalAlignment.Left);
             ListViewGroup listViewGroup3 = new ListViewGroup("Dark Ages Processes", HorizontalAlignment.Left);
@@ -91,7 +91,7 @@ namespace SleepHunter.Forms
             this.Controls.Add((Control)this.pnlProcess);
             this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
             this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
-            this.Name = "frmProcess";
+            this.Name = "ProcessesForm";
             this.StartPosition = FormStartPosition.Manual;
             this.Text = "Process Manager";
             this.Shown += new EventHandler(this.frmProcess_Shown);

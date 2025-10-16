@@ -64,59 +64,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\frmAbout.cs">
+    <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmAbout.Designer.cs">
-      <DependentUpon>frmAbout.cs</DependentUpon>
+    <Compile Include="Forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmArgs.cs">
+    <Compile Include="Forms\ArgumentsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmArgs.Designer.cs">
-      <DependentUpon>frmArgs.cs</DependentUpon>
+    <Compile Include="Forms\ArgumentsForm.Designer.cs">
+      <DependentUpon>ArgumentsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmChat.cs">
+    <Compile Include="Forms\ChatForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmChat.Designer.cs">
-      <DependentUpon>frmChat.cs</DependentUpon>
+    <Compile Include="Forms\ChatForm.Designer.cs">
+      <DependentUpon>ChatForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmLogicSkel.cs">
+    <Compile Include="Forms\LogicForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmLogicSkel.Designer.cs">
-      <DependentUpon>frmLogicSkel.cs</DependentUpon>
+    <Compile Include="Forms\LogicForm.Designer.cs">
+      <DependentUpon>LogicForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMacro.cs">
+    <Compile Include="Forms\MacroForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMacro.Designer.cs">
-      <DependentUpon>frmMacro.cs</DependentUpon>
+    <Compile Include="Forms\MacroForm.Designer.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmMain.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmMain.Designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmOptions.cs">
+    <Compile Include="Forms\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmOptions.Designer.cs">
-      <DependentUpon>frmOptions.cs</DependentUpon>
+    <Compile Include="Forms\OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmProcess.cs">
+    <Compile Include="Forms\ProcessesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmProcess.Designer.cs">
-      <DependentUpon>frmProcess.cs</DependentUpon>
+    <Compile Include="Forms\ProcessesForm.Designer.cs">
+      <DependentUpon>ProcessesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmStatus.cs">
+    <Compile Include="Forms\StatusForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmStatus.Designer.cs">
-      <DependentUpon>frmStatus.cs</DependentUpon>
+    <Compile Include="Forms\StatusForm.Designer.cs">
+      <DependentUpon>StatusForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MacroReader.cs" />
     <Compile Include="MacroWriter.cs" />
@@ -135,41 +135,41 @@
     <Compile Include="ProcessMemory\MemoryAlloc.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\frmAbout.resx">
-      <LogicalName>SleepHunter.Forms.frmAbout.resources</LogicalName>
-      <DependentUpon>frmAbout.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <LogicalName>SleepHunter.Forms.AboutForm.resources</LogicalName>
+      <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmArgs.resx">
-      <LogicalName>SleepHunter.Forms.frmArgs.resources</LogicalName>
-      <DependentUpon>frmArgs.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ArgumentsForm.resx">
+      <LogicalName>SleepHunter.Forms.ArgumentsForm.resources</LogicalName>
+      <DependentUpon>ArgumentsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmChat.resx">
-      <LogicalName>SleepHunter.Forms.frmChat.resources</LogicalName>
-      <DependentUpon>frmChat.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ChatForm.resx">
+      <LogicalName>SleepHunter.Forms.ChatForm.resources</LogicalName>
+      <DependentUpon>ChatForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmLogicSkel.resx">
-      <LogicalName>SleepHunter.Forms.frmLogicSkel.resources</LogicalName>
-      <DependentUpon>frmLogicSkel.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\LogicForm.resx">
+      <LogicalName>SleepHunter.Forms.LogicForm.resources</LogicalName>
+      <DependentUpon>LogicForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMacro.resx">
-      <LogicalName>SleepHunter.Forms.frmMacro.resources</LogicalName>
-      <DependentUpon>frmMacro.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MacroForm.resx">
+      <LogicalName>SleepHunter.Forms.MacroForm.resources</LogicalName>
+      <DependentUpon>MacroForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMain.resx">
-      <LogicalName>SleepHunter.Forms.frmMain.resources</LogicalName>
-      <DependentUpon>frmMain.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <LogicalName>SleepHunter.Forms.MainForm.resources</LogicalName>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmOptions.resx">
-      <LogicalName>SleepHunter.Forms.frmOptions.resources</LogicalName>
-      <DependentUpon>frmOptions.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\OptionsForm.resx">
+      <LogicalName>SleepHunter.Forms.OptionsForm.resources</LogicalName>
+      <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmProcess.resx">
-      <LogicalName>SleepHunter.Forms.frmProcess.resources</LogicalName>
-      <DependentUpon>frmProcess.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ProcessesForm.resx">
+      <LogicalName>SleepHunter.Forms.ProcessesForm.resources</LogicalName>
+      <DependentUpon>ProcessesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmStatus.resx">
-      <LogicalName>SleepHunter.Forms.frmStatus.resources</LogicalName>
-      <DependentUpon>frmStatus.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\StatusForm.resx">
+      <LogicalName>SleepHunter.Forms.StatusForm.resources</LogicalName>
+      <DependentUpon>StatusForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

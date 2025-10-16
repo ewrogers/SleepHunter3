@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmMacro : Form
+    public partial class MacroForm : Form
     {
         private IContainer components = null;
         private StatusStrip stbMain;
@@ -58,7 +58,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(frmMacro));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(MacroForm));
             this.stbMain = new StatusStrip();
             this.lblStatus = new ToolStripStatusLabel();
             this.mnuDebug = new ToolStripDropDownButton();
@@ -431,7 +431,7 @@ namespace SleepHunter.Forms
             this.Controls.Add((Control)this.stbMain);
             this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
             this.Icon = (Icon)resources.GetObject("$this.Icon");
-            this.Name = "frmMacro";
+            this.Name = "MacroForm";
             this.StartPosition = FormStartPosition.Manual;
             this.Text = "Macro Data";
             this.Load += new EventHandler(this.frmMacro_Load);

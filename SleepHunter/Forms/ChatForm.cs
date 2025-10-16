@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class frmChat : Form
+    public partial class ChatForm : Form
     {
         private string m_ChatBuffer;
         private string m_Chat;
@@ -23,7 +23,7 @@ namespace SleepHunter.Forms
         private int chatType;
         private bool hasProcess;
         
-        public frmChat()
+        public ChatForm()
         {
             InitializeComponent();
             cmbChatType.SelectedIndex = 0;

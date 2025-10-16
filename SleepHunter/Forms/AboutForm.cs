@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    internal partial class frmAbout : Form
+    internal partial class AboutForm : Form
     {
-        public frmAbout()
+        public AboutForm()
         {
             InitializeComponent();
         }

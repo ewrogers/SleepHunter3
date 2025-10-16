@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    partial class frmAbout
+    partial class AboutForm
     {
         private IContainer components = null;
         private Label lblVersion;
@@ -30,7 +30,7 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = (IContainer)new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAbout));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.lblVersion = new System.Windows.Forms.Label();
             this.lblThanks = new System.Windows.Forms.Label();
             this.Seperator = new System.Windows.Forms.GroupBox();
@@ -136,7 +136,7 @@ namespace SleepHunter.Forms
             this.label4.TabIndex = 7;
             this.label4.Text = "Updates (11/29/05): Fixed HP/MP, Map Name, XLoc, YLoc. Chat Disabled due to errors with new DA version.";
             // 
-            // frmAbout
+            // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -158,7 +158,7 @@ namespace SleepHunter.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmAbout";
+            this.Name = "AboutForm";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
