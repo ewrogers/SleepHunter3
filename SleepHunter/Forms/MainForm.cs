@@ -18,8 +18,7 @@ namespace SleepHunter.Forms
         public MainForm(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-           
-           
+            
             InitializeComponent();
         }
 

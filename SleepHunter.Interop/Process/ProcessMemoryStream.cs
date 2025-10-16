@@ -85,6 +85,8 @@ namespace SleepHunter.Interop.Process
         {
             CheckIfDisposed();
 
+            if (_handle == IntPtr.Zero) throw new InvalidOperationException("Stream has been closed");
+
             if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset), "Offset must be a positive index");
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), "Count must be a positive number");
             if (offset + count > buffer.Length) throw new ArgumentOutOfRangeException(nameof(count), "Cannot read past the end of the buffer");
@@ -121,6 +123,8 @@ namespace SleepHunter.Interop.Process
         public override void Write(byte[] buffer, int offset, int count)
         {
             CheckIfDisposed();
+
+            if (_handle == IntPtr.Zero) throw new InvalidOperationException("Stream has been closed");
 
             if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset), "Offset must be a positive index");
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), "Count must be a positive number");
@@ -163,6 +167,18 @@ namespace SleepHunter.Interop.Process
         {
             CheckIfDisposed();
             // Do nothing
+        }
+
+        public override void Close()
+        {
+            CheckIfDisposed();
+
+            if (_handle != IntPtr.Zero)
+            {
+                NativeMethods.CloseHandle(_handle);
+            }
+
+            _handle = IntPtr.Zero;
         }
 
         ~ProcessMemoryStream() => Dispose(false);
