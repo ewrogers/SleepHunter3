@@ -1,4 +1,5 @@
 ﻿using ProcessMemory;
+using SleepHunter.Interop.Windows;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -8,6 +9,8 @@ namespace SleepHunter.Forms
 {
     public partial class ProcessesForm : Form
     {
+        private readonly IWindowEnumerator _windowEnumerator;
+
         public ProcessesForm() => InitializeComponent();
 
         private void GetProcesses()
