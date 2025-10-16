@@ -1,15 +1,13 @@
-﻿using ProcessMemory;
-using System;
+﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SleepHunter
+namespace SleepHunter.Forms
 {
-    public class frmProcess : Form
+    public partial class frmProcess : Form
     {
-        private IContainer components = (IContainer)null;
+        private IContainer components = null;
         private Panel pnlProcess;
         private ImageList ilsIcons;
         private ToolStrip toolStrip1;
@@ -18,8 +16,8 @@ namespace SleepHunter
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && this.components != null)
-                this.components.Dispose();
+            if (disposing && components != null)
+                components.Dispose();
             base.Dispose(disposing);
         }
 
@@ -60,9 +58,9 @@ namespace SleepHunter
             listViewGroup3.Name = "grpDA";
             this.lvwProcess.Groups.AddRange(new ListViewGroup[3]
             {
-      listViewGroup1,
-      listViewGroup2,
-      listViewGroup3
+                listViewGroup1,
+                listViewGroup2,
+                listViewGroup3
             });
             this.lvwProcess.LargeImageList = this.ilsIcons;
             this.lvwProcess.Location = new Point(5, 30);
@@ -74,7 +72,7 @@ namespace SleepHunter
             this.lvwProcess.ItemDrag += new ItemDragEventHandler(this.lvwProcess_ItemDrag);
             this.toolStrip1.Items.AddRange(new ToolStripItem[1]
             {
-      (ToolStripItem) this.btnRefresh
+                (ToolStripItem) this.btnRefresh
             });
             this.toolStrip1.Location = new Point(5, 5);
             this.toolStrip1.Name = "toolStrip1";
@@ -93,7 +91,7 @@ namespace SleepHunter
             this.Controls.Add((Control)this.pnlProcess);
             this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
             this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
-            this.Name = nameof(frmProcess);
+            this.Name = "frmProcess";
             this.StartPosition = FormStartPosition.Manual;
             this.Text = "Process Manager";
             this.Shown += new EventHandler(this.frmProcess_Shown);
@@ -101,65 +99,6 @@ namespace SleepHunter
             this.pnlProcess.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
-        }
-
-        public frmProcess() => this.InitializeComponent();
-
-        private void GetProcesses()
-        {
-            Process[] processes = Process.GetProcesses();
-            this.lvwProcess.Items.Clear();
-            foreach (Process process in processes)
-            {
-                if (process.ProcessName.ToUpper() == "DARKAGES")
-                {
-                    string str = new MemoryReader((uint)process.Id).ReadString((IntPtr)7754528);
-                    if (str.Trim() == "")
-                        this.lvwProcess.Items.Add("DarkAges.exe", 0);
-                    else
-                        this.lvwProcess.Items.Add($"DarkAges.exe ({str})", 0);
-                    this.lvwProcess.Items[this.lvwProcess.Items.Count - 1].Group = this.lvwProcess.Groups[2];
-                    this.lvwProcess.Items[this.lvwProcess.Items.Count - 1].Tag = (object)process.Id;
-                }
-            }
-            if (this.lvwProcess.Items.Count >= 1)
-                return;
-            Graphics graphics = Graphics.FromHwnd(this.lvwProcess.Handle);
-            StringFormat format = new StringFormat(StringFormat.GenericDefault);
-            format.Alignment = StringAlignment.Center;
-            format.LineAlignment = StringAlignment.Center;
-            this.lvwProcess.Refresh();
-            graphics.DrawString("No Dark Ages Processes Running.", new Font("Tahoma", 10f, FontStyle.Bold), (Brush)new SolidBrush(SystemColors.ControlText), (RectangleF)this.lvwProcess.ClientRectangle, format);
-        }
-
-        private void lvwProcess_ItemDrag(object sender, ItemDragEventArgs e)
-        {
-            int num = (int)this.DoDragDrop((object)((ListViewItem)e.Item).Tag.ToString(), DragDropEffects.Copy);
-        }
-
-        private void pnlProcess_Paint(object sender, PaintEventArgs e)
-        {
-            Rectangle clientRectangle = this.pnlProcess.ClientRectangle;
-            clientRectangle.Inflate(-4, -4);
-            e.Graphics.DrawRectangle(new Pen(SystemColors.ControlDark), clientRectangle);
-            if (this.lvwProcess.Items.Count >= 1)
-                return;
-            Graphics graphics = Graphics.FromHwnd(this.lvwProcess.Handle);
-            this.lvwProcess.Refresh();
-            graphics.DrawString("No Dark Ages Processes Running.", new Font("Tahoma", 10f, FontStyle.Bold), (Brush)new SolidBrush(SystemColors.ControlText), (RectangleF)this.lvwProcess.ClientRectangle, new StringFormat(StringFormat.GenericDefault)
-            {
-                Alignment = StringAlignment.Center,
-                LineAlignment = StringAlignment.Center
-            });
-        }
-
-        private void frmProcess_Shown(object sender, EventArgs e) => this.GetProcesses();
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            this.btnRefresh.Enabled = false;
-            this.GetProcesses();
-            this.btnRefresh.Enabled = true;
         }
     }
 }
