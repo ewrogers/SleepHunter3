@@ -23,82 +23,103 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
-            this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager componentResourceManager = new ComponentResourceManager(typeof(ProcessesForm));
-            ListViewGroup listViewGroup1 = new ListViewGroup("System Processes", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup2 = new ListViewGroup("User Processes", HorizontalAlignment.Left);
-            ListViewGroup listViewGroup3 = new ListViewGroup("Dark Ages Processes", HorizontalAlignment.Left);
-            this.ilsIcons = new ImageList(this.components);
-            this.pnlProcess = new Panel();
-            this.lvwProcess = new ListView();
-            this.toolStrip1 = new ToolStrip();
-            this.btnRefresh = new ToolStripButton();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProcessesForm));
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("System Processes", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("User Processes", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Dark Ages Processes", System.Windows.Forms.HorizontalAlignment.Left);
+            this.ilsIcons = new System.Windows.Forms.ImageList(this.components);
+            this.pnlProcess = new System.Windows.Forms.Panel();
+            this.lvwProcess = new System.Windows.Forms.ListView();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnRefresh = new System.Windows.Forms.ToolStripButton();
             this.pnlProcess.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            this.ilsIcons.ImageStream = (ImageListStreamer)componentResourceManager.GetObject("ilsIcons.ImageStream");
+            // 
+            // ilsIcons
+            // 
+            this.ilsIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilsIcons.ImageStream")));
+            this.ilsIcons.TransparentColor = System.Drawing.Color.Transparent;
             this.ilsIcons.Images.SetKeyName(0, "da-Main.ico");
-            this.pnlProcess.Controls.Add((Control)this.lvwProcess);
-            this.pnlProcess.Controls.Add((Control)this.toolStrip1);
-            this.pnlProcess.Dock = DockStyle.Fill;
-            this.pnlProcess.Location = new Point(0, 0);
+            // 
+            // pnlProcess
+            // 
+            this.pnlProcess.Controls.Add(this.lvwProcess);
+            this.pnlProcess.Controls.Add(this.toolStrip1);
+            this.pnlProcess.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlProcess.Location = new System.Drawing.Point(0, 0);
             this.pnlProcess.Name = "pnlProcess";
-            this.pnlProcess.Padding = new Padding(5, 5, 4, 4);
-            this.pnlProcess.Size = new Size(578, 121);
+            this.pnlProcess.Padding = new System.Windows.Forms.Padding(5, 5, 4, 4);
+            this.pnlProcess.Size = new System.Drawing.Size(581, 121);
             this.pnlProcess.TabIndex = 2;
-            this.pnlProcess.Paint += new PaintEventHandler(this.pnlProcess_Paint);
+            this.pnlProcess.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlProcess_Paint);
+            // 
+            // lvwProcess
+            // 
             this.lvwProcess.AllowDrop = true;
-            this.lvwProcess.BorderStyle = BorderStyle.None;
-            this.lvwProcess.Dock = DockStyle.Fill;
+            this.lvwProcess.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lvwProcess.Dock = System.Windows.Forms.DockStyle.Fill;
             listViewGroup1.Header = "System Processes";
             listViewGroup1.Name = "grpSystem";
             listViewGroup2.Header = "User Processes";
             listViewGroup2.Name = "grpUser";
             listViewGroup3.Header = "Dark Ages Processes";
             listViewGroup3.Name = "grpDA";
-            this.lvwProcess.Groups.AddRange(new ListViewGroup[3]
-            {
-                listViewGroup1,
-                listViewGroup2,
-                listViewGroup3
-            });
+            this.lvwProcess.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3});
+            this.lvwProcess.HideSelection = false;
             this.lvwProcess.LargeImageList = this.ilsIcons;
-            this.lvwProcess.Location = new Point(5, 30);
+            this.lvwProcess.Location = new System.Drawing.Point(5, 47);
             this.lvwProcess.MultiSelect = false;
             this.lvwProcess.Name = "lvwProcess";
-            this.lvwProcess.Size = new Size(569, 87);
+            this.lvwProcess.Size = new System.Drawing.Size(572, 70);
             this.lvwProcess.TabIndex = 3;
-            this.lvwProcess.View = View.Tile;
-            this.lvwProcess.ItemDrag += new ItemDragEventHandler(this.lvwProcess_ItemDrag);
-            this.toolStrip1.Items.AddRange(new ToolStripItem[1]
-            {
-                (ToolStripItem) this.btnRefresh
-            });
-            this.toolStrip1.Location = new Point(5, 5);
+            this.lvwProcess.UseCompatibleStateImageBehavior = false;
+            this.lvwProcess.View = System.Windows.Forms.View.Tile;
+            this.lvwProcess.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvwProcess_ItemDrag);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnRefresh});
+            this.toolStrip1.Location = new System.Drawing.Point(5, 5);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new Size(569, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(572, 42);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
-            this.btnRefresh.Image = (Image)componentResourceManager.GetObject("btnRefresh.Image");
-            this.btnRefresh.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnRefresh.ImageTransparentColor = Color.Magenta;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Image = ((System.Drawing.Image)(resources.GetObject("btnRefresh.Image")));
+            this.btnRefresh.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(229, 36);
             this.btnRefresh.Text = " Refresh Processes";
-            this.btnRefresh.Click += new EventHandler(this.btnRefresh_Click);
-            this.AutoScaleDimensions = new SizeF(6f, 13f);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(578, 121);
-            this.Controls.Add((Control)this.pnlProcess);
-            this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            this.Icon = (Icon)componentResourceManager.GetObject("$this.Icon");
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // ProcessesForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(578, 121);
+            this.Controls.Add(this.pnlProcess);
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProcessesForm";
-            this.StartPosition = FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Process Manager";
-            this.Shown += new EventHandler(this.frmProcess_Shown);
+            this.Shown += new System.EventHandler(this.frmProcess_Shown);
             this.pnlProcess.ResumeLayout(false);
             this.pnlProcess.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+
         }
     }
 }

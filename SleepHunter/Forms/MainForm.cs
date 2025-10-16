@@ -7,13 +7,21 @@ namespace SleepHunter.Forms
 {
     public partial class MainForm : Form
     {
+        private readonly IServiceProvider _serviceProvider;
+
         private uint[] HandledDupes = new uint[0];
         public ProcessesForm ProcessWindow = new ProcessesForm();
         public MacroForm ActiveMacro;
         private bool DialogCancel = true;
 
-        
-        public MainForm() => InitializeComponent();
+
+        public MainForm(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+           
+           
+            InitializeComponent();
+        }
 
         private void mnuNew_Click(object sender, EventArgs e)
         {
