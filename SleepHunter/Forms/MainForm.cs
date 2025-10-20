@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,7 +11,7 @@ namespace SleepHunter.Forms
         private readonly IServiceProvider _serviceProvider;
 
         private uint[] HandledDupes = new uint[0];
-        public ProcessesForm ProcessWindow = new ProcessesForm();
+        public ProcessesForm ProcessWindow;
         public MacroForm ActiveMacro;
         private bool DialogCancel = true;
 
@@ -18,6 +19,8 @@ namespace SleepHunter.Forms
         public MainForm(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+
+            ProcessWindow = _serviceProvider.GetRequiredService<ProcessesForm>();
 
             InitializeComponent();
         }
@@ -123,7 +126,7 @@ namespace SleepHunter.Forms
         {
             if (ProcessWindow.IsDisposed)
             {
-                ProcessWindow = new ProcessesForm();
+                ProcessWindow = _serviceProvider.GetRequiredService<ProcessesForm>();
                 ProcessWindow.MdiParent = this;
                 ProcessWindow.Location = new Point(0, 0);
                 ProcessWindow.Width = ClientRectangle.Width - commandsPanel.ClientRectangle.Width - 4;

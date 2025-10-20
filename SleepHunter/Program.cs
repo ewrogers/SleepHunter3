@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using SleepHunter.Forms;
 using SleepHunter.Interop.Windows;
+using SleepHunter.Services;
 
 namespace SleepHunter
 {
@@ -32,10 +33,12 @@ namespace SleepHunter
         static void ConfigureServices(IServiceCollection services)
         {
             // Application services
+            services.AddSingleton<IGameClientService, GameClientService>();
             services.AddSingleton<IWindowEnumerator, WindowEnumerator>();
 
             // Forms
             services.AddSingleton<MainForm>();
+            services.AddTransient<ProcessesForm>();
         }
     }
 }

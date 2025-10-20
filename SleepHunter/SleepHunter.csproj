@@ -122,10 +122,16 @@
     <Compile Include="Forms\StatusForm.Designer.cs">
       <DependentUpon>StatusForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interop\DynamicMemoryVariable.cs" />
+    <Compile Include="Interop\GameClientReader.cs" />
+    <Compile Include="Interop\IMemoryVariable.cs" />
+    <Compile Include="Interop\MemoryVariable.cs" />
+    <Compile Include="Interop\StaticMemoryVariable.cs" />
     <Compile Include="MacroReader.cs" />
     <Compile Include="MacroWriter.cs" />
     <Compile Include="LogicStructure.cs" />
     <Compile Include="Hotkey.cs" />
+    <Compile Include="Models\GameClientWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CommandLibrary.cs" />
     <Compile Include="Properties\Resources.cs" />
@@ -137,6 +143,8 @@
     <Compile Include="ProcessMemory\MemoryReader.cs" />
     <Compile Include="ProcessMemory\MemoryWriter.cs" />
     <Compile Include="ProcessMemory\MemoryAlloc.cs" />
+    <Compile Include="Services\GameClientService.cs" />
+    <Compile Include="Services\IGameClientService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\AboutForm.resx">
@@ -192,5 +200,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
