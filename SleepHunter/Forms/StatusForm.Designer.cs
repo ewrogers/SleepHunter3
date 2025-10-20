@@ -8,24 +8,22 @@ namespace SleepHunter.Forms
     partial class StatusForm
     {
         private IContainer components = null;
-        private PictureBox picHP;
-        private Label lblHPCaption;
-        private PictureBox picMP;
-        private Label lblMPCaption;
-        private Label lblMAPCaption;
-        private Label lblXCaption;
-        private Label lblYCaption;
-        private Timer tmrUpdate;
-        private Label lblHP;
-        private Label lblMP;
-        private Label lblHPPercent;
-        private Label lblMPPercent;
-        private Label lblMAP;
-        private Label lblX;
-        private Label lblY;
-        private Label lblHelp;
-        private RichTextBox rtbChatLog;
-        private CheckBox cbShowChat;
+        private PictureBox healthPictureBox;
+        private Label healthCaptionLabel;
+        private PictureBox manaPictureBox;
+        private Label manaCaptionLabel;
+        private Label mapCaptionLabel;
+        private Label mapXCaptionLabel;
+        private Label mapYCaptionLabel;
+        private Timer updateTimer;
+        private Label healthLabel;
+        private Label manaLabel;
+        private Label healthPercentLabel;
+        private Label manaPercentLabel;
+        private Label mapLabel;
+        private Label mapXLabel;
+        private Label mapYLabel;
+        private Label helpLabel;
 
         protected override void Dispose(bool disposing)
         {
@@ -38,207 +36,184 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
-            this.components = (IContainer)new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatusForm));
-            this.picHP = new System.Windows.Forms.PictureBox();
-            this.lblHPCaption = new System.Windows.Forms.Label();
-            this.picMP = new System.Windows.Forms.PictureBox();
-            this.lblMPCaption = new System.Windows.Forms.Label();
-            this.lblMAPCaption = new System.Windows.Forms.Label();
-            this.lblXCaption = new System.Windows.Forms.Label();
-            this.lblYCaption = new System.Windows.Forms.Label();
-            this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
-            this.lblHP = new System.Windows.Forms.Label();
-            this.lblMP = new System.Windows.Forms.Label();
-            this.lblHPPercent = new System.Windows.Forms.Label();
-            this.lblMPPercent = new System.Windows.Forms.Label();
-            this.lblMAP = new System.Windows.Forms.Label();
-            this.lblX = new System.Windows.Forms.Label();
-            this.lblY = new System.Windows.Forms.Label();
-            this.lblHelp = new System.Windows.Forms.Label();
-            this.rtbChatLog = new System.Windows.Forms.RichTextBox();
-            this.cbShowChat = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picHP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picMP)).BeginInit();
+            this.healthPictureBox = new System.Windows.Forms.PictureBox();
+            this.healthCaptionLabel = new System.Windows.Forms.Label();
+            this.manaPictureBox = new System.Windows.Forms.PictureBox();
+            this.manaCaptionLabel = new System.Windows.Forms.Label();
+            this.mapCaptionLabel = new System.Windows.Forms.Label();
+            this.mapXCaptionLabel = new System.Windows.Forms.Label();
+            this.mapYCaptionLabel = new System.Windows.Forms.Label();
+            this.updateTimer = new System.Windows.Forms.Timer(this.components);
+            this.healthLabel = new System.Windows.Forms.Label();
+            this.manaLabel = new System.Windows.Forms.Label();
+            this.healthPercentLabel = new System.Windows.Forms.Label();
+            this.manaPercentLabel = new System.Windows.Forms.Label();
+            this.mapLabel = new System.Windows.Forms.Label();
+            this.mapXLabel = new System.Windows.Forms.Label();
+            this.mapYLabel = new System.Windows.Forms.Label();
+            this.helpLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.healthPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.manaPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // picHP
+            // healthPictureBox
             // 
-            this.picHP.BackColor = System.Drawing.SystemColors.Control;
-            this.picHP.Location = new System.Drawing.Point(13, 25);
-            this.picHP.Name = "picHP";
-            this.picHP.Size = new System.Drawing.Size(271, 17);
-            this.picHP.TabIndex = 0;
-            this.picHP.TabStop = false;
-            this.picHP.Paint += new System.Windows.Forms.PaintEventHandler(this.picHP_Paint);
+            this.healthPictureBox.BackColor = System.Drawing.SystemColors.Control;
+            this.healthPictureBox.Location = new System.Drawing.Point(13, 25);
+            this.healthPictureBox.Name = "healthPictureBox";
+            this.healthPictureBox.Size = new System.Drawing.Size(271, 17);
+            this.healthPictureBox.TabIndex = 0;
+            this.healthPictureBox.TabStop = false;
+            this.healthPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.healthPictureBox_Paint);
             // 
-            // lblHPCaption
+            // healthCaptionLabel
             // 
-            this.lblHPCaption.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHPCaption.ForeColor = System.Drawing.Color.FromArgb(192, 0, 0);
-            this.lblHPCaption.Location = new System.Drawing.Point(12, 9);
-            this.lblHPCaption.Name = "lblHPCaption";
-            this.lblHPCaption.Size = new System.Drawing.Size(25, 12);
-            this.lblHPCaption.TabIndex = 1;
-            this.lblHPCaption.Text = "HP:";
+            this.healthCaptionLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.healthCaptionLabel.Location = new System.Drawing.Point(12, 9);
+            this.healthCaptionLabel.Name = "healthCaptionLabel";
+            this.healthCaptionLabel.Size = new System.Drawing.Size(25, 12);
+            this.healthCaptionLabel.TabIndex = 1;
+            this.healthCaptionLabel.Text = "HP:";
             // 
-            // picMP
+            // manaPictureBox
             // 
-            this.picMP.Location = new System.Drawing.Point(12, 67);
-            this.picMP.Name = "picMP";
-            this.picMP.Size = new System.Drawing.Size(271, 17);
-            this.picMP.TabIndex = 2;
-            this.picMP.TabStop = false;
-            this.picMP.Paint += new System.Windows.Forms.PaintEventHandler(this.picMP_Paint);
+            this.manaPictureBox.Location = new System.Drawing.Point(12, 67);
+            this.manaPictureBox.Name = "manaPictureBox";
+            this.manaPictureBox.Size = new System.Drawing.Size(271, 17);
+            this.manaPictureBox.TabIndex = 2;
+            this.manaPictureBox.TabStop = false;
+            this.manaPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.manaPictureBox_Paint);
             // 
-            // lblMPCaption
+            // manaCaptionLabel
             // 
-            this.lblMPCaption.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMPCaption.ForeColor = System.Drawing.Color.FromArgb(0, 0, 192);
-            this.lblMPCaption.Location = new System.Drawing.Point(12, 52);
-            this.lblMPCaption.Name = "lblMPCaption";
-            this.lblMPCaption.Size = new System.Drawing.Size(27, 12);
-            this.lblMPCaption.TabIndex = 3;
-            this.lblMPCaption.Text = "MP:";
+            this.manaCaptionLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.manaCaptionLabel.Location = new System.Drawing.Point(12, 52);
+            this.manaCaptionLabel.Name = "manaCaptionLabel";
+            this.manaCaptionLabel.Size = new System.Drawing.Size(27, 12);
+            this.manaCaptionLabel.TabIndex = 3;
+            this.manaCaptionLabel.Text = "MP:";
             // 
-            // lblMAPCaption
+            // mapCaptionLabel
             // 
-            this.lblMAPCaption.Image = ((System.Drawing.Image)(resources.GetObject("lblMAPCaption.Image")));
-            this.lblMAPCaption.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblMAPCaption.Location = new System.Drawing.Point(11, 87);
-            this.lblMAPCaption.Name = "lblMAPCaption";
-            this.lblMAPCaption.Size = new System.Drawing.Size(56, 23);
-            this.lblMAPCaption.TabIndex = 5;
-            this.lblMAPCaption.Text = "       MAP:";
-            this.lblMAPCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapCaptionLabel.Image = ((System.Drawing.Image)(resources.GetObject("mapCaptionLabel.Image")));
+            this.mapCaptionLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapCaptionLabel.Location = new System.Drawing.Point(11, 87);
+            this.mapCaptionLabel.Name = "mapCaptionLabel";
+            this.mapCaptionLabel.Size = new System.Drawing.Size(56, 23);
+            this.mapCaptionLabel.TabIndex = 5;
+            this.mapCaptionLabel.Text = "       MAP:";
+            this.mapCaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblXCaption
+            // mapXCaptionLabel
             // 
-            this.lblXCaption.Image = ((System.Drawing.Image)(resources.GetObject("lblXCaption.Image")));
-            this.lblXCaption.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblXCaption.Location = new System.Drawing.Point(11, 110);
-            this.lblXCaption.Name = "lblXCaption";
-            this.lblXCaption.Size = new System.Drawing.Size(56, 22);
-            this.lblXCaption.TabIndex = 6;
-            this.lblXCaption.Text = "       X:";
-            this.lblXCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapXCaptionLabel.Image = ((System.Drawing.Image)(resources.GetObject("mapXCaptionLabel.Image")));
+            this.mapXCaptionLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapXCaptionLabel.Location = new System.Drawing.Point(11, 110);
+            this.mapXCaptionLabel.Name = "mapXCaptionLabel";
+            this.mapXCaptionLabel.Size = new System.Drawing.Size(56, 22);
+            this.mapXCaptionLabel.TabIndex = 6;
+            this.mapXCaptionLabel.Text = "       X:";
+            this.mapXCaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblYCaption
+            // mapYCaptionLabel
             // 
-            this.lblYCaption.Image = ((System.Drawing.Image)(resources.GetObject("lblYCaption.Image")));
-            this.lblYCaption.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblYCaption.Location = new System.Drawing.Point(10, 132);
-            this.lblYCaption.Name = "lblYCaption";
-            this.lblYCaption.Size = new System.Drawing.Size(57, 22);
-            this.lblYCaption.TabIndex = 7;
-            this.lblYCaption.Text = "       Y:";
-            this.lblYCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapYCaptionLabel.Image = ((System.Drawing.Image)(resources.GetObject("mapYCaptionLabel.Image")));
+            this.mapYCaptionLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapYCaptionLabel.Location = new System.Drawing.Point(10, 132);
+            this.mapYCaptionLabel.Name = "mapYCaptionLabel";
+            this.mapYCaptionLabel.Size = new System.Drawing.Size(57, 22);
+            this.mapYCaptionLabel.TabIndex = 7;
+            this.mapYCaptionLabel.Text = "       Y:";
+            this.mapYCaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tmrUpdate
+            // updateTimer
             // 
-            this.tmrUpdate.Interval = 500;
-            this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
+            this.updateTimer.Interval = 500;
+            this.updateTimer.Tick += new System.EventHandler(this.updateTimer_Tick);
             // 
-            // lblHP
+            // healthLabel
             // 
-            this.lblHP.Location = new System.Drawing.Point(39, 9);
-            this.lblHP.Name = "lblHP";
-            this.lblHP.Size = new System.Drawing.Size(174, 13);
-            this.lblHP.TabIndex = 8;
-            this.lblHP.Text = "0/0";
-            this.lblHP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.healthLabel.Location = new System.Drawing.Point(39, 9);
+            this.healthLabel.Name = "healthLabel";
+            this.healthLabel.Size = new System.Drawing.Size(192, 13);
+            this.healthLabel.TabIndex = 8;
+            this.healthLabel.Text = "0/0";
+            this.healthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblMP
+            // manaLabel
             // 
-            this.lblMP.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblMP.Location = new System.Drawing.Point(39, 51);
-            this.lblMP.Name = "lblMP";
-            this.lblMP.Size = new System.Drawing.Size(174, 13);
-            this.lblMP.TabIndex = 9;
-            this.lblMP.Text = "0/0";
-            this.lblMP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.manaLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.manaLabel.Location = new System.Drawing.Point(39, 51);
+            this.manaLabel.Name = "manaLabel";
+            this.manaLabel.Size = new System.Drawing.Size(195, 13);
+            this.manaLabel.TabIndex = 9;
+            this.manaLabel.Text = "0/0";
+            this.manaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblHPPercent
+            // healthPercentLabel
             // 
-            this.lblHPPercent.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHPPercent.Location = new System.Drawing.Point(220, 9);
-            this.lblHPPercent.Name = "lblHPPercent";
-            this.lblHPPercent.Size = new System.Drawing.Size(63, 13);
-            this.lblHPPercent.TabIndex = 10;
-            this.lblHPPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.healthPercentLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthPercentLabel.Location = new System.Drawing.Point(237, 9);
+            this.healthPercentLabel.Name = "healthPercentLabel";
+            this.healthPercentLabel.Size = new System.Drawing.Size(46, 13);
+            this.healthPercentLabel.TabIndex = 10;
+            this.healthPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblMPPercent
+            // manaPercentLabel
             // 
-            this.lblMPPercent.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMPPercent.Location = new System.Drawing.Point(221, 51);
-            this.lblMPPercent.Name = "lblMPPercent";
-            this.lblMPPercent.Size = new System.Drawing.Size(63, 13);
-            this.lblMPPercent.TabIndex = 11;
-            this.lblMPPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.manaPercentLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaPercentLabel.Location = new System.Drawing.Point(240, 51);
+            this.manaPercentLabel.Name = "manaPercentLabel";
+            this.manaPercentLabel.Size = new System.Drawing.Size(44, 13);
+            this.manaPercentLabel.TabIndex = 11;
+            this.manaPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblMAP
+            // mapLabel
             // 
-            this.lblMAP.AutoSize = true;
-            this.lblMAP.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblMAP.Location = new System.Drawing.Point(73, 92);
-            this.lblMAP.Name = "lblMAP";
-            this.lblMAP.Size = new System.Drawing.Size(22, 13);
-            this.lblMAP.TabIndex = 12;
-            this.lblMAP.Text = "???";
-            this.lblMAP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapLabel.AutoSize = true;
+            this.mapLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mapLabel.Location = new System.Drawing.Point(73, 92);
+            this.mapLabel.Name = "mapLabel";
+            this.mapLabel.Size = new System.Drawing.Size(22, 13);
+            this.mapLabel.TabIndex = 12;
+            this.mapLabel.Text = "???";
+            this.mapLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblX
+            // mapXLabel
             // 
-            this.lblX.AutoSize = true;
-            this.lblX.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblX.Location = new System.Drawing.Point(73, 115);
-            this.lblX.Name = "lblX";
-            this.lblX.Size = new System.Drawing.Size(22, 13);
-            this.lblX.TabIndex = 13;
-            this.lblX.Text = "???";
-            this.lblX.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapXLabel.AutoSize = true;
+            this.mapXLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mapXLabel.Location = new System.Drawing.Point(73, 115);
+            this.mapXLabel.Name = "mapXLabel";
+            this.mapXLabel.Size = new System.Drawing.Size(22, 13);
+            this.mapXLabel.TabIndex = 13;
+            this.mapXLabel.Text = "???";
+            this.mapXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblY
+            // mapYLabel
             // 
-            this.lblY.AutoSize = true;
-            this.lblY.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblY.Location = new System.Drawing.Point(73, 137);
-            this.lblY.Name = "lblY";
-            this.lblY.Size = new System.Drawing.Size(22, 13);
-            this.lblY.TabIndex = 14;
-            this.lblY.Text = "???";
-            this.lblY.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mapYLabel.AutoSize = true;
+            this.mapYLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.mapYLabel.Location = new System.Drawing.Point(73, 137);
+            this.mapYLabel.Name = "mapYLabel";
+            this.mapYLabel.Size = new System.Drawing.Size(22, 13);
+            this.mapYLabel.TabIndex = 14;
+            this.mapYLabel.Text = "???";
+            this.mapYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblHelp
+            // helpLabel
             // 
-            this.lblHelp.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblHelp.Location = new System.Drawing.Point(98, 115);
-            this.lblHelp.Name = "lblHelp";
-            this.lblHelp.Size = new System.Drawing.Size(186, 41);
-            this.lblHelp.TabIndex = 15;
-            this.lblHelp.Text = "Drag the Dark Ages process icon anywhere on this window to attach.";
-            this.lblHelp.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            // 
-            // rtbChatLog
-            // 
-            this.rtbChatLog.Enabled = false;
-            this.rtbChatLog.Location = new System.Drawing.Point(13, 175);
-            this.rtbChatLog.Name = "rtbChatLog";
-            this.rtbChatLog.Size = new System.Drawing.Size(272, 199);
-            this.rtbChatLog.TabIndex = 16;
-            this.rtbChatLog.Text = "";
-            // 
-            // cbShowChat
-            // 
-            this.cbShowChat.AutoSize = true;
-            this.cbShowChat.Enabled = false;
-            this.cbShowChat.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.cbShowChat.Location = new System.Drawing.Point(203, 110);
-            this.cbShowChat.Name = "cbShowChat";
-            this.cbShowChat.Size = new System.Drawing.Size(84, 17);
-            this.cbShowChat.TabIndex = 17;
-            this.cbShowChat.Text = "Enable Chat";
-            this.cbShowChat.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.helpLabel.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.helpLabel.Location = new System.Drawing.Point(98, 115);
+            this.helpLabel.Name = "helpLabel";
+            this.helpLabel.Size = new System.Drawing.Size(186, 41);
+            this.helpLabel.TabIndex = 15;
+            this.helpLabel.Text = "Drag the Dark Ages process icon anywhere on this window to attach.";
+            this.helpLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // StatusForm
             // 
@@ -246,33 +221,32 @@ namespace SleepHunter.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(297, 162);
-            this.Controls.Add(this.cbShowChat);
-            this.Controls.Add(this.rtbChatLog);
-            this.Controls.Add(this.lblHelp);
-            this.Controls.Add(this.lblY);
-            this.Controls.Add(this.lblX);
-            this.Controls.Add(this.lblMAP);
-            this.Controls.Add(this.lblMPPercent);
-            this.Controls.Add(this.lblHPPercent);
-            this.Controls.Add(this.lblMP);
-            this.Controls.Add(this.lblHP);
-            this.Controls.Add(this.lblYCaption);
-            this.Controls.Add(this.lblXCaption);
-            this.Controls.Add(this.lblMAPCaption);
-            this.Controls.Add(this.lblMPCaption);
-            this.Controls.Add(this.picMP);
-            this.Controls.Add(this.lblHPCaption);
-            this.Controls.Add(this.picHP);
+            this.Controls.Add(this.helpLabel);
+            this.Controls.Add(this.mapYLabel);
+            this.Controls.Add(this.mapXLabel);
+            this.Controls.Add(this.mapLabel);
+            this.Controls.Add(this.manaPercentLabel);
+            this.Controls.Add(this.healthPercentLabel);
+            this.Controls.Add(this.manaLabel);
+            this.Controls.Add(this.healthLabel);
+            this.Controls.Add(this.mapYCaptionLabel);
+            this.Controls.Add(this.mapXCaptionLabel);
+            this.Controls.Add(this.mapCaptionLabel);
+            this.Controls.Add(this.manaCaptionLabel);
+            this.Controls.Add(this.manaPictureBox);
+            this.Controls.Add(this.healthCaptionLabel);
+            this.Controls.Add(this.healthPictureBox);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "StatusForm";
             this.Text = "Status Window";
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.frmStatus_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.frmStatus_DragEnter);
-            ((System.ComponentModel.ISupportInitialize)(this.picHP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picMP)).EndInit();
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.form_Closed);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.form_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.form_DragEnter);
+            ((System.ComponentModel.ISupportInitialize)(this.healthPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.manaPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

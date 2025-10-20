@@ -1,8 +1,6 @@
-﻿using ProcessMemory;
-using SleepHunter.Interop;
+﻿using SleepHunter.Interop;
 using SleepHunter.Services;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -40,7 +38,9 @@ namespace SleepHunter.Forms
         private void processListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             var listViewItem = e.Item as ListViewItem;
-            DoDragDrop(listViewItem.Tag, DragDropEffects.Copy);
+            var data = new DataObject(listViewItem.Tag);
+
+            DoDragDrop(data, DragDropEffects.Copy);
         }
 
         private void processPanel_Paint(object sender, PaintEventArgs e)
