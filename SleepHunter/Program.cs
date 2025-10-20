@@ -39,6 +39,7 @@ namespace SleepHunter
             // Forms
             services.AddSingleton<MainForm>();
             services.AddTransient<ProcessesForm>();
+            services.AddTransient<StatusForm>();
         }
     }
 }

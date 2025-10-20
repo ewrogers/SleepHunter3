@@ -1,4 +1,5 @@
-﻿using ProcessMemory;
+﻿using SleepHunter.Interop;
+using SleepHunter.Models;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -8,231 +9,243 @@ namespace SleepHunter.Forms
 {
     public partial class StatusForm : Form
     {
-        private const int chatShowHeight = 415;
-        private const int chatHideHeight = 187;
+        private const int DefaultSegmentWidth = 3;
+        private const int DefaultSegmentSpacing = 1;
 
-        private long m_HP;
-        private long m_MP;
-        private long m_MaxHP;
-        private long m_MaxMP;
-        private long m_XLoc;
-        private long m_YLoc;
-        private string m_MapLoc;
-        private string m_CharName;
-        private string m_ChatBuffer;
-        private string m_Chat;
-        private Color HPGradSoft = Color.FromArgb(byte.MaxValue, 100, 100);
-        private Color HPGradHard = Color.FromArgb(150, 0, 0);
-        private Color MPGradSoft = Color.FromArgb(100, 100, (int)byte.MaxValue);
-        private Color MPGradHard = Color.FromArgb(0, 0, 150);
-        private Color PrgBackColor = Color.White;
-        private Color ShadingLight = SystemColors.ControlDark;
-        private Color ShadingDark = SystemColors.ControlDarkDark;
-        private Padding PrgPadding = new Padding(1, 1, 1, 1);
-        private int BarWidth = 3;
-        private int BarSpacing = 1;
-        private MemoryReader memRead;
+        private static readonly Padding ProgressPadding = new Padding(1, 1, 1, 1);
+
+        private static readonly Color HealthGradientStartColor = Color.FromArgb(0xFF, 0x64, 0x64); // #FF6464
+        private static readonly Color HealthGradientEndColor = Color.FromArgb(0x96, 0, 0); // #960000
+        private static readonly Color ManaGradientStartColor = Color.FromArgb(0x64, 0x64, 0xFF); // #6464FF
+        private static readonly Color ManaGradientEndColor = Color.FromArgb(0, 0, 0x96); // #000096
+
+        private readonly Pen _highlightPen;
+        private readonly Pen _shadowPen;
+        private readonly Brush _progressBackgroundBrush;
+
+        private GameClientReader _clientReader;
+        private PlayerState _playerState;
+        private bool _isAttached;
 
         public StatusForm()
         {
             InitializeComponent();
+
+            _highlightPen = new Pen(SystemColors.ControlDark);
+            _shadowPen = new Pen(SystemColors.ControlDarkDark);
+
+            _progressBackgroundBrush = new SolidBrush(Color.White);
         }
 
-        private void DrawProgress(
-          Graphics g,
-          Rectangle rClient,
-          long Value,
-          long Min,
-          long Max,
-          int BarWidth,
-          int BarSpacing,
-          bool Smooth,
-          Padding padSides,
-          Color GradientA,
-          Color GradientB,
-          LinearGradientMode LinearGradient,
-          bool IsRadialGradient)
+        private void updateTimer_Tick(object sender, EventArgs e)
         {
-            if (Value == 0L)
+            if (IsDisposed || _clientReader == null || _playerState == null)
+            {
+                Text = "Status Window";
                 return;
-            float num = (float)Value / Max;
-            if (num > 1.0)
-                num = 1f;
-            Rectangle rectangle = new Rectangle(rClient.X + 2 + padSides.Left, rClient.Y + 2 + padSides.Top, (int)((double)(rClient.Width - 5 - padSides.Left - padSides.Right) * num), rClient.Height - 5 - (padSides.Top + padSides.Bottom));
-            if (IsRadialGradient)
-                RadialGradient(rectangle, g, GradientA, GradientB);
+            }
+
+            try
+            {
+                _playerState.Name = _clientReader.ReadCharacterName();
+                _playerState.MapName = _clientReader.ReadMapName();
+                _playerState.MapId = _clientReader.ReadMapId();
+                _playerState.MapX = _clientReader.ReadMapX();
+                _playerState.MapY = _clientReader.ReadMapY();
+                _playerState.CurrentHealth = _clientReader.ReadCurrentHealth();
+                _playerState.MaxHealth = _clientReader.ReadMaxHealth();
+                _playerState.CurrentMana = _clientReader.ReadCurrentMana();
+                _playerState.MaxMana = _clientReader.ReadMaxMana();
+
+            }
+            catch (Exception)
+            {
+                Text = Text + " (Invalid)";
+                _isAttached = false;
+                updateTimer.Enabled = false;
+            }
+
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            if (_playerState == null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(_playerState.Name))
+                Text = _playerState.Name;
             else
-                g.FillRectangle(new LinearGradientBrush(rectangle, GradientA, GradientB, LinearGradient), rectangle);
-            if (Smooth)
-                return;
-            for (int index = 1; index < rectangle.Width / (BarWidth + BarSpacing) + 1; ++index)
-                g.FillRectangle(new SolidBrush(PrgBackColor), rectangle.Left + index * BarWidth + (index - 1) * BarSpacing, rectangle.Top, BarSpacing, rectangle.Height);
+                Text = "Status Window";
+
+            healthLabel.Text = $"{_playerState.CurrentHealth} / {_playerState.MaxHealth}";
+            healthPercentLabel.Text = _playerState.HealthPercentage + " %";
+            manaLabel.Text = $"{_playerState.CurrentMana} / {_playerState.MaxMana}";
+            manaPercentLabel.Text = _playerState.ManaPercentage + " %";
+            mapLabel.Text = _playerState.MapId.ToString();
+            mapXLabel.Text = _playerState.MapX.ToString();
+            mapYLabel.Text = _playerState.MapY.ToString();
+
+            // Force progress bars to redraw
+            healthPictureBox.Refresh();
+            manaPictureBox.Refresh();
         }
 
-        private void RadialGradient(Rectangle rFill, Graphics g, Color GradientA, Color GradientB)
+        private void healthPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            Rectangle rect1 = new Rectangle(rFill.X, rFill.Y, rFill.Width, rFill.Height / 2);
-            Rectangle rect2 = new Rectangle(rFill.X, rFill.Y + rFill.Height / 2, rFill.Width, rFill.Height / 2);
-            g.FillRectangle(new LinearGradientBrush(rect1, GradientB, GradientA, LinearGradientMode.Vertical), rect1);
-            g.FillRectangle(new LinearGradientBrush(rect2, GradientA, GradientB, LinearGradientMode.Vertical), rect2);
+            e.Graphics.Clear(Color.White);
+
+            var clientRect = healthPictureBox.ClientRectangle;
+
+            var currentHealth = _playerState != null ? _playerState.CurrentHealth : 0;
+            var maxHealth = _playerState != null ? _playerState.MaxHealth : 0;
+
+            DrawProgress(e.Graphics, clientRect, currentHealth, 0L, maxHealth,
+                DefaultSegmentWidth, DefaultSegmentSpacing, false, ProgressPadding,
+                HealthGradientStartColor, HealthGradientEndColor, LinearGradientMode.Vertical);
+
+            DrawBorder(e.Graphics, clientRect, BorderStyle.Fixed3D);
+        }
+
+        private void manaPictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.Clear(Color.White);
+
+            var clientRect = manaPictureBox.ClientRectangle;
+
+            var currentMana = _playerState != null ? _playerState.CurrentMana : 0;
+            var maxMana = _playerState != null ? _playerState.MaxMana : 0;
+
+            DrawProgress(e.Graphics, clientRect, currentMana, 0L, maxMana,
+                DefaultSegmentWidth, DefaultSegmentSpacing, false, ProgressPadding,
+                ManaGradientStartColor, ManaGradientEndColor, LinearGradientMode.Vertical);
+
+            DrawBorder(e.Graphics, clientRect, BorderStyle.Fixed3D);
         }
 
         private void DrawBorder(
           Graphics g,
-          Rectangle rClient,
-          BorderStyle BorderType,
-          Color ShaderLight,
-          Color ShaderDark)
+          Rectangle clientRect,
+          BorderStyle borderStyle)
         {
-            rClient.Inflate(-1, -1);
-            rClient.Offset(-1, -1);
-            if (BorderType.Equals(BorderStyle.None))
+            clientRect.Inflate(-1, -1);
+            clientRect.Offset(-1, -1);
+
+            if (borderStyle.Equals(BorderStyle.None))
+            {
                 return;
-            g.DrawLine(new Pen(ShaderDark), rClient.Left, rClient.Top, rClient.Left + rClient.Width, rClient.Top);
-            if (BorderType.Equals(BorderStyle.Fixed3D))
+            }
+
+            var left = clientRect.Left;
+            var top = clientRect.Top;
+            var right = clientRect.Right;
+            var bottom = clientRect.Bottom;
+
+            g.DrawLine(_shadowPen, left, top, right, top);
+
+            if (borderStyle.Equals(BorderStyle.Fixed3D))
             {
-                g.DrawLine(new Pen(ShaderLight), rClient.Left + rClient.Width, rClient.Top, rClient.Left + rClient.Width, rClient.Top + rClient.Height);
-                g.DrawLine(new Pen(ShaderLight), rClient.Left + rClient.Width, rClient.Top + rClient.Height, rClient.Left, rClient.Top + rClient.Height);
+                g.DrawLine(_highlightPen, right, top, right, bottom);
+                g.DrawLine(_highlightPen, right, bottom, left, bottom);
             }
             else
             {
-                g.DrawLine(new Pen(ShaderDark), rClient.Left + rClient.Width, rClient.Top, rClient.Left + rClient.Width, rClient.Top + rClient.Height);
-                g.DrawLine(new Pen(ShaderDark), rClient.Left + rClient.Width, rClient.Top + rClient.Height, rClient.Left, rClient.Top + rClient.Height);
+                g.DrawLine(_shadowPen, right, top, right, bottom);
+                g.DrawLine(_shadowPen, right, bottom, left, bottom);
             }
-            g.DrawLine(new Pen(ShaderDark), rClient.Left, rClient.Top + rClient.Height, rClient.Left, rClient.Top);
+            g.DrawLine(_shadowPen, left, bottom, left, top);
         }
 
-        private void picHP_Paint(object sender, PaintEventArgs e)
+        private void DrawProgress(
+          Graphics g,
+          Rectangle clientRect,
+          long value,
+          long min,
+          long max,
+          int segmentWidth,
+          int segmentSpacing,
+          bool isSmoothFill,
+          Padding padding,
+          Color gradientColorA,
+          Color gradientColorB,
+          LinearGradientMode gradientMode)
         {
-            e.Graphics.Clear(PrgBackColor);
-            DrawProgress(e.Graphics, picHP.ClientRectangle, m_HP, 0L, m_MaxHP, BarWidth, BarSpacing, false, PrgPadding, HPGradSoft, HPGradHard, LinearGradientMode.Vertical, false);
-            DrawBorder(e.Graphics, picHP.ClientRectangle, BorderStyle.Fixed3D, ShadingLight, ShadingDark);
-        }
-
-        private void picMP_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.Clear(PrgBackColor);
-            DrawProgress(e.Graphics, picMP.ClientRectangle, m_MP, 0L, m_MaxMP, BarWidth, BarSpacing, false, PrgPadding, MPGradSoft, MPGradHard, LinearGradientMode.Vertical, false);
-            DrawBorder(e.Graphics, picMP.ClientRectangle, BorderStyle.Fixed3D, ShadingLight, ShadingDark);
-        }
-
-        private void tmrUpdate_Tick(object sender, EventArgs e)
-        {
-            if (IsDisposed || memRead == null)
+            if (value <= min)
+            {
                 return;
-            if (!memRead.IsAttached | !memRead.IsRunning)
-            {
-                Text = "Process Lost! -- Re-Attach";
-                m_HP = 0L;
-                m_MaxHP = 0L;
-                m_MaxMP = 0L;
-                m_MP = 0L;
-                m_XLoc = 0L;
-                m_YLoc = 0L;
-                m_MapLoc = null;
-                m_CharName = null;
-                tmrUpdate.Enabled = false;
             }
-            else
+
+            var ratio = (float)(value / Math.Max(1.0, max));
+            if (ratio >= 1.0)
             {
-                m_CharName = memRead.ReadString((IntPtr)7754528);
-                ulong num = memRead.ReadUInt32((IntPtr)8535904);
-                m_HP = memRead.ReadInt32((IntPtr)((long)num + 19644L));
-                m_MP = memRead.ReadInt32((IntPtr)((long)num + 19652L));
-                m_MaxHP = memRead.ReadInt32((IntPtr)((long)num + 19648L));
-                m_MaxMP = memRead.ReadInt32((IntPtr)((long)num + 19656L));
-                m_MapLoc = memRead.ReadString((IntPtr)(memRead.ReadInt32((IntPtr)(memRead.ReadInt32((IntPtr)(memRead.ReadInt32((IntPtr)7153024) + 76)) + 108)) + 28));
-                m_XLoc = memRead.ReadInt32((IntPtr)(memRead.ReadInt32((IntPtr)(memRead.ReadInt32((IntPtr)7327488) + 516)) + 44));
-                m_YLoc = memRead.ReadInt32((IntPtr)(memRead.ReadInt32((IntPtr)(memRead.ReadInt32((IntPtr)7327488) + 516)) + 40));
-                m_ChatBuffer = "Chat is currently disabled.";
+                ratio = 1.0f;
             }
-            if (m_CharName != null)
-                Text = m_CharName + "'s Status";
-            else
-                Text = "Status Window";
-            if (cbShowChat.Checked)
+
+            var rect = new Rectangle(clientRect.X + 2 + padding.Left,
+                clientRect.Y + 2 + padding.Top,
+                (int)((double)(clientRect.Width - 5 - padding.Left - padding.Right) * ratio),
+                clientRect.Height - 5 - (padding.Top + padding.Bottom));
+
+            g.FillRectangle(new LinearGradientBrush(rect, gradientColorA, gradientColorB, gradientMode), rect);
+
+            if (isSmoothFill)
             {
-                if (m_ChatBuffer != null)
-                {
-                    if (checkNewChat(m_ChatBuffer, m_Chat))
-                    {
-                        m_Chat = m_ChatBuffer;
-                        rtbChatLog.Text = m_Chat.Replace('\n', ' ');
-                        rtbChatLog.SelectionStart = rtbChatLog.Text.Length;
-                    }
-                }
-                else
-                {
-                    rtbChatLog.Text = "Chat Text";
-                }
+                return;
             }
-            decimal num1 = 0M;
-            decimal num2 = 0M;
-            try
+
+            for (int index = 1; index < rect.Width / (segmentWidth + segmentSpacing) + 1; ++index)
             {
-                num1 = Math.Round((decimal)m_HP / m_MaxHP * 100M, 2);
+                g.FillRectangle(_progressBackgroundBrush, rect.Left + index * segmentWidth + (index - 1) * segmentSpacing, rect.Top, segmentSpacing, rect.Height);
             }
-            catch (DivideByZeroException)
-            {
-            }
-            try
-            {
-                num2 = Math.Round((decimal)m_MP / m_MaxMP * 100M, 2);
-            }
-            catch (DivideByZeroException)
-            {
-            }
-            lblHP.Text = $"{m_HP.ToString()} / {m_MaxHP.ToString()}";
-            lblHPPercent.Text = num1 + " %";
-            lblMP.Text = $"{m_MP.ToString()} / {m_MaxMP.ToString()}";
-            lblMPPercent.Text = num2 + " %";
-            lblMAP.Text = m_MapLoc;
-            lblX.Text = m_XLoc.ToString();
-            lblY.Text = m_YLoc.ToString();
-            picHP.Refresh();
-            picMP.Refresh();
         }
 
-        private void frmStatus_DragEnter(object sender, DragEventArgs e)
+        private void form_DragEnter(object sender, DragEventArgs e)
         {
-            uint result = 0;
-            if (!uint.TryParse((string)e.Data.GetData(DataFormats.Text), out result))
-                e.Effect = DragDropEffects.None;
-            else
+            if (e.Data.GetDataPresent(typeof(GameClientWindow)))
                 e.Effect = DragDropEffects.Copy;
-        }
-
-        private void frmStatus_DragDrop(object sender, DragEventArgs e)
-        {
-            uint result;
-            if (!uint.TryParse((string)e.Data.GetData(DataFormats.Text), out result))
+            else
                 e.Effect = DragDropEffects.None;
-            else if (result < 1U)
+        }
+
+        private void form_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(typeof(GameClientWindow)))
             {
-                MessageBox.Show($"The process you have selected is invalid. (PID {result.ToString()})", "Invalid Process,", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
             }
-            else
+
+            if (_clientReader != null)
             {
-                memRead = new MemoryReader(result);
-                if (memRead.IsAttached)
-                    tmrUpdate.Enabled = true;
-                lblHelp.Visible = false;
+                _clientReader.Dispose();
+            }
+
+            var gameClientWindow = (GameClientWindow)e.Data.GetData(typeof(GameClientWindow));
+
+            try
+            {
+                _clientReader = new GameClientReader(gameClientWindow.ProcessId);
+                _playerState = new PlayerState();
+                _isAttached = true;
+
+                helpLabel.Visible = false;
+                updateTimer.Enabled = true;
+            }
+            catch
+            {
+                updateTimer.Enabled = false;
+                helpLabel.Visible = true;
+
+                MessageBox.Show($"The process you have selected is invalid. (PID {gameClientWindow.ProcessId})", "Invalid Process,", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
 
-        private bool checkNewChat(string curBuffer, string newBuffer) => !curBuffer.Equals(newBuffer);
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void form_Closed(object sender, FormClosedEventArgs e)
         {
-            if (cbShowChat.Checked)
+            if (_clientReader != null)
             {
-                Height = 415;
-                rtbChatLog.Enabled = true;
-            }
-            else
-            {
-                Height = 187;
-                rtbChatLog.Enabled = false;
+                _clientReader.Dispose();
             }
         }
     }
