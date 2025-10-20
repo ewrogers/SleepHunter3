@@ -52,6 +52,9 @@
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.10\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -64,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,10 +122,16 @@
     <Compile Include="Forms\StatusForm.Designer.cs">
       <DependentUpon>StatusForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interop\DynamicMemoryVariable.cs" />
+    <Compile Include="Interop\GameClientReader.cs" />
+    <Compile Include="Interop\IMemoryVariable.cs" />
+    <Compile Include="Interop\MemoryVariable.cs" />
+    <Compile Include="Interop\StaticMemoryVariable.cs" />
     <Compile Include="MacroReader.cs" />
     <Compile Include="MacroWriter.cs" />
     <Compile Include="LogicStructure.cs" />
     <Compile Include="Hotkey.cs" />
+    <Compile Include="Models\GameClientWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CommandLibrary.cs" />
     <Compile Include="Properties\Resources.cs" />
@@ -133,6 +143,8 @@
     <Compile Include="ProcessMemory\MemoryReader.cs" />
     <Compile Include="ProcessMemory\MemoryWriter.cs" />
     <Compile Include="ProcessMemory\MemoryAlloc.cs" />
+    <Compile Include="Services\GameClientService.cs" />
+    <Compile Include="Services\IGameClientService.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\AboutForm.resx">
@@ -185,7 +197,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <DependentUpon>Resources.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
