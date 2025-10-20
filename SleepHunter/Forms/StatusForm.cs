@@ -247,6 +247,10 @@ namespace SleepHunter.Forms
             {
                 _clientReader.Dispose();
             }
+
+            _highlightPen.Dispose();
+            _shadowPen.Dispose();
+            _progressBackgroundBrush.Dispose();
         }
     }
 }

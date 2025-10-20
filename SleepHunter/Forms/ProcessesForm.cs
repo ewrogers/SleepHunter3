@@ -34,7 +34,6 @@ namespace SleepHunter.Forms
             };
         }
 
-
         private void processListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             var listViewItem = e.Item as ListViewItem;
@@ -118,6 +117,10 @@ namespace SleepHunter.Forms
         private void ProcessesForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             _processListViewGraphics.Dispose();
+            _borderPen.Dispose();
+            _placeholderFont.Dispose();
+            _placeholderBrush.Dispose();
+            _placeholderStringFormat.Dispose();
         }
     }
 }
