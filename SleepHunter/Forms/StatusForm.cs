@@ -84,7 +84,7 @@ namespace SleepHunter.Forms
             healthPercentLabel.Text = _playerState.HealthPercentage + " %";
             manaLabel.Text = $"{_playerState.CurrentMana} / {_playerState.MaxMana}";
             manaPercentLabel.Text = _playerState.ManaPercentage + " %";
-            mapLabel.Text = _playerState.MapId.ToString();
+            mapLabel.Text = $"{_playerState.MapName} ({_playerState.MapId})";
             mapXLabel.Text = _playerState.MapX.ToString();
             mapYLabel.Text = _playerState.MapY.ToString();
 

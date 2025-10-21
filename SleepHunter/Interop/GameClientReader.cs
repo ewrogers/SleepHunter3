@@ -33,7 +33,7 @@ namespace SleepHunter.Interop
             _versionVariable = new StaticMemoryVariable<string>(_stream, (IntPtr)0x685B08, maxLength: 8);
             _characterNameVariable = new StaticMemoryVariable<string>(_stream, (IntPtr)0x73D910, maxLength: 13);
 
-            _mapNameVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x82B76C, new long[] { 0x4E3C }, maxLength: 32);
+            _mapNameVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x82B76C, new long[] { 0x4E3C, 0x0 }, maxLength: 32);
             _mapIdVariable = new DynamicMemoryVariable<ushort>(_stream, (IntPtr)0x882E68, new long[] { 0x26C });
             _mapXVariable = new DynamicMemoryVariable<ushort>(_stream, (IntPtr)0x882E68, new long[] { 0x23C });
             _mapYVariable = new DynamicMemoryVariable<ushort>(_stream, (IntPtr)0x882E68, new long[] { 0x238 });
