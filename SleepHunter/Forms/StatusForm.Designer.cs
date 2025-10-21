@@ -70,7 +70,7 @@ namespace SleepHunter.Forms
             // 
             // healthCaptionLabel
             // 
-            this.healthCaptionLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthCaptionLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.healthCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.healthCaptionLabel.Location = new System.Drawing.Point(12, 9);
             this.healthCaptionLabel.Name = "healthCaptionLabel";
@@ -89,7 +89,7 @@ namespace SleepHunter.Forms
             // 
             // manaCaptionLabel
             // 
-            this.manaCaptionLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaCaptionLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.manaCaptionLabel.Location = new System.Drawing.Point(12, 52);
             this.manaCaptionLabel.Name = "manaCaptionLabel";
@@ -137,48 +137,51 @@ namespace SleepHunter.Forms
             // 
             // healthLabel
             // 
+            this.healthLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.healthLabel.Location = new System.Drawing.Point(39, 9);
             this.healthLabel.Name = "healthLabel";
-            this.healthLabel.Size = new System.Drawing.Size(192, 13);
+            this.healthLabel.Size = new System.Drawing.Size(178, 13);
             this.healthLabel.TabIndex = 8;
             this.healthLabel.Text = "0/0";
             this.healthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // manaLabel
             // 
+            this.manaLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.manaLabel.Location = new System.Drawing.Point(39, 51);
             this.manaLabel.Name = "manaLabel";
-            this.manaLabel.Size = new System.Drawing.Size(195, 13);
+            this.manaLabel.Size = new System.Drawing.Size(178, 13);
             this.manaLabel.TabIndex = 9;
             this.manaLabel.Text = "0/0";
             this.manaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // healthPercentLabel
             // 
-            this.healthPercentLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.healthPercentLabel.Location = new System.Drawing.Point(237, 9);
+            this.healthPercentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthPercentLabel.Location = new System.Drawing.Point(223, 9);
             this.healthPercentLabel.Name = "healthPercentLabel";
-            this.healthPercentLabel.Size = new System.Drawing.Size(46, 13);
+            this.healthPercentLabel.Size = new System.Drawing.Size(60, 13);
             this.healthPercentLabel.TabIndex = 10;
             this.healthPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // manaPercentLabel
             // 
-            this.manaPercentLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.manaPercentLabel.Location = new System.Drawing.Point(240, 51);
+            this.manaPercentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaPercentLabel.Location = new System.Drawing.Point(226, 51);
             this.manaPercentLabel.Name = "manaPercentLabel";
-            this.manaPercentLabel.Size = new System.Drawing.Size(44, 13);
+            this.manaPercentLabel.Size = new System.Drawing.Size(58, 13);
             this.manaPercentLabel.TabIndex = 11;
             this.manaPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mapLabel
             // 
             this.mapLabel.AutoSize = true;
+            this.mapLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mapLabel.Location = new System.Drawing.Point(73, 92);
             this.mapLabel.Name = "mapLabel";
-            this.mapLabel.Size = new System.Drawing.Size(22, 13);
+            this.mapLabel.Size = new System.Drawing.Size(25, 14);
             this.mapLabel.TabIndex = 12;
             this.mapLabel.Text = "???";
             this.mapLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -186,10 +189,11 @@ namespace SleepHunter.Forms
             // mapXLabel
             // 
             this.mapXLabel.AutoSize = true;
+            this.mapXLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapXLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mapXLabel.Location = new System.Drawing.Point(73, 115);
             this.mapXLabel.Name = "mapXLabel";
-            this.mapXLabel.Size = new System.Drawing.Size(22, 13);
+            this.mapXLabel.Size = new System.Drawing.Size(25, 14);
             this.mapXLabel.TabIndex = 13;
             this.mapXLabel.Text = "???";
             this.mapXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -197,10 +201,11 @@ namespace SleepHunter.Forms
             // mapYLabel
             // 
             this.mapYLabel.AutoSize = true;
+            this.mapYLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapYLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mapYLabel.Location = new System.Drawing.Point(73, 137);
             this.mapYLabel.Name = "mapYLabel";
-            this.mapYLabel.Size = new System.Drawing.Size(22, 13);
+            this.mapYLabel.Size = new System.Drawing.Size(25, 14);
             this.mapYLabel.TabIndex = 14;
             this.mapYLabel.Text = "???";
             this.mapYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

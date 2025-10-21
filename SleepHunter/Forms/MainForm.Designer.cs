@@ -187,6 +187,7 @@ namespace SleepHunter.Forms
             this.doubleClickTimer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.mdiSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.commandsPanel.SuspendLayout();
@@ -206,7 +207,7 @@ namespace SleepHunter.Forms
             this.mainMenuStrip.MdiWindowListItem = this.windowMenu;
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.ShowItemToolTips = true;
-            this.mainMenuStrip.Size = new System.Drawing.Size(784, 25);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1008, 25);
             this.mainMenuStrip.TabIndex = 2;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -323,7 +324,8 @@ namespace SleepHunter.Forms
             this.tileHorizontalMenu,
             this.windowMenuSeparator,
             this.minimizeAllMenu,
-            this.closeAllMenu});
+            this.closeAllMenu,
+            this.mdiSeparator});
             this.windowMenu.Name = "windowMenu";
             this.windowMenu.Size = new System.Drawing.Size(67, 21);
             this.windowMenu.Text = "&Window";
@@ -430,12 +432,11 @@ namespace SleepHunter.Forms
             this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
             this.mainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.mainStatusStrip.Location = new System.Drawing.Point(0, 539);
+            this.mainStatusStrip.Location = new System.Drawing.Point(0, 619);
             this.mainStatusStrip.Name = "mainStatusStrip";
-            this.mainStatusStrip.Size = new System.Drawing.Size(784, 22);
+            this.mainStatusStrip.Size = new System.Drawing.Size(1008, 22);
             this.mainStatusStrip.SizingGrip = false;
             this.mainStatusStrip.TabIndex = 4;
-            this.mainStatusStrip.Text = "statusStrip1";
             // 
             // statusLabel
             // 
@@ -450,7 +451,7 @@ namespace SleepHunter.Forms
             this.commandsPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.commandsPanel.Location = new System.Drawing.Point(0, 25);
             this.commandsPanel.Name = "commandsPanel";
-            this.commandsPanel.Size = new System.Drawing.Size(240, 514);
+            this.commandsPanel.Size = new System.Drawing.Size(240, 594);
             this.commandsPanel.TabIndex = 5;
             // 
             // commandsTreeView
@@ -683,7 +684,7 @@ namespace SleepHunter.Forms
             treeNode53});
             this.commandsTreeView.SelectedImageIndex = 0;
             this.commandsTreeView.ShowNodeToolTips = true;
-            this.commandsTreeView.Size = new System.Drawing.Size(236, 510);
+            this.commandsTreeView.Size = new System.Drawing.Size(236, 590);
             this.commandsTreeView.Sorted = true;
             this.commandsTreeView.TabIndex = 0;
             this.commandsTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.CommandsTreeView_ItemDrag);
@@ -717,11 +718,16 @@ namespace SleepHunter.Forms
             this.saveFileDialog.Title = "Save Macro";
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveFileDialog_FileOk);
             // 
+            // mdiSeparator
+            // 
+            this.mdiSeparator.Name = "mdiSeparator";
+            this.mdiSeparator.Size = new System.Drawing.Size(223, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(1008, 641);
             this.Controls.Add(this.commandsPanel);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.mainMenuStrip);
@@ -744,5 +750,6 @@ namespace SleepHunter.Forms
         }
 
         private ToolStripSeparator toolsMenuSeparator;
+        private ToolStripSeparator mdiSeparator;
     }
 }

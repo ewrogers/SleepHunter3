@@ -25,9 +25,7 @@ namespace SleepHunter.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProcessesForm));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("System Processes", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("User Processes", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Dark Ages Processes", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Dark Ages Windows", System.Windows.Forms.HorizontalAlignment.Left);
             this.iconsImageList = new System.Windows.Forms.ImageList(this.components);
             this.processPanel = new System.Windows.Forms.Panel();
             this.processListView = new System.Windows.Forms.ListView();
@@ -60,16 +58,11 @@ namespace SleepHunter.Forms
             this.processListView.AllowDrop = true;
             this.processListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.processListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup1.Header = "System Processes";
-            listViewGroup1.Name = "grpSystem";
-            listViewGroup2.Header = "User Processes";
-            listViewGroup2.Name = "grpUser";
-            listViewGroup3.Header = "Dark Ages Processes";
-            listViewGroup3.Name = "grpDA";
+            this.processListView.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            listViewGroup1.Header = "Dark Ages Windows";
+            listViewGroup1.Name = "darkagesGroup";
             this.processListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3});
+            listViewGroup1});
             this.processListView.HideSelection = false;
             this.processListView.LargeImageList = this.iconsImageList;
             this.processListView.Location = new System.Drawing.Point(5, 30);
@@ -94,11 +87,12 @@ namespace SleepHunter.Forms
             // 
             // refreshButton
             // 
+            this.refreshButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
             this.refreshButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.refreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(123, 22);
+            this.refreshButton.Size = new System.Drawing.Size(138, 22);
             this.refreshButton.Text = " Refresh Processes";
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 

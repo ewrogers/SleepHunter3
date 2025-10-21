@@ -57,7 +57,7 @@ namespace SleepHunter.Forms
                     string[] arguments = macroReader.GetArguments(str.Trim());
                     string fileTitle = macroReader.GetFileTitle(str.Trim());
                     statusLabel.Text = $"Opening {str}...";
-                    MacroForm frmMacro = new MacroForm();
+                    MacroForm frmMacro = _serviceProvider.GetRequiredService<MacroForm>();
                     macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
                     frmMacro.MdiParent = this;
                     frmMacro.nameTextBox.Text = fileTitle;
@@ -240,7 +240,7 @@ namespace SleepHunter.Forms
                     if (frmMacro.processIdLabel.Text.EndsWith(processID.ToString()))
                     {
                         frmMacro.processIdLabel.Text = "Process ID:";
-                        frmMacro.processNameLabel.Text = "Process Name:";
+                        frmMacro.clientVersionLabel.Text = "Process Name:";
                         frmMacro.windowHandleLabel.Text = "Window Handle:";
                         frmMacro.characterNameLabel.Text = "Character Name:";
                         frmMacro.statusLabel.Text = "Macro is not running.";

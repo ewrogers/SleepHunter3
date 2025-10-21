@@ -83,11 +83,11 @@ namespace SleepHunter.Forms
 
                         // Get client name
                         var name = reader.ReadCharacterName();
-                        var displayName = !string.IsNullOrWhiteSpace(name) ? $"Darkages.exe ({name})" : "Darkages.exe";
+                        var displayName = !string.IsNullOrWhiteSpace(name) ? name : "Darkages.exe";
 
                         // Add the process list view
                         var listViewItem = processListView.Items.Add(displayName, 0);
-                        listViewItem.Group = processListView.Groups[2];
+                        listViewItem.Group = processListView.Groups[0];
                         listViewItem.Tag = clientWindow;
                     }
                     finally
