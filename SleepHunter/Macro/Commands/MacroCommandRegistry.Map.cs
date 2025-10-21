@@ -7,9 +7,28 @@
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Map,
+                Key = "IF_MAP_NAME",
+                DisplayName = "If Map Name",
+                Description = "Performs the actions if the map name matches a certain condition.",
+                Parameters = { MacroParameterType.StringCompareOperator, MacroParameterType.String },
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Map,
+                Key = "IF_MAP_NUM",
+                DisplayName = "If Map Number",
+                Description = "Performs the actions if the map number matches a certain condition.",
+                Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Map,
                 Key = "IF_MAP_X",
                 DisplayName = "If Map X",
-                Description = "Compares the map X coordinate against a certain value."
+                Description = "Performs the actions if the map X coordinate matches a certain condition.",
+                Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
             });
 
             RegisterCommand(new MacroCommandDefinition
@@ -17,7 +36,44 @@
                 Category = MacroCommandCategory.Map,
                 Key = "IF_MAP_Y",
                 DisplayName = "If Map Y",
-                Description = "Compares the map Y coordinate against a certain value."
+                Description = "Performs the actions if the map Y coordinate matches a certain condition.",
+                Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Map,
+                Key = "WHILE_MAP_NAME",
+                DisplayName = "While Map Name",
+                Description = "Loops actions while the map name matches a certain condition.",
+                Parameters = { MacroParameterType.StringCompareOperator, MacroParameterType.String },
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Map,
+                Key = "WHILE_MAP_NUM",
+                DisplayName = "While Map Num",
+                Description = "Loops actions while the map number matches a certain condition.",
+                Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Map,
+                Key = "WHILE_MAP_X",
+                DisplayName = "While Map X",
+                Description = "Loops actions while the map X coordinate matches a certain condition.",
+                Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Map,
+                Key = "WHILE_MAP_Y",
+                DisplayName = "While Map Y",
+                Description = "Loops actions while the map X coordinate matches a certain condition.",
+                Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
             });
         }
     }

@@ -33,10 +33,14 @@ namespace SleepHunter.Macro.Conditions
                     return string.Compare(actualValue, compareValue, StringComparison.OrdinalIgnoreCase) < 0;
                 case StringCompareOperator.GreaterThan:
                     return string.Compare(actualValue, compareValue, StringComparison.OrdinalIgnoreCase) > 0;
-                case StringCompareOperator.StartWith:
+                case StringCompareOperator.StartsWith:
                     return actualValue.StartsWith(compareValue, StringComparison.OrdinalIgnoreCase);
+                case StringCompareOperator.NotStartsWith:
+                    return !actualValue.StartsWith(compareValue, StringComparison.OrdinalIgnoreCase);
                 case StringCompareOperator.EndsWith:
                     return actualValue.EndsWith(compareValue, StringComparison.OrdinalIgnoreCase);
+                case StringCompareOperator.NotEndsWith:
+                    return !actualValue.EndsWith(compareValue, StringComparison.OrdinalIgnoreCase);
                 default:
                     throw new InvalidOperationException($"Invalid operator: {@operator}");
             }

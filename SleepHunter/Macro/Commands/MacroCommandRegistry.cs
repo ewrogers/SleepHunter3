@@ -12,6 +12,8 @@ namespace SleepHunter.Macro.Commands
         {
             RegisterInterfaceCommands();
             RegisterMapCommands();
+            RegisterHealthCommands();
+            RegisterManaCommands();
         }
 
         public IEnumerable<MacroCommandDefinition> Commands => commands.Values;

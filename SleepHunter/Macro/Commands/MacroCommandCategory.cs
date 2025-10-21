@@ -9,6 +9,6 @@
         Health,
         Mana,
         Loop,
-        Time
+        Wait
     }
 }

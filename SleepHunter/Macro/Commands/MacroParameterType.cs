@@ -3,10 +3,14 @@
     public enum MacroParameterType
     {
         None,
+        Boolean,
         Integer,
         Float,
         String,
         Keystrokes,
-        Point
+        Point,
+        CompareOperator,
+        LogicalOperator,
+        StringCompareOperator
     }
 }

@@ -5,10 +5,12 @@
         Equal = 0,
         LessThan = -1,
         GreaterThan = 1,
-        NotEqual,
-        Contains,
-        NotContains,
-        StartWith,
-        EndsWith
+        NotEqual = 2,
+        Contains = 3,
+        NotContains = -3,
+        StartsWith = 4,
+        NotStartsWith = -4,
+        EndsWith = 5,
+        NotEndsWith = -5
     }
 }

@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SleepHunter.Macro.Commands
 {
     public abstract class MacroCommand : IMacroCommand
     {
-        public MacroParameterValue Parameter { get; set; }
+        public List<MacroParameterValue> Parameters { get; set; } = new List<MacroParameterValue>();
 
         public virtual bool CanExecute(MacroContext context) => true;
 

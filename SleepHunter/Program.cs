@@ -35,6 +35,7 @@ namespace SleepHunter
         {
             // Application services
             services.AddSingleton<IGameClientService, GameClientService>();
+            services.AddSingleton<IMacroCommandFactory, MacroCommandFactory>();
             services.AddSingleton<IMacroCommandRegistry, MacroCommandRegistry>();
             services.AddSingleton<IWindowEnumerator, WindowEnumerator>();
 

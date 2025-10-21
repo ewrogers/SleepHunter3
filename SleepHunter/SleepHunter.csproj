@@ -131,12 +131,16 @@
     <Compile Include="LogicStructure.cs" />
     <Compile Include="Hotkey.cs" />
     <Compile Include="Macro\Commands\IMacroCommand.cs" />
+    <Compile Include="Macro\Commands\IMacroCommandFactory.cs" />
     <Compile Include="Macro\Commands\IMacroCommandRegistry.cs" />
     <Compile Include="Macro\Commands\MacroCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
     <Compile Include="Macro\Commands\MacroCommandDefinition.cs" />
+    <Compile Include="Macro\Commands\MacroCommandFactory.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Health.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Interface.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Mana.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Map.cs" />
     <Compile Include="Macro\Commands\MacroCommandResult.cs" />
     <Compile Include="Macro\Commands\MacroParameterParser.cs" />
