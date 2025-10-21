@@ -27,18 +27,18 @@ namespace SleepHunter.Forms
 
         private void MdiChild_Activate(object sender, EventArgs e)
         {
-            if (!(ActiveMdiChild is MacroForm))
+            if (!(ActiveMdiChild is MacroForm macroForm))
                 return;
 
-            ActiveMacro = (MacroForm)ActiveMdiChild;
+            ActiveMacro = macroForm;
         }
 
         #region File Menu Actions
         private void NewMacroMenu_Click(object sender, EventArgs e)
         {
-            MacroForm frmMacro = new MacroForm();
-            frmMacro.MdiParent = this;
-            frmMacro.Show();
+            var macroForm = _serviceProvider.GetRequiredService<MacroForm>();
+            macroForm.MdiParent = this;
+            macroForm.Show();
         }
 
         private void OpenMacroMenu_Click(object sender, EventArgs e)
@@ -56,18 +56,15 @@ namespace SleepHunter.Forms
                     string[] commands = macroReader.GetCommands(str.Trim());
                     string[] arguments = macroReader.GetArguments(str.Trim());
                     string fileTitle = macroReader.GetFileTitle(str.Trim());
-                    lblStatus.Text = $"Opening {str}...";
+                    statusLabel.Text = $"Opening {str}...";
                     MacroForm frmMacro = new MacroForm();
-                    macroReader.AddCommandsToList(frmMacro.lvwMacro, commands, arguments);
+                    macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
                     frmMacro.MdiParent = this;
-                    frmMacro.txtName.Text = fileTitle;
-                    frmMacro.ClearNullEntries();
-                    frmMacro.ReNumberLines();
-                    frmMacro.IndentLines();
+                    frmMacro.nameTextBox.Text = fileTitle;
                     frmMacro.Show();
                 }
             }
-            lblStatus.Text = "Idle.";
+            statusLabel.Text = "Idle.";
         }
 
         private void SaveMacroMenu_Click(object sender, EventArgs e)
@@ -76,13 +73,13 @@ namespace SleepHunter.Forms
             {
                 int num1 = (int)MessageBox.Show("No macro windows are open, cannot save.", "No Data Windows", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
-            else if (ActiveMacro.lvwMacro.Items.Count < 1)
+            else if (ActiveMacro.macroListView.Items.Count < 1)
             {
                 int num2 = (int)MessageBox.Show("Macro window contains no data.", "Empty Macro", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
             else
             {
-                saveFileDialog.FileName = ActiveMacro.txtName.Text + ".sh3";
+                saveFileDialog.FileName = ActiveMacro.nameTextBox.Text + ".sh3";
                 DialogCancel = true;
                 int num3 = (int)saveFileDialog.ShowDialog(this);
                 if (DialogCancel)
@@ -90,19 +87,19 @@ namespace SleepHunter.Forms
                 string fileName = saveFileDialog.FileName;
                 if (fileName == null || fileName.Trim() == "")
                     return;
-                lblStatus.Text = $"Saving {fileName}...";
-                string[] CommandList = new string[ActiveMacro.lvwMacro.Items.Count];
-                string[] ArgList = new string[ActiveMacro.lvwMacro.Items.Count];
+                statusLabel.Text = $"Saving {fileName}...";
+                string[] CommandList = new string[ActiveMacro.macroListView.Items.Count];
+                string[] ArgList = new string[ActiveMacro.macroListView.Items.Count];
                 int index = 0;
-                foreach (ListViewItem listViewItem in ActiveMacro.lvwMacro.Items)
+                foreach (ListViewItem listViewItem in ActiveMacro.macroListView.Items)
                 {
                     string[] strArray = listViewItem.Tag.ToString().Split('|');
                     CommandList[index] = strArray[0];
                     ArgList[index] = strArray[1];
                     ++index;
                 }
-                new MacroWriter().SaveData(CommandList, ArgList, ActiveMacro.txtName.Text.Trim(), fileName);
-                lblStatus.Text = "Idle.";
+                new MacroWriter().SaveData(CommandList, ArgList, ActiveMacro.nameTextBox.Text.Trim(), fileName);
+                statusLabel.Text = "Idle.";
             }
         }
 
@@ -117,9 +114,9 @@ namespace SleepHunter.Forms
 
         private void StatusWindowMenu_Click(object sender, EventArgs e)
         {
-            StatusForm frmStatus = new StatusForm();
-            frmStatus.MdiParent = this;
-            frmStatus.Show();
+            var statusForm = _serviceProvider.GetRequiredService<StatusForm>();
+            statusForm.MdiParent = this;
+            statusForm.Show();
         }
 
         private void ProcessManagerMenu_Click(object sender, EventArgs e)
@@ -139,19 +136,10 @@ namespace SleepHunter.Forms
             }
         }
 
-        // This is no longer used!
-        private void ChatWindowMenu_Click(object sender, EventArgs e)
-        {
-            ChatForm frmChat = new ChatForm();
-            frmChat.MdiParent = this;
-            frmChat.Show();
-        }
-
         private void OptionsWindowMenu_Click(object sender, EventArgs e)
         {
-            OptionsForm frmOptions = new OptionsForm();
-            frmOptions.MdiParent = this;
-            frmOptions.Show();
+            var optionsForm = _serviceProvider.GetRequiredService<OptionsForm>();
+            optionsForm.ShowDialog(this);
         }
 
         #endregion
@@ -196,7 +184,7 @@ namespace SleepHunter.Forms
                 return;
 
             var commandText = $"{selectedNode.Text}|{selectedNode.Tag}";
-            ActiveMacro.AddCommand(commandText);
+            //ActiveMacro.AddCommand(commandText);
         }
 
         private void CommandsTreeView_ItemDrag(object sender, ItemDragEventArgs e)
@@ -218,8 +206,6 @@ namespace SleepHunter.Forms
                 if (form is MacroForm)
                 {
                     MacroForm frmMacro = (MacroForm)form;
-                    if (frmMacro.memRead != null)
-                        array[index1] = frmMacro.memRead.ProcessID;
                 }
                 ++index1;
             }
@@ -251,17 +237,14 @@ namespace SleepHunter.Forms
                 if (mdiChild is MacroForm)
                 {
                     MacroForm frmMacro = (MacroForm)mdiChild;
-                    if (frmMacro.lblProcessID.Text.EndsWith(processID.ToString()))
+                    if (frmMacro.processIdLabel.Text.EndsWith(processID.ToString()))
                     {
-                        frmMacro.MacroRunning = false;
-                        frmMacro.memRead.DetachProcess();
-                        frmMacro.lblProcessID.Text = "Process ID:";
-                        frmMacro.lblProcessName.Text = "Process Name:";
-                        frmMacro.lblWindowHandle.Text = "Window Handle:";
-                        frmMacro.lblCharName.Text = "Character Name:";
-                        frmMacro.lblStatus.Text = "Macro is not running.";
-                        frmMacro.lblStatus.Image = frmMacro.ilsStatusIcons.Images[2];
-                        frmMacro.memRead = null;
+                        frmMacro.processIdLabel.Text = "Process ID:";
+                        frmMacro.processNameLabel.Text = "Process Name:";
+                        frmMacro.windowHandleLabel.Text = "Window Handle:";
+                        frmMacro.characterNameLabel.Text = "Character Name:";
+                        frmMacro.statusLabel.Text = "Macro is not running.";
+                        frmMacro.statusLabel.Image = frmMacro.statusImageList.Images[2];
                     }
                 }
             }
@@ -282,22 +265,18 @@ namespace SleepHunter.Forms
                 if (mdiChild is MacroForm)
                 {
                     MacroForm frmMacro = (MacroForm)mdiChild;
-                    if (frmMacro.hotkey.HotkeyID == hotkeyID)
-                    {
-                        if (frmMacro.MacroRunning)
-                        {
-                            frmMacro.StopButton();
-                            break;
-                        }
-                        frmMacro.PlayButton();
-                        break;
-                    }
+                    //if (frmMacro.hotkey.HotkeyID == hotkeyID)
+                    //{
+                    //    if (frmMacro.MacroRunning)
+                    //    {
+                    //        frmMacro.StopButton();
+                    //        break;
+                    //    }
+                    //    frmMacro.PlayButton();
+                    //    break;
+                    //}
                 }
             }
         }
-
-
-
-        
     }
 }

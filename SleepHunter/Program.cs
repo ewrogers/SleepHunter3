@@ -38,6 +38,10 @@ namespace SleepHunter
 
             // Forms
             services.AddSingleton<MainForm>();
+            services.AddTransient<AboutForm>();
+            services.AddTransient<ArgumentsForm>();
+            services.AddTransient<MacroForm>();
+            services.AddTransient<OptionsForm>();
             services.AddTransient<ProcessesForm>();
             services.AddTransient<StatusForm>();
         }

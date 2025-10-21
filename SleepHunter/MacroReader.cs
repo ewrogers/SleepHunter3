@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using SleepHunter.Commands;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SleepHunter

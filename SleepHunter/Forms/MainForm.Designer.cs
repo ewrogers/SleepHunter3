@@ -33,7 +33,7 @@ namespace SleepHunter.Forms
         private ToolStripMenuItem aboutMenu;
         internal NotifyIcon notifyIcon;
         private StatusStrip mainStatusStrip;
-        private ToolStripStatusLabel lblStatus;
+        private ToolStripStatusLabel statusLabel;
         private Panel commandsPanel;
         private TreeView commandsTreeView;
         private ImageList nodeImageList;
@@ -180,7 +180,7 @@ namespace SleepHunter.Forms
             this.aboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.commandsPanel = new System.Windows.Forms.Panel();
             this.commandsTreeView = new System.Windows.Forms.TreeView();
             this.nodeImageList = new System.Windows.Forms.ImageList(this.components);
@@ -428,7 +428,7 @@ namespace SleepHunter.Forms
             this.mainStatusStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mainStatusStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus});
+            this.statusLabel});
             this.mainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.mainStatusStrip.Location = new System.Drawing.Point(0, 539);
             this.mainStatusStrip.Name = "mainStatusStrip";
@@ -437,11 +437,11 @@ namespace SleepHunter.Forms
             this.mainStatusStrip.TabIndex = 4;
             this.mainStatusStrip.Text = "statusStrip1";
             // 
-            // lblStatus
+            // statusLabel
             // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(106, 17);
-            this.lblStatus.Text = "SleepHunter v3.0";
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(106, 17);
+            this.statusLabel.Text = "SleepHunter v3.1";
             // 
             // commandsPanel
             // 

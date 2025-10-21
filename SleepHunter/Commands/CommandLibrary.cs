@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SleepHunter
+namespace SleepHunter.Commands
 {
 
     internal class CommandLibrary

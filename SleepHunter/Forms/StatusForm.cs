@@ -76,7 +76,7 @@ namespace SleepHunter.Forms
             }
 
             if (!string.IsNullOrWhiteSpace(_playerState.Name))
-                Text = _playerState.Name;
+                Text = $"{_playerState.Name} - Status";
             else
                 Text = "Status Window";
 
