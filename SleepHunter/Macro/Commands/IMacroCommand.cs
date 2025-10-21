@@ -6,5 +6,7 @@ namespace SleepHunter.Macro.Commands
     {
         bool CanExecute(MacroContext context);
         Task<MacroCommandResult> ExecuteAsync(MacroContext context);
+
+        void SetParameters(params MacroParameterValue[] parameters);
     }
 }

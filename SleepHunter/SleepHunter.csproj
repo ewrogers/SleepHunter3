@@ -132,7 +132,12 @@
     <Compile Include="Hotkey.cs" />
     <Compile Include="Macro\Commands\IMacroCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommand.cs" />
+    <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
+    <Compile Include="Macro\Commands\MacroCommandDefinition.cs" />
     <Compile Include="Macro\Commands\MacroCommandResult.cs" />
+    <Compile Include="Macro\Commands\MacroParameterParser.cs" />
+    <Compile Include="Macro\Commands\MacroParameterType.cs" />
+    <Compile Include="Macro\Commands\MacroParameterValue.cs" />
     <Compile Include="Macro\Conditions\CompareOperator.cs" />
     <Compile Include="Macro\Conditions\CompositeCondition.cs" />
     <Compile Include="Macro\Conditions\FloatCondition.cs" />

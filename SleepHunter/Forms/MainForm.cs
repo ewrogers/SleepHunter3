@@ -10,11 +10,9 @@ namespace SleepHunter.Forms
     {
         private readonly IServiceProvider _serviceProvider;
 
-        private uint[] HandledDupes = new uint[0];
         public ProcessesForm ProcessWindow;
         public MacroForm ActiveMacro;
         private bool DialogCancel = true;
-
 
         public MainForm(IServiceProvider serviceProvider)
         {
@@ -194,34 +192,6 @@ namespace SleepHunter.Forms
 
             var commandText = $"{treeNode.Text}|{treeNode.Tag}";
             DoDragDrop(commandText, DragDropEffects.Copy);
-        }
-
-        private void DoubleClickTimer_Tick(object sender, EventArgs e)
-        {
-            Form[] mdiChildren = MdiChildren;
-            uint[] array = new uint[mdiChildren.Length];
-            int index1 = 0;
-            foreach (Form form in mdiChildren)
-            {
-                if (form is MacroForm)
-                {
-                    MacroForm frmMacro = (MacroForm)form;
-                }
-                ++index1;
-            }
-
-            for (int index2 = 0; index2 < array.Length; ++index2)
-            {
-                if (Array.IndexOf(array, array[index2]) != Array.LastIndexOf(array, array[index2]) & array[index2] > 0U && Array.IndexOf(HandledDupes, array[index2]) < 0)
-                {
-                    notifyIcon.ShowBalloonTip(2500, "Overloaded Process", $"You have attached two different macros to the same process.{Environment.NewLine}{Environment.NewLine}It is suggested that you correct this unless you are sure the actions of both macros will not interfere with each other.", ToolTipIcon.Warning);
-                    uint[] handledDupes = HandledDupes;
-                    uint[] numArray = new uint[handledDupes.Length + 1];
-                    handledDupes.CopyTo(numArray, 0);
-                    numArray[numArray.Length - 1] = array[index2];
-                    HandledDupes = numArray;
-                }
-            }
         }
 
         #region File Dialog Handlers
