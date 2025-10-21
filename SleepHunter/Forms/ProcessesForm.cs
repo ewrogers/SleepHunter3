@@ -26,7 +26,7 @@ namespace SleepHunter.Forms
             borderPen = new Pen(SystemColors.ControlDark);
 
             placeholderBrush = new SolidBrush(SystemColors.ControlText);
-            placeholderFont = new Font("Tahoma", 10f, FontStyle.Bold);
+            placeholderFont = new Font("Segoe UI", 10f, FontStyle.Bold);
             placeholderStringFormat = new StringFormat(StringFormat.GenericDefault)
             {
                 Alignment = StringAlignment.Center,

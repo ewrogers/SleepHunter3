@@ -47,10 +47,11 @@ namespace SleepHunter.Forms
             this.processPanel.Controls.Add(this.processToolStrip);
             this.processPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.processPanel.Location = new System.Drawing.Point(0, 0);
+            this.processPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.processPanel.Name = "processPanel";
-            this.processPanel.Padding = new System.Windows.Forms.Padding(5, 5, 4, 4);
-            this.processPanel.Size = new System.Drawing.Size(464, 201);
-            this.processPanel.TabIndex = 2;
+            this.processPanel.Padding = new System.Windows.Forms.Padding(6, 7, 5, 5);
+            this.processPanel.Size = new System.Drawing.Size(524, 201);
+            this.processPanel.TabIndex = 0;
             this.processPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.processPanel_Paint);
             // 
             // processListView
@@ -65,24 +66,26 @@ namespace SleepHunter.Forms
             listViewGroup1});
             this.processListView.HideSelection = false;
             this.processListView.LargeImageList = this.iconsImageList;
-            this.processListView.Location = new System.Drawing.Point(5, 30);
+            this.processListView.Location = new System.Drawing.Point(6, 32);
+            this.processListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.processListView.MultiSelect = false;
             this.processListView.Name = "processListView";
-            this.processListView.Size = new System.Drawing.Size(455, 167);
-            this.processListView.TabIndex = 3;
+            this.processListView.Size = new System.Drawing.Size(513, 164);
+            this.processListView.TabIndex = 1;
             this.processListView.UseCompatibleStateImageBehavior = false;
             this.processListView.View = System.Windows.Forms.View.Tile;
             this.processListView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.processListView_ItemDrag);
             // 
             // processToolStrip
             // 
+            this.processToolStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.processToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.processToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshButton});
-            this.processToolStrip.Location = new System.Drawing.Point(5, 5);
+            this.processToolStrip.Location = new System.Drawing.Point(6, 7);
             this.processToolStrip.Name = "processToolStrip";
-            this.processToolStrip.Size = new System.Drawing.Size(455, 25);
-            this.processToolStrip.TabIndex = 4;
+            this.processToolStrip.Size = new System.Drawing.Size(513, 25);
+            this.processToolStrip.TabIndex = 0;
             this.processToolStrip.Text = "toolStrip1";
             // 
             // refreshButton
@@ -98,12 +101,13 @@ namespace SleepHunter.Forms
             // 
             // ProcessesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 201);
+            this.ClientSize = new System.Drawing.Size(524, 201);
             this.Controls.Add(this.processPanel);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ProcessesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Process Manager";

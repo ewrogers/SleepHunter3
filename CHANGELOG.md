@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for Dark Ages Client 7.41
 - Default window size is larger for modern displays
+- Show humanized health/mana values in status (ex: 8.1k or 1.24m)
+- Refactor argument window with better input controls
 - Refactor status window and updating of UI
 - Refactor client memory reading for 7.41
 - Optimize some graphics allocations

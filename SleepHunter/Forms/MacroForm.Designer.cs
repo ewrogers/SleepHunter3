@@ -329,6 +329,8 @@ namespace SleepHunter.Forms
             this.macroListView.TabIndex = 0;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
+            this.macroListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.macroListView_DragDrop);
+            this.macroListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.macroListView_DragEnter);
             // 
             // lineColumn
             // 

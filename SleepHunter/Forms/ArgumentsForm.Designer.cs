@@ -8,9 +8,8 @@ namespace SleepHunter.Forms
     partial class ArgumentsForm
     {
         private IContainer components = null;
-        private TextBox argumentsTextBox;
         private Button cancelButton;
-        private Panel pnlHelp;
+        private Panel helpPanel;
         private Label helpTextLabel;
         private Label commandNameLabel;
         private Label validationLabel;
@@ -28,118 +27,433 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArgumentsForm));
-            this.argumentsTextBox = new System.Windows.Forms.TextBox();
             this.addButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.pnlHelp = new System.Windows.Forms.Panel();
+            this.helpPanel = new System.Windows.Forms.Panel();
             this.validationLabel = new System.Windows.Forms.Label();
             this.helpTextLabel = new System.Windows.Forms.Label();
             this.commandNameLabel = new System.Windows.Forms.Label();
-            this.pnlHelp.SuspendLayout();
+            this.operatorLabel = new System.Windows.Forms.Label();
+            this.numericOperatorComboBox = new System.Windows.Forms.ComboBox();
+            this.numericValueLabel = new System.Windows.Forms.Label();
+            this.valueNumericBox = new System.Windows.Forms.NumericUpDown();
+            this.numericComparisonGroupBox = new System.Windows.Forms.GroupBox();
+            this.stringComparisonGroupBox = new System.Windows.Forms.GroupBox();
+            this.stringCompareOperatorComboBox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.stringValueLabel = new System.Windows.Forms.Label();
+            this.stringValueTextBox = new System.Windows.Forms.TextBox();
+            this.pointGroupBox = new System.Windows.Forms.GroupBox();
+            this.yValueNumeric = new System.Windows.Forms.NumericUpDown();
+            this.yValueLabel = new System.Windows.Forms.Label();
+            this.xValueNumeric = new System.Windows.Forms.NumericUpDown();
+            this.xValueLabel = new System.Windows.Forms.Label();
+            this.keystrokesGroupBox = new System.Windows.Forms.GroupBox();
+            this.keystrokesTextbox = new System.Windows.Forms.TextBox();
+            this.argsAnchorPanel = new System.Windows.Forms.Panel();
+            this.helpPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valueNumericBox)).BeginInit();
+            this.numericComparisonGroupBox.SuspendLayout();
+            this.stringComparisonGroupBox.SuspendLayout();
+            this.pointGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.yValueNumeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xValueNumeric)).BeginInit();
+            this.keystrokesGroupBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // argumentsTextBox
-            // 
-            this.argumentsTextBox.Location = new System.Drawing.Point(12, 181);
-            this.argumentsTextBox.Multiline = true;
-            this.argumentsTextBox.Name = "argumentsTextBox";
-            this.argumentsTextBox.Size = new System.Drawing.Size(413, 59);
-            this.argumentsTextBox.TabIndex = 1;
             // 
             // addButton
             // 
+            this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addButton.AutoSize = true;
             this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.addButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addButton.Image = ((System.Drawing.Image)(resources.GetObject("addButton.Image")));
-            this.addButton.Location = new System.Drawing.Point(12, 246);
+            this.addButton.Location = new System.Drawing.Point(14, 615);
+            this.addButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(139, 28);
+            this.addButton.Size = new System.Drawing.Size(162, 32);
             this.addButton.TabIndex = 2;
             this.addButton.Text = "Add Command";
             this.addButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // cancelButton
             // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.AutoSize = true;
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cancelButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
-            this.cancelButton.Location = new System.Drawing.Point(286, 246);
+            this.cancelButton.Location = new System.Drawing.Point(260, 615);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(139, 28);
+            this.cancelButton.Size = new System.Drawing.Size(162, 32);
             this.cancelButton.TabIndex = 3;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cancelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // pnlHelp
+            // helpPanel
             // 
-            this.pnlHelp.BackColor = System.Drawing.SystemColors.Window;
-            this.pnlHelp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlHelp.Controls.Add(this.validationLabel);
-            this.pnlHelp.Controls.Add(this.helpTextLabel);
-            this.pnlHelp.Controls.Add(this.commandNameLabel);
-            this.pnlHelp.Location = new System.Drawing.Point(12, 13);
-            this.pnlHelp.Name = "pnlHelp";
-            this.pnlHelp.Padding = new System.Windows.Forms.Padding(4);
-            this.pnlHelp.Size = new System.Drawing.Size(413, 162);
-            this.pnlHelp.TabIndex = 4;
+            this.helpPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.helpPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.helpPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.helpPanel.Controls.Add(this.validationLabel);
+            this.helpPanel.Controls.Add(this.helpTextLabel);
+            this.helpPanel.Controls.Add(this.commandNameLabel);
+            this.helpPanel.Location = new System.Drawing.Point(14, 15);
+            this.helpPanel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.helpPanel.Name = "helpPanel";
+            this.helpPanel.Padding = new System.Windows.Forms.Padding(5);
+            this.helpPanel.Size = new System.Drawing.Size(418, 187);
+            this.helpPanel.TabIndex = 0;
             // 
             // validationLabel
             // 
-            this.validationLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.validationLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.validationLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.validationLabel.ForeColor = System.Drawing.Color.Red;
-            this.validationLabel.Location = new System.Drawing.Point(8, 113);
+            this.validationLabel.Location = new System.Drawing.Point(9, 130);
+            this.validationLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.validationLabel.Name = "validationLabel";
-            this.validationLabel.Size = new System.Drawing.Size(396, 43);
+            this.validationLabel.Size = new System.Drawing.Size(399, 50);
             this.validationLabel.TabIndex = 2;
-            this.validationLabel.Text = "You entered invalid arguments for this function. Please enter valid arguments or " +
-    "consult the documentation for more information.";
+            this.validationLabel.Text = "Validation Error!";
             this.validationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.validationLabel.Visible = false;
             // 
             // helpTextLabel
             // 
-            this.helpTextLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.helpTextLabel.Location = new System.Drawing.Point(7, 30);
+            this.helpTextLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.helpTextLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.helpTextLabel.Location = new System.Drawing.Point(8, 35);
+            this.helpTextLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.helpTextLabel.Name = "helpTextLabel";
-            this.helpTextLabel.Size = new System.Drawing.Size(397, 83);
+            this.helpTextLabel.Size = new System.Drawing.Size(400, 96);
             this.helpTextLabel.TabIndex = 1;
             this.helpTextLabel.Text = "Command help text goes here.\r\n";
             // 
             // commandNameLabel
             // 
             this.commandNameLabel.AutoSize = true;
-            this.commandNameLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commandNameLabel.Location = new System.Drawing.Point(7, 4);
+            this.commandNameLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commandNameLabel.Location = new System.Drawing.Point(8, 5);
+            this.commandNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.commandNameLabel.Name = "commandNameLabel";
-            this.commandNameLabel.Size = new System.Drawing.Size(99, 13);
+            this.commandNameLabel.Size = new System.Drawing.Size(111, 17);
             this.commandNameLabel.TabIndex = 0;
             this.commandNameLabel.Text = "Command Name";
             // 
+            // operatorLabel
+            // 
+            this.operatorLabel.AutoSize = true;
+            this.operatorLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.operatorLabel.Location = new System.Drawing.Point(11, 30);
+            this.operatorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.operatorLabel.Name = "operatorLabel";
+            this.operatorLabel.Size = new System.Drawing.Size(60, 14);
+            this.operatorLabel.TabIndex = 0;
+            this.operatorLabel.Text = "Operator:";
+            // 
+            // numericOperatorComboBox
+            // 
+            this.numericOperatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.numericOperatorComboBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericOperatorComboBox.FormattingEnabled = true;
+            this.numericOperatorComboBox.Items.AddRange(new object[] {
+            "==",
+            "!=",
+            ">",
+            ">=",
+            "<",
+            "<="});
+            this.numericOperatorComboBox.Location = new System.Drawing.Point(79, 26);
+            this.numericOperatorComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericOperatorComboBox.Name = "numericOperatorComboBox";
+            this.numericOperatorComboBox.Size = new System.Drawing.Size(84, 24);
+            this.numericOperatorComboBox.TabIndex = 1;
+            // 
+            // numericValueLabel
+            // 
+            this.numericValueLabel.AutoSize = true;
+            this.numericValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericValueLabel.Location = new System.Drawing.Point(171, 30);
+            this.numericValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.numericValueLabel.Name = "numericValueLabel";
+            this.numericValueLabel.Size = new System.Drawing.Size(41, 14);
+            this.numericValueLabel.TabIndex = 2;
+            this.numericValueLabel.Text = "Value:";
+            // 
+            // valueNumericBox
+            // 
+            this.valueNumericBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.valueNumericBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueNumericBox.Location = new System.Drawing.Point(220, 27);
+            this.valueNumericBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.valueNumericBox.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.valueNumericBox.Name = "valueNumericBox";
+            this.valueNumericBox.Size = new System.Drawing.Size(189, 23);
+            this.valueNumericBox.TabIndex = 3;
+            this.valueNumericBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.valueNumericBox.ThousandsSeparator = true;
+            // 
+            // numericComparisonGroupBox
+            // 
+            this.numericComparisonGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericComparisonGroupBox.Controls.Add(this.numericOperatorComboBox);
+            this.numericComparisonGroupBox.Controls.Add(this.valueNumericBox);
+            this.numericComparisonGroupBox.Controls.Add(this.operatorLabel);
+            this.numericComparisonGroupBox.Controls.Add(this.numericValueLabel);
+            this.numericComparisonGroupBox.Location = new System.Drawing.Point(13, 208);
+            this.numericComparisonGroupBox.Name = "numericComparisonGroupBox";
+            this.numericComparisonGroupBox.Size = new System.Drawing.Size(419, 68);
+            this.numericComparisonGroupBox.TabIndex = 1;
+            this.numericComparisonGroupBox.TabStop = false;
+            this.numericComparisonGroupBox.Text = "Value Comparison";
+            // 
+            // stringComparisonGroupBox
+            // 
+            this.stringComparisonGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.stringComparisonGroupBox.Controls.Add(this.stringValueTextBox);
+            this.stringComparisonGroupBox.Controls.Add(this.stringCompareOperatorComboBox);
+            this.stringComparisonGroupBox.Controls.Add(this.label1);
+            this.stringComparisonGroupBox.Controls.Add(this.stringValueLabel);
+            this.stringComparisonGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringComparisonGroupBox.Location = new System.Drawing.Point(14, 282);
+            this.stringComparisonGroupBox.Name = "stringComparisonGroupBox";
+            this.stringComparisonGroupBox.Size = new System.Drawing.Size(419, 104);
+            this.stringComparisonGroupBox.TabIndex = 4;
+            this.stringComparisonGroupBox.TabStop = false;
+            this.stringComparisonGroupBox.Text = "Text Comparison";
+            // 
+            // stringCompareOperatorComboBox
+            // 
+            this.stringCompareOperatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.stringCompareOperatorComboBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringCompareOperatorComboBox.FormattingEnabled = true;
+            this.stringCompareOperatorComboBox.Items.AddRange(new object[] {
+            "Equals",
+            "Does Not Equal",
+            "Contains",
+            "Does Not Contain",
+            "Starts With",
+            "Does Not Start With",
+            "Ends With",
+            "Does Not End With",
+            "Is Before",
+            "Is After"});
+            this.stringCompareOperatorComboBox.Location = new System.Drawing.Point(79, 26);
+            this.stringCompareOperatorComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.stringCompareOperatorComboBox.Name = "stringCompareOperatorComboBox";
+            this.stringCompareOperatorComboBox.Size = new System.Drawing.Size(167, 24);
+            this.stringCompareOperatorComboBox.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(11, 30);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 14);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Operator:";
+            // 
+            // stringValueLabel
+            // 
+            this.stringValueLabel.AutoSize = true;
+            this.stringValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringValueLabel.Location = new System.Drawing.Point(29, 67);
+            this.stringValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.stringValueLabel.Name = "stringValueLabel";
+            this.stringValueLabel.Size = new System.Drawing.Size(41, 14);
+            this.stringValueLabel.TabIndex = 2;
+            this.stringValueLabel.Text = "Value:";
+            // 
+            // stringValueTextBox
+            // 
+            this.stringValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.stringValueTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringValueTextBox.Location = new System.Drawing.Point(78, 62);
+            this.stringValueTextBox.Name = "stringValueTextBox";
+            this.stringValueTextBox.Size = new System.Drawing.Size(331, 25);
+            this.stringValueTextBox.TabIndex = 3;
+            // 
+            // pointGroupBox
+            // 
+            this.pointGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pointGroupBox.Controls.Add(this.xValueNumeric);
+            this.pointGroupBox.Controls.Add(this.xValueLabel);
+            this.pointGroupBox.Controls.Add(this.yValueNumeric);
+            this.pointGroupBox.Controls.Add(this.yValueLabel);
+            this.pointGroupBox.Location = new System.Drawing.Point(14, 392);
+            this.pointGroupBox.Name = "pointGroupBox";
+            this.pointGroupBox.Size = new System.Drawing.Size(419, 68);
+            this.pointGroupBox.TabIndex = 5;
+            this.pointGroupBox.TabStop = false;
+            this.pointGroupBox.Text = "Point";
+            // 
+            // yValueNumeric
+            // 
+            this.yValueNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.yValueNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yValueNumeric.Location = new System.Drawing.Point(308, 27);
+            this.yValueNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.yValueNumeric.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.yValueNumeric.Name = "yValueNumeric";
+            this.yValueNumeric.Size = new System.Drawing.Size(100, 23);
+            this.yValueNumeric.TabIndex = 3;
+            this.yValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // yValueLabel
+            // 
+            this.yValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.yValueLabel.AutoSize = true;
+            this.yValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yValueLabel.Location = new System.Drawing.Point(218, 30);
+            this.yValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.yValueLabel.Name = "yValueLabel";
+            this.yValueLabel.Size = new System.Drawing.Size(82, 14);
+            this.yValueLabel.TabIndex = 2;
+            this.yValueLabel.Text = "Y Coordinate:";
+            // 
+            // xValueNumeric
+            // 
+            this.xValueNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.xValueNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xValueNumeric.Location = new System.Drawing.Point(101, 27);
+            this.xValueNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.xValueNumeric.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.xValueNumeric.Name = "xValueNumeric";
+            this.xValueNumeric.Size = new System.Drawing.Size(100, 23);
+            this.xValueNumeric.TabIndex = 5;
+            this.xValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // xValueLabel
+            // 
+            this.xValueLabel.AutoSize = true;
+            this.xValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xValueLabel.Location = new System.Drawing.Point(11, 30);
+            this.xValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.xValueLabel.Name = "xValueLabel";
+            this.xValueLabel.Size = new System.Drawing.Size(81, 14);
+            this.xValueLabel.TabIndex = 4;
+            this.xValueLabel.Text = "X Coordinate:";
+            // 
+            // keystrokesGroupBox
+            // 
+            this.keystrokesGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.keystrokesGroupBox.Controls.Add(this.keystrokesTextbox);
+            this.keystrokesGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.keystrokesGroupBox.Location = new System.Drawing.Point(14, 466);
+            this.keystrokesGroupBox.Name = "keystrokesGroupBox";
+            this.keystrokesGroupBox.Size = new System.Drawing.Size(419, 112);
+            this.keystrokesGroupBox.TabIndex = 5;
+            this.keystrokesGroupBox.TabStop = false;
+            this.keystrokesGroupBox.Text = "Keystrokes";
+            // 
+            // keystrokesTextbox
+            // 
+            this.keystrokesTextbox.AcceptsReturn = true;
+            this.keystrokesTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.keystrokesTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.keystrokesTextbox.Location = new System.Drawing.Point(12, 22);
+            this.keystrokesTextbox.Multiline = true;
+            this.keystrokesTextbox.Name = "keystrokesTextbox";
+            this.keystrokesTextbox.Size = new System.Drawing.Size(396, 76);
+            this.keystrokesTextbox.TabIndex = 3;
+            // 
+            // argsAnchorPanel
+            // 
+            this.argsAnchorPanel.Location = new System.Drawing.Point(12, 209);
+            this.argsAnchorPanel.Name = "argsAnchorPanel";
+            this.argsAnchorPanel.Size = new System.Drawing.Size(24, 26);
+            this.argsAnchorPanel.TabIndex = 4;
+            this.argsAnchorPanel.Visible = false;
+            // 
             // ArgumentsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 286);
-            this.Controls.Add(this.pnlHelp);
+            this.ClientSize = new System.Drawing.Size(444, 661);
+            this.Controls.Add(this.keystrokesGroupBox);
+            this.Controls.Add(this.pointGroupBox);
+            this.Controls.Add(this.stringComparisonGroupBox);
+            this.Controls.Add(this.numericComparisonGroupBox);
+            this.Controls.Add(this.argsAnchorPanel);
+            this.Controls.Add(this.helpPanel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.addButton);
-            this.Controls.Add(this.argumentsTextBox);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ArgumentsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Input Arguments";
-            this.pnlHelp.ResumeLayout(false);
-            this.pnlHelp.PerformLayout();
+            this.helpPanel.ResumeLayout(false);
+            this.helpPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.valueNumericBox)).EndInit();
+            this.numericComparisonGroupBox.ResumeLayout(false);
+            this.numericComparisonGroupBox.PerformLayout();
+            this.stringComparisonGroupBox.ResumeLayout(false);
+            this.stringComparisonGroupBox.PerformLayout();
+            this.pointGroupBox.ResumeLayout(false);
+            this.pointGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.yValueNumeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xValueNumeric)).EndInit();
+            this.keystrokesGroupBox.ResumeLayout(false);
+            this.keystrokesGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+        private Label operatorLabel;
+        private ComboBox numericOperatorComboBox;
+        private Label numericValueLabel;
+        private NumericUpDown valueNumericBox;
+        private GroupBox numericComparisonGroupBox;
+        private GroupBox stringComparisonGroupBox;
+        private TextBox stringValueTextBox;
+        private ComboBox stringCompareOperatorComboBox;
+        private Label label1;
+        private Label stringValueLabel;
+        private GroupBox pointGroupBox;
+        private NumericUpDown yValueNumeric;
+        private Label yValueLabel;
+        private NumericUpDown xValueNumeric;
+        private Label xValueLabel;
+        private GroupBox keystrokesGroupBox;
+        private TextBox keystrokesTextbox;
+        private Panel argsAnchorPanel;
     }
 }

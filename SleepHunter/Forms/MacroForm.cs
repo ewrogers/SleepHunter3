@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SleepHunter.Interop;
 using SleepHunter.Interop.Windows;
+using SleepHunter.Macro.Commands;
 using SleepHunter.Models;
 using System;
 using System.Windows.Forms;
@@ -10,6 +11,7 @@ namespace SleepHunter.Forms
 
     public partial class MacroForm : Form
     {
+        private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
         private GameClientWindow clientWindow;
         private GameClientReader clientReader;
@@ -17,6 +19,7 @@ namespace SleepHunter.Forms
 
         public MacroForm(IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
             windowEnumerator = serviceProvider.GetRequiredService<IWindowEnumerator>();
 
             InitializeComponent();
@@ -30,7 +33,7 @@ namespace SleepHunter.Forms
             clientReader = new GameClientReader(clientWindow.ProcessId);
             isAttached = true;
 
-            UpdateProcessUi();
+            UpdateProcessUI();
         }
 
         private void DetachClient()
@@ -38,10 +41,10 @@ namespace SleepHunter.Forms
             clientReader?.Dispose();
 
             isAttached = false;
-            UpdateProcessUi();
+            UpdateProcessUI();
         }
 
-        private void UpdateProcessUi()
+        private void UpdateProcessUI()
         {
             string characterName = string.Empty;
             try
@@ -127,8 +130,8 @@ namespace SleepHunter.Forms
 
         private void processPanel_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = e.Data.GetDataPresent(typeof(GameClientWindow)) 
-                ? DragDropEffects.Copy 
+            e.Effect = e.Data.GetDataPresent(typeof(GameClientWindow))
+                ? DragDropEffects.Copy
                 : DragDropEffects.None;
         }
 
@@ -151,6 +154,26 @@ namespace SleepHunter.Forms
                 MessageBox.Show(this, "Unable to attach to the selected client.", "Quick Attach Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
 
+        }
+
+        private void macroListView_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = e.Data.GetDataPresent(typeof(MacroCommandDefinition))
+                ? DragDropEffects.Copy
+                : DragDropEffects.None;
+        }
+
+        private void macroListView_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
+            {
+                return;
+            }
+
+            var command = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
+            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
+            argsForm.Command = command;
+            argsForm.ShowDialog(this);
         }
     }
 }

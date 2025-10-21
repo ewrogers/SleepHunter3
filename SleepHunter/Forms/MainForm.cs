@@ -182,20 +182,30 @@ namespace SleepHunter.Forms
         private void CommandsTreeView_DoubleClick(object sender, EventArgs e)
         {
             TreeNode selectedNode = commandsTreeView.SelectedNode;
-            if (selectedNode.Nodes.Count != 0 || activeMacro == null || activeMacro.IsDisposed)
+            if (selectedNode == null || activeMacro == null || activeMacro.IsDisposed)
+            {
                 return;
+            }
 
-            var commandText = $"{selectedNode.Text}|{selectedNode.Tag}";
-            //ActiveMacro.AddCommand(commandText);
+            if (!(selectedNode.Tag is MacroCommandDefinition selectedCommand))
+            {
+                return;
+            }
+
+            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
+            argsForm.Command = selectedCommand;
+            argsForm.ShowDialog(this);
         }
 
         private void CommandsTreeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            if (!(e.Item is TreeNode treeNode) || treeNode.Parent == null | treeNode.Tag == null)
+            if (!(e.Item is TreeNode treeNode) || !(treeNode.Tag is MacroCommandDefinition command))
+            {
                 return;
+            }
 
-            var commandText = $"{treeNode.Text}|{treeNode.Tag}";
-            DoDragDrop(commandText, DragDropEffects.Copy);
+            var data = new DataObject(command);
+            DoDragDrop(data, DragDropEffects.Copy);
         }
 
         #region File Dialog Handlers

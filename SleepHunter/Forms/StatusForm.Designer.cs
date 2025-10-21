@@ -61,9 +61,10 @@ namespace SleepHunter.Forms
             // healthPictureBox
             // 
             this.healthPictureBox.BackColor = System.Drawing.SystemColors.Control;
-            this.healthPictureBox.Location = new System.Drawing.Point(13, 25);
+            this.healthPictureBox.Location = new System.Drawing.Point(15, 33);
+            this.healthPictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.healthPictureBox.Name = "healthPictureBox";
-            this.healthPictureBox.Size = new System.Drawing.Size(271, 17);
+            this.healthPictureBox.Size = new System.Drawing.Size(316, 22);
             this.healthPictureBox.TabIndex = 0;
             this.healthPictureBox.TabStop = false;
             this.healthPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.healthPictureBox_Paint);
@@ -72,17 +73,19 @@ namespace SleepHunter.Forms
             // 
             this.healthCaptionLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.healthCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.healthCaptionLabel.Location = new System.Drawing.Point(12, 9);
+            this.healthCaptionLabel.Location = new System.Drawing.Point(14, 12);
+            this.healthCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.healthCaptionLabel.Name = "healthCaptionLabel";
-            this.healthCaptionLabel.Size = new System.Drawing.Size(25, 12);
-            this.healthCaptionLabel.TabIndex = 1;
+            this.healthCaptionLabel.Size = new System.Drawing.Size(29, 16);
+            this.healthCaptionLabel.TabIndex = 0;
             this.healthCaptionLabel.Text = "HP:";
             // 
             // manaPictureBox
             // 
-            this.manaPictureBox.Location = new System.Drawing.Point(12, 67);
+            this.manaPictureBox.Location = new System.Drawing.Point(14, 89);
+            this.manaPictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.manaPictureBox.Name = "manaPictureBox";
-            this.manaPictureBox.Size = new System.Drawing.Size(271, 17);
+            this.manaPictureBox.Size = new System.Drawing.Size(316, 22);
             this.manaPictureBox.TabIndex = 2;
             this.manaPictureBox.TabStop = false;
             this.manaPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.manaPictureBox_Paint);
@@ -91,9 +94,10 @@ namespace SleepHunter.Forms
             // 
             this.manaCaptionLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.manaCaptionLabel.Location = new System.Drawing.Point(12, 52);
+            this.manaCaptionLabel.Location = new System.Drawing.Point(14, 69);
+            this.manaCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.manaCaptionLabel.Name = "manaCaptionLabel";
-            this.manaCaptionLabel.Size = new System.Drawing.Size(27, 12);
+            this.manaCaptionLabel.Size = new System.Drawing.Size(31, 16);
             this.manaCaptionLabel.TabIndex = 3;
             this.manaCaptionLabel.Text = "MP:";
             // 
@@ -101,10 +105,11 @@ namespace SleepHunter.Forms
             // 
             this.mapCaptionLabel.Image = ((System.Drawing.Image)(resources.GetObject("mapCaptionLabel.Image")));
             this.mapCaptionLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.mapCaptionLabel.Location = new System.Drawing.Point(11, 87);
+            this.mapCaptionLabel.Location = new System.Drawing.Point(14, 115);
+            this.mapCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.mapCaptionLabel.Name = "mapCaptionLabel";
-            this.mapCaptionLabel.Size = new System.Drawing.Size(56, 23);
-            this.mapCaptionLabel.TabIndex = 5;
+            this.mapCaptionLabel.Size = new System.Drawing.Size(75, 30);
+            this.mapCaptionLabel.TabIndex = 6;
             this.mapCaptionLabel.Text = "       MAP:";
             this.mapCaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -112,10 +117,11 @@ namespace SleepHunter.Forms
             // 
             this.mapXCaptionLabel.Image = ((System.Drawing.Image)(resources.GetObject("mapXCaptionLabel.Image")));
             this.mapXCaptionLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.mapXCaptionLabel.Location = new System.Drawing.Point(11, 110);
+            this.mapXCaptionLabel.Location = new System.Drawing.Point(13, 142);
+            this.mapXCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.mapXCaptionLabel.Name = "mapXCaptionLabel";
-            this.mapXCaptionLabel.Size = new System.Drawing.Size(56, 22);
-            this.mapXCaptionLabel.TabIndex = 6;
+            this.mapXCaptionLabel.Size = new System.Drawing.Size(65, 29);
+            this.mapXCaptionLabel.TabIndex = 8;
             this.mapXCaptionLabel.Text = "       X:";
             this.mapXCaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -123,10 +129,11 @@ namespace SleepHunter.Forms
             // 
             this.mapYCaptionLabel.Image = ((System.Drawing.Image)(resources.GetObject("mapYCaptionLabel.Image")));
             this.mapYCaptionLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.mapYCaptionLabel.Location = new System.Drawing.Point(10, 132);
+            this.mapYCaptionLabel.Location = new System.Drawing.Point(128, 142);
+            this.mapYCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.mapYCaptionLabel.Name = "mapYCaptionLabel";
-            this.mapYCaptionLabel.Size = new System.Drawing.Size(57, 22);
-            this.mapYCaptionLabel.TabIndex = 7;
+            this.mapYCaptionLabel.Size = new System.Drawing.Size(51, 29);
+            this.mapYCaptionLabel.TabIndex = 10;
             this.mapYCaptionLabel.Text = "       Y:";
             this.mapYCaptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -137,95 +144,105 @@ namespace SleepHunter.Forms
             // 
             // healthLabel
             // 
-            this.healthLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.healthLabel.Location = new System.Drawing.Point(39, 9);
+            this.healthLabel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthLabel.Location = new System.Drawing.Point(46, 12);
+            this.healthLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.healthLabel.Name = "healthLabel";
-            this.healthLabel.Size = new System.Drawing.Size(178, 13);
-            this.healthLabel.TabIndex = 8;
+            this.healthLabel.Size = new System.Drawing.Size(208, 17);
+            this.healthLabel.TabIndex = 1;
             this.healthLabel.Text = "0/0";
             this.healthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // manaLabel
             // 
-            this.manaLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaLabel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.manaLabel.Location = new System.Drawing.Point(39, 51);
+            this.manaLabel.Location = new System.Drawing.Point(46, 68);
+            this.manaLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.manaLabel.Name = "manaLabel";
-            this.manaLabel.Size = new System.Drawing.Size(178, 13);
-            this.manaLabel.TabIndex = 9;
+            this.manaLabel.Size = new System.Drawing.Size(208, 17);
+            this.manaLabel.TabIndex = 4;
             this.manaLabel.Text = "0/0";
             this.manaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // healthPercentLabel
             // 
             this.healthPercentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.healthPercentLabel.Location = new System.Drawing.Point(223, 9);
+            this.healthPercentLabel.Location = new System.Drawing.Point(260, 12);
+            this.healthPercentLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.healthPercentLabel.Name = "healthPercentLabel";
-            this.healthPercentLabel.Size = new System.Drawing.Size(60, 13);
-            this.healthPercentLabel.TabIndex = 10;
+            this.healthPercentLabel.Size = new System.Drawing.Size(70, 17);
+            this.healthPercentLabel.TabIndex = 2;
             this.healthPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // manaPercentLabel
             // 
             this.manaPercentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.manaPercentLabel.Location = new System.Drawing.Point(226, 51);
+            this.manaPercentLabel.Location = new System.Drawing.Point(264, 68);
+            this.manaPercentLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.manaPercentLabel.Name = "manaPercentLabel";
-            this.manaPercentLabel.Size = new System.Drawing.Size(58, 13);
-            this.manaPercentLabel.TabIndex = 11;
+            this.manaPercentLabel.Size = new System.Drawing.Size(68, 17);
+            this.manaPercentLabel.TabIndex = 5;
             this.manaPercentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // mapLabel
             // 
             this.mapLabel.AutoSize = true;
-            this.mapLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mapLabel.Location = new System.Drawing.Point(73, 92);
+            this.mapLabel.Location = new System.Drawing.Point(85, 124);
+            this.mapLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.mapLabel.Name = "mapLabel";
-            this.mapLabel.Size = new System.Drawing.Size(25, 14);
-            this.mapLabel.TabIndex = 12;
+            this.mapLabel.Size = new System.Drawing.Size(28, 14);
+            this.mapLabel.TabIndex = 7;
             this.mapLabel.Text = "???";
             this.mapLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // mapXLabel
             // 
             this.mapXLabel.AutoSize = true;
-            this.mapXLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapXLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapXLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mapXLabel.Location = new System.Drawing.Point(73, 115);
+            this.mapXLabel.Location = new System.Drawing.Point(85, 150);
+            this.mapXLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.mapXLabel.Name = "mapXLabel";
-            this.mapXLabel.Size = new System.Drawing.Size(25, 14);
-            this.mapXLabel.TabIndex = 13;
+            this.mapXLabel.Size = new System.Drawing.Size(28, 14);
+            this.mapXLabel.TabIndex = 9;
             this.mapXLabel.Text = "???";
             this.mapXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // mapYLabel
             // 
             this.mapYLabel.AutoSize = true;
-            this.mapYLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapYLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapYLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.mapYLabel.Location = new System.Drawing.Point(73, 137);
+            this.mapYLabel.Location = new System.Drawing.Point(202, 150);
+            this.mapYLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.mapYLabel.Name = "mapYLabel";
-            this.mapYLabel.Size = new System.Drawing.Size(25, 14);
-            this.mapYLabel.TabIndex = 14;
+            this.mapYLabel.Size = new System.Drawing.Size(28, 14);
+            this.mapYLabel.TabIndex = 11;
             this.mapYLabel.Text = "???";
             this.mapYLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // helpLabel
             // 
+            this.helpLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.helpLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.helpLabel.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.helpLabel.Location = new System.Drawing.Point(98, 115);
+            this.helpLabel.Location = new System.Drawing.Point(10, 171);
+            this.helpLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.helpLabel.Name = "helpLabel";
-            this.helpLabel.Size = new System.Drawing.Size(186, 41);
-            this.helpLabel.TabIndex = 15;
-            this.helpLabel.Text = "Drag the Dark Ages process icon anywhere on this window to attach.";
+            this.helpLabel.Size = new System.Drawing.Size(322, 21);
+            this.helpLabel.TabIndex = 12;
+            this.helpLabel.Text = "Drag the Dark Ages process icon anywhere on this window.";
             this.helpLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // StatusForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(297, 162);
+            this.ClientSize = new System.Drawing.Size(344, 201);
             this.Controls.Add(this.helpLabel);
             this.Controls.Add(this.mapYLabel);
             this.Controls.Add(this.mapXLabel);
@@ -241,9 +258,10 @@ namespace SleepHunter.Forms
             this.Controls.Add(this.manaPictureBox);
             this.Controls.Add(this.healthCaptionLabel);
             this.Controls.Add(this.healthPictureBox);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "StatusForm";
             this.Text = "Status Window";

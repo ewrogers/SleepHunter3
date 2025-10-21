@@ -9,7 +9,7 @@ namespace SleepHunter.Forms
 {
     public partial class StatusForm : Form
     {
-        private const int DefaultSegmentWidth = 3;
+        private const int DefaultSegmentWidth = 4;
         private const int DefaultSegmentSpacing = 1;
 
         private static readonly Padding ProgressPadding = new Padding(1, 1, 1, 1);
@@ -19,6 +19,7 @@ namespace SleepHunter.Forms
         private static readonly Color ManaGradientStartColor = Color.FromArgb(0x64, 0x64, 0xFF); // #6464FF
         private static readonly Color ManaGradientEndColor = Color.FromArgb(0, 0, 0x96); // #000096
 
+        private readonly Size initialSize;
         private readonly Pen highlightPen;
         private readonly Pen shadowPen;
         private readonly Brush progressBackgroundBrush;
@@ -31,6 +32,8 @@ namespace SleepHunter.Forms
         {
             InitializeComponent();
 
+            initialSize = Size;
+
             highlightPen = new Pen(SystemColors.ControlDark);
             shadowPen = new Pen(SystemColors.ControlDarkDark);
 
@@ -39,7 +42,7 @@ namespace SleepHunter.Forms
 
         private void updateTimer_Tick(object sender, EventArgs e)
         {
-            if (IsDisposed || clientReader == null || playerState == null)
+            if (IsDisposed || !isAttached)
             {
                 Text = "Status Window";
                 return;
@@ -65,10 +68,10 @@ namespace SleepHunter.Forms
                 updateTimer.Enabled = false;
             }
 
-            UpdateUi();
+            UpdateUI();
         }
 
-        private void UpdateUi()
+        private void UpdateUI()
         {
             if (playerState == null)
             {
@@ -80,9 +83,14 @@ namespace SleepHunter.Forms
             else
                 Text = "Status Window";
 
-            healthLabel.Text = $"{playerState.CurrentHealth} / {playerState.MaxHealth}";
+            var formattedHealth = formatHealthManaValue(playerState.CurrentHealth);
+            var formattedMaxHealth = formatHealthManaValue(playerState.MaxHealth);
+            var formattedMana = formatHealthManaValue(playerState.CurrentMana);
+            var formattedMaxMana = formatHealthManaValue(playerState.MaxMana);
+
+            healthLabel.Text = $"{formattedHealth} / {formattedMaxHealth}";
             healthPercentLabel.Text = playerState.HealthPercentage + " %";
-            manaLabel.Text = $"{playerState.CurrentMana} / {playerState.MaxMana}";
+            manaLabel.Text = $"{formattedMana} / {formattedMaxMana}";
             manaPercentLabel.Text = playerState.ManaPercentage + " %";
             mapLabel.Text = $"{playerState.MapName} ({playerState.MapId})";
             mapXLabel.Text = playerState.MapX.ToString();
@@ -91,6 +99,21 @@ namespace SleepHunter.Forms
             // Force progress bars to redraw
             healthPictureBox.Refresh();
             manaPictureBox.Refresh();
+        }
+
+        private string formatHealthManaValue(long value)
+        {
+            if (value < 1000)
+            {
+                return value.ToString();
+            }
+
+            if (value < 1000000)
+            {
+                return (value / 1000.0).ToString("F1") + "k";
+            }
+
+            return (value / 1000000.0).ToString("F2") + "m";
         }
 
         private void healthPictureBox_Paint(object sender, PaintEventArgs e)
@@ -225,11 +248,15 @@ namespace SleepHunter.Forms
                 playerState = new PlayerState();
                 isAttached = true;
 
+                Size = new Size(initialSize.Width, initialSize.Height - helpLabel.Height - 4);
+
                 helpLabel.Visible = false;
                 updateTimer.Enabled = true;
             }
             catch
             {
+                Size = initialSize;
+
                 updateTimer.Enabled = false;
                 helpLabel.Visible = true;
 

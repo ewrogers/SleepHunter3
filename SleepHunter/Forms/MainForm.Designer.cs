@@ -106,9 +106,10 @@ namespace SleepHunter.Forms
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowMenu;
             this.mainMenuStrip.Name = "mainMenuStrip";
+            this.mainMenuStrip.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
             this.mainMenuStrip.ShowItemToolTips = true;
-            this.mainMenuStrip.Size = new System.Drawing.Size(1008, 25);
-            this.mainMenuStrip.TabIndex = 2;
+            this.mainMenuStrip.Size = new System.Drawing.Size(1008, 27);
+            this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
             // fileMenu
@@ -339,9 +340,10 @@ namespace SleepHunter.Forms
             this.mainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.mainStatusStrip.Location = new System.Drawing.Point(0, 619);
             this.mainStatusStrip.Name = "mainStatusStrip";
+            this.mainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.mainStatusStrip.Size = new System.Drawing.Size(1008, 22);
             this.mainStatusStrip.SizingGrip = false;
-            this.mainStatusStrip.TabIndex = 4;
+            this.mainStatusStrip.TabIndex = 2;
             // 
             // statusLabel
             // 
@@ -354,10 +356,11 @@ namespace SleepHunter.Forms
             this.commandsPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.commandsPanel.Controls.Add(this.commandsTreeView);
             this.commandsPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.commandsPanel.Location = new System.Drawing.Point(0, 25);
+            this.commandsPanel.Location = new System.Drawing.Point(0, 27);
+            this.commandsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.commandsPanel.Name = "commandsPanel";
-            this.commandsPanel.Size = new System.Drawing.Size(260, 594);
-            this.commandsPanel.TabIndex = 5;
+            this.commandsPanel.Size = new System.Drawing.Size(303, 592);
+            this.commandsPanel.TabIndex = 1;
             // 
             // commandsTreeView
             // 
@@ -367,10 +370,11 @@ namespace SleepHunter.Forms
             this.commandsTreeView.ImageIndex = 0;
             this.commandsTreeView.ImageList = this.nodeImageList;
             this.commandsTreeView.Location = new System.Drawing.Point(0, 0);
+            this.commandsTreeView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.commandsTreeView.Name = "commandsTreeView";
             this.commandsTreeView.SelectedImageIndex = 0;
             this.commandsTreeView.ShowNodeToolTips = true;
-            this.commandsTreeView.Size = new System.Drawing.Size(256, 590);
+            this.commandsTreeView.Size = new System.Drawing.Size(299, 588);
             this.commandsTreeView.Sorted = true;
             this.commandsTreeView.TabIndex = 0;
             this.commandsTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.CommandsTreeView_ItemDrag);
@@ -405,16 +409,17 @@ namespace SleepHunter.Forms
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 641);
             this.Controls.Add(this.commandsPanel);
             this.Controls.Add(this.mainStatusStrip);
             this.Controls.Add(this.mainMenuStrip);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mainMenuStrip;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SleepHunter";
