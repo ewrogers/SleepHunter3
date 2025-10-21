@@ -36,7 +36,7 @@ namespace SleepHunter.Forms
             this.operatorLabel = new System.Windows.Forms.Label();
             this.numericOperatorComboBox = new System.Windows.Forms.ComboBox();
             this.numericValueLabel = new System.Windows.Forms.Label();
-            this.valueNumericBox = new System.Windows.Forms.NumericUpDown();
+            this.numericValueNumeric = new System.Windows.Forms.NumericUpDown();
             this.numericComparisonGroupBox = new System.Windows.Forms.GroupBox();
             this.stringComparisonGroupBox = new System.Windows.Forms.GroupBox();
             this.stringValueTextBox = new System.Windows.Forms.TextBox();
@@ -55,8 +55,14 @@ namespace SleepHunter.Forms
             this.waitNumeric = new System.Windows.Forms.NumericUpDown();
             this.waitLabel = new System.Windows.Forms.Label();
             this.waitUnitLabel = new System.Windows.Forms.Label();
+            this.stringInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.stringInputLabel = new System.Windows.Forms.Label();
+            this.stringInputTextBox = new System.Windows.Forms.TextBox();
+            this.numericInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.numericInputLabel = new System.Windows.Forms.Label();
+            this.numericInputNumeric = new System.Windows.Forms.NumericUpDown();
             this.helpPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.valueNumericBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericValueNumeric)).BeginInit();
             this.numericComparisonGroupBox.SuspendLayout();
             this.stringComparisonGroupBox.SuspendLayout();
             this.pointGroupBox.SuspendLayout();
@@ -65,6 +71,9 @@ namespace SleepHunter.Forms
             this.keystrokesGroupBox.SuspendLayout();
             this.waitGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.waitNumeric)).BeginInit();
+            this.stringInputGroupBox.SuspendLayout();
+            this.numericInputGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericInputNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // addButton
@@ -74,11 +83,11 @@ namespace SleepHunter.Forms
             this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.addButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addButton.Image = ((System.Drawing.Image)(resources.GetObject("addButton.Image")));
-            this.addButton.Location = new System.Drawing.Point(14, 687);
+            this.addButton.Location = new System.Drawing.Point(14, 815);
             this.addButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(162, 32);
-            this.addButton.TabIndex = 6;
+            this.addButton.TabIndex = 9;
             this.addButton.Text = "Add Command";
             this.addButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.addButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -91,11 +100,11 @@ namespace SleepHunter.Forms
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cancelButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
-            this.cancelButton.Location = new System.Drawing.Point(260, 687);
+            this.cancelButton.Location = new System.Drawing.Point(269, 815);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(162, 32);
-            this.cancelButton.TabIndex = 7;
+            this.cancelButton.TabIndex = 10;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cancelButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -181,50 +190,50 @@ namespace SleepHunter.Forms
             this.numericOperatorComboBox.Location = new System.Drawing.Point(79, 26);
             this.numericOperatorComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericOperatorComboBox.Name = "numericOperatorComboBox";
-            this.numericOperatorComboBox.Size = new System.Drawing.Size(84, 24);
+            this.numericOperatorComboBox.Size = new System.Drawing.Size(133, 24);
             this.numericOperatorComboBox.TabIndex = 1;
             // 
             // numericValueLabel
             // 
             this.numericValueLabel.AutoSize = true;
             this.numericValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericValueLabel.Location = new System.Drawing.Point(171, 30);
+            this.numericValueLabel.Location = new System.Drawing.Point(220, 30);
             this.numericValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.numericValueLabel.Name = "numericValueLabel";
             this.numericValueLabel.Size = new System.Drawing.Size(41, 14);
             this.numericValueLabel.TabIndex = 2;
             this.numericValueLabel.Text = "Value:";
             // 
-            // valueNumericBox
+            // numericValueNumeric
             // 
-            this.valueNumericBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.numericValueNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.valueNumericBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueNumericBox.Location = new System.Drawing.Point(220, 27);
-            this.valueNumericBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.valueNumericBox.Maximum = new decimal(new int[] {
+            this.numericValueNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericValueNumeric.Location = new System.Drawing.Point(269, 27);
+            this.numericValueNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericValueNumeric.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
-            this.valueNumericBox.Name = "valueNumericBox";
-            this.valueNumericBox.Size = new System.Drawing.Size(189, 23);
-            this.valueNumericBox.TabIndex = 3;
-            this.valueNumericBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.valueNumericBox.ThousandsSeparator = true;
+            this.numericValueNumeric.Name = "numericValueNumeric";
+            this.numericValueNumeric.Size = new System.Drawing.Size(140, 23);
+            this.numericValueNumeric.TabIndex = 3;
+            this.numericValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericValueNumeric.ThousandsSeparator = true;
             // 
             // numericComparisonGroupBox
             // 
             this.numericComparisonGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numericComparisonGroupBox.Controls.Add(this.numericOperatorComboBox);
-            this.numericComparisonGroupBox.Controls.Add(this.valueNumericBox);
+            this.numericComparisonGroupBox.Controls.Add(this.numericValueNumeric);
             this.numericComparisonGroupBox.Controls.Add(this.operatorLabel);
             this.numericComparisonGroupBox.Controls.Add(this.numericValueLabel);
-            this.numericComparisonGroupBox.Location = new System.Drawing.Point(12, 301);
+            this.numericComparisonGroupBox.Location = new System.Drawing.Point(12, 435);
             this.numericComparisonGroupBox.Name = "numericComparisonGroupBox";
             this.numericComparisonGroupBox.Size = new System.Drawing.Size(419, 68);
-            this.numericComparisonGroupBox.TabIndex = 2;
+            this.numericComparisonGroupBox.TabIndex = 5;
             this.numericComparisonGroupBox.TabStop = false;
             this.numericComparisonGroupBox.Text = "Value Comparison";
             // 
@@ -237,10 +246,10 @@ namespace SleepHunter.Forms
             this.stringComparisonGroupBox.Controls.Add(this.label1);
             this.stringComparisonGroupBox.Controls.Add(this.stringValueLabel);
             this.stringComparisonGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stringComparisonGroupBox.Location = new System.Drawing.Point(13, 375);
+            this.stringComparisonGroupBox.Location = new System.Drawing.Point(13, 509);
             this.stringComparisonGroupBox.Name = "stringComparisonGroupBox";
             this.stringComparisonGroupBox.Size = new System.Drawing.Size(419, 104);
-            this.stringComparisonGroupBox.TabIndex = 3;
+            this.stringComparisonGroupBox.TabIndex = 6;
             this.stringComparisonGroupBox.TabStop = false;
             this.stringComparisonGroupBox.Text = "Text Comparison";
             // 
@@ -306,10 +315,10 @@ namespace SleepHunter.Forms
             this.pointGroupBox.Controls.Add(this.xValueLabel);
             this.pointGroupBox.Controls.Add(this.yValueNumeric);
             this.pointGroupBox.Controls.Add(this.yValueLabel);
-            this.pointGroupBox.Location = new System.Drawing.Point(13, 485);
+            this.pointGroupBox.Location = new System.Drawing.Point(13, 619);
             this.pointGroupBox.Name = "pointGroupBox";
             this.pointGroupBox.Size = new System.Drawing.Size(419, 68);
-            this.pointGroupBox.TabIndex = 4;
+            this.pointGroupBox.TabIndex = 7;
             this.pointGroupBox.TabStop = false;
             this.pointGroupBox.Text = "Point";
             // 
@@ -385,10 +394,10 @@ namespace SleepHunter.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.keystrokesGroupBox.Controls.Add(this.keystrokesTextbox);
             this.keystrokesGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.keystrokesGroupBox.Location = new System.Drawing.Point(13, 559);
+            this.keystrokesGroupBox.Location = new System.Drawing.Point(13, 693);
             this.keystrokesGroupBox.Name = "keystrokesGroupBox";
             this.keystrokesGroupBox.Size = new System.Drawing.Size(419, 112);
-            this.keystrokesGroupBox.TabIndex = 5;
+            this.keystrokesGroupBox.TabIndex = 8;
             this.keystrokesGroupBox.TabStop = false;
             this.keystrokesGroupBox.Text = "Keystrokes";
             // 
@@ -409,7 +418,7 @@ namespace SleepHunter.Forms
             this.argsAnchorPanel.Location = new System.Drawing.Point(12, 209);
             this.argsAnchorPanel.Name = "argsAnchorPanel";
             this.argsAnchorPanel.Size = new System.Drawing.Size(24, 26);
-            this.argsAnchorPanel.TabIndex = 4;
+            this.argsAnchorPanel.TabIndex = 1;
             this.argsAnchorPanel.Visible = false;
             // 
             // waitGroupBox
@@ -417,10 +426,10 @@ namespace SleepHunter.Forms
             this.waitGroupBox.Controls.Add(this.waitUnitLabel);
             this.waitGroupBox.Controls.Add(this.waitLabel);
             this.waitGroupBox.Controls.Add(this.waitNumeric);
-            this.waitGroupBox.Location = new System.Drawing.Point(12, 208);
+            this.waitGroupBox.Location = new System.Drawing.Point(14, 361);
             this.waitGroupBox.Name = "waitGroupBox";
             this.waitGroupBox.Size = new System.Drawing.Size(419, 68);
-            this.waitGroupBox.TabIndex = 1;
+            this.waitGroupBox.TabIndex = 4;
             this.waitGroupBox.TabStop = false;
             this.waitGroupBox.Text = "Time";
             // 
@@ -437,7 +446,7 @@ namespace SleepHunter.Forms
             0,
             0});
             this.waitNumeric.Name = "waitNumeric";
-            this.waitNumeric.Size = new System.Drawing.Size(189, 23);
+            this.waitNumeric.Size = new System.Drawing.Size(131, 23);
             this.waitNumeric.TabIndex = 1;
             this.waitNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waitNumeric.ThousandsSeparator = true;
@@ -457,18 +466,92 @@ namespace SleepHunter.Forms
             // 
             this.waitUnitLabel.AutoSize = true;
             this.waitUnitLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.waitUnitLabel.Location = new System.Drawing.Point(276, 30);
+            this.waitUnitLabel.Location = new System.Drawing.Point(218, 30);
             this.waitUnitLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.waitUnitLabel.Name = "waitUnitLabel";
             this.waitUnitLabel.Size = new System.Drawing.Size(69, 14);
             this.waitUnitLabel.TabIndex = 2;
             this.waitUnitLabel.Text = "milliseconds";
             // 
+            // stringInputGroupBox
+            // 
+            this.stringInputGroupBox.Controls.Add(this.stringInputTextBox);
+            this.stringInputGroupBox.Controls.Add(this.stringInputLabel);
+            this.stringInputGroupBox.Location = new System.Drawing.Point(13, 287);
+            this.stringInputGroupBox.Name = "stringInputGroupBox";
+            this.stringInputGroupBox.Size = new System.Drawing.Size(419, 68);
+            this.stringInputGroupBox.TabIndex = 3;
+            this.stringInputGroupBox.TabStop = false;
+            this.stringInputGroupBox.Text = "Text";
+            // 
+            // stringInputLabel
+            // 
+            this.stringInputLabel.AutoSize = true;
+            this.stringInputLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringInputLabel.Location = new System.Drawing.Point(12, 30);
+            this.stringInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.stringInputLabel.Name = "stringInputLabel";
+            this.stringInputLabel.Size = new System.Drawing.Size(41, 14);
+            this.stringInputLabel.TabIndex = 0;
+            this.stringInputLabel.Text = "Value:";
+            // 
+            // stringInputTextBox
+            // 
+            this.stringInputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.stringInputTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringInputTextBox.Location = new System.Drawing.Point(77, 25);
+            this.stringInputTextBox.Name = "stringInputTextBox";
+            this.stringInputTextBox.Size = new System.Drawing.Size(331, 25);
+            this.stringInputTextBox.TabIndex = 1;
+            // 
+            // numericInputGroupBox
+            // 
+            this.numericInputGroupBox.Controls.Add(this.numericInputNumeric);
+            this.numericInputGroupBox.Controls.Add(this.numericInputLabel);
+            this.numericInputGroupBox.Location = new System.Drawing.Point(12, 213);
+            this.numericInputGroupBox.Name = "numericInputGroupBox";
+            this.numericInputGroupBox.Size = new System.Drawing.Size(419, 68);
+            this.numericInputGroupBox.TabIndex = 2;
+            this.numericInputGroupBox.TabStop = false;
+            this.numericInputGroupBox.Text = "Number";
+            // 
+            // numericInputLabel
+            // 
+            this.numericInputLabel.AutoSize = true;
+            this.numericInputLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericInputLabel.Location = new System.Drawing.Point(12, 30);
+            this.numericInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.numericInputLabel.Name = "numericInputLabel";
+            this.numericInputLabel.Size = new System.Drawing.Size(41, 14);
+            this.numericInputLabel.TabIndex = 0;
+            this.numericInputLabel.Text = "Value:";
+            // 
+            // numericInputNumeric
+            // 
+            this.numericInputNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericInputNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericInputNumeric.Location = new System.Drawing.Point(81, 27);
+            this.numericInputNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericInputNumeric.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.numericInputNumeric.Name = "numericInputNumeric";
+            this.numericInputNumeric.Size = new System.Drawing.Size(131, 23);
+            this.numericInputNumeric.TabIndex = 1;
+            this.numericInputNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericInputNumeric.ThousandsSeparator = true;
+            // 
             // ArgumentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 733);
+            this.ClientSize = new System.Drawing.Size(444, 861);
+            this.Controls.Add(this.numericInputGroupBox);
+            this.Controls.Add(this.stringInputGroupBox);
             this.Controls.Add(this.waitGroupBox);
             this.Controls.Add(this.keystrokesGroupBox);
             this.Controls.Add(this.pointGroupBox);
@@ -490,7 +573,7 @@ namespace SleepHunter.Forms
             this.Text = "Input Arguments";
             this.helpPanel.ResumeLayout(false);
             this.helpPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.valueNumericBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericValueNumeric)).EndInit();
             this.numericComparisonGroupBox.ResumeLayout(false);
             this.numericComparisonGroupBox.PerformLayout();
             this.stringComparisonGroupBox.ResumeLayout(false);
@@ -504,6 +587,11 @@ namespace SleepHunter.Forms
             this.waitGroupBox.ResumeLayout(false);
             this.waitGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.waitNumeric)).EndInit();
+            this.stringInputGroupBox.ResumeLayout(false);
+            this.stringInputGroupBox.PerformLayout();
+            this.numericInputGroupBox.ResumeLayout(false);
+            this.numericInputGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericInputNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -512,7 +600,7 @@ namespace SleepHunter.Forms
         private Label operatorLabel;
         private ComboBox numericOperatorComboBox;
         private Label numericValueLabel;
-        private NumericUpDown valueNumericBox;
+        private NumericUpDown numericValueNumeric;
         private GroupBox numericComparisonGroupBox;
         private GroupBox stringComparisonGroupBox;
         private TextBox stringValueTextBox;
@@ -531,5 +619,11 @@ namespace SleepHunter.Forms
         private Label waitUnitLabel;
         private Label waitLabel;
         private NumericUpDown waitNumeric;
+        private GroupBox stringInputGroupBox;
+        private TextBox stringInputTextBox;
+        private Label stringInputLabel;
+        private GroupBox numericInputGroupBox;
+        private NumericUpDown numericInputNumeric;
+        private Label numericInputLabel;
     }
 }

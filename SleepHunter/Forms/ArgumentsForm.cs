@@ -14,8 +14,7 @@ namespace SleepHunter.Forms
 
         private MacroCommandDefinition command;
         private string validationError;
-
-        public bool DialogResult { get; private set; }
+        
         public IReadOnlyList<MacroParameterValue> Parameters { get; private set; }
 
         public MacroCommandDefinition Command
@@ -67,13 +66,32 @@ namespace SleepHunter.Forms
                 return;
             }
 
+            var isNumericInput = IsNumericInput();
+            var isStringInput = IsStringInput();
             var isWaitDelay = IsWaitDelay();
             var isNumericComparison = IsNumericComparison();
             var isStringComparison = IsStringComparison();
             var isPoint = IsCoordinatePoint();
             var isKeystrokes = IsKeystrokes();
 
-            if (isWaitDelay)
+            if (isNumericInput)
+            {
+                numericInputNumeric.Maximum = uint.MaxValue;
+                numericInputNumeric.Focus();
+                numericInputNumeric.Select(0, 100);
+
+                numericInputGroupBox.Location = argsAnchorPanel.Location;
+                Size = new Size(initialSize.Width, 380);
+            }
+            else if (isStringInput)
+            {
+                stringInputTextBox.Focus();
+                stringInputTextBox.SelectAll();
+
+                stringInputGroupBox.Location = argsAnchorPanel.Location;
+                Size = new Size(initialSize.Width, 380);
+            }
+            else if (isWaitDelay)
             {
                 waitNumeric.Maximum = uint.MaxValue;
                 waitNumeric.Focus();
@@ -87,10 +105,10 @@ namespace SleepHunter.Forms
                 var isPercent = IsPercentValue();
                 numericComparisonGroupBox.Text = isPercent ? "Percent Comparison" : "Value Comparison";
 
-                valueNumericBox.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
-                valueNumericBox.Maximum = isPercent ? 100 : uint.MaxValue;
-                valueNumericBox.Focus();
-                valueNumericBox.Select(0, 100);
+                numericValueNumeric.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
+                numericValueNumeric.Maximum = isPercent ? 100 : uint.MaxValue;
+                numericValueNumeric.Focus();
+                numericValueNumeric.Select(0, 100);
 
                 numericComparisonGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
@@ -124,6 +142,8 @@ namespace SleepHunter.Forms
                 Size = new Size(initialSize.Width, 300);
             }
 
+            numericInputGroupBox.Visible = isNumericInput;
+            stringInputGroupBox.Visible = isStringInput;
             waitGroupBox.Visible = isWaitDelay;
             numericComparisonGroupBox.Visible = isNumericComparison;
             stringComparisonGroupBox.Visible = isStringComparison;
@@ -141,12 +161,22 @@ namespace SleepHunter.Forms
 
         private IEnumerable<MacroParameterValue> EmitParameters()
         {
-            if (IsNumericComparison())
+            if (IsNumericInput())
+            {
+                yield return command.Parameters[0] == MacroParameterType.Float
+                    ? MacroParameterValue.Float((double)numericInputNumeric.Value)
+                    : MacroParameterValue.Integer((long)numericInputNumeric.Value);
+            }
+            else if (IsStringInput())
+            {
+                yield return MacroParameterValue.String(stringInputTextBox.Text);
+            }
+            else if (IsNumericComparison())
             {
                 yield return MacroParameterValue.CompareOperator(GetSelectedCompareOperator());
-                yield return IsPercentValue()
-                    ? MacroParameterValue.Float((double)valueNumericBox.Value)
-                    : MacroParameterValue.Integer((long)valueNumericBox.Value);
+                yield return command.Parameters[1] == MacroParameterType.Float
+                    ? MacroParameterValue.Float((double)numericValueNumeric.Value)
+                    : MacroParameterValue.Integer((long)numericValueNumeric.Value);
             }
             else if (IsStringComparison())
             {
@@ -202,6 +232,11 @@ namespace SleepHunter.Forms
             }
         }
 
+        public bool IsNumericInput() => command.Parameters.Count == 1 &&
+                (command.Parameters[0] == MacroParameterType.Integer || command.Parameters[0] == MacroParameterType.Float);
+
+        public bool IsStringInput() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.String;
+
         public bool IsWaitDelay() => command.Key.StartsWith("WAIT_") && command.Parameters.Any(p => p == MacroParameterType.Integer);
 
         private bool IsPercentValue() => command.Key.Contains("PERCENT") && command.Parameters.Any(p => p == MacroParameterType.Float);
@@ -226,13 +261,13 @@ namespace SleepHunter.Forms
 
             Parameters = EmitParameters().ToList();
 
-            DialogResult = true;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            DialogResult = false;
+            DialogResult = DialogResult.Cancel;
             Close();
         }
     }

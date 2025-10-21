@@ -10,7 +10,7 @@ namespace SleepHunter.Macro.Commands
                 Category = MacroCommandCategory.Mana,
                 Key = "IF_MP_VALUE",
                 DisplayName = "If MP",
-                Description = "Performs the actions if the current mana value matches a certain condition.",
+                Description = "Performs actions if the current mana value matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
             });
 
@@ -19,7 +19,7 @@ namespace SleepHunter.Macro.Commands
                 Category = MacroCommandCategory.Mana,
                 Key = "IF_MP_PERCENT",
                 DisplayName = "If MP %",
-                Description = "Performs the actions if the current mana percentage matches a certain condition.",
+                Description = "Performs actions if the current mana percentage matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Float },
             });
 
@@ -28,7 +28,7 @@ namespace SleepHunter.Macro.Commands
                 Category = MacroCommandCategory.Mana,
                 Key = "WHILE_MP_VALUE",
                 DisplayName = "While MP",
-                Description = "Loops actions while the current mana value matches a certain condition.",
+                Description = "Repeats actions while the current mana value matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
             });
 
@@ -37,7 +37,7 @@ namespace SleepHunter.Macro.Commands
                 Category = MacroCommandCategory.Mana,
                 Key = "WHILE_MP_PERCENT",
                 DisplayName = "While MP %",
-                Description = "Loops actions while the current mana percentage matches a certain condition.",
+                Description = "Repeats actions while the current mana percentage matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Float },
             });
         }

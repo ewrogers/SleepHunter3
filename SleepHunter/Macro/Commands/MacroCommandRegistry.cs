@@ -16,7 +16,9 @@ namespace SleepHunter.Macro.Commands
             RegisterManaCommands();
             RegisterMouseCommands();
             RegisterKeyboardCommands();
+            RegisterLogicCommands();
             RegisterLoopCommands();
+            RegisterJumpCommands();
             RegisterWaitCommands();
         }
 

@@ -141,6 +141,7 @@
     <Compile Include="Macro\Commands\MacroCommandRegistry.Health.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Interface.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Keyboard.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Logic.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Loop.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Mana.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Map.cs" />
@@ -199,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Jump.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,9 @@
         Mana,
         Keyboard,
         Mouse,
+        Logic,
         Loop,
+        Jump,
         Wait
     }
 }
