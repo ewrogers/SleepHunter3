@@ -1,6 +1,9 @@
 ﻿using SleepHunter.Macro.Commands;
+using SleepHunter.Macro.Conditions;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SleepHunter.Forms
@@ -8,17 +11,19 @@ namespace SleepHunter.Forms
     public partial class ArgumentsForm : Form
     {
         private readonly Size initialSize;
-        private MacroCommandDefinition commandDefinition;
+
+        private MacroCommandDefinition command;
         private string validationError;
-        
+
         public bool DialogResult { get; private set; }
+        public IReadOnlyList<MacroParameterValue> Parameters { get; private set; }
 
         public MacroCommandDefinition Command
         {
-            get => commandDefinition;
+            get => command;
             set
             {
-                commandDefinition = value;
+                command = value;
                 UpdateCommandUI();
                 UpdateCommandLayout();
             }
@@ -39,47 +44,40 @@ namespace SleepHunter.Forms
         {
             validationLabel.Visible = !string.IsNullOrWhiteSpace(validationError);
 
-            if (commandDefinition == null)
+            if (command == null)
             {
                 return;
             }
 
-            commandNameLabel.Text = commandDefinition.DisplayName;
-            if (!string.IsNullOrWhiteSpace(commandDefinition.HelpText))
+            commandNameLabel.Text = command.DisplayName;
+            if (!string.IsNullOrWhiteSpace(command.HelpText))
             {
-                helpTextLabel.Text = $"{commandDefinition.Description}{Environment.NewLine}{Environment.NewLine}{commandDefinition.HelpText}";
+                helpTextLabel.Text = $"{command.Description}{Environment.NewLine}{Environment.NewLine}{command.HelpText}";
             }
             else
             {
-                helpTextLabel.Text = commandDefinition.Description;
+                helpTextLabel.Text = command.Description;
             }
         }
 
         private void UpdateCommandLayout()
         {
-            if (commandDefinition == null)
+            if (command == null)
             {
                 return;
             }
 
-            var parameters = commandDefinition.Parameters;
-            var isNumericComparison = parameters.Count == 2 &&
-                parameters[0] == MacroParameterType.CompareOperator &&
-                (parameters[1] == MacroParameterType.Integer || parameters[1] == MacroParameterType.Float);
+            var isNumericComparison = IsNumericComparison();
+            var isStringComparison = IsStringComparison();
+            var isPoint = IsCoordinatePoint();
+            var isKeystrokes = IsKeystrokes();
 
-            var isStringComparison = parameters.Count == 2 &&
-                parameters[0] == MacroParameterType.StringCompareOperator &&
-                parameters[1] == MacroParameterType.String;
-
-            var isPoint = parameters.Count == 1 && parameters[0] == MacroParameterType.Point;
-            var isKeystrokes = parameters.Count == 1 && parameters[0] == MacroParameterType.Keystrokes;
-
-            if (isNumericComparison)
+            if (IsNumericComparison())
             {
-                var isPercent = commandDefinition.Key.Contains("PERCENT");
+                var isPercent = IsPercentValue();
                 numericComparisonGroupBox.Text = isPercent ? "Percent Comparison" : "Value Comparison";
 
-                valueNumericBox.DecimalPlaces = isNumericComparison && parameters[1] == MacroParameterType.Float ? 2 : 0;
+                valueNumericBox.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
                 valueNumericBox.Maximum = isPercent ? 100 : uint.MaxValue;
 
                 numericComparisonGroupBox.Location = argsAnchorPanel.Location;
@@ -119,12 +117,86 @@ namespace SleepHunter.Forms
             addButton.Enabled = string.IsNullOrWhiteSpace(validationError);
         }
 
+        private IEnumerable<MacroParameterValue> EmitParameters()
+        {
+            if (IsNumericComparison())
+            {
+                yield return MacroParameterValue.CompareOperator(GetSelectedCompareOperator());
+                yield return IsPercentValue()
+                    ? MacroParameterValue.Float((double)valueNumericBox.Value)
+                    : MacroParameterValue.Integer((long)valueNumericBox.Value);
+            }
+            else if (IsStringComparison())
+            {
+                yield return MacroParameterValue.StringCompareOperator(GetSelectedStringCompareOperator());
+                yield return MacroParameterValue.String(stringValueTextBox.Text);
+            }
+            else if (IsCoordinatePoint())
+            {
+                var point = new Point((int)xValueNumeric.Value, (int)yValueNumeric.Value);
+                yield return MacroParameterValue.Point(point);
+            }
+            else if (IsKeystrokes())
+            {
+                yield return MacroParameterValue.Keys(new List<Keys>());
+            }
+        }
+
+        private CompareOperator GetSelectedCompareOperator()
+        {
+            switch (numericOperatorComboBox.SelectedText)
+            {
+                case "==": return CompareOperator.Equal;
+                case "!=": return CompareOperator.NotEqual;
+                case ">": return CompareOperator.GreaterThan;
+                case ">=": return CompareOperator.GreaterThanOrEqual;
+                case "<": return CompareOperator.LessThan;
+                case "<=": return CompareOperator.LessThanOrEqual;
+                default:
+                    throw new InvalidOperationException("Invalid numeric comparison operator");
+            }
+        }
+
+        private StringCompareOperator GetSelectedStringCompareOperator()
+        {
+            switch (stringCompareOperatorComboBox.SelectedText.ToLowerInvariant())
+            {
+                case "equals": return StringCompareOperator.Equal;
+                case "does not equal": return StringCompareOperator.NotEqual;
+                case "contains": return StringCompareOperator.Contains;
+                case "does not contain": return StringCompareOperator.NotContains;
+                case "starts with": return StringCompareOperator.StartsWith;
+                case "does not start with": return StringCompareOperator.NotStartsWith;
+                case "ends with": return StringCompareOperator.EndsWith;
+                case "does not end with": return StringCompareOperator.NotEndsWith;
+                case "is before": return StringCompareOperator.LessThan;
+                case "is after": return StringCompareOperator.GreaterThan;
+                default:
+                    throw new InvalidOperationException("Invalid string comparison operator");
+            }
+        }
+
+        private bool IsPercentValue() => command.Key.Contains("PERCENT") && command.Parameters.Any(p => p == MacroParameterType.Float);
+
+        private bool IsNumericComparison() => command.Parameters.Count == 2 &&
+                command.Parameters[0] == MacroParameterType.CompareOperator &&
+                (command.Parameters[1] == MacroParameterType.Integer || command.Parameters[1] == MacroParameterType.Float);
+
+        private bool IsStringComparison() => command.Parameters.Count == 2 &&
+                command.Parameters[0] == MacroParameterType.StringCompareOperator &&
+                command.Parameters[1] == MacroParameterType.String;
+
+        private bool IsCoordinatePoint() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Point;
+        private bool IsKeystrokes() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
+
         private void addButton_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(validationError))
             {
                 return;
             }
+
+            Parameters = EmitParameters().ToList();
 
             DialogResult = true;
             Close();

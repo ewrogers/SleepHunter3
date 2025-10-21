@@ -23,7 +23,7 @@ namespace SleepHunter.Macro.Commands
 
         public static MacroParameterValue Boolean(bool value) => new MacroParameterValue { Type = MacroParameterType.Boolean, Value = value };
         public static MacroParameterValue Integer(long value) => new MacroParameterValue { Type = MacroParameterType.Integer, Value = value };
-        public static MacroParameterValue Float(long value) => new MacroParameterValue { Type = MacroParameterType.Float, Value = value };
+        public static MacroParameterValue Float(double value) => new MacroParameterValue { Type = MacroParameterType.Float, Value = value };
         public static MacroParameterValue String(string value) => new MacroParameterValue { Type = MacroParameterType.String, Value = value };
 
         public static MacroParameterValue Keys(IEnumerable<Keys> keys) => new MacroParameterValue { Type = MacroParameterType.Keystrokes, Value = keys.ToArray() };
