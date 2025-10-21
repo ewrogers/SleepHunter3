@@ -67,34 +67,55 @@ namespace SleepHunter.Forms
                 return;
             }
 
+            var isWaitDelay = IsWaitDelay();
             var isNumericComparison = IsNumericComparison();
             var isStringComparison = IsStringComparison();
             var isPoint = IsCoordinatePoint();
             var isKeystrokes = IsKeystrokes();
 
-            if (IsNumericComparison())
+            if (isWaitDelay)
+            {
+                waitNumeric.Maximum = uint.MaxValue;
+                waitNumeric.Focus();
+                waitNumeric.Select(0, 100);
+
+                waitGroupBox.Location = argsAnchorPanel.Location;
+                Size = new Size(initialSize.Width, 380);
+            }
+            else if (isNumericComparison)
             {
                 var isPercent = IsPercentValue();
                 numericComparisonGroupBox.Text = isPercent ? "Percent Comparison" : "Value Comparison";
 
                 valueNumericBox.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
                 valueNumericBox.Maximum = isPercent ? 100 : uint.MaxValue;
+                valueNumericBox.Focus();
+                valueNumericBox.Select(0, 100);
 
                 numericComparisonGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
             }
             else if (isStringComparison)
             {
+                stringValueTextBox.Focus();
+                stringValueTextBox.SelectAll();
+
                 stringComparisonGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 410);
             }
             else if (isPoint)
             {
+                xValueNumeric.Focus();
+                xValueNumeric.Select(0, 100);
+
                 pointGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
             }
             else if (isKeystrokes)
             {
+                keystrokesTextbox.Focus();
+                keystrokesTextbox.SelectAll();
+
                 keystrokesGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 420);
             }
@@ -103,6 +124,7 @@ namespace SleepHunter.Forms
                 Size = new Size(initialSize.Width, 300);
             }
 
+            waitGroupBox.Visible = isWaitDelay;
             numericComparisonGroupBox.Visible = isNumericComparison;
             stringComparisonGroupBox.Visible = isStringComparison;
             pointGroupBox.Visible = isPoint;
@@ -140,6 +162,10 @@ namespace SleepHunter.Forms
             {
                 yield return MacroParameterValue.Keys(new List<Keys>());
             }
+            else if (IsWaitDelay())
+            {
+                yield return MacroParameterValue.Integer((long)waitNumeric.Value);
+            }
         }
 
         private CompareOperator GetSelectedCompareOperator()
@@ -175,6 +201,8 @@ namespace SleepHunter.Forms
                     throw new InvalidOperationException("Invalid string comparison operator");
             }
         }
+
+        public bool IsWaitDelay() => command.Key.StartsWith("WAIT_") && command.Parameters.Any(p => p == MacroParameterType.Integer);
 
         private bool IsPercentValue() => command.Key.Contains("PERCENT") && command.Parameters.Any(p => p == MacroParameterType.Float);
 
