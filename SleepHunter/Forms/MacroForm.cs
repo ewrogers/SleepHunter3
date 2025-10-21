@@ -4,6 +4,7 @@ using SleepHunter.Interop.Windows;
 using SleepHunter.Macro.Commands;
 using SleepHunter.Models;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SleepHunter.Forms
@@ -13,6 +14,7 @@ namespace SleepHunter.Forms
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
+        private readonly IMacroCommandFactory commandFactory;
         private GameClientWindow clientWindow;
         private GameClientReader clientReader;
         private bool isAttached;
@@ -21,6 +23,7 @@ namespace SleepHunter.Forms
         {
             this.serviceProvider = serviceProvider;
             windowEnumerator = serviceProvider.GetRequiredService<IWindowEnumerator>();
+            commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
 
             InitializeComponent();
         }
@@ -71,6 +74,27 @@ namespace SleepHunter.Forms
             processIdLabel.Enabled = isAttached;
             windowHandleLabel.Enabled = isAttached;
             characterNameLabel.Enabled = isAttached;
+        }
+
+        private MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command)
+        {
+            // Show the arguments form for the command requested
+            if (command.Parameters.Count == 0)
+            {
+                return null;
+            }
+
+            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
+            argsForm.Command = command;
+            argsForm.ShowDialog(this);
+
+            // Ignore if the user cancelled
+            if (argsForm.DialogResult != DialogResult.OK)
+            {
+                return null;
+            }
+
+            return argsForm.Parameters.ToArray();
         }
 
         #region Quick Attach Toolbar
@@ -171,9 +195,33 @@ namespace SleepHunter.Forms
             }
 
             var command = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
-            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
-            argsForm.Command = command;
-            argsForm.ShowDialog(this);
+            MacroParameterValue[] parameters = ShowArgumentsForm(command);
+
+            // Ignore if not enough parameters provided
+            if (parameters == null && command.Parameters.Count > 0)
+            {
+                return;
+            }
+
+            var success = false;
+            try
+            {
+                var macroCommand = commandFactory.Create(command, parameters);
+
+                if (macroCommand != null)
+                {
+                    // Add to list of commands at current selection OR end of list
+                }
+            }
+            catch
+            {
+                success = false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
         }
     }
 }

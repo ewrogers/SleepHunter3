@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace SleepHunter.Macro.Commands
 {
     public interface IMacroCommandFactory
