@@ -5,12 +5,12 @@ namespace SleepHunter.Macro
 {
     public class MacroContext
     {
-        private readonly CancellationToken _cancellationToken;
-        private readonly PlayerState _player;
+        private readonly CancellationToken cancellationToken;
+        private readonly PlayerState player;
 
         public MacroContext(PlayerState player)
         {
-            _player = player;
+            this.player = player;
         }
     }
 }

@@ -4,40 +4,40 @@ namespace SleepHunter.Macro.Conditions
 {
     public class IntegerCondition : IMacroCondition
     {
-        private readonly Func<MacroContext, long> _getter;
-        private readonly CompareOperator _operator;
-        private readonly long _compareValue;
+        private readonly Func<MacroContext, long> getter;
+        private readonly CompareOperator @operator;
+        private readonly long compareValue;
 
         public IntegerCondition(Func<MacroContext, long> valueGetter, CompareOperator op, long compareValue)
         {
-            _getter = valueGetter;
-            _operator = op;
-            _compareValue = compareValue;
+            getter = valueGetter;
+            @operator = op;
+            this.compareValue = compareValue;
         }
 
         public bool Evaluate(MacroContext context)
         {
-            var actualValue = _getter(context);
+            var actualValue = getter(context);
 
-            switch (_operator)
+            switch (@operator)
             {
                 case CompareOperator.Equal:
-                    return actualValue == _compareValue;
+                    return actualValue == compareValue;
                 case CompareOperator.NotEqual:
-                    return actualValue != _compareValue;
+                    return actualValue != compareValue;
                 case CompareOperator.GreaterThan:
-                    return actualValue > _compareValue;
+                    return actualValue > compareValue;
                 case CompareOperator.GreaterThanOrEqual:
-                    return actualValue >= _compareValue;
+                    return actualValue >= compareValue;
                 case CompareOperator.LessThan:
-                    return actualValue < _compareValue;
+                    return actualValue < compareValue;
                 case CompareOperator.LessThanOrEqual:
-                    return actualValue <= _compareValue;
+                    return actualValue <= compareValue;
                 default:
-                    throw new InvalidOperationException($"Invalid operator: {_operator}");
+                    throw new InvalidOperationException($"Invalid operator: {@operator}");
             }
         }
 
-        public override string ToString() => $"INTEGER {_operator.ToSymbol()} {_compareValue}";
+        public override string ToString() => $"INTEGER {@operator.ToSymbol()} {compareValue}";
     }
 }

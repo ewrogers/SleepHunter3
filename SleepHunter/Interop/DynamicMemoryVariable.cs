@@ -24,8 +24,8 @@ namespace SleepHunter.Interop
 
             foreach (var offset in Offsets)
             {
-                _stream.Position = currentAddress;
-                currentAddress = _reader.ReadUInt32() + offset;
+                Stream.Position = currentAddress;
+                currentAddress = Reader.ReadUInt32() + offset;
             }
 
             return (IntPtr)currentAddress;

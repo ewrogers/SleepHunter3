@@ -8,14 +8,14 @@ namespace SleepHunter.Services
 {
     public class GameClientService : IGameClientService
     {
-        private readonly IWindowEnumerator _windowEnumerator;
+        private readonly IWindowEnumerator windowEnumerator;
 
         public GameClientService(IWindowEnumerator windowEnumerator)
         {
-            _windowEnumerator = windowEnumerator;
+            this.windowEnumerator = windowEnumerator;
         }
 
         public IReadOnlyList<GameClientWindow> FindClientWindows() =>
-            _windowEnumerator.FindWindows("Darkages").Select(w => new GameClientWindow(w.Handle, w.ProcessId)).ToList();
+            windowEnumerator.FindWindows("Darkages").Select(w => new GameClientWindow(w.Handle, w.ProcessId)).ToList();
     }
 }

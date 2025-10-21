@@ -6,9 +6,9 @@ namespace SleepHunter.Macro.Conditions
         Equal = 0,
         LessThan = -1,
         GreaterThan = 1,
-        LessThanOrEqual = -2,
-        GreaterThanOrEqual = 2,
-        NotEqual = 3
+        LessThanOrEqual,
+        GreaterThanOrEqual,
+        NotEqual
     }
 
     public static class CompareOperatorExtensions

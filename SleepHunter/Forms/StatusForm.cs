@@ -19,27 +19,27 @@ namespace SleepHunter.Forms
         private static readonly Color ManaGradientStartColor = Color.FromArgb(0x64, 0x64, 0xFF); // #6464FF
         private static readonly Color ManaGradientEndColor = Color.FromArgb(0, 0, 0x96); // #000096
 
-        private readonly Pen _highlightPen;
-        private readonly Pen _shadowPen;
-        private readonly Brush _progressBackgroundBrush;
+        private readonly Pen highlightPen;
+        private readonly Pen shadowPen;
+        private readonly Brush progressBackgroundBrush;
 
-        private GameClientReader _clientReader;
-        private PlayerState _playerState;
-        private bool _isAttached;
+        private GameClientReader clientReader;
+        private PlayerState playerState;
+        private bool isAttached;
 
         public StatusForm()
         {
             InitializeComponent();
 
-            _highlightPen = new Pen(SystemColors.ControlDark);
-            _shadowPen = new Pen(SystemColors.ControlDarkDark);
+            highlightPen = new Pen(SystemColors.ControlDark);
+            shadowPen = new Pen(SystemColors.ControlDarkDark);
 
-            _progressBackgroundBrush = new SolidBrush(Color.White);
+            progressBackgroundBrush = new SolidBrush(Color.White);
         }
 
         private void updateTimer_Tick(object sender, EventArgs e)
         {
-            if (IsDisposed || _clientReader == null || _playerState == null)
+            if (IsDisposed || clientReader == null || playerState == null)
             {
                 Text = "Status Window";
                 return;
@@ -47,46 +47,46 @@ namespace SleepHunter.Forms
 
             try
             {
-                _playerState.Name = _clientReader.ReadCharacterName();
-                _playerState.MapName = _clientReader.ReadMapName();
-                _playerState.MapId = _clientReader.ReadMapId();
-                _playerState.MapX = _clientReader.ReadMapX();
-                _playerState.MapY = _clientReader.ReadMapY();
-                _playerState.CurrentHealth = _clientReader.ReadCurrentHealth();
-                _playerState.MaxHealth = _clientReader.ReadMaxHealth();
-                _playerState.CurrentMana = _clientReader.ReadCurrentMana();
-                _playerState.MaxMana = _clientReader.ReadMaxMana();
+                playerState.Name = clientReader.ReadCharacterName();
+                playerState.MapName = clientReader.ReadMapName();
+                playerState.MapId = clientReader.ReadMapId();
+                playerState.MapX = clientReader.ReadMapX();
+                playerState.MapY = clientReader.ReadMapY();
+                playerState.CurrentHealth = clientReader.ReadCurrentHealth();
+                playerState.MaxHealth = clientReader.ReadMaxHealth();
+                playerState.CurrentMana = clientReader.ReadCurrentMana();
+                playerState.MaxMana = clientReader.ReadMaxMana();
 
             }
             catch (Exception)
             {
-                Text = Text + " (Invalid)";
-                _isAttached = false;
+                Text += " (Invalid)";
+                isAttached = false;
                 updateTimer.Enabled = false;
             }
 
-            UpdateUI();
+            UpdateUi();
         }
 
-        private void UpdateUI()
+        private void UpdateUi()
         {
-            if (_playerState == null)
+            if (playerState == null)
             {
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(_playerState.Name))
-                Text = $"{_playerState.Name} - Status";
+            if (!string.IsNullOrWhiteSpace(playerState.Name))
+                Text = $"{playerState.Name} - Status";
             else
                 Text = "Status Window";
 
-            healthLabel.Text = $"{_playerState.CurrentHealth} / {_playerState.MaxHealth}";
-            healthPercentLabel.Text = _playerState.HealthPercentage + " %";
-            manaLabel.Text = $"{_playerState.CurrentMana} / {_playerState.MaxMana}";
-            manaPercentLabel.Text = _playerState.ManaPercentage + " %";
-            mapLabel.Text = $"{_playerState.MapName} ({_playerState.MapId})";
-            mapXLabel.Text = _playerState.MapX.ToString();
-            mapYLabel.Text = _playerState.MapY.ToString();
+            healthLabel.Text = $"{playerState.CurrentHealth} / {playerState.MaxHealth}";
+            healthPercentLabel.Text = playerState.HealthPercentage + " %";
+            manaLabel.Text = $"{playerState.CurrentMana} / {playerState.MaxMana}";
+            manaPercentLabel.Text = playerState.ManaPercentage + " %";
+            mapLabel.Text = $"{playerState.MapName} ({playerState.MapId})";
+            mapXLabel.Text = playerState.MapX.ToString();
+            mapYLabel.Text = playerState.MapY.ToString();
 
             // Force progress bars to redraw
             healthPictureBox.Refresh();
@@ -99,8 +99,8 @@ namespace SleepHunter.Forms
 
             var clientRect = healthPictureBox.ClientRectangle;
 
-            var currentHealth = _playerState != null ? _playerState.CurrentHealth : 0;
-            var maxHealth = _playerState != null ? _playerState.MaxHealth : 0;
+            var currentHealth = playerState?.CurrentHealth ?? 0;
+            var maxHealth = playerState?.MaxHealth ?? 0;
 
             DrawProgress(e.Graphics, clientRect, currentHealth, 0L, maxHealth,
                 DefaultSegmentWidth, DefaultSegmentSpacing, false, ProgressPadding,
@@ -115,8 +115,8 @@ namespace SleepHunter.Forms
 
             var clientRect = manaPictureBox.ClientRectangle;
 
-            var currentMana = _playerState != null ? _playerState.CurrentMana : 0;
-            var maxMana = _playerState != null ? _playerState.MaxMana : 0;
+            var currentMana = playerState?.CurrentMana ?? 0;
+            var maxMana = playerState?.MaxMana ?? 0;
 
             DrawProgress(e.Graphics, clientRect, currentMana, 0L, maxMana,
                 DefaultSegmentWidth, DefaultSegmentSpacing, false, ProgressPadding,
@@ -143,19 +143,19 @@ namespace SleepHunter.Forms
             var right = clientRect.Right;
             var bottom = clientRect.Bottom;
 
-            g.DrawLine(_shadowPen, left, top, right, top);
+            g.DrawLine(shadowPen, left, top, right, top);
 
             if (borderStyle.Equals(BorderStyle.Fixed3D))
             {
-                g.DrawLine(_highlightPen, right, top, right, bottom);
-                g.DrawLine(_highlightPen, right, bottom, left, bottom);
+                g.DrawLine(highlightPen, right, top, right, bottom);
+                g.DrawLine(highlightPen, right, bottom, left, bottom);
             }
             else
             {
-                g.DrawLine(_shadowPen, right, top, right, bottom);
-                g.DrawLine(_shadowPen, right, bottom, left, bottom);
+                g.DrawLine(shadowPen, right, top, right, bottom);
+                g.DrawLine(shadowPen, right, bottom, left, bottom);
             }
-            g.DrawLine(_shadowPen, left, bottom, left, top);
+            g.DrawLine(shadowPen, left, bottom, left, top);
         }
 
         private void DrawProgress(
@@ -197,16 +197,15 @@ namespace SleepHunter.Forms
 
             for (int index = 1; index < rect.Width / (segmentWidth + segmentSpacing) + 1; ++index)
             {
-                g.FillRectangle(_progressBackgroundBrush, rect.Left + index * segmentWidth + (index - 1) * segmentSpacing, rect.Top, segmentSpacing, rect.Height);
+                g.FillRectangle(progressBackgroundBrush, rect.Left + index * segmentWidth + (index - 1) * segmentSpacing, rect.Top, segmentSpacing, rect.Height);
             }
         }
 
         private void form_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(GameClientWindow)))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
+            e.Effect = e.Data.GetDataPresent(typeof(GameClientWindow)) 
+                ? DragDropEffects.Copy 
+                : DragDropEffects.None;
         }
 
         private void form_DragDrop(object sender, DragEventArgs e)
@@ -216,18 +215,15 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            if (_clientReader != null)
-            {
-                _clientReader.Dispose();
-            }
+            clientReader?.Dispose();
 
             var gameClientWindow = (GameClientWindow)e.Data.GetData(typeof(GameClientWindow));
 
             try
             {
-                _clientReader = new GameClientReader(gameClientWindow.ProcessId);
-                _playerState = new PlayerState();
-                _isAttached = true;
+                clientReader = new GameClientReader(gameClientWindow.ProcessId);
+                playerState = new PlayerState();
+                isAttached = true;
 
                 helpLabel.Visible = false;
                 updateTimer.Enabled = true;
@@ -243,14 +239,11 @@ namespace SleepHunter.Forms
 
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
-            if (_clientReader != null)
-            {
-                _clientReader.Dispose();
-            }
+            clientReader?.Dispose();
 
-            _highlightPen.Dispose();
-            _shadowPen.Dispose();
-            _progressBackgroundBrush.Dispose();
+            highlightPen.Dispose();
+            shadowPen.Dispose();
+            progressBackgroundBrush.Dispose();
         }
     }
 }

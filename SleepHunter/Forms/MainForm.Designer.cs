@@ -701,7 +701,6 @@ namespace SleepHunter.Forms
             // 
             this.doubleClickTimer.Enabled = true;
             this.doubleClickTimer.Interval = 2000;
-            this.doubleClickTimer.Tick += new System.EventHandler(this.DoubleClickTimer_Tick);
             // 
             // openFileDialog
             // 

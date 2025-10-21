@@ -4,40 +4,40 @@ namespace SleepHunter.Macro.Conditions
 {
     public class FloatCondition : IMacroCondition
     {
-        private readonly Func<MacroContext, double> _getter;
-        private readonly CompareOperator _operator;
-        private readonly double _compareValue;
+        private readonly Func<MacroContext, double> getter;
+        private readonly CompareOperator @operator;
+        private readonly double compareValue;
 
         public FloatCondition(Func<MacroContext, double> valueGetter, CompareOperator op, double compareValue)
         {
-            _getter = valueGetter;
-            _operator = op;
-            _compareValue = compareValue;
+            getter = valueGetter;
+            @operator = op;
+            this.compareValue = compareValue;
         }
 
         public bool Evaluate(MacroContext context)
         {
-            var actualValue = _getter(context);
+            var actualValue = getter(context);
 
-            switch (_operator)
+            switch (@operator)
             {
                 case CompareOperator.Equal:
-                    return actualValue == _compareValue;
+                    return actualValue == compareValue;
                 case CompareOperator.NotEqual:
-                    return actualValue != _compareValue;
+                    return actualValue != compareValue;
                 case CompareOperator.GreaterThan:
-                    return actualValue > _compareValue;
+                    return actualValue > compareValue;
                 case CompareOperator.GreaterThanOrEqual:
-                    return actualValue >= _compareValue;
+                    return actualValue >= compareValue;
                 case CompareOperator.LessThan:
-                    return actualValue < _compareValue;
+                    return actualValue < compareValue;
                 case CompareOperator.LessThanOrEqual:
-                    return actualValue <= _compareValue;
+                    return actualValue <= compareValue;
                 default:
-                    throw new InvalidOperationException($"Invalid operator: {_operator}");
+                    throw new InvalidOperationException($"Invalid operator: {@operator}");
             }
         }
 
-        public override string ToString() => $"FLOAT {_operator.ToSymbol()} {_compareValue}";
+        public override string ToString() => $"FLOAT {@operator.ToSymbol()} {compareValue}";
     }
 }

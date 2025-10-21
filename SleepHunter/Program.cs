@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using SleepHunter.Forms;
 using SleepHunter.Interop.Windows;
+using SleepHunter.Macro.Commands;
 using SleepHunter.Services;
 
 namespace SleepHunter
@@ -34,6 +35,7 @@ namespace SleepHunter
         {
             // Application services
             services.AddSingleton<IGameClientService, GameClientService>();
+            services.AddSingleton<IMacroCommandRegistry, MacroCommandRegistry>();
             services.AddSingleton<IWindowEnumerator, WindowEnumerator>();
 
             // Forms

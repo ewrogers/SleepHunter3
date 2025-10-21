@@ -2,6 +2,7 @@
 {
     public enum MacroParameterType
     {
+        None,
         Integer,
         Float,
         String,

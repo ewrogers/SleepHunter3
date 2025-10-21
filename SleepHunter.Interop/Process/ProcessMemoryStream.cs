@@ -10,23 +10,23 @@ namespace SleepHunter.Interop.Process
         private const int ReadBufferSize = 1024;
         private const int WriteBufferSize = 1024;
 
-        private IntPtr _handle;
-        private readonly ProcessAccess _access;
-        private readonly bool _leaveOpen;
+        private IntPtr handle;
+        private readonly ProcessAccess access;
+        private readonly bool leaveOpen;
 
-        private long _position = 0x400000;
-        private bool _isDisposed;
+        private long position = 0x400000;
+        private bool isDisposed;
 
         public int ProcessId { get; private set; }
 
         public override bool CanSeek => true;
-        public override bool CanRead => _handle != IntPtr.Zero && _access.HasFlag(ProcessAccess.Read);
-        public override bool CanWrite => _handle != IntPtr.Zero && _access.HasFlag(ProcessAccess.Write);
+        public override bool CanRead => handle != IntPtr.Zero && access.HasFlag(ProcessAccess.Read);
+        public override bool CanWrite => handle != IntPtr.Zero && access.HasFlag(ProcessAccess.Write);
         public override bool CanTimeout => false;
 
         public override long Position
         {
-            get => _position;
+            get => position;
             set
             {
                 if (value < 0)
@@ -34,7 +34,7 @@ namespace SleepHunter.Interop.Process
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
-                _position = value;
+                position = value;
             }
         }
 
@@ -59,9 +59,9 @@ namespace SleepHunter.Interop.Process
             }
 
             ProcessId = processId;
-            _handle = processHandle;
-            _access = desiredAccess;
-            _leaveOpen = leaveOpen;
+            handle = processHandle;
+            access = desiredAccess;
+            this.leaveOpen = leaveOpen;
         }
 
         public override long Seek(long offset, SeekOrigin origin)
@@ -85,7 +85,7 @@ namespace SleepHunter.Interop.Process
         {
             CheckIfDisposed();
 
-            if (_handle == IntPtr.Zero) throw new InvalidOperationException("Stream has been closed");
+            if (handle == IntPtr.Zero) throw new InvalidOperationException("Stream has been closed");
 
             if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset), "Offset must be a positive index");
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), "Count must be a positive number");
@@ -99,7 +99,7 @@ namespace SleepHunter.Interop.Process
                 while (remaining > 0)
                 {
                     var maxReadSize = Math.Min(ReadBufferSize, remaining);
-                    if (!NativeMethods.ReadProcessMemory(_handle, (IntPtr)_position, readBuffer, maxReadSize, out var bytesRead))
+                    if (!NativeMethods.ReadProcessMemory(handle, (IntPtr)position, readBuffer, maxReadSize, out var bytesRead))
                     {
                         throw new InvalidOperationException("Unable to read from the process");
                     }
@@ -109,7 +109,7 @@ namespace SleepHunter.Interop.Process
                     offset += bytesRead;
                     remaining -= bytesRead;
 
-                    _position += bytesRead;
+                    position += bytesRead;
                 }
 
                 return count;
@@ -124,7 +124,7 @@ namespace SleepHunter.Interop.Process
         {
             CheckIfDisposed();
 
-            if (_handle == IntPtr.Zero) throw new InvalidOperationException("Stream has been closed");
+            if (handle == IntPtr.Zero) throw new InvalidOperationException("Stream has been closed");
 
             if (offset < 0) throw new ArgumentOutOfRangeException(nameof(offset), "Offset must be a positive index");
             if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), "Count must be a positive number");
@@ -140,7 +140,7 @@ namespace SleepHunter.Interop.Process
                     var maxWriteSize = Math.Min(WriteBufferSize, remaining);
                     Buffer.BlockCopy(buffer, offset, writeBuffer, 0, maxWriteSize);
 
-                    if (!NativeMethods.WriteProcessMemory(_handle, (IntPtr)_position, writeBuffer, maxWriteSize, out var bytesWritten))
+                    if (!NativeMethods.WriteProcessMemory(handle, (IntPtr)position, writeBuffer, maxWriteSize, out var bytesWritten))
                     {
                         throw new InvalidOperationException("Unable to write to the process");
                     }
@@ -148,7 +148,7 @@ namespace SleepHunter.Interop.Process
                     offset += bytesWritten;
                     remaining -= bytesWritten;
 
-                    _position += bytesWritten;
+                    position += bytesWritten;
                 }
             }
             finally
@@ -173,19 +173,19 @@ namespace SleepHunter.Interop.Process
         {
             CheckIfDisposed();
 
-            if (_handle != IntPtr.Zero)
+            if (handle != IntPtr.Zero)
             {
-                NativeMethods.CloseHandle(_handle);
+                NativeMethods.CloseHandle(handle);
             }
 
-            _handle = IntPtr.Zero;
+            handle = IntPtr.Zero;
         }
 
         ~ProcessMemoryStream() => Dispose(false);
 
         protected override void Dispose(bool isDisposing)
         {
-            if (_isDisposed)
+            if (isDisposed)
             {
                 return;
             }
@@ -197,18 +197,18 @@ namespace SleepHunter.Interop.Process
 
             }
 
-            if (_handle != IntPtr.Zero)
+            if (handle != IntPtr.Zero)
             {
-                NativeMethods.CloseHandle(_handle);
+                NativeMethods.CloseHandle(handle);
             }
 
-            _handle = IntPtr.Zero;
-            _isDisposed = true;
+            handle = IntPtr.Zero;
+            isDisposed = true;
         }
 
         private void CheckIfDisposed()
         {
-            if (_isDisposed) throw new ObjectDisposedException(nameof(ProcessMemoryStream));
+            if (isDisposed) throw new ObjectDisposedException(nameof(ProcessMemoryStream));
         }
     }
 }

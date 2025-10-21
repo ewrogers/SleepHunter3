@@ -5,10 +5,10 @@
         Interface,
         Keyboard,
         Mouse,
-        Loop,
         Map,
         Health,
         Mana,
+        Loop,
         Time
     }
 }

@@ -10,53 +10,45 @@ namespace SleepHunter.Forms
 
     public partial class MacroForm : Form
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IWindowEnumerator _windowEnumerator;
-        private GameClientWindow _clientWindow;
-        private GameClientReader _clientReader;
-        private bool _isAttached;
+        private readonly IWindowEnumerator windowEnumerator;
+        private GameClientWindow clientWindow;
+        private GameClientReader clientReader;
+        private bool isAttached;
 
         public MacroForm(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
-            _windowEnumerator = _serviceProvider.GetRequiredService<IWindowEnumerator>();
+            windowEnumerator = serviceProvider.GetRequiredService<IWindowEnumerator>();
 
             InitializeComponent();
         }
 
         private void AttachToClient(GameClientWindow window)
         {
-            if (_clientReader != null)
-            {
-                _clientReader.Dispose();
-            }
+            clientReader?.Dispose();
 
-            _clientWindow = window;
-            _clientReader = new GameClientReader(_clientWindow.ProcessId);
-            _isAttached = true;
+            clientWindow = window;
+            clientReader = new GameClientReader(clientWindow.ProcessId);
+            isAttached = true;
 
-            UpdateProcessUI();
+            UpdateProcessUi();
         }
 
         private void DetachClient()
         {
-            if (_clientReader != null)
-            {
-                _clientReader.Dispose();
-            }
+            clientReader?.Dispose();
 
-            _isAttached = false;
-            UpdateProcessUI();
+            isAttached = false;
+            UpdateProcessUi();
         }
 
-        private void UpdateProcessUI()
+        private void UpdateProcessUi()
         {
             string characterName = string.Empty;
             try
             {
-                if (_isAttached)
+                if (isAttached)
                 {
-                    characterName = _clientReader.ReadCharacterName();
+                    characterName = clientReader.ReadCharacterName();
                 }
             }
             catch
@@ -65,17 +57,17 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            Text = _isAttached ? $"{characterName} - Macro" : "Macro Data";
+            Text = isAttached ? $"{characterName} - Macro" : "Macro Data";
 
-            clientVersionLabel.Text = _isAttached ? "Client Version: 7.41" : "Client Version:";
-            processIdLabel.Text = _isAttached ? $"Process ID: {_clientWindow.ProcessId}" : "Process ID:";
-            windowHandleLabel.Text = _isAttached ? $"Window Handle: {_clientWindow.WindowHandle}" : "Window Handle:";
-            characterNameLabel.Text = _isAttached ? $"Character Name: {characterName}" : "Character Name:";
+            clientVersionLabel.Text = isAttached ? "Client Version: 7.41" : "Client Version:";
+            processIdLabel.Text = isAttached ? $"Process ID: {clientWindow.ProcessId}" : "Process ID:";
+            windowHandleLabel.Text = isAttached ? $"Window Handle: {clientWindow.WindowHandle}" : "Window Handle:";
+            characterNameLabel.Text = isAttached ? $"Character Name: {characterName}" : "Character Name:";
 
-            clientVersionLabel.Enabled = _isAttached;
-            processIdLabel.Enabled = _isAttached;
-            windowHandleLabel.Enabled = _isAttached;
-            characterNameLabel.Enabled = _isAttached;
+            clientVersionLabel.Enabled = isAttached;
+            processIdLabel.Enabled = isAttached;
+            windowHandleLabel.Enabled = isAttached;
+            characterNameLabel.Enabled = isAttached;
         }
 
         #region Quick Attach Toolbar
@@ -84,15 +76,15 @@ namespace SleepHunter.Forms
         {
             quickAttachButton.DropDownItems.Clear();
 
-            var clientWindows = _windowEnumerator.FindWindows("Darkages");
+            var clientWindows = windowEnumerator.FindWindows("Darkages");
 
-            foreach (var clientWindow in clientWindows)
+            foreach (var gameWindow in clientWindows)
             {
                 GameClientReader reader = null;
 
                 try
                 {
-                    reader = new GameClientReader(clientWindow.ProcessId);
+                    reader = new GameClientReader(gameWindow.ProcessId);
                     var signature = reader.ReadVersion();
 
                     if (!string.Equals(signature, GameClientReader.Version741, StringComparison.Ordinal))
@@ -102,7 +94,7 @@ namespace SleepHunter.Forms
 
                     var characterName = reader.ReadCharacterName();
                     var newItem = quickAttachButton.DropDownItems.Add(characterName);
-                    newItem.Tag = new GameClientWindow(clientWindow.Handle, clientWindow.ProcessId);
+                    newItem.Tag = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
                 }
                 catch
                 {
@@ -123,22 +115,21 @@ namespace SleepHunter.Forms
 
         private void quickAttachButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (!(e.ClickedItem.Tag is GameClientWindow clientWindow))
+            if (!(e.ClickedItem.Tag is GameClientWindow gameWindow))
             {
                 return;
             }
 
             // TODO: Check macro state and stop it if already running
-            AttachToClient(clientWindow);
+            AttachToClient(gameWindow);
         }
         #endregion
 
         private void processPanel_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(GameClientWindow)))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
+            e.Effect = e.Data.GetDataPresent(typeof(GameClientWindow)) 
+                ? DragDropEffects.Copy 
+                : DragDropEffects.None;
         }
 
         private void processPanel_DragDrop(object sender, DragEventArgs e)
@@ -150,10 +141,10 @@ namespace SleepHunter.Forms
 
             try
             {
-                var clientWindow = (GameClientWindow)e.Data.GetData(typeof(GameClientWindow));
+                var gameWindow = (GameClientWindow)e.Data.GetData(typeof(GameClientWindow));
 
                 // TODO: Check macro state and stop it if already running
-                AttachToClient(clientWindow);
+                AttachToClient(gameWindow);
             }
             catch
             {

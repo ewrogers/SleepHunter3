@@ -1,5 +1,4 @@
-﻿using SleepHunter.Commands;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
 
 namespace SleepHunter
@@ -47,16 +46,7 @@ namespace SleepHunter
 
         public int AddCommandsToList(ListView lvwList, string[] CommandList, string[] ArgList)
         {
-            CommandLibrary commandLibrary = new CommandLibrary();
-            int index = 0;
-            foreach (string command in CommandList)
-            {
-                lvwList.Items.Add("");
-                lvwList.Items[index].SubItems.Add(commandLibrary.GetFormattedString(command, ArgList[index].Split(',')));
-                lvwList.Items[index].Tag = $"{command}|{ArgList[index]}";
-                ++index;
-            }
-            return index + 1;
+            return 0;
         }
     }
 }

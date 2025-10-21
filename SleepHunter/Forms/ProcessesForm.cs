@@ -8,26 +8,26 @@ namespace SleepHunter.Forms
 {
     public partial class ProcessesForm : Form
     {
-        private readonly IGameClientService _gameClientService;
+        private readonly IGameClientService gameClientService;
 
-        private readonly Graphics _processListViewGraphics;
-        private readonly Pen _borderPen;
-        private readonly Brush _placeholderBrush;
-        private readonly Font _placeholderFont;
-        private readonly StringFormat _placeholderStringFormat;
+        private readonly Graphics processListViewGraphics;
+        private readonly Pen borderPen;
+        private readonly Brush placeholderBrush;
+        private readonly Font placeholderFont;
+        private readonly StringFormat placeholderStringFormat;
 
         public ProcessesForm(IGameClientService gameClientService)
         {
-            _gameClientService = gameClientService;
+            this.gameClientService = gameClientService;
 
             InitializeComponent();
 
-            _processListViewGraphics = Graphics.FromHwnd(processListView.Handle);
-            _borderPen = new Pen(SystemColors.ControlDark);
+            processListViewGraphics = Graphics.FromHwnd(processListView.Handle);
+            borderPen = new Pen(SystemColors.ControlDark);
 
-            _placeholderBrush = new SolidBrush(SystemColors.ControlText);
-            _placeholderFont = new Font("Tahoma", 10f, FontStyle.Bold);
-            _placeholderStringFormat = new StringFormat(StringFormat.GenericDefault)
+            placeholderBrush = new SolidBrush(SystemColors.ControlText);
+            placeholderFont = new Font("Tahoma", 10f, FontStyle.Bold);
+            placeholderStringFormat = new StringFormat(StringFormat.GenericDefault)
             {
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center
@@ -36,9 +36,12 @@ namespace SleepHunter.Forms
 
         private void processListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            var listViewItem = e.Item as ListViewItem;
-            var data = new DataObject(listViewItem.Tag);
+            if (!(e.Item is ListViewItem listViewItem))
+            {
+                return;
+            }
 
+            var data = new DataObject(listViewItem.Tag);
             DoDragDrop(data, DragDropEffects.Copy);
         }
 
@@ -46,7 +49,7 @@ namespace SleepHunter.Forms
         {
             var clientRectangle = processPanel.ClientRectangle;
             clientRectangle.Inflate(-4, -4);
-            e.Graphics.DrawRectangle(_borderPen, clientRectangle);
+            e.Graphics.DrawRectangle(borderPen, clientRectangle);
 
             if (processListView.Items.Count == 0)
             {
@@ -66,7 +69,7 @@ namespace SleepHunter.Forms
 
             try
             {
-                var clientWindows = _gameClientService.FindClientWindows();
+                var clientWindows = gameClientService.FindClientWindows();
 
                 foreach (var clientWindow in clientWindows)
                 {
@@ -111,16 +114,16 @@ namespace SleepHunter.Forms
         private void DrawPlaceholderText(string text)
         {
             processListView.Refresh();
-            _processListViewGraphics.DrawString(text, _placeholderFont, _placeholderBrush, processListView.ClientRectangle, _placeholderStringFormat);
+            processListViewGraphics.DrawString(text, placeholderFont, placeholderBrush, processListView.ClientRectangle, placeholderStringFormat);
         }
 
         private void ProcessesForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _processListViewGraphics.Dispose();
-            _borderPen.Dispose();
-            _placeholderFont.Dispose();
-            _placeholderBrush.Dispose();
-            _placeholderStringFormat.Dispose();
+            processListViewGraphics.Dispose();
+            borderPen.Dispose();
+            placeholderFont.Dispose();
+            placeholderBrush.Dispose();
+            placeholderStringFormat.Dispose();
         }
     }
 }
