@@ -48,6 +48,12 @@ namespace SleepHunter.Forms
                 return;
             }
 
+            TryUpdateState();
+            UpdateUI();
+        }
+
+        private void TryUpdateState()
+        {
             try
             {
                 playerState.Name = clientReader.ReadCharacterName();
@@ -67,8 +73,6 @@ namespace SleepHunter.Forms
                 isAttached = false;
                 updateTimer.Enabled = false;
             }
-
-            UpdateUI();
         }
 
         private void UpdateUI()
@@ -252,6 +256,9 @@ namespace SleepHunter.Forms
 
                 helpLabel.Visible = false;
                 updateTimer.Enabled = true;
+
+                TryUpdateState();
+                UpdateUI();
             }
             catch
             {

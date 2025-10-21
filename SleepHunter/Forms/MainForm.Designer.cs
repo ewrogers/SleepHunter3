@@ -342,7 +342,6 @@ namespace SleepHunter.Forms
             this.mainStatusStrip.Name = "mainStatusStrip";
             this.mainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
             this.mainStatusStrip.Size = new System.Drawing.Size(1008, 22);
-            this.mainStatusStrip.SizingGrip = false;
             this.mainStatusStrip.TabIndex = 2;
             // 
             // statusLabel
@@ -421,6 +420,7 @@ namespace SleepHunter.Forms
             this.MainMenuStrip = this.mainMenuStrip;
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SleepHunter";
             this.Load += new System.EventHandler(this.form_Load);

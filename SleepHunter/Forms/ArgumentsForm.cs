@@ -14,7 +14,7 @@ namespace SleepHunter.Forms
 
         private MacroCommandDefinition command;
         private string validationError;
-        
+
         public IReadOnlyList<MacroParameterValue> Parameters { get; private set; }
 
         public MacroCommandDefinition Command
@@ -104,6 +104,7 @@ namespace SleepHunter.Forms
             {
                 var isPercent = IsPercentValue();
                 numericComparisonGroupBox.Text = isPercent ? "Percent Comparison" : "Value Comparison";
+                percentLabel.Visible = isPercent;
 
                 numericValueNumeric.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
                 numericValueNumeric.Maximum = isPercent ? 100 : uint.MaxValue;
@@ -151,12 +152,31 @@ namespace SleepHunter.Forms
             keystrokesGroupBox.Visible = isKeystrokes;
         }
 
-        private void SetValidationError(string message)
+        private void ValidateParameters()
         {
-            validationLabel.Text = message;
-            validationLabel.Visible = !string.IsNullOrWhiteSpace(validationError);
-
-            addButton.Enabled = string.IsNullOrWhiteSpace(validationError);
+            try
+            {
+                if (IsStringInput() && string.IsNullOrWhiteSpace(stringInputTextBox.Text))
+                {
+                    stringInputTextBox.Focus();
+                    validationError = "Input string cannot be empty!";
+                    return;
+                }
+                if (IsStringComparison() && string.IsNullOrWhiteSpace(stringValueTextBox.Text))
+                {
+                    stringValueTextBox.Focus();
+                    validationError = "Input string cannot be empty!";
+                    return;
+                }
+                validationError = string.Empty;
+            }
+            finally
+            {
+                var hasError = !string.IsNullOrWhiteSpace(validationError);
+                validationLabel.Text = validationError;
+                validationLabel.Visible = hasError;
+                addButton.Enabled = !hasError;
+            }
         }
 
         private IEnumerable<MacroParameterValue> EmitParameters()
@@ -200,7 +220,7 @@ namespace SleepHunter.Forms
 
         private CompareOperator GetSelectedCompareOperator()
         {
-            switch (numericOperatorComboBox.SelectedText)
+            switch (numericOperatorComboBox.SelectedItem.ToString().ToLowerInvariant())
             {
                 case "==": return CompareOperator.Equal;
                 case "!=": return CompareOperator.NotEqual;
@@ -215,7 +235,7 @@ namespace SleepHunter.Forms
 
         private StringCompareOperator GetSelectedStringCompareOperator()
         {
-            switch (stringCompareOperatorComboBox.SelectedText.ToLowerInvariant())
+            switch (stringCompareOperatorComboBox.SelectedItem.ToString().ToLowerInvariant())
             {
                 case "equals": return StringCompareOperator.Equal;
                 case "does not equal": return StringCompareOperator.NotEqual;
@@ -252,8 +272,23 @@ namespace SleepHunter.Forms
         private bool IsCoordinatePoint() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Point;
         private bool IsKeystrokes() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
 
-        private void addButton_Click(object sender, EventArgs e)
+        private void textBox_TextChanged(object sender, EventArgs e)
         {
+            ValidateParameters();
+        }
+
+        private void addButton_Click(object sender, EventArgs e) => OnAccept();
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+              
+
+        private void OnAccept()
+        {
+            ValidateParameters();
             if (!string.IsNullOrWhiteSpace(validationError))
             {
                 return;
@@ -262,12 +297,6 @@ namespace SleepHunter.Forms
             Parameters = EmitParameters().ToList();
 
             DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
             Close();
         }
     }
