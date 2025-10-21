@@ -54,106 +54,6 @@ namespace SleepHunter.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Character Status Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Chat Dialog Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Inventory Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Medenia Skill Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Medenia Spell Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Temuair Skill Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Temuair Spell Pane", 1, 1);
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Game-Specific Library", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Send Keystrokes", 1, 1);
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Keyboard Library", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode9});
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("If HP < X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("If HP = X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("If HP ≠ X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("If HP > X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("While HP < X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("While HP = X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("While HP ≠ X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("While HP > X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("HP Conditionals", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode11,
-            treeNode12,
-            treeNode13,
-            treeNode14,
-            treeNode15,
-            treeNode16,
-            treeNode17,
-            treeNode18});
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("If X Coord < X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("If X Coord = X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("If X Coord ≠ X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("If X Coord > X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("While X Coord < X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("While X Coord = X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("While X Coord ≠ X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("While X Coord > X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("X Coord. Conditionals", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode20,
-            treeNode21,
-            treeNode22,
-            treeNode23,
-            treeNode24,
-            treeNode25,
-            treeNode26,
-            treeNode27});
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("If Y Coord < X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("If Y Coord = X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("If Y Coord ≠ X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("If Y Coord > X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("While Y Coord < X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("While Y Coord = X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("While Y Coord ≠ X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("While Y Coord > X", 1, 1);
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Y Coord. Conditionals", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode29,
-            treeNode30,
-            treeNode31,
-            treeNode32,
-            treeNode33,
-            treeNode34,
-            treeNode35,
-            treeNode36});
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Logic Library", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode19,
-            treeNode28,
-            treeNode37});
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Break", 1, 1);
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("GoTo Line", 1, 1);
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Loop End", 1, 1);
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Loop Reset", 1, 1);
-            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Loop Restart", 1, 1);
-            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Loop Start", 1, 1);
-            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Loop Library", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode39,
-            treeNode40,
-            treeNode41,
-            treeNode42,
-            treeNode43,
-            treeNode44});
-            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Left Click", 1, 1);
-            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Move Cursor", 1, 1);
-            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Recall Cursor Position", 1, 1);
-            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Right Click", 1, 1);
-            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Save Cursor Position", 1, 1);
-            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Mouse Library", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode46,
-            treeNode47,
-            treeNode48,
-            treeNode49,
-            treeNode50});
-            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Wait X Milliseconds", 1, 1);
-            System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Time Library", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode52});
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newMacroMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -173,6 +73,7 @@ namespace SleepHunter.Forms
             this.windowMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.minimizeAllMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.closeAllMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.mdiSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.searchMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.docsMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -187,7 +88,6 @@ namespace SleepHunter.Forms
             this.doubleClickTimer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.mdiSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.commandsPanel.SuspendLayout();
@@ -370,6 +270,11 @@ namespace SleepHunter.Forms
             this.closeAllMenu.Text = "C&lose All";
             this.closeAllMenu.Click += new System.EventHandler(this.CloseAllWindowsMenu_Click);
             // 
+            // mdiSeparator
+            // 
+            this.mdiSeparator.Name = "mdiSeparator";
+            this.mdiSeparator.Size = new System.Drawing.Size(223, 6);
+            // 
             // helpMenu
             // 
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -451,7 +356,7 @@ namespace SleepHunter.Forms
             this.commandsPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.commandsPanel.Location = new System.Drawing.Point(0, 25);
             this.commandsPanel.Name = "commandsPanel";
-            this.commandsPanel.Size = new System.Drawing.Size(240, 594);
+            this.commandsPanel.Size = new System.Drawing.Size(260, 594);
             this.commandsPanel.TabIndex = 5;
             // 
             // commandsTreeView
@@ -463,228 +368,9 @@ namespace SleepHunter.Forms
             this.commandsTreeView.ImageList = this.nodeImageList;
             this.commandsTreeView.Location = new System.Drawing.Point(0, 0);
             this.commandsTreeView.Name = "commandsTreeView";
-            treeNode1.ImageIndex = 1;
-            treeNode1.Name = "";
-            treeNode1.SelectedImageIndex = 1;
-            treeNode1.Text = "Character Status Pane";
-            treeNode2.ImageIndex = 1;
-            treeNode2.Name = "";
-            treeNode2.SelectedImageIndex = 1;
-            treeNode2.Text = "Chat Dialog Pane";
-            treeNode3.ImageIndex = 1;
-            treeNode3.Name = "";
-            treeNode3.SelectedImageIndex = 1;
-            treeNode3.Text = "Inventory Pane";
-            treeNode4.ImageIndex = 1;
-            treeNode4.Name = "";
-            treeNode4.SelectedImageIndex = 1;
-            treeNode4.Text = "Medenia Skill Pane";
-            treeNode5.ImageIndex = 1;
-            treeNode5.Name = "";
-            treeNode5.SelectedImageIndex = 1;
-            treeNode5.Text = "Medenia Spell Pane";
-            treeNode6.ImageIndex = 1;
-            treeNode6.Name = "";
-            treeNode6.SelectedImageIndex = 1;
-            treeNode6.Text = "Temuair Skill Pane";
-            treeNode7.ImageIndex = 1;
-            treeNode7.Name = "";
-            treeNode7.SelectedImageIndex = 1;
-            treeNode7.Text = "Temuair Spell Pane";
-            treeNode8.ImageIndex = 0;
-            treeNode8.Name = "";
-            treeNode8.SelectedImageIndex = 0;
-            treeNode8.Text = "Game-Specific Library";
-            treeNode9.ImageIndex = 1;
-            treeNode9.Name = "";
-            treeNode9.SelectedImageIndex = 1;
-            treeNode9.Text = "Send Keystrokes";
-            treeNode10.ImageIndex = 0;
-            treeNode10.Name = "";
-            treeNode10.SelectedImageIndex = 0;
-            treeNode10.Text = "Keyboard Library";
-            treeNode11.ImageIndex = 1;
-            treeNode11.Name = "";
-            treeNode11.SelectedImageIndex = 1;
-            treeNode11.Text = "If HP < X";
-            treeNode12.ImageIndex = 1;
-            treeNode12.Name = "";
-            treeNode12.SelectedImageIndex = 1;
-            treeNode12.Text = "If HP = X";
-            treeNode13.ImageIndex = 1;
-            treeNode13.Name = "";
-            treeNode13.SelectedImageIndex = 1;
-            treeNode13.Text = "If HP ≠ X";
-            treeNode14.ImageIndex = 1;
-            treeNode14.Name = "";
-            treeNode14.SelectedImageIndex = 1;
-            treeNode14.Text = "If HP > X";
-            treeNode15.ImageIndex = 1;
-            treeNode15.Name = "";
-            treeNode15.SelectedImageIndex = 1;
-            treeNode15.Text = "While HP < X";
-            treeNode16.ImageIndex = 1;
-            treeNode16.Name = "";
-            treeNode16.SelectedImageIndex = 1;
-            treeNode16.Text = "While HP = X";
-            treeNode17.ImageIndex = 1;
-            treeNode17.Name = "";
-            treeNode17.SelectedImageIndex = 1;
-            treeNode17.Text = "While HP ≠ X";
-            treeNode18.ImageIndex = 1;
-            treeNode18.Name = "";
-            treeNode18.SelectedImageIndex = 1;
-            treeNode18.Text = "While HP > X";
-            treeNode19.ImageIndex = 0;
-            treeNode19.Name = "";
-            treeNode19.SelectedImageIndex = 0;
-            treeNode19.Text = "HP Conditionals";
-            treeNode20.ImageIndex = 1;
-            treeNode20.Name = "";
-            treeNode20.SelectedImageIndex = 1;
-            treeNode20.Text = "If X Coord < X";
-            treeNode21.ImageIndex = 1;
-            treeNode21.Name = "";
-            treeNode21.SelectedImageIndex = 1;
-            treeNode21.Text = "If X Coord = X";
-            treeNode22.ImageIndex = 1;
-            treeNode22.Name = "";
-            treeNode22.SelectedImageIndex = 1;
-            treeNode22.Text = "If X Coord ≠ X";
-            treeNode23.ImageIndex = 1;
-            treeNode23.Name = "";
-            treeNode23.SelectedImageIndex = 1;
-            treeNode23.Text = "If X Coord > X";
-            treeNode24.ImageIndex = 1;
-            treeNode24.Name = "";
-            treeNode24.SelectedImageIndex = 1;
-            treeNode24.Text = "While X Coord < X";
-            treeNode25.ImageIndex = 1;
-            treeNode25.Name = "";
-            treeNode25.SelectedImageIndex = 1;
-            treeNode25.Text = "While X Coord = X";
-            treeNode26.ImageIndex = 1;
-            treeNode26.Name = "";
-            treeNode26.SelectedImageIndex = 1;
-            treeNode26.Text = "While X Coord ≠ X";
-            treeNode27.ImageIndex = 1;
-            treeNode27.Name = "";
-            treeNode27.SelectedImageIndex = 1;
-            treeNode27.Text = "While X Coord > X";
-            treeNode28.ImageIndex = 0;
-            treeNode28.Name = "";
-            treeNode28.SelectedImageIndex = 0;
-            treeNode28.Text = "X Coord. Conditionals";
-            treeNode29.ImageIndex = 1;
-            treeNode29.Name = "";
-            treeNode29.SelectedImageIndex = 1;
-            treeNode29.Text = "If Y Coord < X";
-            treeNode30.ImageIndex = 1;
-            treeNode30.Name = "";
-            treeNode30.SelectedImageIndex = 1;
-            treeNode30.Text = "If Y Coord = X";
-            treeNode31.ImageIndex = 1;
-            treeNode31.Name = "";
-            treeNode31.SelectedImageIndex = 1;
-            treeNode31.Text = "If Y Coord ≠ X";
-            treeNode32.ImageIndex = 1;
-            treeNode32.Name = "";
-            treeNode32.SelectedImageIndex = 1;
-            treeNode32.Text = "If Y Coord > X";
-            treeNode33.ImageIndex = 1;
-            treeNode33.Name = "";
-            treeNode33.SelectedImageIndex = 1;
-            treeNode33.Text = "While Y Coord < X";
-            treeNode34.ImageIndex = 1;
-            treeNode34.Name = "";
-            treeNode34.SelectedImageIndex = 1;
-            treeNode34.Text = "While Y Coord = X";
-            treeNode35.ImageIndex = 1;
-            treeNode35.Name = "";
-            treeNode35.SelectedImageIndex = 1;
-            treeNode35.Text = "While Y Coord ≠ X";
-            treeNode36.ImageIndex = 1;
-            treeNode36.Name = "";
-            treeNode36.SelectedImageIndex = 1;
-            treeNode36.Text = "While Y Coord > X";
-            treeNode37.ImageIndex = 0;
-            treeNode37.Name = "";
-            treeNode37.SelectedImageIndex = 0;
-            treeNode37.Text = "Y Coord. Conditionals";
-            treeNode38.ImageIndex = 0;
-            treeNode38.Name = "";
-            treeNode38.SelectedImageIndex = 0;
-            treeNode38.Text = "Logic Library";
-            treeNode39.ImageIndex = 1;
-            treeNode39.Name = "";
-            treeNode39.SelectedImageIndex = 1;
-            treeNode39.Text = "Break";
-            treeNode40.ImageIndex = 1;
-            treeNode40.Name = "";
-            treeNode40.SelectedImageIndex = 1;
-            treeNode40.Text = "GoTo Line";
-            treeNode41.ImageIndex = 1;
-            treeNode41.Name = "";
-            treeNode41.SelectedImageIndex = 1;
-            treeNode41.Text = "Loop End";
-            treeNode42.ImageIndex = 1;
-            treeNode42.Name = "";
-            treeNode42.SelectedImageIndex = 1;
-            treeNode42.Text = "Loop Reset";
-            treeNode43.ImageIndex = 1;
-            treeNode43.Name = "";
-            treeNode43.SelectedImageIndex = 1;
-            treeNode43.Text = "Loop Restart";
-            treeNode44.ImageIndex = 1;
-            treeNode44.Name = "";
-            treeNode44.SelectedImageIndex = 1;
-            treeNode44.Text = "Loop Start";
-            treeNode45.ImageIndex = 0;
-            treeNode45.Name = "";
-            treeNode45.SelectedImageIndex = 0;
-            treeNode45.Text = "Loop Library";
-            treeNode46.ImageIndex = 1;
-            treeNode46.Name = "";
-            treeNode46.SelectedImageIndex = 1;
-            treeNode46.Text = "Left Click";
-            treeNode47.ImageIndex = 1;
-            treeNode47.Name = "";
-            treeNode47.SelectedImageIndex = 1;
-            treeNode47.Text = "Move Cursor";
-            treeNode48.ImageIndex = 1;
-            treeNode48.Name = "";
-            treeNode48.SelectedImageIndex = 1;
-            treeNode48.Text = "Recall Cursor Position";
-            treeNode49.ImageIndex = 1;
-            treeNode49.Name = "";
-            treeNode49.SelectedImageIndex = 1;
-            treeNode49.Text = "Right Click";
-            treeNode50.ImageIndex = 1;
-            treeNode50.Name = "";
-            treeNode50.SelectedImageIndex = 1;
-            treeNode50.Text = "Save Cursor Position";
-            treeNode51.ImageIndex = 0;
-            treeNode51.Name = "";
-            treeNode51.SelectedImageIndex = 0;
-            treeNode51.Text = "Mouse Library";
-            treeNode52.ImageIndex = 1;
-            treeNode52.Name = "";
-            treeNode52.SelectedImageIndex = 1;
-            treeNode52.Text = "Wait X Milliseconds";
-            treeNode53.ImageIndex = 0;
-            treeNode53.Name = "";
-            treeNode53.SelectedImageIndex = 0;
-            treeNode53.Text = "Time Library";
-            this.commandsTreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode8,
-            treeNode10,
-            treeNode38,
-            treeNode45,
-            treeNode51,
-            treeNode53});
             this.commandsTreeView.SelectedImageIndex = 0;
             this.commandsTreeView.ShowNodeToolTips = true;
-            this.commandsTreeView.Size = new System.Drawing.Size(236, 590);
+            this.commandsTreeView.Size = new System.Drawing.Size(256, 590);
             this.commandsTreeView.Sorted = true;
             this.commandsTreeView.TabIndex = 0;
             this.commandsTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.CommandsTreeView_ItemDrag);
@@ -717,11 +403,6 @@ namespace SleepHunter.Forms
             this.saveFileDialog.Title = "Save Macro";
             this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveFileDialog_FileOk);
             // 
-            // mdiSeparator
-            // 
-            this.mdiSeparator.Name = "mdiSeparator";
-            this.mdiSeparator.Size = new System.Drawing.Size(223, 6);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -737,6 +418,7 @@ namespace SleepHunter.Forms
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SleepHunter";
+            this.Load += new System.EventHandler(this.form_Load);
             this.MdiChildActivate += new System.EventHandler(this.MdiChild_Activate);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();

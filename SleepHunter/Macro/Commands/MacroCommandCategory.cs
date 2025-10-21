@@ -3,11 +3,11 @@
     public enum MacroCommandCategory
     {
         Interface,
-        Keyboard,
-        Mouse,
         Map,
         Health,
         Mana,
+        Keyboard,
+        Mouse,
         Loop,
         Wait
     }

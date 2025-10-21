@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SleepHunter.Macro.Commands
 {
@@ -11,5 +10,7 @@ namespace SleepHunter.Macro.Commands
         public string Description { get; set; }
         public string HelpText { get; set; }
         public List<MacroParameterType> Parameters { get; set; } = new List<MacroParameterType>();
+
+        public override string ToString() => DisplayName;
     }
 }

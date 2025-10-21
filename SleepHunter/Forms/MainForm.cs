@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SleepHunter.Macro.Commands;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SleepHunter.Forms
@@ -9,6 +11,7 @@ namespace SleepHunter.Forms
     public partial class MainForm : Form
     {
         private readonly IServiceProvider serviceProvider;
+        private readonly IMacroCommandRegistry commandRegistry;
 
         private ProcessesForm processWindow;
         private MacroForm activeMacro;
@@ -17,6 +20,7 @@ namespace SleepHunter.Forms
         public MainForm(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
+            commandRegistry = serviceProvider.GetService<IMacroCommandRegistry>();
 
             processWindow = this.serviceProvider.GetRequiredService<ProcessesForm>();
 
@@ -248,5 +252,48 @@ namespace SleepHunter.Forms
                 }
             }
         }
+
+        private void form_Load(object sender, EventArgs e)
+        {
+            LoadCommandLibrary();
+        }
+
+        private void LoadCommandLibrary()
+        {
+            commandsTreeView.Nodes.Clear();
+            commandsTreeView.BeginUpdate();
+
+            commandsTreeView.Sorted = false;
+
+            try
+            {
+                var groupedCommands = commandRegistry.Commands
+                    .GroupBy(x => x.Category)
+                    .OrderBy(x => x.Key);
+
+                foreach (var groupedCommand in groupedCommands)
+                {
+                    var category = groupedCommand.Key;
+                    var commands = groupedCommand.ToList();
+
+                    var parentNode = commandsTreeView.Nodes.Add($"{category} Commands");
+                    parentNode.ImageIndex = 0;
+                    parentNode.SelectedImageIndex = 0;
+
+                    foreach (var command in commands)
+                    {
+                        var childNode = parentNode.Nodes.Add(command.DisplayName);
+                        childNode.ImageIndex = 1;
+                        childNode.SelectedImageIndex = 1;
+                        childNode.ToolTipText = command.Description;
+                        childNode.Tag = command;
+                    }
+                }
+            }
+            finally
+            {
+                commandsTreeView.EndUpdate();
+            }
+        }        
     }
 }

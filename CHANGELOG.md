@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Map name conditionals
 - Mana conditionals
 - Health and mana percent conditionals
+- Command tool tip in tree view
 - `Options` menu is now visible
 - Dependency injection for much, much cleaner code
 - Brand new macro command engine
