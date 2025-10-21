@@ -140,8 +140,12 @@
     <Compile Include="Macro\Commands\MacroCommandRegistry.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Health.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Interface.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Keyboard.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Loop.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Mana.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Map.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Mouse.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Wait.cs" />
     <Compile Include="Macro\Commands\MacroCommandResult.cs" />
     <Compile Include="Macro\Commands\MacroParameterParser.cs" />
     <Compile Include="Macro\Commands\MacroParameterType.cs" />

@@ -14,6 +14,10 @@ namespace SleepHunter.Macro.Commands
             RegisterMapCommands();
             RegisterHealthCommands();
             RegisterManaCommands();
+            RegisterMouseCommands();
+            RegisterKeyboardCommands();
+            RegisterLoopCommands();
+            RegisterWaitCommands();
         }
 
         public IEnumerable<MacroCommandDefinition> Commands => commands.Values;
