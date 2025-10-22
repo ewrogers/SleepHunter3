@@ -7,7 +7,7 @@ namespace SleepHunter.Macro.Commands
         {
             RegisterCommand(new MacroCommandDefinition
             {
-                Category = MacroCommandCategory.Wait,
+                Category = MacroCommandCategory.Time,
                 Key = MacroCommandKey.WaitDelay,
                 DisplayName = "Wait Delay",
                 Description = "Waits the specified number of milliseconds.",

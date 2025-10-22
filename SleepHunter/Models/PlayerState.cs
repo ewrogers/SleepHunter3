@@ -66,7 +66,7 @@ namespace SleepHunter.Models
             }
         }
 
-        public int HealthPercentage => (int)(CurrentHealth * 100 / Math.Max(1, MaxHealth));
+        public double HealthPercentage => (CurrentHealth * 100.0 / Math.Max(1, MaxHealth));
 
         public long CurrentMana
         {
@@ -88,6 +88,6 @@ namespace SleepHunter.Models
             }
         }
 
-        public int ManaPercentage => (int)(CurrentMana * 100 / Math.Max(1, MaxMana));
+        public double ManaPercentage => (CurrentMana * 100.0 / Math.Max(1, MaxMana));
     }
 }

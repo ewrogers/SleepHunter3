@@ -1,8 +1,12 @@
-﻿using SleepHunter.Macro.Commands.Interface;
+﻿using System;
+using SleepHunter.Macro.Commands.Interface;
+using SleepHunter.Macro.Commands.Jump;
+using SleepHunter.Macro.Commands.Keyboard;
 using SleepHunter.Macro.Commands.Logic;
 using SleepHunter.Macro.Commands.Loop;
+using SleepHunter.Macro.Commands.Mouse;
+using SleepHunter.Macro.Commands.Time;
 using SleepHunter.Macro.Conditions;
-using System;
 
 namespace SleepHunter.Macro.Commands
 {
@@ -35,8 +39,10 @@ namespace SleepHunter.Macro.Commands
                     return CreateLogicCommand(command, parameters);
                 case MacroCommandCategory.Loop:
                     return CreateLoopCommand(command, parameters);
-                case MacroCommandCategory.Wait:
-                    return CreateWaitCommand(command, parameters);
+                case MacroCommandCategory.Jump:
+                    return CreateJumpCommand(command, parameters);
+                case MacroCommandCategory.Time:
+                    return CreateTimeCommand(command, parameters);
                 default:
                     throw new InvalidOperationException($"Invalid command category: {command.Category}");
             }
@@ -120,39 +126,148 @@ namespace SleepHunter.Macro.Commands
 
         private IMacroCommand CreateHealthCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.IfHealthValue:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.CurrentHealth, parameters[0].AsCompareOperator(), parameters[1].AsLong());
+                        return new IfCommand(condition, "HP");
+                    }
+                case MacroCommandKey.IfHealthPercent:
+                    {
+                        var condition = new FloatCondition(ctx => ctx.Player.HealthPercentage, parameters[0].AsCompareOperator(), parameters[1].AsDouble());
+                        return new IfCommand(condition, "HP %");
+                    }
+                case MacroCommandKey.WhileHealthValue:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.CurrentHealth, parameters[0].AsCompareOperator(), parameters[1].AsLong());
+                        return new WhileCommand(condition, "HP");
+                    }
+                case MacroCommandKey.WhileHealthPercent:
+                    {
+                        var condition = new FloatCondition(ctx => ctx.Player.HealthPercentage, parameters[0].AsCompareOperator(), parameters[1].AsDouble());
+                        return new WhileCommand(condition, "HP %");
+                    }
+                default:
+                    throw new InvalidOperationException($"Invalid health command: {command}");
+            }
         }
 
-        private IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters) { throw new NotImplementedException(); }
+        private IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.IfManaValue:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.CurrentMana, parameters[0].AsCompareOperator(), parameters[1].AsLong());
+                        return new IfCommand(condition, "MP");
+                    }
+                case MacroCommandKey.IfManaPercent:
+                    {
+                        var condition = new FloatCondition(ctx => ctx.Player.ManaPercentage, parameters[0].AsCompareOperator(), parameters[1].AsDouble());
+                        return new IfCommand(condition, "MP %");
+                    }
+                case MacroCommandKey.WhileManaValue:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.CurrentMana, parameters[0].AsCompareOperator(), parameters[1].AsLong());
+                        return new WhileCommand(condition, "MP");
+                    }
+                case MacroCommandKey.WhileManaPercent:
+                    {
+                        var condition = new FloatCondition(ctx => ctx.Player.ManaPercentage, parameters[0].AsCompareOperator(), parameters[1].AsDouble());
+                        return new WhileCommand(condition, "MP %");
+                    }
+                default:
+                    throw new InvalidOperationException($"Invalid mana command: {command}");
+            }
+        }
 
         private IMacroCommand CreateKeyboardCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.SendKeystrokes:
+                    return new SendKeysCommand(parameters[0].AsKeystrokes());
+                default:
+                    throw new InvalidOperationException($"Invalid keyboard command: {command}");
+            }
         }
 
         private IMacroCommand CreateMouseCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.MouseLeftClick:
+                    return new MouseClickCommand(MouseButton.Left);
+                case MacroCommandKey.MouseRightClick:
+                    return new MouseClickCommand(MouseButton.Right);
+                case MacroCommandKey.MouseMove:
+                    return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger());
+                case MacroCommandKey.MouseSavePosition:
+                    return new SaveMousePositionCommand();
+                case MacroCommandKey.MouseRecallPosition:
+                    return new RecallMousePositionCommand();
+                default:
+                    throw new InvalidOperationException($"Invalid mouse command: {command}");
+            }
         }
 
         private IMacroCommand CreateLogicCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.IfElse:
+                    return new ElseCommand();
+                case MacroCommandKey.EndIf:
+                    return new EndIfCommand();
+                default:
+                    throw new InvalidOperationException($"Invalid logic command: {command}");
+            }
         }
 
         private IMacroCommand CreateLoopCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.LoopInfinite:
+                    return new LoopCommand();
+                case MacroCommandKey.LoopCount:
+                    return new LoopCommand(parameters[0].AsInteger());
+                case MacroCommandKey.Break:
+                    return new BreakCommand();
+                case MacroCommandKey.EndLoop:
+                    return new EndLoopCommand();
+                case MacroCommandKey.EndWhile:
+                    return new EndWhileCommand();
+                default:
+                    throw new InvalidOperationException($"Invalid loop command: {command}");
+            }
         }
 
         private IMacroCommand CreateJumpCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.DefineLabel:
+                    return new DefineLabelCommand(parameters[0].AsString());
+                case MacroCommandKey.GotoLabel:
+                    return new GotoLabelCommand(parameters[0].AsString());
+                case MacroCommandKey.GotoLine:
+                    return new GotoLineCommand(parameters[0].AsInteger());
+                default:
+                    throw new InvalidOperationException($"Invalid jump command: {command}");
+            }
         }
 
-        private IMacroCommand CreateWaitCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private IMacroCommand CreateTimeCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
-            throw new NotImplementedException();
+            switch (command.Key.ToUpperInvariant())
+            {
+                case MacroCommandKey.WaitDelay:
+                    return new WaitDelayCommand(parameters[0].AsInteger());
+                default:
+                    throw new InvalidOperationException($"Invalid wait command: {command}");
+            }
         }
     }
 }

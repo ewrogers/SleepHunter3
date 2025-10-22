@@ -11,6 +11,6 @@
         Logic,
         Loop,
         Jump,
-        Wait
+        Time
     }
 }

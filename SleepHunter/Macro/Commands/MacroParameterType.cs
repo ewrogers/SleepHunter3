@@ -8,7 +8,6 @@
         Float,
         String,
         Keystrokes,
-        Point,
         CompareOperator,
         LogicalOperator,
         StringCompareOperator

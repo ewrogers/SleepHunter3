@@ -1,5 +1,4 @@
 ﻿using SleepHunter.Macro.Conditions;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SleepHunter.Macro.Commands
@@ -60,17 +59,6 @@ namespace SleepHunter.Macro.Commands
                 return true;
             }
 
-            if (type == MacroParameterType.Point)
-            {
-                if (!TryParsePoint(input, out var point))
-                {
-                    return false;
-                }
-
-                parsed.Value = point;
-                return true;
-            }
-
             if (type == MacroParameterType.CompareOperator)
             {
                 if (!TryParseCompareOperator(input, out var op))
@@ -110,25 +98,6 @@ namespace SleepHunter.Macro.Commands
             // TODO: implement this
 
             return false;
-        }
-
-        private static bool TryParsePoint(string input, out Point point)
-        {
-            point = new Point();
-
-            var components = input.Split(',');
-            if (components.Length != 2)
-            {
-                return false;
-            }
-
-            if (!int.TryParse(components[0], out var x) || !int.TryParse(components[1], out var y))
-            {
-                return false;
-            }
-
-            point = new Point(x, y);
-            return true;
         }
 
         public static bool TryParseCompareOperator(string input, out CompareOperator op)

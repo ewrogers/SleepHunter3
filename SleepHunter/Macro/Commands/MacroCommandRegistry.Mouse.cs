@@ -27,7 +27,7 @@ namespace SleepHunter.Macro.Commands
                 Key = MacroCommandKey.MouseMove,
                 DisplayName = "Move Cursor",
                 Description = "Moves the mouse pointer to the position specified.",
-                Parameters = { MacroParameterType.Point }               
+                Parameters = { MacroParameterType.Integer, MacroParameterType.Integer }               
             });
 
             RegisterCommand(new MacroCommandDefinition

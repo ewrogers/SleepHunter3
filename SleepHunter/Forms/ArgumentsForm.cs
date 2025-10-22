@@ -184,8 +184,8 @@ namespace SleepHunter.Forms
             if (IsNumericInput())
             {
                 yield return command.Parameters[0] == MacroParameterType.Float
-                    ? MacroParameterValue.Float((double)numericInputNumeric.Value)
-                    : MacroParameterValue.Integer((long)numericInputNumeric.Value);
+                    ? MacroParameterValue.Double((double)numericInputNumeric.Value)
+                    : MacroParameterValue.Long((long)numericInputNumeric.Value);
             }
             else if (IsStringInput())
             {
@@ -195,8 +195,8 @@ namespace SleepHunter.Forms
             {
                 yield return MacroParameterValue.CompareOperator(GetSelectedCompareOperator());
                 yield return command.Parameters[1] == MacroParameterType.Float
-                    ? MacroParameterValue.Float((double)numericValueNumeric.Value)
-                    : MacroParameterValue.Integer((long)numericValueNumeric.Value);
+                    ? MacroParameterValue.Double((double)numericValueNumeric.Value)
+                    : MacroParameterValue.Long((long)numericValueNumeric.Value);
             }
             else if (IsStringComparison())
             {
@@ -205,8 +205,8 @@ namespace SleepHunter.Forms
             }
             else if (IsCoordinatePoint())
             {
-                var point = new Point((int)xValueNumeric.Value, (int)yValueNumeric.Value);
-                yield return MacroParameterValue.Point(point);
+                yield return MacroParameterValue.Long((long)xValueNumeric.Value);
+                yield return MacroParameterValue.Long((long)yValueNumeric.Value);
             }
             else if (IsKeystrokes())
             {
@@ -214,7 +214,7 @@ namespace SleepHunter.Forms
             }
             else if (IsWaitDelay())
             {
-                yield return MacroParameterValue.Integer((long)waitNumeric.Value);
+                yield return MacroParameterValue.Long((long)waitNumeric.Value);
             }
         }
 
@@ -269,7 +269,7 @@ namespace SleepHunter.Forms
                 command.Parameters[0] == MacroParameterType.StringCompareOperator &&
                 command.Parameters[1] == MacroParameterType.String;
 
-        private bool IsCoordinatePoint() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Point;
+        private bool IsCoordinatePoint() => command.Parameters.Count == 2 && command.Parameters.All(p => p == MacroParameterType.Integer);
         private bool IsKeystrokes() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
 
         private void textBox_TextChanged(object sender, EventArgs e)
@@ -285,7 +285,6 @@ namespace SleepHunter.Forms
             Close();
         }
               
-
         private void OnAccept()
         {
             ValidateParameters();
