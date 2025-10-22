@@ -10,6 +10,8 @@ namespace SleepHunter.Forms
 {
     public partial class MainForm : Form
     {
+        private const int WM_HOTKEY = 0x312;
+
         private readonly IServiceProvider serviceProvider;
         private readonly IMacroCommandRegistry commandRegistry;
 
@@ -237,7 +239,7 @@ namespace SleepHunter.Forms
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
-            if (m.Msg != 786)
+            if (m.Msg != WM_HOTKEY)
                 return;
             HotkeyAction((int)m.WParam);
         }

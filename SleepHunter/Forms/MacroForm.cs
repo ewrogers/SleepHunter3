@@ -4,6 +4,7 @@ using SleepHunter.Interop.Windows;
 using SleepHunter.Macro.Commands;
 using SleepHunter.Models;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -178,7 +179,6 @@ namespace SleepHunter.Forms
             {
                 MessageBox.Show(this, "Unable to attach to the selected client.", "Quick Attach Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
-
         }
 
         private void macroListView_DragEnter(object sender, DragEventArgs e)
@@ -212,6 +212,8 @@ namespace SleepHunter.Forms
                 if (macroCommand != null)
                 {
                     // Add to list of commands at current selection OR end of list
+                    Debug.WriteLine(macroCommand.ToString());
+                    success = true;
                 }
             }
             catch

@@ -1,4 +1,5 @@
 ﻿using SleepHunter.Macro.Conditions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,11 +11,11 @@ namespace SleepHunter.Macro.Commands
         public MacroParameterType Type { get; set; }
         public object Value { get; set; }
 
-        public bool AsBoolean() => (bool)Value;
-        public int AsInteger() => (int)Value;
-        public long AsLong() => (long)Value;
-        public float AsFloat() => (float)Value;
-        public double AsDouble() => (double)Value;
+        public bool AsBoolean() => Convert.ToBoolean(Value);
+        public int AsInteger() => Convert.ToInt32(Value);
+        public long AsLong() => Convert.ToInt64(Value);
+        public float AsFloat() => Convert.ToSingle(Value);
+        public double AsDouble() => Convert.ToDouble(Value);
         public string AsString() => Value.ToString();
         public Keys[] AsKeystrokes() => (Keys[])Value;
         public CompareOperator AsCompareOperator() => (CompareOperator)Value;
