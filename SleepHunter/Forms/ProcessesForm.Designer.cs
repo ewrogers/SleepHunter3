@@ -59,7 +59,7 @@ namespace SleepHunter.Forms
             this.processListView.AllowDrop = true;
             this.processListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.processListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.processListView.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.processListView.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             listViewGroup1.Header = "Dark Ages Windows";
             listViewGroup1.Name = "darkagesGroup";
             this.processListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {

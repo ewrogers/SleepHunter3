@@ -38,6 +38,7 @@ namespace SleepHunter.Forms
             this.numericValueLabel = new System.Windows.Forms.Label();
             this.numericValueNumeric = new System.Windows.Forms.NumericUpDown();
             this.numericComparisonGroupBox = new System.Windows.Forms.GroupBox();
+            this.percentLabel = new System.Windows.Forms.Label();
             this.stringComparisonGroupBox = new System.Windows.Forms.GroupBox();
             this.stringValueTextBox = new System.Windows.Forms.TextBox();
             this.stringCompareOperatorComboBox = new System.Windows.Forms.ComboBox();
@@ -61,7 +62,6 @@ namespace SleepHunter.Forms
             this.numericInputGroupBox = new System.Windows.Forms.GroupBox();
             this.numericInputNumeric = new System.Windows.Forms.NumericUpDown();
             this.numericInputLabel = new System.Windows.Forms.Label();
-            this.percentLabel = new System.Windows.Forms.Label();
             this.helpPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericValueNumeric)).BeginInit();
             this.numericComparisonGroupBox.SuspendLayout();
@@ -169,18 +169,18 @@ namespace SleepHunter.Forms
             // operatorLabel
             // 
             this.operatorLabel.AutoSize = true;
-            this.operatorLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.operatorLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.operatorLabel.Location = new System.Drawing.Point(11, 30);
             this.operatorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.operatorLabel.Name = "operatorLabel";
-            this.operatorLabel.Size = new System.Drawing.Size(60, 14);
+            this.operatorLabel.Size = new System.Drawing.Size(57, 15);
             this.operatorLabel.TabIndex = 0;
             this.operatorLabel.Text = "Operator:";
             // 
             // numericOperatorComboBox
             // 
             this.numericOperatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.numericOperatorComboBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericOperatorComboBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericOperatorComboBox.FormattingEnabled = true;
             this.numericOperatorComboBox.Items.AddRange(new object[] {
             "==",
@@ -192,17 +192,17 @@ namespace SleepHunter.Forms
             this.numericOperatorComboBox.Location = new System.Drawing.Point(79, 26);
             this.numericOperatorComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericOperatorComboBox.Name = "numericOperatorComboBox";
-            this.numericOperatorComboBox.Size = new System.Drawing.Size(133, 24);
+            this.numericOperatorComboBox.Size = new System.Drawing.Size(133, 25);
             this.numericOperatorComboBox.TabIndex = 1;
             // 
             // numericValueLabel
             // 
             this.numericValueLabel.AutoSize = true;
-            this.numericValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericValueLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericValueLabel.Location = new System.Drawing.Point(220, 30);
             this.numericValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.numericValueLabel.Name = "numericValueLabel";
-            this.numericValueLabel.Size = new System.Drawing.Size(41, 14);
+            this.numericValueLabel.Size = new System.Drawing.Size(38, 15);
             this.numericValueLabel.TabIndex = 2;
             this.numericValueLabel.Text = "Value:";
             // 
@@ -210,7 +210,7 @@ namespace SleepHunter.Forms
             // 
             this.numericValueNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericValueNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericValueNumeric.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericValueNumeric.Location = new System.Drawing.Point(269, 27);
             this.numericValueNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericValueNumeric.Maximum = new decimal(new int[] {
@@ -219,7 +219,7 @@ namespace SleepHunter.Forms
             0,
             0});
             this.numericValueNumeric.Name = "numericValueNumeric";
-            this.numericValueNumeric.Size = new System.Drawing.Size(118, 23);
+            this.numericValueNumeric.Size = new System.Drawing.Size(118, 25);
             this.numericValueNumeric.TabIndex = 3;
             this.numericValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericValueNumeric.ThousandsSeparator = true;
@@ -239,6 +239,18 @@ namespace SleepHunter.Forms
             this.numericComparisonGroupBox.TabIndex = 5;
             this.numericComparisonGroupBox.TabStop = false;
             this.numericComparisonGroupBox.Text = "Value Comparison";
+            // 
+            // percentLabel
+            // 
+            this.percentLabel.AutoSize = true;
+            this.percentLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.percentLabel.Location = new System.Drawing.Point(390, 30);
+            this.percentLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.percentLabel.Name = "percentLabel";
+            this.percentLabel.Size = new System.Drawing.Size(17, 15);
+            this.percentLabel.TabIndex = 4;
+            this.percentLabel.Text = "%";
+            this.percentLabel.Visible = false;
             // 
             // stringComparisonGroupBox
             // 
@@ -270,7 +282,7 @@ namespace SleepHunter.Forms
             // stringCompareOperatorComboBox
             // 
             this.stringCompareOperatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.stringCompareOperatorComboBox.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringCompareOperatorComboBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stringCompareOperatorComboBox.FormattingEnabled = true;
             this.stringCompareOperatorComboBox.Items.AddRange(new object[] {
             "Equals",
@@ -286,28 +298,28 @@ namespace SleepHunter.Forms
             this.stringCompareOperatorComboBox.Location = new System.Drawing.Point(79, 26);
             this.stringCompareOperatorComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.stringCompareOperatorComboBox.Name = "stringCompareOperatorComboBox";
-            this.stringCompareOperatorComboBox.Size = new System.Drawing.Size(167, 24);
+            this.stringCompareOperatorComboBox.Size = new System.Drawing.Size(167, 25);
             this.stringCompareOperatorComboBox.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(11, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 14);
+            this.label1.Size = new System.Drawing.Size(57, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Operator:";
             // 
             // stringValueLabel
             // 
             this.stringValueLabel.AutoSize = true;
-            this.stringValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringValueLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stringValueLabel.Location = new System.Drawing.Point(29, 67);
             this.stringValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.stringValueLabel.Name = "stringValueLabel";
-            this.stringValueLabel.Size = new System.Drawing.Size(41, 14);
+            this.stringValueLabel.Size = new System.Drawing.Size(38, 15);
             this.stringValueLabel.TabIndex = 2;
             this.stringValueLabel.Text = "Value:";
             // 
@@ -330,7 +342,7 @@ namespace SleepHunter.Forms
             // 
             this.xValueNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.xValueNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xValueNumeric.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xValueNumeric.Location = new System.Drawing.Point(101, 27);
             this.xValueNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.xValueNumeric.Maximum = new decimal(new int[] {
@@ -344,25 +356,25 @@ namespace SleepHunter.Forms
             0,
             -2147483648});
             this.xValueNumeric.Name = "xValueNumeric";
-            this.xValueNumeric.Size = new System.Drawing.Size(100, 23);
+            this.xValueNumeric.Size = new System.Drawing.Size(100, 25);
             this.xValueNumeric.TabIndex = 1;
             this.xValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // xValueLabel
             // 
             this.xValueLabel.AutoSize = true;
-            this.xValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.xValueLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xValueLabel.Location = new System.Drawing.Point(11, 30);
             this.xValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.xValueLabel.Name = "xValueLabel";
-            this.xValueLabel.Size = new System.Drawing.Size(81, 14);
+            this.xValueLabel.Size = new System.Drawing.Size(79, 15);
             this.xValueLabel.TabIndex = 0;
             this.xValueLabel.Text = "X Coordinate:";
             // 
             // yValueNumeric
             // 
             this.yValueNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.yValueNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yValueNumeric.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.yValueNumeric.Location = new System.Drawing.Point(308, 27);
             this.yValueNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.yValueNumeric.Maximum = new decimal(new int[] {
@@ -376,7 +388,7 @@ namespace SleepHunter.Forms
             0,
             -2147483648});
             this.yValueNumeric.Name = "yValueNumeric";
-            this.yValueNumeric.Size = new System.Drawing.Size(100, 23);
+            this.yValueNumeric.Size = new System.Drawing.Size(100, 25);
             this.yValueNumeric.TabIndex = 3;
             this.yValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -384,11 +396,11 @@ namespace SleepHunter.Forms
             // 
             this.yValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.yValueLabel.AutoSize = true;
-            this.yValueLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.yValueLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.yValueLabel.Location = new System.Drawing.Point(218, 30);
             this.yValueLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.yValueLabel.Name = "yValueLabel";
-            this.yValueLabel.Size = new System.Drawing.Size(82, 14);
+            this.yValueLabel.Size = new System.Drawing.Size(79, 15);
             this.yValueLabel.TabIndex = 2;
             this.yValueLabel.Text = "Y Coordinate:";
             // 
@@ -441,22 +453,22 @@ namespace SleepHunter.Forms
             // waitUnitLabel
             // 
             this.waitUnitLabel.AutoSize = true;
-            this.waitUnitLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waitUnitLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.waitUnitLabel.Location = new System.Drawing.Point(218, 30);
             this.waitUnitLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.waitUnitLabel.Name = "waitUnitLabel";
-            this.waitUnitLabel.Size = new System.Drawing.Size(69, 14);
+            this.waitUnitLabel.Size = new System.Drawing.Size(73, 15);
             this.waitUnitLabel.TabIndex = 2;
             this.waitUnitLabel.Text = "milliseconds";
             // 
             // waitLabel
             // 
             this.waitLabel.AutoSize = true;
-            this.waitLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waitLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.waitLabel.Location = new System.Drawing.Point(12, 30);
             this.waitLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.waitLabel.Name = "waitLabel";
-            this.waitLabel.Size = new System.Drawing.Size(40, 14);
+            this.waitLabel.Size = new System.Drawing.Size(39, 15);
             this.waitLabel.TabIndex = 0;
             this.waitLabel.Text = "Delay:";
             // 
@@ -464,7 +476,7 @@ namespace SleepHunter.Forms
             // 
             this.waitNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.waitNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.waitNumeric.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.waitNumeric.Location = new System.Drawing.Point(79, 26);
             this.waitNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.waitNumeric.Maximum = new decimal(new int[] {
@@ -478,7 +490,7 @@ namespace SleepHunter.Forms
             0,
             0});
             this.waitNumeric.Name = "waitNumeric";
-            this.waitNumeric.Size = new System.Drawing.Size(131, 23);
+            this.waitNumeric.Size = new System.Drawing.Size(131, 25);
             this.waitNumeric.TabIndex = 1;
             this.waitNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.waitNumeric.ThousandsSeparator = true;
@@ -513,11 +525,11 @@ namespace SleepHunter.Forms
             // stringInputLabel
             // 
             this.stringInputLabel.AutoSize = true;
-            this.stringInputLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stringInputLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stringInputLabel.Location = new System.Drawing.Point(12, 30);
             this.stringInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.stringInputLabel.Name = "stringInputLabel";
-            this.stringInputLabel.Size = new System.Drawing.Size(41, 14);
+            this.stringInputLabel.Size = new System.Drawing.Size(38, 15);
             this.stringInputLabel.TabIndex = 0;
             this.stringInputLabel.Text = "Value:";
             // 
@@ -536,7 +548,7 @@ namespace SleepHunter.Forms
             // 
             this.numericInputNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericInputNumeric.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericInputNumeric.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericInputNumeric.Location = new System.Drawing.Point(81, 27);
             this.numericInputNumeric.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericInputNumeric.Maximum = new decimal(new int[] {
@@ -545,7 +557,7 @@ namespace SleepHunter.Forms
             0,
             0});
             this.numericInputNumeric.Name = "numericInputNumeric";
-            this.numericInputNumeric.Size = new System.Drawing.Size(131, 23);
+            this.numericInputNumeric.Size = new System.Drawing.Size(131, 25);
             this.numericInputNumeric.TabIndex = 1;
             this.numericInputNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericInputNumeric.ThousandsSeparator = true;
@@ -553,25 +565,13 @@ namespace SleepHunter.Forms
             // numericInputLabel
             // 
             this.numericInputLabel.AutoSize = true;
-            this.numericInputLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericInputLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.numericInputLabel.Location = new System.Drawing.Point(12, 30);
             this.numericInputLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.numericInputLabel.Name = "numericInputLabel";
-            this.numericInputLabel.Size = new System.Drawing.Size(41, 14);
+            this.numericInputLabel.Size = new System.Drawing.Size(38, 15);
             this.numericInputLabel.TabIndex = 0;
             this.numericInputLabel.Text = "Value:";
-            // 
-            // percentLabel
-            // 
-            this.percentLabel.AutoSize = true;
-            this.percentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.percentLabel.Location = new System.Drawing.Point(390, 30);
-            this.percentLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.percentLabel.Name = "percentLabel";
-            this.percentLabel.Size = new System.Drawing.Size(21, 14);
-            this.percentLabel.TabIndex = 4;
-            this.percentLabel.Text = "%";
-            this.percentLabel.Visible = false;
             // 
             // ArgumentsForm
             // 
@@ -601,6 +601,7 @@ namespace SleepHunter.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Input Arguments";
+            this.Shown += new System.EventHandler(this.form_Shown);
             this.helpPanel.ResumeLayout(false);
             this.helpPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericValueNumeric)).EndInit();

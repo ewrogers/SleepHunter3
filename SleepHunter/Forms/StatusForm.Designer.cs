@@ -71,7 +71,7 @@ namespace SleepHunter.Forms
             // 
             // healthCaptionLabel
             // 
-            this.healthCaptionLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthCaptionLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.healthCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.healthCaptionLabel.Location = new System.Drawing.Point(14, 12);
             this.healthCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -92,7 +92,7 @@ namespace SleepHunter.Forms
             // 
             // manaCaptionLabel
             // 
-            this.manaCaptionLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaCaptionLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaCaptionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.manaCaptionLabel.Location = new System.Drawing.Point(14, 69);
             this.manaCaptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -144,7 +144,7 @@ namespace SleepHunter.Forms
             // 
             // healthLabel
             // 
-            this.healthLabel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.healthLabel.Location = new System.Drawing.Point(46, 12);
             this.healthLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.healthLabel.Name = "healthLabel";
@@ -155,7 +155,7 @@ namespace SleepHunter.Forms
             // 
             // manaLabel
             // 
-            this.manaLabel.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.manaLabel.Location = new System.Drawing.Point(46, 68);
             this.manaLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -167,7 +167,7 @@ namespace SleepHunter.Forms
             // 
             // healthPercentLabel
             // 
-            this.healthPercentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.healthPercentLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.healthPercentLabel.Location = new System.Drawing.Point(260, 12);
             this.healthPercentLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.healthPercentLabel.Name = "healthPercentLabel";
@@ -177,7 +177,7 @@ namespace SleepHunter.Forms
             // 
             // manaPercentLabel
             // 
-            this.manaPercentLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.manaPercentLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.manaPercentLabel.Location = new System.Drawing.Point(264, 68);
             this.manaPercentLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.manaPercentLabel.Name = "manaPercentLabel";
@@ -188,7 +188,7 @@ namespace SleepHunter.Forms
             // mapLabel
             // 
             this.mapLabel.AutoSize = true;
-            this.mapLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mapLabel.Location = new System.Drawing.Point(85, 124);
             this.mapLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -201,7 +201,7 @@ namespace SleepHunter.Forms
             // mapXLabel
             // 
             this.mapXLabel.AutoSize = true;
-            this.mapXLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapXLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapXLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mapXLabel.Location = new System.Drawing.Point(85, 150);
             this.mapXLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -214,7 +214,7 @@ namespace SleepHunter.Forms
             // mapYLabel
             // 
             this.mapYLabel.AutoSize = true;
-            this.mapYLabel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapYLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mapYLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.mapYLabel.Location = new System.Drawing.Point(202, 150);
             this.mapYLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);

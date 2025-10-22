@@ -77,25 +77,18 @@ namespace SleepHunter.Forms
             if (isNumericInput)
             {
                 numericInputNumeric.Maximum = uint.MaxValue;
-                numericInputNumeric.Focus();
-                numericInputNumeric.Select(0, 100);
 
                 numericInputGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
             }
             else if (isStringInput)
             {
-                stringInputTextBox.Focus();
-                stringInputTextBox.SelectAll();
-
                 stringInputGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
             }
             else if (isWaitDelay)
             {
                 waitNumeric.Maximum = uint.MaxValue;
-                waitNumeric.Focus();
-                waitNumeric.Select(0, 100);
 
                 waitGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
@@ -108,33 +101,22 @@ namespace SleepHunter.Forms
 
                 numericValueNumeric.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
                 numericValueNumeric.Maximum = isPercent ? 100 : uint.MaxValue;
-                numericValueNumeric.Focus();
-                numericValueNumeric.Select(0, 100);
 
                 numericComparisonGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
             }
             else if (isStringComparison)
             {
-                stringValueTextBox.Focus();
-                stringValueTextBox.SelectAll();
-
                 stringComparisonGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 410);
             }
             else if (isPoint)
             {
-                xValueNumeric.Focus();
-                xValueNumeric.Select(0, 100);
-
                 pointGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 380);
             }
             else if (isKeystrokes)
             {
-                keystrokesTextbox.Focus();
-                keystrokesTextbox.SelectAll();
-
                 keystrokesGroupBox.Location = argsAnchorPanel.Location;
                 Size = new Size(initialSize.Width, 420);
             }
@@ -271,6 +253,45 @@ namespace SleepHunter.Forms
 
         private bool IsCoordinatePoint() => command.Parameters.Count == 2 && command.Parameters.All(p => p == MacroParameterType.Integer);
         private bool IsKeystrokes() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
+
+        private void form_Shown(object sender, EventArgs e)
+        {
+            if (IsNumericInput())
+            {
+                numericInputNumeric.Focus();
+                numericInputNumeric.Select(0, 100);
+            }
+            else if (IsStringInput())
+            {
+                stringInputTextBox.Focus();
+                stringInputTextBox.SelectAll();
+            }
+            else if (IsWaitDelay())
+            {
+                waitNumeric.Focus();
+                waitNumeric.Select(0, 100);
+            }
+            else if (IsNumericComparison())
+            {
+                numericValueNumeric.Focus();
+                numericValueNumeric.Select(0, 100);
+            }
+            else if (IsStringComparison())
+            {
+                stringValueTextBox.Focus();
+                stringValueTextBox.SelectAll();
+            }
+            else if (IsCoordinatePoint())
+            {
+                xValueNumeric.Focus();
+                xValueNumeric.Select(0, 100);
+            }
+            else if (IsKeystrokes())
+            {
+                keystrokesTextbox.Focus();
+                keystrokesTextbox.SelectAll();
+            }
+        }
 
         private void textBox_TextChanged(object sender, EventArgs e)
         {
