@@ -31,7 +31,6 @@ namespace SleepHunter.Forms
         private ToolStripMenuItem docsMenu;
         private ToolStripSeparator helpMenuSeparator;
         private ToolStripMenuItem aboutMenu;
-        internal NotifyIcon notifyIcon;
         private StatusStrip mainStatusStrip;
         private ToolStripStatusLabel statusLabel;
         private Panel commandsPanel;
@@ -356,7 +355,7 @@ namespace SleepHunter.Forms
             this.commandsPanel.Controls.Add(this.commandsTreeView);
             this.commandsPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.commandsPanel.Location = new System.Drawing.Point(0, 27);
-            this.commandsPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.commandsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.commandsPanel.Name = "commandsPanel";
             this.commandsPanel.Size = new System.Drawing.Size(303, 592);
             this.commandsPanel.TabIndex = 1;
@@ -369,7 +368,7 @@ namespace SleepHunter.Forms
             this.commandsTreeView.ImageIndex = 0;
             this.commandsTreeView.ImageList = this.nodeImageList;
             this.commandsTreeView.Location = new System.Drawing.Point(0, 0);
-            this.commandsTreeView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.commandsTreeView.Margin = new System.Windows.Forms.Padding(4);
             this.commandsTreeView.Name = "commandsTreeView";
             this.commandsTreeView.SelectedImageIndex = 0;
             this.commandsTreeView.ShowNodeToolTips = true;
@@ -418,7 +417,7 @@ namespace SleepHunter.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mainMenuStrip;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -437,5 +436,6 @@ namespace SleepHunter.Forms
 
         private ToolStripSeparator toolsMenuSeparator;
         private ToolStripSeparator mdiSeparator;
+        private NotifyIcon notifyIcon;
     }
 }

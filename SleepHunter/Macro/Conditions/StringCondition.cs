@@ -46,6 +46,6 @@ namespace SleepHunter.Macro.Conditions
             }
         }
 
-        public override string ToString() => $"{op.ToKeyword()} '{compareValue}'";
+        public override string ToString() => $"{op.ToSymbol()} '{compareValue}'";
     }
 }

@@ -62,9 +62,9 @@ namespace SleepHunter.Forms
                     string fileTitle = macroReader.GetFileTitle(str.Trim());
                     statusLabel.Text = $"Opening {str}...";
                     MacroForm frmMacro = serviceProvider.GetRequiredService<MacroForm>();
-                    macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
+                    //macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
                     frmMacro.MdiParent = this;
-                    frmMacro.nameTextBox.Text = fileTitle;
+                    // frmMacro.nameTextBox.Text = fileTitle;
                     frmMacro.Show();
                 }
             }
@@ -77,13 +77,14 @@ namespace SleepHunter.Forms
             {
                 int num1 = (int)MessageBox.Show("No macro windows are open, cannot save.", "No Data Windows", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
-            else if (activeMacro.macroListView.Items.Count < 1)
+            else if (false)
             {
                 int num2 = (int)MessageBox.Show("Macro window contains no data.", "Empty Macro", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
             else
             {
-                saveFileDialog.FileName = activeMacro.nameTextBox.Text + ".sh3";
+                var macroName = "test.sh3";
+                //saveFileDialog.FileName = activeMacro.nameTextBox.Text + ".sh3";
                 dialogCancel = true;
                 int num3 = (int)saveFileDialog.ShowDialog(this);
                 if (dialogCancel)
@@ -92,17 +93,17 @@ namespace SleepHunter.Forms
                 if (fileName == null || fileName.Trim() == "")
                     return;
                 statusLabel.Text = $"Saving {fileName}...";
-                string[] commandList = new string[activeMacro.macroListView.Items.Count];
-                string[] argList = new string[activeMacro.macroListView.Items.Count];
-                int index = 0;
-                foreach (ListViewItem listViewItem in activeMacro.macroListView.Items)
-                {
-                    string[] strArray = listViewItem.Tag.ToString().Split('|');
-                    commandList[index] = strArray[0];
-                    argList[index] = strArray[1];
-                    ++index;
-                }
-                new MacroWriter().SaveData(commandList, argList, activeMacro.nameTextBox.Text.Trim(), fileName);
+                //string[] commandList = new string[activeMacro.macroListView.Items.Count];
+                //string[] argList = new string[activeMacro.macroListView.Items.Count];
+                //int index = 0;
+                //foreach (ListViewItem listViewItem in activeMacro.macroListView.Items)
+                //{
+                //    string[] strArray = listViewItem.Tag.ToString().Split('|');
+                //    commandList[index] = strArray[0];
+                //    argList[index] = strArray[1];
+                //    ++index;
+                //}
+                //new MacroWriter().SaveData(commandList, argList, macroName, fileName);
                 statusLabel.Text = "Idle.";
             }
         }
@@ -215,26 +216,6 @@ namespace SleepHunter.Forms
 
         private void SaveFileDialog_FileOk(object sender, CancelEventArgs e) => dialogCancel = false;
         #endregion
-
-        public void DetachByPid(uint ProcessId)
-        {
-            foreach (Form mdiChild in MdiChildren)
-            {
-                if (mdiChild is MacroForm)
-                {
-                    MacroForm frmMacro = (MacroForm)mdiChild;
-                    if (frmMacro.processIdLabel.Text.EndsWith(ProcessId.ToString()))
-                    {
-                        frmMacro.processIdLabel.Text = "Process ID:";
-                        frmMacro.clientVersionLabel.Text = "Process Name:";
-                        frmMacro.windowHandleLabel.Text = "Window Handle:";
-                        frmMacro.characterNameLabel.Text = "Character Name:";
-                        frmMacro.statusLabel.Text = "Macro is not running.";
-                        frmMacro.statusLabel.Image = frmMacro.statusImageList.Images[2];
-                    }
-                }
-            }
-        }
 
         protected override void WndProc(ref Message m)
         {

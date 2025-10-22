@@ -4,7 +4,7 @@ using SleepHunter.Interop.Windows;
 using SleepHunter.Macro.Commands;
 using SleepHunter.Models;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,6 +16,9 @@ namespace SleepHunter.Forms
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
         private readonly IMacroCommandFactory commandFactory;
+
+        private readonly List<MacroCommandObject> macroCommands = new List<MacroCommandObject>();
+
         private GameClientWindow clientWindow;
         private GameClientReader clientReader;
         private bool isAttached;
@@ -27,6 +30,40 @@ namespace SleepHunter.Forms
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
 
             InitializeComponent();
+        }
+
+        public void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1)
+        {
+            if (desiredIndex >= 0)
+            {
+                // Determine the specified index, capping at the end of the collection
+                desiredIndex = Math.Max(desiredIndex, macroCommands.Count);
+            }
+            else
+            {
+                // Check if we have a selection
+                if (macroListView.SelectedIndices.Count > 0)
+                {
+                    // Insert at the end of the selection
+                    desiredIndex = macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] + 1;
+                }
+                else
+                {
+                    // Insert to the bottom
+                    desiredIndex = macroCommands.Count;
+                }
+            }
+
+            // Add to our list of commands
+            macroCommands.Insert(desiredIndex, commandObj);
+
+            // Add to the list view (text is blank, we will re-number afterwards)
+            var listViewItem = macroListView.Items.Insert(desiredIndex, "");
+            listViewItem.Tag = commandObj;
+
+            listViewItem.SubItems.Add(commandObj.Command.ToString());
+
+            RecalculateLineNumbers();
         }
 
         private void AttachToClient(GameClientWindow window)
@@ -97,6 +134,24 @@ namespace SleepHunter.Forms
             }
 
             return argsForm.Parameters.ToArray();
+        }
+
+        private void RecalculateLineNumbers()
+        {
+            macroListView.BeginUpdate();
+
+            try
+            {
+                var lineNumber = 1;
+                foreach (ListViewItem listViewItem in macroListView.Items)
+                {
+                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(4, '0');
+                }
+            }
+            finally
+            {
+                macroListView.EndUpdate();
+            }
         }
 
         #region Quick Attach Toolbar
@@ -195,8 +250,8 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            var command = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
-            MacroParameterValue[] parameters = ShowArgumentsForm(command);
+            var definition = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
+            var parameters = ShowArgumentsForm(definition);
 
             // Ignore if not enough parameters provided
             if (parameters == null)
@@ -207,12 +262,18 @@ namespace SleepHunter.Forms
             var success = false;
             try
             {
-                var macroCommand = commandFactory.Create(command, parameters);
+                // Attempt to create the built command with the parameters
+                var command = commandFactory.Create(definition, parameters);
 
-                if (macroCommand != null)
+                if (command != null)
                 {
-                    // Add to list of commands at current selection OR end of list
-                    Debug.WriteLine(macroCommand.ToString());
+                    var commandObj = new MacroCommandObject
+                    {
+                        Command = command,
+                        Definition = definition,
+                        Parameters = parameters
+                    };
+                    AddMacroCommand(commandObj);
                     success = true;
                 }
             }
@@ -225,6 +286,11 @@ namespace SleepHunter.Forms
             {
                 MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
+        }
+
+        private void form_Closed(object sender, FormClosedEventArgs e)
+        {
+            clientReader?.Dispose();
         }
     }
 }

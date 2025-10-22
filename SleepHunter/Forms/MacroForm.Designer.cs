@@ -9,21 +9,13 @@ namespace SleepHunter.Forms
     {
         private IContainer components = null;
         private StatusStrip macroStatusBar;
-        internal ToolStripStatusLabel statusLabel;
         private SplitContainer macroSplitContainer;
         private SplitContainer headerSplitContainer;
         private GroupBox processGroupBox;
-        internal Label characterNameLabel;
-        internal Label windowHandleLabel;
-        internal Label processIdLabel;
-        internal Label clientVersionLabel;
         private GroupBox macroGroupBox;
         private FlowLayoutPanel macroLayoutPanel;
         private CheckBox hotkeyCheckBox;
         private TextBox hotkeyTextBox;
-        internal Label nameLabel;
-        internal TextBox nameTextBox;
-        internal ListView macroListView;
         private ColumnHeader lineColumn;
         private ColumnHeader commandColumn;
         private ToolStrip macroToolStrip;
@@ -40,7 +32,6 @@ namespace SleepHunter.Forms
         private ToolStripButton btnStop;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripDropDownButton quickAttachButton;
-        internal ImageList statusImageList;
         private System.Windows.Forms.Timer processTimer;
 
         protected override void Dispose(bool disposing)
@@ -109,10 +100,10 @@ namespace SleepHunter.Forms
             // 
             this.macroStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-            this.macroStatusBar.Location = new System.Drawing.Point(0, 539);
+            this.macroStatusBar.Location = new System.Drawing.Point(0, 439);
             this.macroStatusBar.Name = "macroStatusBar";
             this.macroStatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.macroStatusBar.Size = new System.Drawing.Size(524, 22);
+            this.macroStatusBar.Size = new System.Drawing.Size(404, 22);
             this.macroStatusBar.TabIndex = 1;
             this.macroStatusBar.Text = "statusStrip1";
             // 
@@ -124,7 +115,7 @@ namespace SleepHunter.Forms
             this.statusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.statusLabel.MergeAction = System.Windows.Forms.MergeAction.Replace;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(507, 17);
+            this.statusLabel.Size = new System.Drawing.Size(356, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.Text = "Macro is not running.";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -149,7 +140,7 @@ namespace SleepHunter.Forms
             this.macroSplitContainer.Panel2.Controls.Add(this.macroToolStrip);
             this.macroSplitContainer.Panel2.Margin = new System.Windows.Forms.Padding(5);
             this.macroSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(6, 1, 5, 5);
-            this.macroSplitContainer.Size = new System.Drawing.Size(524, 539);
+            this.macroSplitContainer.Size = new System.Drawing.Size(404, 439);
             this.macroSplitContainer.SplitterDistance = 136;
             this.macroSplitContainer.SplitterWidth = 5;
             this.macroSplitContainer.TabIndex = 2;
@@ -175,7 +166,7 @@ namespace SleepHunter.Forms
             // 
             this.headerSplitContainer.Panel2.Controls.Add(this.macroGroupBox);
             this.headerSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.headerSplitContainer.Size = new System.Drawing.Size(514, 126);
+            this.headerSplitContainer.Size = new System.Drawing.Size(394, 126);
             this.headerSplitContainer.SplitterDistance = 211;
             this.headerSplitContainer.SplitterWidth = 5;
             this.headerSplitContainer.TabIndex = 0;
@@ -261,7 +252,7 @@ namespace SleepHunter.Forms
             this.macroGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.macroGroupBox.Name = "macroGroupBox";
             this.macroGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.macroGroupBox.Size = new System.Drawing.Size(297, 126);
+            this.macroGroupBox.Size = new System.Drawing.Size(177, 126);
             this.macroGroupBox.TabIndex = 0;
             this.macroGroupBox.TabStop = false;
             this.macroGroupBox.Text = "Macro Details";
@@ -278,7 +269,7 @@ namespace SleepHunter.Forms
             this.macroLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.macroLayoutPanel.Name = "macroLayoutPanel";
             this.macroLayoutPanel.Padding = new System.Windows.Forms.Padding(2);
-            this.macroLayoutPanel.Size = new System.Drawing.Size(289, 104);
+            this.macroLayoutPanel.Size = new System.Drawing.Size(169, 104);
             this.macroLayoutPanel.TabIndex = 0;
             // 
             // hotkeyCheckBox
@@ -335,14 +326,14 @@ namespace SleepHunter.Forms
             this.lineColumn,
             this.commandColumn});
             this.macroListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.macroListView.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.macroListView.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.macroListView.FullRowSelect = true;
             this.macroListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.macroListView.HideSelection = false;
             this.macroListView.Location = new System.Drawing.Point(6, 26);
             this.macroListView.Margin = new System.Windows.Forms.Padding(12);
             this.macroListView.Name = "macroListView";
-            this.macroListView.Size = new System.Drawing.Size(513, 367);
+            this.macroListView.Size = new System.Drawing.Size(393, 267);
             this.macroListView.TabIndex = 0;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
@@ -352,11 +343,12 @@ namespace SleepHunter.Forms
             // lineColumn
             // 
             this.lineColumn.Text = "Line #";
+            this.lineColumn.Width = 50;
             // 
             // commandColumn
             // 
             this.commandColumn.Text = "Command";
-            this.commandColumn.Width = 355;
+            this.commandColumn.Width = 320;
             // 
             // macroToolStrip
             // 
@@ -377,7 +369,7 @@ namespace SleepHunter.Forms
             this.macroToolStrip.Location = new System.Drawing.Point(6, 1);
             this.macroToolStrip.Margin = new System.Windows.Forms.Padding(0, 12, 0, 12);
             this.macroToolStrip.Name = "macroToolStrip";
-            this.macroToolStrip.Size = new System.Drawing.Size(513, 25);
+            this.macroToolStrip.Size = new System.Drawing.Size(393, 25);
             this.macroToolStrip.TabIndex = 1;
             this.macroToolStrip.Text = "toolStrip1";
             // 
@@ -529,7 +521,7 @@ namespace SleepHunter.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(524, 561);
+            this.ClientSize = new System.Drawing.Size(404, 461);
             this.Controls.Add(this.macroSplitContainer);
             this.Controls.Add(this.macroStatusBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -538,6 +530,7 @@ namespace SleepHunter.Forms
             this.Name = "MacroForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Macro Data";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.form_Closed);
             this.macroStatusBar.ResumeLayout(false);
             this.macroStatusBar.PerformLayout();
             this.macroSplitContainer.Panel1.ResumeLayout(false);
@@ -560,5 +553,15 @@ namespace SleepHunter.Forms
             this.PerformLayout();
 
         }
+
+        private Label characterNameLabel;
+        private Label windowHandleLabel;
+        private Label processIdLabel;
+        private Label clientVersionLabel;
+        private Label nameLabel;
+        private TextBox nameTextBox;
+        private ToolStripStatusLabel statusLabel;
+        private ListView macroListView;
+        private ImageList statusImageList;
     }
 }

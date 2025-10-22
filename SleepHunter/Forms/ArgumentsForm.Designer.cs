@@ -13,7 +13,6 @@ namespace SleepHunter.Forms
         private Label helpTextLabel;
         private Label commandNameLabel;
         private Label validationLabel;
-        internal Button addButton;
 
         protected override void Dispose(bool disposing)
         {
@@ -657,5 +656,6 @@ namespace SleepHunter.Forms
         private NumericUpDown numericInputNumeric;
         private Label numericInputLabel;
         private Label percentLabel;
+        private Button addButton;
     }
 }

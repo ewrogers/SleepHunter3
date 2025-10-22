@@ -180,6 +180,7 @@
     <Compile Include="Macro\Conditions\StringCondition.cs" />
     <Compile Include="Macro\MacroContext.cs" />
     <Compile Include="Models\GameClientWindow.cs" />
+    <Compile Include="Models\MacroCommandObject.cs" />
     <Compile Include="Models\ObservableObject.cs" />
     <Compile Include="Models\PlayerState.cs" />
     <Compile Include="Program.cs" />
