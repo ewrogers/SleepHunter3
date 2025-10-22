@@ -112,6 +112,14 @@
     <Compile Include="Forms\ArgumentsForm.Designer.cs">
       <DependentUpon>ArgumentsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ArgumentsForm.Helpers.cs">
+      <DependentUpon>ArgumentsForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ArgumentsForm.Interface.cs">
+      <DependentUpon>ArgumentsForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MacroForm.Clipboard.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
