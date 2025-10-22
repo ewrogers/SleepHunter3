@@ -11,11 +11,23 @@ namespace SleepHunter.Macro.Commands
         public MacroParameterType Type { get; set; }
         public object Value { get; set; }
 
+        public MacroParameterValue()
+        {
+            
+        }
+
+        public MacroParameterValue(MacroParameterType type, object value = null)
+        {
+            Type = type;
+            Value = value;
+        }
+        
         public bool AsBoolean() => Convert.ToBoolean(Value);
         public int AsInteger() => Convert.ToInt32(Value);
         public long AsLong() => Convert.ToInt64(Value);
         public float AsFloat() => Convert.ToSingle(Value);
         public double AsDouble() => Convert.ToDouble(Value);
+        public decimal AsDecimal() => Convert.ToDecimal(Value);
         public string AsString() => Value.ToString();
         public Keys[] AsKeystrokes() => (Keys[])Value;
         public CompareOperator AsCompareOperator() => (CompareOperator)Value;
@@ -33,5 +45,7 @@ namespace SleepHunter.Macro.Commands
         public static MacroParameterValue CompareOperator(CompareOperator op) => new MacroParameterValue { Type = MacroParameterType.CompareOperator, Value = op };
         public static MacroParameterValue LogicalOperator(LogicalOperator op) => new MacroParameterValue { Type = MacroParameterType.LogicalOperator, Value = op };
         public static MacroParameterValue StringCompareOperator(StringCompareOperator op) => new MacroParameterValue { Type = MacroParameterType.StringCompareOperator, Value = op };
+
+        public override string ToString() => $"{Value} ({Type})";
     }
 }

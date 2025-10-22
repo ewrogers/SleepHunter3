@@ -16,12 +16,12 @@
 
     public static class StringCompareOperatorExtensions
     {
-        public static string ToKeyword(this StringCompareOperator compareOperator)
+        public static string ToWords(this StringCompareOperator compareOperator)
         {
             switch (compareOperator)
             {
-                case StringCompareOperator.Equal: return "Is";
-                case StringCompareOperator.NotEqual: return "Is Not";
+                case StringCompareOperator.Equal: return "Equals";
+                case StringCompareOperator.NotEqual: return "Does Not Equal";
                 case StringCompareOperator.LessThan: return "Is Before";
                 case StringCompareOperator.GreaterThan: return "Is After";
                 case StringCompareOperator.Contains: return "Contains";

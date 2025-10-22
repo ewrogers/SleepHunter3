@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class ProcessesForm : Form
+    public partial class ProcessesForm
     {
         private readonly IGameClientService gameClientService;
 

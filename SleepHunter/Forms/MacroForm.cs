@@ -8,16 +8,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SleepHunter.Extensions;
+using SleepHunter.Macro.Serialization;
 
 namespace SleepHunter.Forms
 {
 
-    public partial class MacroForm : Form
+    public partial class MacroForm
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
         private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroCommandFactory commandFactory;
+        private readonly IMacroSerializer serializer;
 
         private readonly List<MacroCommandObject> macroCommands = new List<MacroCommandObject>();
 
@@ -25,131 +28,22 @@ namespace SleepHunter.Forms
         private GameClientReader clientReader;
         private bool isAttached;
 
+        private bool isRunning;
+        private bool isPaused;
+
         public MacroForm(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             windowEnumerator = serviceProvider.GetRequiredService<IWindowEnumerator>();
             commandRegistry = serviceProvider.GetRequiredService<IMacroCommandRegistry>();
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
-
+            serializer = serviceProvider.GetRequiredService<IMacroSerializer>();
+            
             InitializeComponent();
+
+            UpdateToolbarAndMenuState();
         }
-
-        public MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command)
-        {
-            // No args, nothing to show
-            if (command.Parameters.Count == 0)
-            {
-                return Array.Empty<MacroParameterValue>();
-            }
-
-            // Show the arguments form for the command requested
-            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
-            argsForm.Command = command;
-            argsForm.ShowDialog(this);
-
-            // Ignore if the user cancelled
-            if (argsForm.DialogResult != DialogResult.OK)
-            {
-                return null;
-            }
-
-            return argsForm.Parameters.ToArray();
-        }
-
-        public void AddMacroCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int desiredIndex = -1, bool addClosingCommand = true)
-        {
-            var success = false;
-            try
-            {
-                // Attempt to create the built command with the parameters
-                var command = commandFactory.Create(definition, parameters);
-
-                if (command != null)
-                {
-                    var commandObj = new MacroCommandObject
-                    {
-                        Command = command,
-                        Definition = definition,
-                        Parameters = parameters
-                    };
-                    AddMacroCommand(commandObj, desiredIndex, addClosingCommand);
-                    success = true;
-                }
-            }
-            catch
-            {
-                success = false;
-            }
-
-            if (!success)
-            {
-                MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            }
-        }
-
-        private void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1, bool addClosingCommand = true)
-        {
-            if (desiredIndex >= 0)
-            {
-                // Determine the specified index, capping at the end of the collection
-                desiredIndex = Math.Min(desiredIndex, macroCommands.Count);
-            }
-            else
-            {
-                // Check if we have a selection
-                if (macroListView.SelectedIndices.Count > 0)
-                {
-                    // Insert at the end of the selection
-                    desiredIndex = macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] + 1;
-                }
-                else
-                {
-                    // Insert to the bottom
-                    desiredIndex = macroCommands.Count;
-                }
-            }
-
-            // Add to our list of commands
-            macroCommands.Insert(desiredIndex, commandObj);
-
-            // Add to the list view (text is blank, we will re-number afterwards)
-            var listViewItem = macroListView.Items.Insert(desiredIndex, "");
-            listViewItem.Tag = commandObj;
-
-            listViewItem.SubItems.Add(commandObj.Command.ToString());
-
-            // Automatically add an accompanying closing command for stuff like if/while/loop
-            if (addClosingCommand && commandObj.Command.IsOpeningCommand() && AddClosingCommand(commandObj, desiredIndex + 1) != null)
-            {
-                return;
-            }
-
-            ReformatLines();
-
-            macroListView.SelectedIndices.Clear();
-            macroListView.SelectedIndices.Add(desiredIndex);
-        }
-
-        private MacroCommandObject AddClosingCommand(MacroCommandObject commandObj, int desiredIndex)
-        {
-            var closingCommand = commandObj.Command.GetClosingCommand();
-            if (closingCommand == null)
-            {
-                return null;
-            }
-
-            var endingObj = new MacroCommandObject
-            {
-                Command = closingCommand,
-                Definition = commandRegistry.GetClosingDefinition(commandObj.Command),
-                Parameters = Array.Empty<MacroParameterValue>()
-            };
-
-            AddMacroCommand(endingObj, desiredIndex);
-            return endingObj;
-        }
-
+        
         private void ReformatLines()
         {
             macroListView.BeginUpdate();
@@ -168,10 +62,10 @@ namespace SleepHunter.Forms
                     var commandObj = listViewItem.Tag as MacroCommandObject;
 
                     // Re-calculate the line number
-                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(4, '0');
+                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(8, ' ');
 
                     // Reduce indent for a closing command
-                    if (commandObj.Command.IsClosingCommand())
+                    if (commandObj != null && commandObj.Command.IsClosingCommand())
                     {
                         indent = Math.Max(0, indent - 1);
                     }
@@ -181,12 +75,13 @@ namespace SleepHunter.Forms
                     {
                         sb.Append(' ', indent * 2);
                     }
+
                     sb.Append(listViewItem.SubItems[1].Text.Trim());
 
                     listViewItem.SubItems[1].Text = sb.ToString();
 
                     // Increase indent level after an opening command
-                    if (commandObj.Command.IsOpeningCommand())
+                    if (commandObj != null && commandObj.Command.IsOpeningCommand())
                     {
                         indent++;
                     }
@@ -217,38 +112,9 @@ namespace SleepHunter.Forms
             UpdateProcessUI();
         }
 
-        private void UpdateProcessUI()
-        {
-            string characterName = string.Empty;
-            try
-            {
-                if (isAttached)
-                {
-                    characterName = clientReader.ReadCharacterName();
-                }
-            }
-            catch
-            {
-                DetachClient();
-                return;
-            }
-
-            Text = isAttached ? $"{characterName} - Macro" : "Macro Data";
-
-            clientVersionLabel.Text = isAttached ? "Client Version: 7.41" : "Client Version:";
-            processIdLabel.Text = isAttached ? $"Process ID: {clientWindow.ProcessId}" : "Process ID:";
-            windowHandleLabel.Text = isAttached ? $"Window Handle: {clientWindow.WindowHandle}" : "Window Handle:";
-            characterNameLabel.Text = isAttached ? $"Character Name: {characterName}" : "Character Name:";
-
-            clientVersionLabel.Enabled = isAttached;
-            processIdLabel.Enabled = isAttached;
-            windowHandleLabel.Enabled = isAttached;
-            characterNameLabel.Enabled = isAttached;
-        }
-
         #region Quick Attach Toolbar
 
-        private void quickAttachButton_DropDownOpening(object sender, System.EventArgs e)
+        private void quickAttachButton_DropDownOpening(object sender, EventArgs e)
         {
             quickAttachButton.DropDownItems.Clear();
 
@@ -280,12 +146,12 @@ namespace SleepHunter.Forms
                 {
                     reader?.Dispose();
                 }
+            }
 
-                if (quickAttachButton.DropDownItems.Count == 0)
-                {
-                    var placeholder = quickAttachButton.DropDownItems.Add("No Clients Found");
-                    placeholder.Enabled = false;
-                }
+            if (quickAttachButton.DropDownItems.Count == 0)
+            {
+                var placeholder = quickAttachButton.DropDownItems.Add("No Clients Found");
+                placeholder.Enabled = false;
             }
         }
 
@@ -299,6 +165,7 @@ namespace SleepHunter.Forms
             // TODO: Check macro state and stop it if already running
             AttachToClient(gameWindow);
         }
+
         #endregion
 
         private void processPanel_DragEnter(object sender, DragEventArgs e)
@@ -324,9 +191,12 @@ namespace SleepHunter.Forms
             }
             catch
             {
-                MessageBox.Show(this, "Unable to attach to the selected client.", "Quick Attach Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show(this, "Unable to attach to the selected client.", "Quick Attach Failed",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
+
+        #region Macro List View Events
 
         private void macroListView_DragEnter(object sender, DragEventArgs e)
         {
@@ -354,6 +224,32 @@ namespace SleepHunter.Forms
             AddMacroCommand(definition, parameters);
         }
 
+        private void macroListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateToolbarAndMenuState();
+        }
+
+        private void macroListView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Edit on spacebar pressed
+            if (e.KeyChar != ' ' || macroListView.SelectedIndices.Count != 1)
+            {
+                return;
+            }
+
+            e.Handled = true;
+            edit_Click(sender, e);
+        }
+
+        private void macroListView_DoubleClick(object sender, EventArgs e)
+        {
+            // Edit on double click
+            if (macroListView.SelectedIndices.Count == 1)
+            {
+                edit_Click(sender, e);
+            }
+        }
+
         private void macroListView_SizeChanged(object sender, EventArgs e)
         {
             var size = macroListView.Size;
@@ -362,9 +258,105 @@ namespace SleepHunter.Forms
             macroListView.Columns[1].Width = columnWidth;
         }
 
+        #endregion
+
+        #region Toolbar + Context Menu Events
+
+        private void edit_Click(object sender, EventArgs e)
+        {
+            // Ensure there is a single selection of a command with parameters to edit
+            if (macroListView.SelectedIndices.Count == 0 ||
+                !(macroListView.SelectedItems[0].Tag is MacroCommandObject commandObj) ||
+                commandObj.Parameters.Count == 0)
+            {
+                return;
+            }
+
+            var targetIndex = macroListView.SelectedIndices[0];
+
+            var newParameters = ShowArgumentsForm(commandObj.Definition, commandObj.Parameters);
+            if (newParameters != null)
+            {
+                ReplaceCommand(commandObj.Definition, newParameters, targetIndex);
+            }
+        }
+
+        private void deleteSelected_Click(object sender, EventArgs e)
+        {
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+
+            DeleteMacroCommands(macroListView.SelectedIndices.ToList());
+            macroListView.SelectedIndices.Clear();
+            
+            UpdateToolbarAndMenuState();
+        }
+
+        private void cutSelected_Click(object sender, EventArgs e)
+        {
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+
+            var selectedIndexes = macroListView.SelectedIndices.ToList();
+            CopyToClipboard(selectedIndexes);
+            
+            DeleteMacroCommands(selectedIndexes);
+            UpdateToolbarAndMenuState();
+        }
+
+        private void copySelected_Click(object sender, EventArgs e)
+        {
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+            
+            CopyToClipboard(macroListView.SelectedIndices.ToList());
+            UpdateToolbarAndMenuState();
+        }
+
+        private void paste_Click(object sender, EventArgs e)
+        {
+            TryPasteFromClipboard();
+        }
+
+        private void moveUp_Click(object sender, EventArgs e)
+        {
+            // Check if allowed to move up
+            if (macroListView.SelectedIndices.Count == 0 ||
+                macroListView.SelectedIndices[0] <= 0)
+            {
+                return;
+            }
+
+            var targetIndex = macroListView.SelectedIndices[0] - 1;
+            MoveMacroCommands(macroListView.SelectedIndices.ToList(), targetIndex);
+            UpdateToolbarAndMenuState();
+        }
+
+        private void moveDown_Click(object sender, EventArgs e)
+        {
+            // Check if allowed to move down
+            if (macroListView.SelectedIndices.Count == 0 ||
+                macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] >= macroCommands.Count - 1)
+            {
+                return;
+            }
+
+            var tagetIndex = macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] + 2;
+            MoveMacroCommands(macroListView.SelectedIndices.ToList(), tagetIndex);
+            UpdateToolbarAndMenuState();
+        }
+
+        #endregion
+
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-        }        
+        }
     }
 }

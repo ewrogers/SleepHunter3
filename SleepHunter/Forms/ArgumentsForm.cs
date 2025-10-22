@@ -1,5 +1,4 @@
 ﻿using SleepHunter.Macro.Commands;
-using SleepHunter.Macro.Conditions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -39,101 +38,6 @@ namespace SleepHunter.Forms
             UpdateCommandUI();
         }
 
-        private void UpdateCommandUI()
-        {
-            validationLabel.Visible = !string.IsNullOrWhiteSpace(validationError);
-
-            if (command == null)
-            {
-                return;
-            }
-
-            commandNameLabel.Text = command.DisplayName;
-            if (!string.IsNullOrWhiteSpace(command.HelpText))
-            {
-                helpTextLabel.Text = $"{command.Description}{Environment.NewLine}{Environment.NewLine}{command.HelpText}";
-            }
-            else
-            {
-                helpTextLabel.Text = command.Description;
-            }
-        }
-
-        private void UpdateCommandLayout()
-        {
-            if (command == null)
-            {
-                return;
-            }
-
-            var isNumericInput = IsNumericInput();
-            var isStringInput = IsStringInput();
-            var isWaitDelay = IsWaitDelay();
-            var isNumericComparison = IsNumericComparison();
-            var isStringComparison = IsStringComparison();
-            var isPoint = IsCoordinatePoint();
-            var isKeystrokes = IsKeystrokes();
-
-            if (isNumericInput)
-            {
-                numericInputNumeric.Maximum = uint.MaxValue;
-
-                numericInputGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 380);
-            }
-            else if (isStringInput)
-            {
-                stringInputGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 380);
-            }
-            else if (isWaitDelay)
-            {
-                waitNumeric.Maximum = uint.MaxValue;
-
-                waitGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 380);
-            }
-            else if (isNumericComparison)
-            {
-                var isPercent = IsPercentValue();
-                numericComparisonGroupBox.Text = isPercent ? "Percent Comparison" : "Value Comparison";
-                percentLabel.Visible = isPercent;
-
-                numericValueNumeric.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
-                numericValueNumeric.Maximum = isPercent ? 100 : uint.MaxValue;
-
-                numericComparisonGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 380);
-            }
-            else if (isStringComparison)
-            {
-                stringComparisonGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 410);
-            }
-            else if (isPoint)
-            {
-                pointGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 380);
-            }
-            else if (isKeystrokes)
-            {
-                keystrokesGroupBox.Location = argsAnchorPanel.Location;
-                Size = new Size(initialSize.Width, 420);
-            }
-            else
-            {
-                Size = new Size(initialSize.Width, 300);
-            }
-
-            numericInputGroupBox.Visible = isNumericInput;
-            stringInputGroupBox.Visible = isStringInput;
-            waitGroupBox.Visible = isWaitDelay;
-            numericComparisonGroupBox.Visible = isNumericComparison;
-            stringComparisonGroupBox.Visible = isStringComparison;
-            pointGroupBox.Visible = isPoint;
-            keystrokesGroupBox.Visible = isKeystrokes;
-        }
-
         private void ValidateParameters()
         {
             try
@@ -144,12 +48,14 @@ namespace SleepHunter.Forms
                     validationError = "Input string cannot be empty!";
                     return;
                 }
+
                 if (IsStringComparison() && string.IsNullOrWhiteSpace(stringValueTextBox.Text))
                 {
                     stringValueTextBox.Focus();
                     validationError = "Input string cannot be empty!";
                     return;
                 }
+
                 validationError = string.Empty;
             }
             finally
@@ -199,60 +105,6 @@ namespace SleepHunter.Forms
                 yield return MacroParameterValue.Long((long)waitNumeric.Value);
             }
         }
-
-        private CompareOperator GetSelectedCompareOperator()
-        {
-            switch (numericOperatorComboBox.SelectedItem.ToString().ToLowerInvariant())
-            {
-                case "==": return CompareOperator.Equal;
-                case "!=": return CompareOperator.NotEqual;
-                case ">": return CompareOperator.GreaterThan;
-                case ">=": return CompareOperator.GreaterThanOrEqual;
-                case "<": return CompareOperator.LessThan;
-                case "<=": return CompareOperator.LessThanOrEqual;
-                default:
-                    throw new InvalidOperationException("Invalid numeric comparison operator");
-            }
-        }
-
-        private StringCompareOperator GetSelectedStringCompareOperator()
-        {
-            switch (stringCompareOperatorComboBox.SelectedItem.ToString().ToLowerInvariant())
-            {
-                case "equals": return StringCompareOperator.Equal;
-                case "does not equal": return StringCompareOperator.NotEqual;
-                case "contains": return StringCompareOperator.Contains;
-                case "does not contain": return StringCompareOperator.NotContains;
-                case "starts with": return StringCompareOperator.StartsWith;
-                case "does not start with": return StringCompareOperator.NotStartsWith;
-                case "ends with": return StringCompareOperator.EndsWith;
-                case "does not end with": return StringCompareOperator.NotEndsWith;
-                case "is before": return StringCompareOperator.LessThan;
-                case "is after": return StringCompareOperator.GreaterThan;
-                default:
-                    throw new InvalidOperationException("Invalid string comparison operator");
-            }
-        }
-
-        public bool IsNumericInput() => command.Parameters.Count == 1 &&
-                (command.Parameters[0] == MacroParameterType.Integer || command.Parameters[0] == MacroParameterType.Float);
-
-        public bool IsStringInput() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.String;
-
-        public bool IsWaitDelay() => command.Key.StartsWith("WAIT_") && command.Parameters.Any(p => p == MacroParameterType.Integer);
-
-        private bool IsPercentValue() => command.Key.Contains("PERCENT") && command.Parameters.Any(p => p == MacroParameterType.Float);
-
-        private bool IsNumericComparison() => command.Parameters.Count == 2 &&
-                command.Parameters[0] == MacroParameterType.CompareOperator &&
-                (command.Parameters[1] == MacroParameterType.Integer || command.Parameters[1] == MacroParameterType.Float);
-
-        private bool IsStringComparison() => command.Parameters.Count == 2 &&
-                command.Parameters[0] == MacroParameterType.StringCompareOperator &&
-                command.Parameters[1] == MacroParameterType.String;
-
-        private bool IsCoordinatePoint() => command.Parameters.Count == 2 && command.Parameters.All(p => p == MacroParameterType.Integer);
-        private bool IsKeystrokes() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
 
         private void form_Shown(object sender, EventArgs e)
         {
@@ -305,7 +157,7 @@ namespace SleepHunter.Forms
             DialogResult = DialogResult.Cancel;
             Close();
         }
-              
+
         private void OnAccept()
         {
             ValidateParameters();

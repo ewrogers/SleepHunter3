@@ -13,7 +13,6 @@ namespace SleepHunter.Forms
         private ToolStripMenuItem newMacroMenu;
         private ToolStripMenuItem openMacroMenu;
         private ToolStripMenuItem saveMacroMenu;
-        private ToolStripSeparator fileMenuSeparator;
         private ToolStripMenuItem exitMenu;
         private ToolStripMenuItem toolsMenu;
         private ToolStripMenuItem statusWindowMenu;
@@ -23,13 +22,11 @@ namespace SleepHunter.Forms
         private ToolStripMenuItem cascadeMenu;
         private ToolStripMenuItem tileVerticalMenu;
         private ToolStripMenuItem tileHorizontalMenu;
-        private ToolStripSeparator windowMenuSeparator;
         private ToolStripMenuItem minimizeAllMenu;
         private ToolStripMenuItem closeAllMenu;
         private ToolStripMenuItem helpMenu;
         private ToolStripMenuItem searchMenu;
         private ToolStripMenuItem docsMenu;
-        private ToolStripSeparator helpMenuSeparator;
         private ToolStripMenuItem aboutMenu;
         private StatusStrip mainStatusStrip;
         private ToolStripStatusLabel statusLabel;
@@ -53,30 +50,30 @@ namespace SleepHunter.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.ToolStripSeparator fileMenuSeparator;
+            System.Windows.Forms.ToolStripSeparator toolsMenuSeparator;
+            System.Windows.Forms.ToolStripSeparator windowMenuSeparator;
+            System.Windows.Forms.ToolStripSeparator mdiSeparator;
+            System.Windows.Forms.ToolStripSeparator helpMenuSeparator;
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newMacroMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.openMacroMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.saveMacroMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.exitMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusWindowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.processManagerMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.optionsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.windowMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.cascadeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.tileHorizontalMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.minimizeAllMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.closeAllMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.mdiSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.searchMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.docsMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.aboutMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
@@ -87,6 +84,11 @@ namespace SleepHunter.Forms
             this.doubleClickTimer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            fileMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
+            toolsMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
+            windowMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
+            mdiSeparator = new System.Windows.Forms.ToolStripSeparator();
+            helpMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.mainMenuStrip.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.commandsPanel.SuspendLayout();
@@ -117,7 +119,7 @@ namespace SleepHunter.Forms
             this.newMacroMenu,
             this.openMacroMenu,
             this.saveMacroMenu,
-            this.fileMenuSeparator,
+            fileMenuSeparator,
             this.exitMenu});
             this.fileMenu.Name = "fileMenu";
             this.fileMenu.Size = new System.Drawing.Size(39, 21);
@@ -155,8 +157,8 @@ namespace SleepHunter.Forms
             // 
             // fileMenuSeparator
             // 
-            this.fileMenuSeparator.Name = "fileMenuSeparator";
-            this.fileMenuSeparator.Size = new System.Drawing.Size(195, 6);
+            fileMenuSeparator.Name = "fileMenuSeparator";
+            fileMenuSeparator.Size = new System.Drawing.Size(195, 6);
             // 
             // exitMenu
             // 
@@ -173,7 +175,7 @@ namespace SleepHunter.Forms
             this.toolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusWindowMenu,
             this.processManagerMenu,
-            this.toolsMenuSeparator,
+            toolsMenuSeparator,
             this.optionsMenu});
             this.toolsMenu.Name = "toolsMenu";
             this.toolsMenu.Size = new System.Drawing.Size(51, 21);
@@ -202,8 +204,8 @@ namespace SleepHunter.Forms
             // 
             // toolsMenuSeparator
             // 
-            this.toolsMenuSeparator.Name = "toolsMenuSeparator";
-            this.toolsMenuSeparator.Size = new System.Drawing.Size(219, 6);
+            toolsMenuSeparator.Name = "toolsMenuSeparator";
+            toolsMenuSeparator.Size = new System.Drawing.Size(219, 6);
             // 
             // optionsMenu
             // 
@@ -222,10 +224,10 @@ namespace SleepHunter.Forms
             this.cascadeMenu,
             this.tileVerticalMenu,
             this.tileHorizontalMenu,
-            this.windowMenuSeparator,
+            windowMenuSeparator,
             this.minimizeAllMenu,
             this.closeAllMenu,
-            this.mdiSeparator});
+            mdiSeparator});
             this.windowMenu.Name = "windowMenu";
             this.windowMenu.Size = new System.Drawing.Size(67, 21);
             this.windowMenu.Text = "&Window";
@@ -253,8 +255,8 @@ namespace SleepHunter.Forms
             // 
             // windowMenuSeparator
             // 
-            this.windowMenuSeparator.Name = "windowMenuSeparator";
-            this.windowMenuSeparator.Size = new System.Drawing.Size(223, 6);
+            windowMenuSeparator.Name = "windowMenuSeparator";
+            windowMenuSeparator.Size = new System.Drawing.Size(223, 6);
             // 
             // minimizeAllMenu
             // 
@@ -272,15 +274,15 @@ namespace SleepHunter.Forms
             // 
             // mdiSeparator
             // 
-            this.mdiSeparator.Name = "mdiSeparator";
-            this.mdiSeparator.Size = new System.Drawing.Size(223, 6);
+            mdiSeparator.Name = "mdiSeparator";
+            mdiSeparator.Size = new System.Drawing.Size(223, 6);
             // 
             // helpMenu
             // 
             this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.searchMenu,
             this.docsMenu,
-            this.helpMenuSeparator,
+            helpMenuSeparator,
             this.aboutMenu});
             this.helpMenu.Name = "helpMenu";
             this.helpMenu.Size = new System.Drawing.Size(47, 21);
@@ -310,9 +312,9 @@ namespace SleepHunter.Forms
             // 
             // helpMenuSeparator
             // 
-            this.helpMenuSeparator.Name = "helpMenuSeparator";
-            this.helpMenuSeparator.Size = new System.Drawing.Size(211, 6);
-            this.helpMenuSeparator.Visible = false;
+            helpMenuSeparator.Name = "helpMenuSeparator";
+            helpMenuSeparator.Size = new System.Drawing.Size(211, 6);
+            helpMenuSeparator.Visible = false;
             // 
             // aboutMenu
             // 
@@ -433,9 +435,6 @@ namespace SleepHunter.Forms
             this.PerformLayout();
 
         }
-
-        private ToolStripSeparator toolsMenuSeparator;
-        private ToolStripSeparator mdiSeparator;
         private NotifyIcon notifyIcon;
     }
 }
