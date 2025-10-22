@@ -134,6 +134,14 @@
     <Compile Include="Macro\Commands\IMacroCommandFactory.cs" />
     <Compile Include="Macro\Commands\IMacroCommandRegistry.cs" />
     <Compile Include="Macro\Commands\Interface\SwitchPaneCommand.cs" />
+    <Compile Include="Macro\Commands\Logic\ElseCommand.cs" />
+    <Compile Include="Macro\Commands\Logic\EndIfCommand.cs" />
+    <Compile Include="Macro\Commands\Logic\IfCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\BreakCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\EndLoopCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\EndWhileCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\LoopCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\WhileCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
     <Compile Include="Macro\Commands\MacroCommandDefinition.cs" />

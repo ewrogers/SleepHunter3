@@ -4,6 +4,8 @@ namespace SleepHunter.Macro.Commands
 {
     public class MacroCommandResult
     {
+        public static MacroCommandResult NoOp => Success();
+
         public bool IsSuccess { get; private set; }
         public object Result { get; private set; }
         public Exception Exception { get; private set; }

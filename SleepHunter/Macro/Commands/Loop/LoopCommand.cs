@@ -1,0 +1,42 @@
+﻿using System;
+using System.Threading.Tasks;
+
+namespace SleepHunter.Macro.Commands.Loop
+{
+    public sealed class LoopCommand : MacroCommand
+    {
+        public int LoopCount { get; }
+
+        // These are set by the macro execution engine
+        public EndLoopCommand EndLoop { get; set; }
+
+        public LoopCommand()
+        : this(-1) { }
+
+        public LoopCommand(int loopCount)
+        {
+            LoopCount = loopCount;
+        }
+
+        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            if (LoopCount < 1)
+            {
+                return "Loop";
+            }
+            ;
+
+            if (LoopCount == 1)
+            {
+                return "Loop Once";
+            }
+
+            return $"Loop {LoopCount} Times";
+        }
+    }
+}

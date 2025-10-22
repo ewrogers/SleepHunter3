@@ -56,8 +56,8 @@
             {
                 Category = MacroCommandCategory.Interface,
                 Key = MacroCommandKey.SwitchToStatsPane,
-                DisplayName = "Switch to Status Pane",
-                Description = "Switches to the character status pane."
+                DisplayName = "Switch to Stats Pane",
+                Description = "Switches to the character stats pane."
             });
 
             RegisterCommand(new MacroCommandDefinition

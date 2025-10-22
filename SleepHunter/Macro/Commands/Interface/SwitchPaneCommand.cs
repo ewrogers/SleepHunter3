@@ -15,7 +15,7 @@ namespace SleepHunter.Macro.Commands.Interface
         WorldSkillSpells
     }
 
-    public class SwitchPaneCommand : MacroCommand
+    public sealed class SwitchPaneCommand : MacroCommand
     {
         public InterfacePane Pane { get; }
 

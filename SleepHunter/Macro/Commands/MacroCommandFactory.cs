@@ -1,4 +1,7 @@
 ﻿using SleepHunter.Macro.Commands.Interface;
+using SleepHunter.Macro.Commands.Logic;
+using SleepHunter.Macro.Commands.Loop;
+using SleepHunter.Macro.Conditions;
 using System;
 
 namespace SleepHunter.Macro.Commands
@@ -18,6 +21,8 @@ namespace SleepHunter.Macro.Commands
             {
                 case MacroCommandCategory.Interface:
                     return CreateInterfaceCommand(command, parameters);
+                case MacroCommandCategory.Map:
+                    return CreateMapCommand(command, parameters);
                 default:
                     throw new InvalidOperationException($"Invalid command category: {command.Category}");
             }
@@ -45,6 +50,57 @@ namespace SleepHunter.Macro.Commands
                     return new SwitchPaneCommand(InterfacePane.WorldSkillSpells);
                 default:
                     throw new InvalidOperationException($"Invalid interface command: {command.Key}");
+            }
+        }
+
+        private IMacroCommand CreateMapCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            switch (command.Key.ToUpperInvariant())
+            {
+                // If Commands
+                case MacroCommandKey.IfMapName:
+                    {
+                        var condition = new StringCondition(ctx => ctx.Player.MapName, parameters[0].AsStringCompareOperator(), parameters[1].AsString());
+                        return new IfCommand(condition, "Map Name");
+                    }
+                case MacroCommandKey.IfMapNumber:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.MapId, parameters[0].AsCompareOperator(), parameters[1].AsInteger());
+                        return new IfCommand(condition, "Map Number");
+                    }
+                case MacroCommandKey.IfMapX:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.MapX, parameters[0].AsCompareOperator(), parameters[1].AsInteger());
+                        return new IfCommand(condition, "X");
+                    }
+                case MacroCommandKey.IfMapY:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.MapY, parameters[0].AsCompareOperator(), parameters[1].AsInteger());
+                        return new IfCommand(condition, "Y");
+                    }
+                // While Commands
+                case MacroCommandKey.WhileMapName:
+                    {
+                        var condition = new StringCondition(ctx => ctx.Player.MapName, parameters[0].AsStringCompareOperator(), parameters[1].AsString());
+                        return new WhileCommand(condition, "Map Name");
+                    }
+                case MacroCommandKey.WhileMapNumber:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.MapId, parameters[0].AsCompareOperator(), parameters[1].AsInteger());
+                        return new WhileCommand(condition, "Map Number");
+                    }
+                case MacroCommandKey.WhileMapX:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.MapX, parameters[0].AsCompareOperator(), parameters[1].AsInteger());
+                        return new WhileCommand(condition, "X");
+                    }
+                case MacroCommandKey.WhileMapY:
+                    {
+                        var condition = new IntegerCondition(ctx => ctx.Player.MapY, parameters[0].AsCompareOperator(), parameters[1].AsInteger());
+                        return new WhileCommand(condition, "Y");
+                    }
+                default:
+                    throw new InvalidOperationException($"Invalid map command: {command}");
             }
         }
     }

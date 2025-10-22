@@ -5,13 +5,13 @@ namespace SleepHunter.Macro.Conditions
     public class StringCondition : IMacroCondition
     {
         private readonly Func<MacroContext, string> getter;
-        private readonly StringCompareOperator @operator;
+        private readonly StringCompareOperator op;
         private readonly string compareValue;
-        
+
         public StringCondition(Func<MacroContext, string> valueGetter, StringCompareOperator op, string compareValue)
         {
             getter = valueGetter;
-            @operator = op;
+            this.op = op;
             this.compareValue = compareValue;
         }
 
@@ -19,7 +19,7 @@ namespace SleepHunter.Macro.Conditions
         {
             var actualValue = getter(context);
 
-            switch (@operator)
+            switch (op)
             {
                 case StringCompareOperator.Equal:
                     return string.Equals(actualValue, compareValue, StringComparison.OrdinalIgnoreCase);
@@ -42,8 +42,10 @@ namespace SleepHunter.Macro.Conditions
                 case StringCompareOperator.NotEndsWith:
                     return !actualValue.EndsWith(compareValue, StringComparison.OrdinalIgnoreCase);
                 default:
-                    throw new InvalidOperationException($"Invalid operator: {@operator}");
+                    throw new InvalidOperationException($"Invalid operator: {op}");
             }
         }
+
+        public override string ToString() => $"{op.ToKeyword()} '{compareValue}'";
     }
 }
