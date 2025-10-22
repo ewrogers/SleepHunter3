@@ -5,9 +5,11 @@ using SleepHunter.Macro.Commands;
 using SleepHunter.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SleepHunter.Extensions;
+using SleepHunter.Macro.Serialization;
 
 namespace SleepHunter.Forms
 {
@@ -18,6 +20,7 @@ namespace SleepHunter.Forms
         private readonly IWindowEnumerator windowEnumerator;
         private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroCommandFactory commandFactory;
+        private readonly IMacroSerializer serializer;
 
         private readonly List<MacroCommandObject> macroCommands = new List<MacroCommandObject>();
 
@@ -34,11 +37,13 @@ namespace SleepHunter.Forms
             windowEnumerator = serviceProvider.GetRequiredService<IWindowEnumerator>();
             commandRegistry = serviceProvider.GetRequiredService<IMacroCommandRegistry>();
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
-
+            serializer = serviceProvider.GetRequiredService<IMacroSerializer>();
+            
             InitializeComponent();
 
             UpdateToolbarAndMenuState();
         }
+        
         private void ReformatLines()
         {
             macroListView.BeginUpdate();
@@ -109,7 +114,7 @@ namespace SleepHunter.Forms
 
         #region Quick Attach Toolbar
 
-        private void quickAttachButton_DropDownOpening(object sender, System.EventArgs e)
+        private void quickAttachButton_DropDownOpening(object sender, EventArgs e)
         {
             quickAttachButton.DropDownItems.Clear();
 
@@ -289,6 +294,12 @@ namespace SleepHunter.Forms
             {
                 return;
             }
+
+            var selectedIndexes = macroListView.SelectedIndices.ToList();
+            CopyToClipboard(selectedIndexes);
+            
+            DeleteMacroCommands(selectedIndexes);
+            UpdateToolbarAndMenuState();
         }
 
         private void copySelected_Click(object sender, EventArgs e)
@@ -297,11 +308,14 @@ namespace SleepHunter.Forms
             {
                 return;
             }
+            
+            CopyToClipboard(macroListView.SelectedIndices.ToList());
+            UpdateToolbarAndMenuState();
         }
 
         private void paste_Click(object sender, EventArgs e)
         {
-
+            TryPasteFromClipboard();
         }
 
         private void moveUp_Click(object sender, EventArgs e)

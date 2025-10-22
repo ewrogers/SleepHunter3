@@ -102,7 +102,8 @@ namespace SleepHunter.Forms
 
             cutButton.Enabled = cutSelectedMenu.Enabled = !isEmpty && hasSelection;
             copyButton.Enabled = copySelectedMenu.Enabled = !isEmpty && hasSelection;
-            pasteButton.Enabled = pasteSelectedMenu.Enabled = false;
+            pasteButton.Enabled = pasteSelectedMenu.Enabled =
+                Clipboard.ContainsData("MacroCommands") || Clipboard.ContainsText();
 
             moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
             moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
