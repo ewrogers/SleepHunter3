@@ -98,6 +98,10 @@
     <Compile Include="Forms\MacroForm.Designer.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\MacroForm.Interface.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MacroForm.Mutators.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>

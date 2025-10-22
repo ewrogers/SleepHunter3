@@ -111,10 +111,14 @@ namespace SleepHunter.Forms
         
         private void DeleteMacroCommands(IReadOnlyList<int> indexes)
         {
+            if (indexes == null || indexes.Count == 0)
+                return;
+            
             macroListView.BeginUpdate();
 
             try
             {
+                // Remove in reverse order, so the indices don't change
                 for (var i = indexes.Count - 1; i >=0; i--)
                 {
                     var index = indexes[i];
@@ -128,8 +132,72 @@ namespace SleepHunter.Forms
             {
                 macroListView.EndUpdate();
             }
+        }
 
-            
+        private void MoveMacroCommands(IReadOnlyList<int> indexes, int desiredIndex)
+        {
+            if (indexes == null || indexes.Count == 0)
+                return;
+
+            macroListView.BeginUpdate();
+
+            try
+            {
+                // Create a list to store the commands and list view items that will be moved
+                var commandsToMove = new List<MacroCommandObject>();
+                var listViewItemsToMove = new List<ListViewItem>();
+
+                // Extract the commands and items in reverse order (to preserve indices)
+                for (var i = indexes.Count - 1; i >= 0; i--)
+                {
+                    var index = indexes[i];
+                    commandsToMove.Insert(0, macroCommands[index]); // Insert at beginning to maintain order
+                    listViewItemsToMove.Insert(0, macroListView.Items[index]);
+
+                    // Remove from both collections
+                    macroCommands.RemoveAt(index);
+                    macroListView.Items.RemoveAt(index);
+                }
+
+                // Adjust desired index based on how many items were removed before it
+                var adjustedIndex = desiredIndex;
+                foreach (var index in indexes)
+                {
+                    if (index < desiredIndex)
+                        adjustedIndex--;
+                }
+
+                // Ensure the adjusted index is within bounds
+                adjustedIndex = Math.Max(0, Math.Min(adjustedIndex, macroCommands.Count));
+
+                // Insert the moved items at the new position
+                for (var i = 0; i < commandsToMove.Count; i++)
+                {
+                    var insertIndex = adjustedIndex + i;
+
+                    // Insert into commands list
+                    macroCommands.Insert(insertIndex, commandsToMove[i]);
+
+                    // Insert into list view
+                    var listViewItem = macroListView.Items.Insert(insertIndex, "");
+                    listViewItem.Tag = commandsToMove[i];
+                    listViewItem.SubItems.Add(commandsToMove[i].Command.ToString());
+                }
+
+                // Reformat line numbers
+                ReformatLines();
+
+                // Update selection to the new positions
+                macroListView.SelectedIndices.Clear();
+                for (var i = 0; i < commandsToMove.Count; i++)
+                {
+                    macroListView.SelectedIndices.Add(adjustedIndex + i);
+                }
+            }
+            finally
+            {
+                macroListView.EndUpdate();
+            }
         }
     }
 }
