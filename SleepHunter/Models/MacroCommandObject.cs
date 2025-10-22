@@ -8,5 +8,7 @@ namespace SleepHunter.Models
         public IMacroCommand Command { get; set; }
         public MacroCommandDefinition Definition { get; set; }
         public IReadOnlyList<MacroParameterValue> Parameters { get; set; }
+
+        public override string ToString() => Command.ToString();
     }
 }

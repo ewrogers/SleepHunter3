@@ -8,9 +8,6 @@ namespace SleepHunter.Macro.Commands.Loop
         private readonly IMacroCondition condition;
         private readonly string fieldName;
 
-        // These will be set later by the macro execution engine
-        public EndWhileCommand EndWhile { get; set; }
-
         public WhileCommand(IMacroCondition condition, string fieldName = null)
         {
             this.condition = condition;

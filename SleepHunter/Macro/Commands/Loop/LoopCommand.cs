@@ -7,9 +7,6 @@ namespace SleepHunter.Macro.Commands.Loop
     {
         public int LoopCount { get; }
 
-        // These are set by the macro execution engine
-        public EndLoopCommand EndLoop { get; set; }
-
         public LoopCommand()
         : this(-1) { }
 

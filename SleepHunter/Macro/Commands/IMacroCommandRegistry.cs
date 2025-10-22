@@ -8,5 +8,7 @@ namespace SleepHunter.Macro.Commands
 
         bool TryGetCommand(string key, out MacroCommandDefinition command);
         void RegisterCommand(MacroCommandDefinition command);
+
+        MacroCommandDefinition GetClosingDefinition(IMacroCommand command);
     }
 }

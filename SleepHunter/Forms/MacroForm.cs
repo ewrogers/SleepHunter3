@@ -6,6 +6,7 @@ using SleepHunter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SleepHunter.Forms
@@ -15,6 +16,7 @@ namespace SleepHunter.Forms
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
+        private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroCommandFactory commandFactory;
 
         private readonly List<MacroCommandObject> macroCommands = new List<MacroCommandObject>();
@@ -27,17 +29,71 @@ namespace SleepHunter.Forms
         {
             this.serviceProvider = serviceProvider;
             windowEnumerator = serviceProvider.GetRequiredService<IWindowEnumerator>();
+            commandRegistry = serviceProvider.GetRequiredService<IMacroCommandRegistry>();
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
 
             InitializeComponent();
         }
 
-        public void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1)
+        public MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command)
+        {
+            // No args, nothing to show
+            if (command.Parameters.Count == 0)
+            {
+                return Array.Empty<MacroParameterValue>();
+            }
+
+            // Show the arguments form for the command requested
+            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
+            argsForm.Command = command;
+            argsForm.ShowDialog(this);
+
+            // Ignore if the user cancelled
+            if (argsForm.DialogResult != DialogResult.OK)
+            {
+                return null;
+            }
+
+            return argsForm.Parameters.ToArray();
+        }
+
+        public void AddMacroCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int desiredIndex = -1, bool addClosingCommand = true)
+        {
+            var success = false;
+            try
+            {
+                // Attempt to create the built command with the parameters
+                var command = commandFactory.Create(definition, parameters);
+
+                if (command != null)
+                {
+                    var commandObj = new MacroCommandObject
+                    {
+                        Command = command,
+                        Definition = definition,
+                        Parameters = parameters
+                    };
+                    AddMacroCommand(commandObj, desiredIndex, addClosingCommand);
+                    success = true;
+                }
+            }
+            catch
+            {
+                success = false;
+            }
+
+            if (!success)
+            {
+                MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            }
+        }
+
+        private void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1, bool addClosingCommand = true)
         {
             if (desiredIndex >= 0)
             {
                 // Determine the specified index, capping at the end of the collection
-                desiredIndex = Math.Max(desiredIndex, macroCommands.Count);
+                desiredIndex = Math.Min(desiredIndex, macroCommands.Count);
             }
             else
             {
@@ -63,7 +119,83 @@ namespace SleepHunter.Forms
 
             listViewItem.SubItems.Add(commandObj.Command.ToString());
 
-            RecalculateLineNumbers();
+            // Automatically add an accompanying closing command for stuff like if/while/loop
+            if (addClosingCommand && commandObj.Command.IsOpeningCommand() && AddClosingCommand(commandObj, desiredIndex + 1) != null)
+            {
+                return;
+            }
+
+            ReformatLines();
+
+            macroListView.SelectedIndices.Clear();
+            macroListView.SelectedIndices.Add(desiredIndex);
+        }
+
+        private MacroCommandObject AddClosingCommand(MacroCommandObject commandObj, int desiredIndex)
+        {
+            var closingCommand = commandObj.Command.GetClosingCommand();
+            if (closingCommand == null)
+            {
+                return null;
+            }
+
+            var endingObj = new MacroCommandObject
+            {
+                Command = closingCommand,
+                Definition = commandRegistry.GetClosingDefinition(commandObj.Command),
+                Parameters = Array.Empty<MacroParameterValue>()
+            };
+
+            AddMacroCommand(endingObj, desiredIndex);
+            return endingObj;
+        }
+
+        private void ReformatLines()
+        {
+            macroListView.BeginUpdate();
+
+            try
+            {
+                var lineNumber = 1;
+                var indent = 0;
+
+                var sb = new StringBuilder();
+
+                foreach (ListViewItem listViewItem in macroListView.Items)
+                {
+                    sb.Clear();
+
+                    var commandObj = listViewItem.Tag as MacroCommandObject;
+
+                    // Re-calculate the line number
+                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(4, '0');
+
+                    // Reduce indent for a closing command
+                    if (commandObj.Command.IsClosingCommand())
+                    {
+                        indent = Math.Max(0, indent - 1);
+                    }
+
+                    // Re-indent the line
+                    if (indent > 0)
+                    {
+                        sb.Append(' ', indent * 2);
+                    }
+                    sb.Append(listViewItem.SubItems[1].Text.Trim());
+
+                    listViewItem.SubItems[1].Text = sb.ToString();
+
+                    // Increase indent level after an opening command
+                    if (commandObj.Command.IsOpeningCommand())
+                    {
+                        indent++;
+                    }
+                }
+            }
+            finally
+            {
+                macroListView.EndUpdate();
+            }
         }
 
         private void AttachToClient(GameClientWindow window)
@@ -112,46 +244,6 @@ namespace SleepHunter.Forms
             processIdLabel.Enabled = isAttached;
             windowHandleLabel.Enabled = isAttached;
             characterNameLabel.Enabled = isAttached;
-        }
-
-        private MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command)
-        {
-            // No args, nothing to show
-            if (command.Parameters.Count == 0)
-            {
-                return Array.Empty<MacroParameterValue>();
-            }
-
-            // Show the arguments form for the command requested
-            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
-            argsForm.Command = command;
-            argsForm.ShowDialog(this);
-
-            // Ignore if the user cancelled
-            if (argsForm.DialogResult != DialogResult.OK)
-            {
-                return null;
-            }
-
-            return argsForm.Parameters.ToArray();
-        }
-
-        private void RecalculateLineNumbers()
-        {
-            macroListView.BeginUpdate();
-
-            try
-            {
-                var lineNumber = 1;
-                foreach (ListViewItem listViewItem in macroListView.Items)
-                {
-                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(4, '0');
-                }
-            }
-            finally
-            {
-                macroListView.EndUpdate();
-            }
         }
 
         #region Quick Attach Toolbar
@@ -259,33 +351,7 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            var success = false;
-            try
-            {
-                // Attempt to create the built command with the parameters
-                var command = commandFactory.Create(definition, parameters);
-
-                if (command != null)
-                {
-                    var commandObj = new MacroCommandObject
-                    {
-                        Command = command,
-                        Definition = definition,
-                        Parameters = parameters
-                    };
-                    AddMacroCommand(commandObj);
-                    success = true;
-                }
-            }
-            catch
-            {
-                success = false;
-            }
-
-            if (!success)
-            {
-                MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            }
+            AddMacroCommand(definition, parameters);
         }
 
         private void form_Closed(object sender, FormClosedEventArgs e)

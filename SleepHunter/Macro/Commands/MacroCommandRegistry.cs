@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SleepHunter.Macro.Commands.Logic;
+using SleepHunter.Macro.Commands.Loop;
+using System;
 using System.Collections.Generic;
 
 namespace SleepHunter.Macro.Commands
@@ -30,6 +32,34 @@ namespace SleepHunter.Macro.Commands
         public void RegisterCommand(MacroCommandDefinition command)
         {
             commands[command.Key] = command;
+        }
+
+        public MacroCommandDefinition GetClosingDefinition(IMacroCommand command)
+        {
+            if (command is IfCommand || command is ElseCommand)
+            {
+                if (commands.TryGetValue(MacroCommandKey.EndIf, out var definition))
+                {
+                    return definition;
+                }
+            }
+
+            if (command is WhileCommand)
+            {
+                if (commands.TryGetValue(MacroCommandKey.EndWhile, out var definition))
+                {
+                    return definition;
+                }
+            }
+
+            if (command is LoopCommand)
+            {
+                if (commands.TryGetValue(MacroCommandKey.EndLoop, out var definition))
+                {
+                    return definition;
+                }
+            }
+            return null;
         }
     }
 }

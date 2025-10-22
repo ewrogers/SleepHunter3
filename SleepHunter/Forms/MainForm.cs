@@ -195,9 +195,11 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
-            argsForm.Command = selectedCommand;
-            argsForm.ShowDialog(this);
+            var parameters = activeMacro.ShowArgumentsForm(selectedCommand);
+            if (parameters != null)
+            {
+                activeMacro.AddMacroCommand(selectedCommand, parameters);
+            }
         }
 
         private void CommandsTreeView_ItemDrag(object sender, ItemDragEventArgs e)

@@ -8,10 +8,6 @@ namespace SleepHunter.Macro.Commands.Logic
         private readonly IMacroCondition condition;
         private readonly string fieldName;
 
-        // These will be set later by the macro execution engine
-        public ElseCommand Else { get; set; }
-        public EndIfCommand EndIf { get; set; }
-
         public IfCommand(IMacroCondition condition, string fieldName = null)
         {
             this.condition = condition;
