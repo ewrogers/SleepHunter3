@@ -65,7 +65,6 @@ namespace SleepHunter.Forms
                 playerState.MaxHealth = clientReader.ReadMaxHealth();
                 playerState.CurrentMana = clientReader.ReadCurrentMana();
                 playerState.MaxMana = clientReader.ReadMaxMana();
-
             }
             catch (Exception)
             {
@@ -82,15 +81,14 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            if (!string.IsNullOrWhiteSpace(playerState.Name))
-                Text = $"{playerState.Name} - Status";
-            else
-                Text = "Status Window";
+            Text = !string.IsNullOrWhiteSpace(playerState.Name)
+                ? $"{playerState.Name} - Status"
+                : "Status Window";
 
-            var formattedHealth = formatHealthManaValue(playerState.CurrentHealth);
-            var formattedMaxHealth = formatHealthManaValue(playerState.MaxHealth);
-            var formattedMana = formatHealthManaValue(playerState.CurrentMana);
-            var formattedMaxMana = formatHealthManaValue(playerState.MaxMana);
+            var formattedHealth = FormatHealthManaValue(playerState.CurrentHealth);
+            var formattedMaxHealth = FormatHealthManaValue(playerState.MaxHealth);
+            var formattedMana = FormatHealthManaValue(playerState.CurrentMana);
+            var formattedMaxMana = FormatHealthManaValue(playerState.MaxMana);
 
             healthLabel.Text = $"{formattedHealth} / {formattedMaxHealth}";
             healthPercentLabel.Text = playerState.HealthPercentage + " %";
@@ -105,7 +103,7 @@ namespace SleepHunter.Forms
             manaPictureBox.Refresh();
         }
 
-        private string formatHealthManaValue(long value)
+        private static string FormatHealthManaValue(long value)
         {
             if (value < 1000)
             {

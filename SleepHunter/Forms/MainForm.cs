@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SleepHunter.Forms
 {
-    public partial class MainForm : Form
+    public partial class MainForm
     {
         private const int WM_HOTKEY = 0x312;
 
@@ -48,26 +48,30 @@ namespace SleepHunter.Forms
         private void OpenMacroMenu_Click(object sender, EventArgs e)
         {
             dialogCancel = true;
-            int num = (int)openFileDialog.ShowDialog(this);
-            string[] fileNames = openFileDialog.FileNames;
+            var num = (int)openFileDialog.ShowDialog(this);
+            var fileNames = openFileDialog.FileNames;
             if (fileNames == null | dialogCancel)
                 return;
-            MacroReader macroReader = new MacroReader();
-            foreach (string str in fileNames)
+            var macroReader = new MacroReader();
+            
+            foreach (var str in fileNames)
             {
-                if (str.Trim() != "")
+                if (string.IsNullOrWhiteSpace(str))
                 {
-                    string[] commands = macroReader.GetCommands(str.Trim());
-                    string[] arguments = macroReader.GetArguments(str.Trim());
-                    string fileTitle = macroReader.GetFileTitle(str.Trim());
-                    statusLabel.Text = $"Opening {str}...";
-                    MacroForm frmMacro = serviceProvider.GetRequiredService<MacroForm>();
-                    //macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
-                    frmMacro.MdiParent = this;
-                    // frmMacro.nameTextBox.Text = fileTitle;
-                    frmMacro.Show();
+                    continue;
                 }
+
+                var commands = macroReader.GetCommands(str.Trim());
+                var arguments = macroReader.GetArguments(str.Trim());
+                var fileTitle = macroReader.GetFileTitle(str.Trim());
+                statusLabel.Text = $"Opening {str}...";
+                var macroForm = serviceProvider.GetRequiredService<MacroForm>();
+                //macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
+                macroForm.MdiParent = this;
+                // macroForm.nameTextBox.Text = fileTitle;
+                macroForm.Show();
             }
+
             statusLabel.Text = "Idle.";
         }
 
@@ -75,21 +79,23 @@ namespace SleepHunter.Forms
         {
             if (activeMacro == null)
             {
-                int num1 = (int)MessageBox.Show("No macro windows are open, cannot save.", "No Data Windows", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show("No macro windows are open, cannot save.", "No Data Windows", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
             }
             else if (false)
             {
-                int num2 = (int)MessageBox.Show("Macro window contains no data.", "Empty Macro", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show("Macro window contains no data.", "Empty Macro", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
             }
             else
             {
-                var macroName = "test.sh3";
+                const string macroName = "test.sh3";
                 //saveFileDialog.FileName = activeMacro.nameTextBox.Text + ".sh3";
                 dialogCancel = true;
-                int num3 = (int)saveFileDialog.ShowDialog(this);
+                var result = saveFileDialog.ShowDialog(this);
                 if (dialogCancel)
                     return;
-                string fileName = saveFileDialog.FileName;
+                var fileName = saveFileDialog.FileName;
                 if (fileName == null || fileName.Trim() == "")
                     return;
                 statusLabel.Text = $"Saving {fileName}...";
@@ -152,7 +158,7 @@ namespace SleepHunter.Forms
         #region Window Layout Menu Actions
         private void MinimizeAllMenu_Click(object sender, EventArgs e)
         {
-            foreach (Form mdiChild in MdiChildren)
+            foreach (var mdiChild in MdiChildren)
             {
                 mdiChild.WindowState = FormWindowState.Minimized;
             }
@@ -161,7 +167,7 @@ namespace SleepHunter.Forms
 
         private void CloseAllWindowsMenu_Click(object sender, EventArgs e)
         {
-            foreach (Component mdiChild in MdiChildren)
+            foreach (var mdiChild in MdiChildren)
             {
                 mdiChild.Dispose();
             }
@@ -223,25 +229,27 @@ namespace SleepHunter.Forms
         {
             base.WndProc(ref m);
             if (m.Msg != WM_HOTKEY)
+            {
                 return;
+            }
+
             HotkeyAction((int)m.WParam);
         }
 
-        public void HotkeyAction(int HotkeyId)
+        private void HotkeyAction(int hotkeyId)
         {
-            foreach (Form mdiChild in MdiChildren)
+            foreach (var mdiChild in MdiChildren)
             {
-                if (mdiChild is MacroForm)
+                if (mdiChild is MacroForm macroForm)
                 {
-                    MacroForm frmMacro = (MacroForm)mdiChild;
-                    //if (frmMacro.hotkey.HotkeyID == hotkeyID)
+                    //if (macroForm.hotkey.hotkeyId == hotkeyID)
                     //{
-                    //    if (frmMacro.MacroRunning)
+                    //    if (macroForm.MacroRunning)
                     //    {
-                    //        frmMacro.StopButton();
+                    //        macroForm.StopButton();
                     //        break;
                     //    }
-                    //    frmMacro.PlayButton();
+                    //    macroForm.PlayButton();
                     //    break;
                     //}
                 }

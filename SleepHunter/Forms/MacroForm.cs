@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace SleepHunter.Forms
 {
 
-    public partial class MacroForm : Form
+    public partial class MacroForm
     {
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
@@ -61,12 +61,9 @@ namespace SleepHunter.Forms
             argsForm.ShowDialog(this);
 
             // Ignore if the user cancelled
-            if (argsForm.DialogResult != DialogResult.OK)
-            {
-                return null;
-            }
-
-            return argsForm.Parameters.ToArray();
+            return argsForm.DialogResult != DialogResult.OK
+                ? null 
+                : argsForm.Parameters.ToArray();
         }
 
         public void AddMacroCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int desiredIndex = -1, bool addClosingCommand = true)
@@ -180,10 +177,10 @@ namespace SleepHunter.Forms
                     var commandObj = listViewItem.Tag as MacroCommandObject;
 
                     // Re-calculate the line number
-                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(4, '0');
+                    listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(8, ' ');
 
                     // Reduce indent for a closing command
-                    if (commandObj.Command.IsClosingCommand())
+                    if (commandObj != null && commandObj.Command.IsClosingCommand())
                     {
                         indent = Math.Max(0, indent - 1);
                     }
@@ -198,7 +195,7 @@ namespace SleepHunter.Forms
                     listViewItem.SubItems[1].Text = sb.ToString();
 
                     // Increase indent level after an opening command
-                    if (commandObj.Command.IsOpeningCommand())
+                    if (commandObj != null && commandObj.Command.IsOpeningCommand())
                     {
                         indent++;
                     }
@@ -420,11 +417,13 @@ namespace SleepHunter.Forms
         private void macroListView_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Edit on spacebar pressed
-            if (e.KeyChar == ' ' && macroListView.SelectedIndices.Count == 1)
+            if (e.KeyChar != ' ' || macroListView.SelectedIndices.Count != 1)
             {
-                e.Handled = true;
-                edit_Click(sender, e);
+                return;
             }
+            
+            e.Handled = true;
+            edit_Click(sender, e);
         }
 
         private void macroListView_DoubleClick(object sender, EventArgs e)
@@ -447,7 +446,7 @@ namespace SleepHunter.Forms
         private void edit_Click(object sender, EventArgs e)
         {
             // Ensure there is a single selection of a command with parameters to edit
-            if (macroListView.SelectedIndices.Count == 0 || 
+            if (macroListView.SelectedIndices.Count == 0 ||
                 !(macroListView.SelectedItems[0].Tag is MacroCommandObject commandObj) ||
                 commandObj.Parameters.Count == 0)
             {
@@ -459,17 +458,26 @@ namespace SleepHunter.Forms
 
         private void deleteSelected_Click(object sender, EventArgs e)
         {
-
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
         }
 
         private void cutSelected_Click(object sender, EventArgs e)
         {
-
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
         }
 
         private void copySelected_Click(object sender, EventArgs e)
         {
-
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
         }
 
         private void paste_Click(object sender, EventArgs e)
@@ -479,12 +487,18 @@ namespace SleepHunter.Forms
 
         private void moveUp_Click(object sender, EventArgs e)
         {
-
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
         }
 
         private void moveDown_Click(object sender, EventArgs e)
         {
-
+            if (macroListView.SelectedIndices.Count == 0)
+            {
+                return;
+            }
         }
 
         private void form_Closed(object sender, FormClosedEventArgs e)
@@ -492,6 +506,6 @@ namespace SleepHunter.Forms
             clientReader?.Dispose();
         }
 
-       
+
     }
 }

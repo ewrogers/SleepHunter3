@@ -89,7 +89,8 @@ namespace SleepHunter.Forms
             commandNameLabel.Text = command.DisplayName;
             if (!string.IsNullOrWhiteSpace(command.HelpText))
             {
-                helpTextLabel.Text = $"{command.Description}{Environment.NewLine}{Environment.NewLine}{command.HelpText}";
+                helpTextLabel.Text =
+                    $"{command.Description}{Environment.NewLine}{Environment.NewLine}{command.HelpText}";
             }
             else
             {
@@ -137,7 +138,7 @@ namespace SleepHunter.Forms
                 numericComparisonGroupBox.Text = isPercent ? "Percent Comparison" : "Value Comparison";
                 percentLabel.Visible = isPercent;
 
-                numericValueNumeric.DecimalPlaces = isNumericComparison && command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
+                numericValueNumeric.DecimalPlaces = command.Parameters[1] == MacroParameterType.Float ? 2 : 0;
                 numericValueNumeric.Maximum = isPercent ? 100 : uint.MaxValue;
 
                 numericComparisonGroupBox.Location = argsAnchorPanel.Location;
@@ -182,12 +183,14 @@ namespace SleepHunter.Forms
                     validationError = "Input string cannot be empty!";
                     return;
                 }
+
                 if (IsStringComparison() && string.IsNullOrWhiteSpace(stringValueTextBox.Text))
                 {
                     stringValueTextBox.Focus();
                     validationError = "Input string cannot be empty!";
                     return;
                 }
+
                 validationError = string.Empty;
             }
             finally
@@ -272,25 +275,33 @@ namespace SleepHunter.Forms
             }
         }
 
-        public bool IsNumericInput() => command.Parameters.Count == 1 &&
-                (command.Parameters[0] == MacroParameterType.Integer || command.Parameters[0] == MacroParameterType.Float);
+        private bool IsNumericInput() => command.Parameters.Count == 1 &&
+                                        (command.Parameters[0] == MacroParameterType.Integer ||
+                                         command.Parameters[0] == MacroParameterType.Float);
 
-        public bool IsStringInput() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.String;
+        private bool IsStringInput() =>
+            command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.String;
 
-        public bool IsWaitDelay() => command.Key.StartsWith("WAIT_") && command.Parameters.Any(p => p == MacroParameterType.Integer);
+        private bool IsWaitDelay() => command.Key.StartsWith("WAIT_") &&
+                                     command.Parameters.Any(p => p == MacroParameterType.Integer);
 
-        private bool IsPercentValue() => command.Key.Contains("PERCENT") && command.Parameters.Any(p => p == MacroParameterType.Float);
+        private bool IsPercentValue() => command.Key.Contains("PERCENT") &&
+                                         command.Parameters.Any(p => p == MacroParameterType.Float);
 
         private bool IsNumericComparison() => command.Parameters.Count == 2 &&
-                command.Parameters[0] == MacroParameterType.CompareOperator &&
-                (command.Parameters[1] == MacroParameterType.Integer || command.Parameters[1] == MacroParameterType.Float);
+                                              command.Parameters[0] == MacroParameterType.CompareOperator &&
+                                              (command.Parameters[1] == MacroParameterType.Integer ||
+                                               command.Parameters[1] == MacroParameterType.Float);
 
         private bool IsStringComparison() => command.Parameters.Count == 2 &&
-                command.Parameters[0] == MacroParameterType.StringCompareOperator &&
-                command.Parameters[1] == MacroParameterType.String;
+                                             command.Parameters[0] == MacroParameterType.StringCompareOperator &&
+                                             command.Parameters[1] == MacroParameterType.String;
 
-        private bool IsCoordinatePoint() => command.Parameters.Count == 2 && command.Parameters.All(p => p == MacroParameterType.Integer);
-        private bool IsKeystrokes() => command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
+        private bool IsCoordinatePoint() => command.Parameters.Count == 2 &&
+                                            command.Parameters.All(p => p == MacroParameterType.Integer);
+
+        private bool IsKeystrokes() =>
+            command.Parameters.Count == 1 && command.Parameters[0] == MacroParameterType.Keystrokes;
 
         private void form_Shown(object sender, EventArgs e)
         {
@@ -343,7 +354,7 @@ namespace SleepHunter.Forms
             DialogResult = DialogResult.Cancel;
             Close();
         }
-              
+
         private void OnAccept()
         {
             ValidateParameters();
