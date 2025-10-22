@@ -78,12 +78,13 @@ namespace SleepHunter.Forms
 
         private MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command)
         {
-            // Show the arguments form for the command requested
+            // No args, nothing to show
             if (command.Parameters.Count == 0)
             {
-                return null;
+                return Array.Empty<MacroParameterValue>();
             }
 
+            // Show the arguments form for the command requested
             var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
             argsForm.Command = command;
             argsForm.ShowDialog(this);
@@ -198,7 +199,7 @@ namespace SleepHunter.Forms
             MacroParameterValue[] parameters = ShowArgumentsForm(command);
 
             // Ignore if not enough parameters provided
-            if (parameters == null && command.Parameters.Count > 0)
+            if (parameters == null)
             {
                 return;
             }

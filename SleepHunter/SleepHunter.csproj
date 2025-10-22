@@ -133,6 +133,7 @@
     <Compile Include="Macro\Commands\IMacroCommand.cs" />
     <Compile Include="Macro\Commands\IMacroCommandFactory.cs" />
     <Compile Include="Macro\Commands\IMacroCommandRegistry.cs" />
+    <Compile Include="Macro\Commands\Interface\SwitchPaneCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
     <Compile Include="Macro\Commands\MacroCommandDefinition.cs" />
