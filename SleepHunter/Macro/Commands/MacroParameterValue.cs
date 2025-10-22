@@ -16,6 +16,7 @@ namespace SleepHunter.Macro.Commands
         public long AsLong() => Convert.ToInt64(Value);
         public float AsFloat() => Convert.ToSingle(Value);
         public double AsDouble() => Convert.ToDouble(Value);
+        public decimal AsDecimal() => Convert.ToDecimal(Value);
         public string AsString() => Value.ToString();
         public Keys[] AsKeystrokes() => (Keys[])Value;
         public CompareOperator AsCompareOperator() => (CompareOperator)Value;

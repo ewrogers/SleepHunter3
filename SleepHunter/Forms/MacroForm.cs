@@ -25,6 +25,9 @@ namespace SleepHunter.Forms
         private GameClientReader clientReader;
         private bool isAttached;
 
+        private bool isRunning;
+        private bool isPaused;
+
         public MacroForm(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -33,9 +36,11 @@ namespace SleepHunter.Forms
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
 
             InitializeComponent();
+
+            UpdateToolbarAndMenuState();
         }
 
-        public MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command)
+        public MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command, IReadOnlyList<MacroParameterValue> parameters = null)
         {
             // No args, nothing to show
             if (command.Parameters.Count == 0)
@@ -43,9 +48,16 @@ namespace SleepHunter.Forms
                 return Array.Empty<MacroParameterValue>();
             }
 
-            // Show the arguments form for the command requested
+            // Set the command definition and existing parameters (if provided)
             var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
             argsForm.Command = command;
+
+            if (parameters != null)
+            {
+                argsForm.SetDefaultParameters(parameters);
+            }
+
+            // Show the arguments form for the command requested
             argsForm.ShowDialog(this);
 
             // Ignore if the user cancelled
@@ -246,6 +258,52 @@ namespace SleepHunter.Forms
             characterNameLabel.Enabled = isAttached;
         }
 
+        private void UpdateToolbarAndMenuState()
+        {
+            var hasSingleSelection = macroListView.SelectedIndices.Count == 1;
+            var hasMultipleSelection = macroListView.SelectedIndices.Count > 1;
+            var isEmpty = macroListView.Items.Count == 0;
+            var hasSelection = hasSingleSelection || hasMultipleSelection;
+
+            // Check for parameter count, only commands with parameters are editable
+            var hasParameters = false;
+            if (hasSingleSelection)
+            {
+                var selectedListViewItem = macroListView.SelectedItems[0];
+                if (selectedListViewItem.Tag is MacroCommandObject commandObj)
+                {
+                    hasParameters = commandObj.Parameters.Count > 0;
+                }
+            }
+
+            if (hasSingleSelection)
+            {
+                editSelectedMenu.ShortcutKeyDisplayString = !hasParameters ? "(No Parameters)" : "Space";
+            }
+            else if (hasMultipleSelection)
+            {
+                editSelectedMenu.ShortcutKeyDisplayString = "(Multiple Selected)";
+            }
+            else
+            {
+                editSelectedMenu.ShortcutKeyDisplayString = "Space";
+            }
+
+            editButton.Enabled = editSelectedMenu.Enabled = !isEmpty && hasSingleSelection && hasParameters;
+            deleteButton.Enabled = deleteSelectedMenu.Enabled = !isEmpty && hasSelection;
+
+            cutButton.Enabled = cutSelectedMenu.Enabled = !isEmpty && hasSelection;
+            copyButton.Enabled = copySelectedMenu.Enabled = !isEmpty && hasSelection;
+            pasteButton.Enabled = pasteSelectedMenu.Enabled = false;
+
+            moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
+            moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
+
+            playButton.Enabled = !isEmpty && !isRunning;
+            pauseButton.Enabled = !isEmpty && isRunning && !isPaused;
+            stopButton.Enabled = isRunning;
+        }
+
         #region Quick Attach Toolbar
 
         private void quickAttachButton_DropDownOpening(object sender, System.EventArgs e)
@@ -280,12 +338,12 @@ namespace SleepHunter.Forms
                 {
                     reader?.Dispose();
                 }
+            }
 
-                if (quickAttachButton.DropDownItems.Count == 0)
-                {
-                    var placeholder = quickAttachButton.DropDownItems.Add("No Clients Found");
-                    placeholder.Enabled = false;
-                }
+            if (quickAttachButton.DropDownItems.Count == 0)
+            {
+                var placeholder = quickAttachButton.DropDownItems.Add("No Clients Found");
+                placeholder.Enabled = false;
             }
         }
 
@@ -354,6 +412,30 @@ namespace SleepHunter.Forms
             AddMacroCommand(definition, parameters);
         }
 
+        private void macroListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateToolbarAndMenuState();
+        }
+
+        private void macroListView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Edit on spacebar pressed
+            if (e.KeyChar == ' ' && macroListView.SelectedIndices.Count == 1)
+            {
+                e.Handled = true;
+                edit_Click(sender, e);
+            }
+        }
+
+        private void macroListView_DoubleClick(object sender, EventArgs e)
+        {
+            // Edit on double click
+            if (macroListView.SelectedIndices.Count == 1)
+            {
+                edit_Click(sender, e);
+            }
+        }
+
         private void macroListView_SizeChanged(object sender, EventArgs e)
         {
             var size = macroListView.Size;
@@ -362,9 +444,54 @@ namespace SleepHunter.Forms
             macroListView.Columns[1].Width = columnWidth;
         }
 
+        private void edit_Click(object sender, EventArgs e)
+        {
+            // Ensure there is a single selection of a command with parameters to edit
+            if (macroListView.SelectedIndices.Count == 0 || 
+                !(macroListView.SelectedItems[0].Tag is MacroCommandObject commandObj) ||
+                commandObj.Parameters.Count == 0)
+            {
+                return;
+            }
+
+            var newParameters = ShowArgumentsForm(commandObj.Definition, commandObj.Parameters);
+        }
+
+        private void deleteSelected_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cutSelected_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void copySelected_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void paste_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void moveUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void moveDown_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-        }        
+        }
+
+       
     }
 }

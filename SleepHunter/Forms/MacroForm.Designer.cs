@@ -26,11 +26,9 @@ namespace SleepHunter.Forms
         private ToolStripButton pasteButton;
         private ToolStripButton moveUpButton;
         private ToolStripButton moveDownButton;
-        private ToolStripSeparator separator1;
-        private ToolStripButton btnPlay;
-        private ToolStripButton btnPause;
-        private ToolStripButton btnStop;
-        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton playButton;
+        private ToolStripButton pauseButton;
+        private ToolStripButton stopButton;
         private ToolStripDropDownButton quickAttachButton;
         private System.Windows.Forms.Timer processTimer;
 
@@ -46,6 +44,10 @@ namespace SleepHunter.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripSeparator contextMenuSeparator1;
+            System.Windows.Forms.ToolStripSeparator contextMenuSeparator2;
+            System.Windows.Forms.ToolStripSeparator separator1;
+            System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroForm));
             this.macroStatusBar = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -65,6 +67,14 @@ namespace SleepHunter.Forms
             this.macroListView = new System.Windows.Forms.ListView();
             this.lineColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.commandColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.macroContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editSelectedMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.cutSelectedMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.copySelectedMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteSelectedMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSelectedMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveUpMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveDownMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.macroToolStrip = new System.Windows.Forms.ToolStrip();
             this.editButton = new System.Windows.Forms.ToolStripButton();
             this.deleteButton = new System.Windows.Forms.ToolStripButton();
@@ -73,14 +83,16 @@ namespace SleepHunter.Forms
             this.pasteButton = new System.Windows.Forms.ToolStripButton();
             this.moveUpButton = new System.Windows.Forms.ToolStripButton();
             this.moveDownButton = new System.Windows.Forms.ToolStripButton();
-            this.separator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPlay = new System.Windows.Forms.ToolStripButton();
-            this.btnPause = new System.Windows.Forms.ToolStripButton();
-            this.btnStop = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.playButton = new System.Windows.Forms.ToolStripButton();
+            this.pauseButton = new System.Windows.Forms.ToolStripButton();
+            this.stopButton = new System.Windows.Forms.ToolStripButton();
             this.quickAttachButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.statusImageList = new System.Windows.Forms.ImageList(this.components);
             this.processTimer = new System.Windows.Forms.Timer(this.components);
+            contextMenuSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            contextMenuSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            separator1 = new System.Windows.Forms.ToolStripSeparator();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.macroStatusBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.macroSplitContainer)).BeginInit();
             this.macroSplitContainer.Panel1.SuspendLayout();
@@ -93,8 +105,29 @@ namespace SleepHunter.Forms
             this.processGroupBox.SuspendLayout();
             this.macroGroupBox.SuspendLayout();
             this.macroLayoutPanel.SuspendLayout();
+            this.macroContextMenu.SuspendLayout();
             this.macroToolStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // contextMenuSeparator1
+            // 
+            contextMenuSeparator1.Name = "contextMenuSeparator1";
+            contextMenuSeparator1.Size = new System.Drawing.Size(200, 6);
+            // 
+            // contextMenuSeparator2
+            // 
+            contextMenuSeparator2.Name = "contextMenuSeparator2";
+            contextMenuSeparator2.Size = new System.Drawing.Size(200, 6);
+            // 
+            // separator1
+            // 
+            separator1.Name = "separator1";
+            separator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // macroStatusBar
             // 
@@ -325,6 +358,7 @@ namespace SleepHunter.Forms
             this.macroListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lineColumn,
             this.commandColumn});
+            this.macroListView.ContextMenuStrip = this.macroContextMenu;
             this.macroListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.macroListView.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.macroListView.FullRowSelect = true;
@@ -337,9 +371,12 @@ namespace SleepHunter.Forms
             this.macroListView.TabIndex = 0;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
+            this.macroListView.SelectedIndexChanged += new System.EventHandler(this.macroListView_SelectedIndexChanged);
             this.macroListView.SizeChanged += new System.EventHandler(this.macroListView_SizeChanged);
             this.macroListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.macroListView_DragDrop);
             this.macroListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.macroListView_DragEnter);
+            this.macroListView.DoubleClick += new System.EventHandler(this.macroListView_DoubleClick);
+            this.macroListView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.macroListView_KeyPress);
             // 
             // lineColumn
             // 
@@ -351,6 +388,83 @@ namespace SleepHunter.Forms
             this.commandColumn.Text = "Command";
             this.commandColumn.Width = 320;
             // 
+            // macroContextMenu
+            // 
+            this.macroContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editSelectedMenu,
+            contextMenuSeparator1,
+            this.cutSelectedMenu,
+            this.copySelectedMenu,
+            this.pasteSelectedMenu,
+            this.deleteSelectedMenu,
+            contextMenuSeparator2,
+            this.moveUpMenu,
+            this.moveDownMenu});
+            this.macroContextMenu.Name = "macroContextMenu";
+            this.macroContextMenu.Size = new System.Drawing.Size(204, 170);
+            // 
+            // editSelectedMenu
+            // 
+            this.editSelectedMenu.Image = ((System.Drawing.Image)(resources.GetObject("editSelectedMenu.Image")));
+            this.editSelectedMenu.Name = "editSelectedMenu";
+            this.editSelectedMenu.Size = new System.Drawing.Size(203, 22);
+            this.editSelectedMenu.Text = "Edit..";
+            this.editSelectedMenu.Click += new System.EventHandler(this.edit_Click);
+            // 
+            // cutSelectedMenu
+            // 
+            this.cutSelectedMenu.Image = ((System.Drawing.Image)(resources.GetObject("cutSelectedMenu.Image")));
+            this.cutSelectedMenu.Name = "cutSelectedMenu";
+            this.cutSelectedMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutSelectedMenu.Size = new System.Drawing.Size(203, 22);
+            this.cutSelectedMenu.Text = "Cut";
+            this.cutSelectedMenu.Click += new System.EventHandler(this.cutSelected_Click);
+            // 
+            // copySelectedMenu
+            // 
+            this.copySelectedMenu.Image = ((System.Drawing.Image)(resources.GetObject("copySelectedMenu.Image")));
+            this.copySelectedMenu.Name = "copySelectedMenu";
+            this.copySelectedMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copySelectedMenu.Size = new System.Drawing.Size(203, 22);
+            this.copySelectedMenu.Text = "Copy";
+            this.copySelectedMenu.Click += new System.EventHandler(this.copySelected_Click);
+            // 
+            // pasteSelectedMenu
+            // 
+            this.pasteSelectedMenu.Image = ((System.Drawing.Image)(resources.GetObject("pasteSelectedMenu.Image")));
+            this.pasteSelectedMenu.Name = "pasteSelectedMenu";
+            this.pasteSelectedMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteSelectedMenu.Size = new System.Drawing.Size(203, 22);
+            this.pasteSelectedMenu.Text = "Paste";
+            this.pasteSelectedMenu.Click += new System.EventHandler(this.paste_Click);
+            // 
+            // deleteSelectedMenu
+            // 
+            this.deleteSelectedMenu.Image = ((System.Drawing.Image)(resources.GetObject("deleteSelectedMenu.Image")));
+            this.deleteSelectedMenu.Name = "deleteSelectedMenu";
+            this.deleteSelectedMenu.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.deleteSelectedMenu.Size = new System.Drawing.Size(203, 22);
+            this.deleteSelectedMenu.Text = "Delete";
+            this.deleteSelectedMenu.Click += new System.EventHandler(this.deleteSelected_Click);
+            // 
+            // moveUpMenu
+            // 
+            this.moveUpMenu.Image = ((System.Drawing.Image)(resources.GetObject("moveUpMenu.Image")));
+            this.moveUpMenu.Name = "moveUpMenu";
+            this.moveUpMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
+            this.moveUpMenu.Size = new System.Drawing.Size(203, 22);
+            this.moveUpMenu.Text = "Move Up";
+            this.moveUpMenu.Click += new System.EventHandler(this.moveUp_Click);
+            // 
+            // moveDownMenu
+            // 
+            this.moveDownMenu.Image = ((System.Drawing.Image)(resources.GetObject("moveDownMenu.Image")));
+            this.moveDownMenu.Name = "moveDownMenu";
+            this.moveDownMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
+            this.moveDownMenu.Size = new System.Drawing.Size(203, 22);
+            this.moveDownMenu.Text = "Move Down";
+            this.moveDownMenu.Click += new System.EventHandler(this.moveDown_Click);
+            // 
             // macroToolStrip
             // 
             this.macroToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -361,11 +475,11 @@ namespace SleepHunter.Forms
             this.pasteButton,
             this.moveUpButton,
             this.moveDownButton,
-            this.separator1,
-            this.btnPlay,
-            this.btnPause,
-            this.btnStop,
-            this.toolStripSeparator2,
+            separator1,
+            this.playButton,
+            this.pauseButton,
+            this.stopButton,
+            toolStripSeparator2,
             this.quickAttachButton});
             this.macroToolStrip.Location = new System.Drawing.Point(6, 1);
             this.macroToolStrip.Margin = new System.Windows.Forms.Padding(0, 12, 0, 12);
@@ -384,6 +498,7 @@ namespace SleepHunter.Forms
             this.editButton.Size = new System.Drawing.Size(23, 22);
             this.editButton.Text = "toolStripButton1";
             this.editButton.ToolTipText = "Edit Command";
+            this.editButton.Click += new System.EventHandler(this.edit_Click);
             // 
             // deleteButton
             // 
@@ -395,6 +510,7 @@ namespace SleepHunter.Forms
             this.deleteButton.Size = new System.Drawing.Size(23, 22);
             this.deleteButton.Text = "toolStripButton2";
             this.deleteButton.ToolTipText = "Delete Command(s)";
+            this.deleteButton.Click += new System.EventHandler(this.deleteSelected_Click);
             // 
             // cutButton
             // 
@@ -406,6 +522,7 @@ namespace SleepHunter.Forms
             this.cutButton.Size = new System.Drawing.Size(23, 22);
             this.cutButton.Text = "toolStripButton3";
             this.cutButton.ToolTipText = "Cut Command(s)";
+            this.cutButton.Click += new System.EventHandler(this.cutSelected_Click);
             // 
             // copyButton
             // 
@@ -417,6 +534,7 @@ namespace SleepHunter.Forms
             this.copyButton.Size = new System.Drawing.Size(23, 22);
             this.copyButton.Text = "toolStripButton4";
             this.copyButton.ToolTipText = "Copy Command(s)";
+            this.copyButton.Click += new System.EventHandler(this.copySelected_Click);
             // 
             // pasteButton
             // 
@@ -428,6 +546,7 @@ namespace SleepHunter.Forms
             this.pasteButton.Size = new System.Drawing.Size(23, 22);
             this.pasteButton.Text = "toolStripButton5";
             this.pasteButton.ToolTipText = "Paste Command(s)";
+            this.pasteButton.Click += new System.EventHandler(this.paste_Click);
             // 
             // moveUpButton
             // 
@@ -439,6 +558,7 @@ namespace SleepHunter.Forms
             this.moveUpButton.Size = new System.Drawing.Size(23, 22);
             this.moveUpButton.Text = "toolStripButton6";
             this.moveUpButton.ToolTipText = "Move Up";
+            this.moveUpButton.Click += new System.EventHandler(this.moveUp_Click);
             // 
             // moveDownButton
             // 
@@ -449,47 +569,36 @@ namespace SleepHunter.Forms
             this.moveDownButton.Size = new System.Drawing.Size(23, 22);
             this.moveDownButton.Text = "toolStripButton7";
             this.moveDownButton.ToolTipText = "Move Down";
+            this.moveDownButton.Click += new System.EventHandler(this.moveDown_Click);
             // 
-            // separator1
+            // playButton
             // 
-            this.separator1.Name = "separator1";
-            this.separator1.Size = new System.Drawing.Size(6, 25);
+            this.playButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.playButton.Image = ((System.Drawing.Image)(resources.GetObject("playButton.Image")));
+            this.playButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.playButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(23, 22);
+            this.playButton.Text = "Play Macro";
             // 
-            // btnPlay
+            // pauseButton
             // 
-            this.btnPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPlay.Image = ((System.Drawing.Image)(resources.GetObject("btnPlay.Image")));
-            this.btnPlay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(23, 22);
-            this.btnPlay.Text = "Play Macro";
+            this.pauseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pauseButton.Image = ((System.Drawing.Image)(resources.GetObject("pauseButton.Image")));
+            this.pauseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(23, 22);
+            this.pauseButton.Text = "Pause Macro";
             // 
-            // btnPause
+            // stopButton
             // 
-            this.btnPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPause.Enabled = false;
-            this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
-            this.btnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(23, 22);
-            this.btnPause.Text = "Pause Macro";
-            // 
-            // btnStop
-            // 
-            this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnStop.Enabled = false;
-            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(23, 22);
-            this.btnStop.Text = "Stop Macro";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.stopButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopButton.Image = ((System.Drawing.Image)(resources.GetObject("stopButton.Image")));
+            this.stopButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.stopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(23, 22);
+            this.stopButton.Text = "Stop Macro";
             // 
             // quickAttachButton
             // 
@@ -548,6 +657,7 @@ namespace SleepHunter.Forms
             this.macroGroupBox.ResumeLayout(false);
             this.macroLayoutPanel.ResumeLayout(false);
             this.macroLayoutPanel.PerformLayout();
+            this.macroContextMenu.ResumeLayout(false);
             this.macroToolStrip.ResumeLayout(false);
             this.macroToolStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -564,5 +674,13 @@ namespace SleepHunter.Forms
         private ToolStripStatusLabel statusLabel;
         private ListView macroListView;
         private ImageList statusImageList;
+        private ContextMenuStrip macroContextMenu;
+        private ToolStripMenuItem editSelectedMenu;
+        private ToolStripMenuItem cutSelectedMenu;
+        private ToolStripMenuItem copySelectedMenu;
+        private ToolStripMenuItem pasteSelectedMenu;
+        private ToolStripMenuItem deleteSelectedMenu;
+        private ToolStripMenuItem moveUpMenu;
+        private ToolStripMenuItem moveDownMenu;
     }
 }

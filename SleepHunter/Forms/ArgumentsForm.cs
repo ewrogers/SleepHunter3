@@ -39,6 +39,44 @@ namespace SleepHunter.Forms
             UpdateCommandUI();
         }
 
+        public void SetDefaultParameters(IReadOnlyList<MacroParameterValue> parameters)
+        {
+            if (parameters == null || parameters.Count == 0)
+            {
+                return;
+            }
+
+            if (IsNumericInput() && parameters.Count >= 1)
+            {
+                numericInputNumeric.Value = parameters[0].AsDecimal();
+            }
+            else if (IsStringInput() && parameters.Count >= 1)
+            {
+                stringInputTextBox.Text = parameters[0].ToString();
+            }
+            else if (IsWaitDelay() && parameters.Count >= 1)
+            {
+                waitNumeric.Value = parameters[0].AsDecimal();
+            }
+            else if (IsNumericComparison() && parameters.Count >= 2)
+            {
+                numericValueNumeric.Value = parameters[1].AsDecimal();
+            }
+            else if (IsStringComparison() && parameters.Count >= 2)
+            {
+                stringValueTextBox.Text = parameters[1].ToString();
+            }
+            else if (IsCoordinatePoint() && parameters.Count >= 2)
+            {
+                xValueNumeric.Value = parameters[0].AsLong();
+                yValueNumeric.Value = parameters[1].AsLong();
+            }
+            else if (IsKeystrokes() && parameters.Count >= 1)
+            {
+
+            }
+        }
+
         private void UpdateCommandUI()
         {
             validationLabel.Visible = !string.IsNullOrWhiteSpace(validationError);
