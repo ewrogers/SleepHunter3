@@ -6,6 +6,10 @@ namespace SleepHunter.Macro.Serialization
     {
         string Serialize(IReadOnlyList<SerializableMacroCommand> commands);
 
+        string SerializeDocument(SerializableMacroDocument document);
+
         IReadOnlyList<SerializableMacroCommand> Deserialize(string json);
+
+        SerializableMacroDocument DeserializeDocument(string json);
     }
 }

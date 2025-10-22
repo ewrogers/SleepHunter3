@@ -12,9 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Map name in Status window
 - Map name conditionals
 - Mana conditionals
+- Define and Goto Label commands
 - Health and mana percent conditionals
 - Command tool tip in tree view
 - Right-click context menu with keyboard shortcuts for Macro window
+- New `.sh3x` JSON file format
+- Optional `Author` field when saving macros
+- Legacy loader support for existing `.sh3x` files (saving will convert to new format)
 - `Options` menu is now visible
 - Dependency injection for much, much cleaner code
 - Brand new macro command engine
@@ -24,10 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for Dark Ages Client 7.41
 - Default window size is larger for modern displays
 - Show humanized health/mana values in status (ex: 8.1k or 1.24m)
-- Refactor Macro window with more responsive controls
-- Refactor Arguments window with better input controls
-- Refactor Status window and updating of UI
-- Refactor client memory reading for 7.41
+- Auto-resize the macro command list view column
+- Intelligent "auto-add" for closing commands (end if/while/loop)
+- Refactored every single UI form for optimizations
 - Optimize some graphics allocations
 - Removed the long-defunct `Chat` window menu
 - Removed the Debug / Logic Skeleton views
@@ -35,7 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to .NET Framework 4.8 (from 3.5)
 - Re-wrote Win32 window interop
 - Re-wrote Win32 process interop
-- Refactored `MainForm` naming conventions and code cleanup
 
 ## [3.0.0] - 11-29-2005
 
