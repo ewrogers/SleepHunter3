@@ -1,0 +1,65 @@
+﻿using SleepHunter.Macro.Commands.Logic;
+using SleepHunter.Macro.Commands.Loop;
+using System;
+using System.Collections.Generic;
+
+namespace SleepHunter.Macro.Commands
+{
+    public partial class MacroCommandRegistry : IMacroCommandRegistry
+    {
+        private readonly Dictionary<string, MacroCommandDefinition> commands =
+            new Dictionary<string, MacroCommandDefinition>(StringComparer.OrdinalIgnoreCase);
+
+        public MacroCommandRegistry()
+        {
+            RegisterInterfaceCommands();
+            RegisterMapCommands();
+            RegisterHealthCommands();
+            RegisterManaCommands();
+            RegisterMouseCommands();
+            RegisterKeyboardCommands();
+            RegisterLogicCommands();
+            RegisterLoopCommands();
+            RegisterJumpCommands();
+            RegisterWaitCommands();
+        }
+
+        public IEnumerable<MacroCommandDefinition> Commands => commands.Values;
+
+        public bool TryGetCommand(string name, out MacroCommandDefinition command)
+            => commands.TryGetValue(name, out command);
+
+        public void RegisterCommand(MacroCommandDefinition command)
+        {
+            commands[command.Key] = command;
+        }
+
+        public MacroCommandDefinition GetClosingDefinition(IMacroCommand command)
+        {
+            if (command is IfCommand || command is ElseCommand)
+            {
+                if (commands.TryGetValue(MacroCommandKey.EndIf, out var definition))
+                {
+                    return definition;
+                }
+            }
+
+            if (command is WhileCommand)
+            {
+                if (commands.TryGetValue(MacroCommandKey.EndWhile, out var definition))
+                {
+                    return definition;
+                }
+            }
+
+            if (command is LoopCommand)
+            {
+                if (commands.TryGetValue(MacroCommandKey.EndLoop, out var definition))
+                {
+                    return definition;
+                }
+            }
+            return null;
+        }
+    }
+}

@@ -8,43 +8,31 @@ namespace SleepHunter.Forms
     public partial class MacroForm : Form
     {
         private IContainer components = null;
-        private StatusStrip stbMain;
-        internal ToolStripStatusLabel lblStatus;
-        private ToolStripDropDownButton mnuDebug;
-        private ToolStripMenuItem mnuLogic;
-        private SplitContainer splMacroData;
-        private SplitContainer splHeader;
-        private GroupBox grpProcess;
-        internal Label lblCharName;
-        internal Label lblWindowHandle;
-        internal Label lblProcessID;
-        internal Label lblProcessName;
-        private GroupBox grpMacro;
-        private FlowLayoutPanel floMacro;
-        private CheckBox chkHotkey;
-        private TextBox txtHotkey;
-        internal Label lblName;
-        internal TextBox txtName;
-        private Label lblVersion;
-        internal ListView lvwMacro;
-        private ColumnHeader colLine;
-        private ColumnHeader colCommand;
-        private ToolStrip tlbMacro;
-        private ToolStripButton btnEdit;
-        private ToolStripButton btnDelete;
-        private ToolStripButton btnCut;
-        private ToolStripButton btnCopy;
-        private ToolStripButton btnPaste;
-        private ToolStripButton btnMoveUp;
-        private ToolStripButton btnMoveDown;
-        private ToolStripSeparator toolStripSeparator1;
+        private StatusStrip macroStatusBar;
+        private SplitContainer macroSplitContainer;
+        private SplitContainer headerSplitContainer;
+        private GroupBox processGroupBox;
+        private GroupBox macroGroupBox;
+        private FlowLayoutPanel macroLayoutPanel;
+        private CheckBox hotkeyCheckBox;
+        private TextBox hotkeyTextBox;
+        private ColumnHeader lineColumn;
+        private ColumnHeader commandColumn;
+        private ToolStrip macroToolStrip;
+        private ToolStripButton editButton;
+        private ToolStripButton deleteButton;
+        private ToolStripButton cutButton;
+        private ToolStripButton copyButton;
+        private ToolStripButton pasteButton;
+        private ToolStripButton moveUpButton;
+        private ToolStripButton moveDownButton;
+        private ToolStripSeparator separator1;
         private ToolStripButton btnPlay;
         private ToolStripButton btnPause;
         private ToolStripButton btnStop;
         private ToolStripSeparator toolStripSeparator2;
-        private ToolStripDropDownButton btnQuickProc;
-        internal ImageList ilsStatusIcons;
-        private System.Windows.Forms.Timer tmrProcess;
+        private ToolStripDropDownButton quickAttachButton;
+        private System.Windows.Forms.Timer processTimer;
 
         protected override void Dispose(bool disposing)
         {
@@ -57,403 +45,523 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
-            this.components = (IContainer)new System.ComponentModel.Container();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(MacroForm));
-            this.stbMain = new StatusStrip();
-            this.lblStatus = new ToolStripStatusLabel();
-            this.mnuDebug = new ToolStripDropDownButton();
-            this.mnuLogic = new ToolStripMenuItem();
-            this.splMacroData = new SplitContainer();
-            this.splHeader = new SplitContainer();
-            this.grpProcess = new GroupBox();
-            this.lblCharName = new Label();
-            this.lblWindowHandle = new Label();
-            this.lblProcessID = new Label();
-            this.lblProcessName = new Label();
-            this.grpMacro = new GroupBox();
-            this.floMacro = new FlowLayoutPanel();
-            this.chkHotkey = new CheckBox();
-            this.txtHotkey = new TextBox();
-            this.lblName = new Label();
-            this.txtName = new TextBox();
-            this.lblVersion = new Label();
-            this.lvwMacro = new ListView();
-            this.colLine = new ColumnHeader();
-            this.colCommand = new ColumnHeader();
-            this.tlbMacro = new ToolStrip();
-            this.btnEdit = new ToolStripButton();
-            this.btnDelete = new ToolStripButton();
-            this.btnCut = new ToolStripButton();
-            this.btnCopy = new ToolStripButton();
-            this.btnPaste = new ToolStripButton();
-            this.btnMoveUp = new ToolStripButton();
-            this.btnMoveDown = new ToolStripButton();
-            this.toolStripSeparator1 = new ToolStripSeparator();
-            this.btnPlay = new ToolStripButton();
-            this.btnPause = new ToolStripButton();
-            this.btnStop = new ToolStripButton();
-            this.toolStripSeparator2 = new ToolStripSeparator();
-            this.btnQuickProc = new ToolStripDropDownButton();
-            this.ilsStatusIcons = new ImageList(this.components);
-            this.tmrProcess = new System.Windows.Forms.Timer(this.components);
-            this.stbMain.SuspendLayout();
-            this.splMacroData.Panel1.SuspendLayout();
-            this.splMacroData.Panel2.SuspendLayout();
-            this.splMacroData.SuspendLayout();
-            this.splHeader.Panel1.SuspendLayout();
-            this.splHeader.Panel2.SuspendLayout();
-            this.splHeader.SuspendLayout();
-            this.grpProcess.SuspendLayout();
-            this.grpMacro.SuspendLayout();
-            this.floMacro.SuspendLayout();
-            this.tlbMacro.SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MacroForm));
+            this.macroStatusBar = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.macroSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.headerSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.processGroupBox = new System.Windows.Forms.GroupBox();
+            this.characterNameLabel = new System.Windows.Forms.Label();
+            this.windowHandleLabel = new System.Windows.Forms.Label();
+            this.processIdLabel = new System.Windows.Forms.Label();
+            this.clientVersionLabel = new System.Windows.Forms.Label();
+            this.macroGroupBox = new System.Windows.Forms.GroupBox();
+            this.macroLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.hotkeyCheckBox = new System.Windows.Forms.CheckBox();
+            this.hotkeyTextBox = new System.Windows.Forms.TextBox();
+            this.nameLabel = new System.Windows.Forms.Label();
+            this.nameTextBox = new System.Windows.Forms.TextBox();
+            this.macroListView = new System.Windows.Forms.ListView();
+            this.lineColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.commandColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.macroToolStrip = new System.Windows.Forms.ToolStrip();
+            this.editButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteButton = new System.Windows.Forms.ToolStripButton();
+            this.cutButton = new System.Windows.Forms.ToolStripButton();
+            this.copyButton = new System.Windows.Forms.ToolStripButton();
+            this.pasteButton = new System.Windows.Forms.ToolStripButton();
+            this.moveUpButton = new System.Windows.Forms.ToolStripButton();
+            this.moveDownButton = new System.Windows.Forms.ToolStripButton();
+            this.separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnPlay = new System.Windows.Forms.ToolStripButton();
+            this.btnPause = new System.Windows.Forms.ToolStripButton();
+            this.btnStop = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.quickAttachButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.statusImageList = new System.Windows.Forms.ImageList(this.components);
+            this.processTimer = new System.Windows.Forms.Timer(this.components);
+            this.macroStatusBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.macroSplitContainer)).BeginInit();
+            this.macroSplitContainer.Panel1.SuspendLayout();
+            this.macroSplitContainer.Panel2.SuspendLayout();
+            this.macroSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.headerSplitContainer)).BeginInit();
+            this.headerSplitContainer.Panel1.SuspendLayout();
+            this.headerSplitContainer.Panel2.SuspendLayout();
+            this.headerSplitContainer.SuspendLayout();
+            this.processGroupBox.SuspendLayout();
+            this.macroGroupBox.SuspendLayout();
+            this.macroLayoutPanel.SuspendLayout();
+            this.macroToolStrip.SuspendLayout();
             this.SuspendLayout();
-            this.stbMain.Items.AddRange(new ToolStripItem[2]
-            {
-                (ToolStripItem)this.lblStatus,
-                (ToolStripItem)this.mnuDebug
-            });
-            this.stbMain.LayoutStyle = ToolStripLayoutStyle.Table;
-            this.stbMain.Location = new Point(0, 326);
-            this.stbMain.Name = "stbMain";
-            this.stbMain.Size = new Size(452, 27);
-            this.stbMain.TabIndex = 1;
-            this.stbMain.Text = "statusStrip1";
-            this.lblStatus.Image = (Image)resources.GetObject("lblStatus.Image");
-            this.lblStatus.ImageAlign = ContentAlignment.MiddleLeft;
-            this.lblStatus.ImageScaling = ToolStripItemImageScaling.None;
-            this.lblStatus.MergeAction = MergeAction.Replace;
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Spring = true;
-            this.lblStatus.Text = "Macro is not running.";
-            this.lblStatus.TextAlign = ContentAlignment.MiddleLeft;
-            this.mnuDebug.DropDownItems.AddRange(new ToolStripItem[1]
-            {
-                (ToolStripItem)this.mnuLogic
-            });
-            this.mnuDebug.Image = (Image)resources.GetObject("mnuDebug.Image");
-            this.mnuDebug.ImageTransparentColor = Color.Magenta;
-            this.mnuDebug.MergeAction = MergeAction.Replace;
-            this.mnuDebug.Name = "mnuDebug";
-            this.mnuDebug.Text = " Debug";
-            this.mnuLogic.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            this.mnuLogic.MergeAction = MergeAction.Replace;
-            this.mnuLogic.Name = "mnuLogic";
-            this.mnuLogic.Text = "Generate Logic Skeleton";
-            this.mnuLogic.Click += new EventHandler(this.mnuLogic_Click);
-            this.splMacroData.Dock = DockStyle.Fill;
-            this.splMacroData.FixedPanel = FixedPanel.Panel1;
-            this.splMacroData.Location = new Point(0, 0);
-            this.splMacroData.Name = "splMacroData";
-            this.splMacroData.Orientation = Orientation.Horizontal;
-            this.splMacroData.Panel1.Controls.Add((Control)this.splHeader);
-            this.splMacroData.Panel1.Padding = new Padding(4);
-            this.splMacroData.Panel2.Controls.Add((Control)this.lvwMacro);
-            this.splMacroData.Panel2.Controls.Add((Control)this.tlbMacro);
-            this.splMacroData.Panel2.Margin = new Padding(4);
-            this.splMacroData.Panel2.Padding = new Padding(5, 1, 4, 4);
-            this.splMacroData.Panel2.Paint += new PaintEventHandler(this.splMacroData_Panel2_Paint);
-            this.splMacroData.Size = new Size(452, 326);
-            this.splMacroData.SplitterDistance = 140;
-            this.splMacroData.TabIndex = 2;
-            this.splMacroData.Text = "splitContainer1";
-            this.splHeader.Dock = DockStyle.Fill;
-            this.splHeader.FixedPanel = FixedPanel.Panel1;
-            this.splHeader.Location = new Point(4, 4);
-            this.splHeader.Name = "splHeader";
-            this.splHeader.Panel1.AllowDrop = true;
-            this.splHeader.Panel1.Controls.Add((Control)this.grpProcess);
-            this.splHeader.Panel1.Padding = new Padding(0, 0, 1, 0);
-            this.splHeader.Panel1.DragDrop += new DragEventHandler(this.splHeader_Panel1_DragDrop);
-            this.splHeader.Panel1.DragEnter += new DragEventHandler(this.splHeader_Panel1_DragEnter);
-            this.splHeader.Panel2.Controls.Add((Control)this.grpMacro);
-            this.splHeader.Panel2.Padding = new Padding(1, 0, 0, 0);
-            this.splHeader.Size = new Size(444, 132);
-            this.splHeader.SplitterDistance = 211;
-            this.splHeader.TabIndex = 0;
-            this.splHeader.Text = "splitContainer1";
-            this.grpProcess.Controls.Add((Control)this.lblCharName);
-            this.grpProcess.Controls.Add((Control)this.lblWindowHandle);
-            this.grpProcess.Controls.Add((Control)this.lblProcessID);
-            this.grpProcess.Controls.Add((Control)this.lblProcessName);
-            this.grpProcess.Dock = DockStyle.Fill;
-            this.grpProcess.ForeColor = SystemColors.ActiveCaption;
-            this.grpProcess.Location = new Point(0, 0);
-            this.grpProcess.Name = "grpProcess";
-            this.grpProcess.Size = new Size(210, 132);
-            this.grpProcess.TabIndex = 0;
-            this.grpProcess.TabStop = false;
-            this.grpProcess.Text = "Process Details";
-            this.lblCharName.AutoEllipsis = true;
-            this.lblCharName.AutoSize = true;
-            this.lblCharName.Enabled = false;
-            this.lblCharName.ForeColor = SystemColors.ControlText;
-            this.lblCharName.Location = new Point(8, 56);
-            this.lblCharName.Name = "lblCharName";
-            this.lblCharName.Size = new Size(85, 13);
-            this.lblCharName.TabIndex = 3;
-            this.lblCharName.Text = "Character Name:";
-            this.lblWindowHandle.AutoEllipsis = true;
-            this.lblWindowHandle.AutoSize = true;
-            this.lblWindowHandle.Enabled = false;
-            this.lblWindowHandle.ForeColor = SystemColors.ControlText;
-            this.lblWindowHandle.Location = new Point(8, 43);
-            this.lblWindowHandle.Name = "lblWindowHandle";
-            this.lblWindowHandle.Size = new Size(81, 13);
-            this.lblWindowHandle.TabIndex = 2;
-            this.lblWindowHandle.Text = "Window Handle:";
-            this.lblProcessID.AutoEllipsis = true;
-            this.lblProcessID.AutoSize = true;
-            this.lblProcessID.Enabled = false;
-            this.lblProcessID.ForeColor = SystemColors.ControlText;
-            this.lblProcessID.Location = new Point(8, 30);
-            this.lblProcessID.Name = "lblProcessID";
-            this.lblProcessID.Size = new Size(58, 13);
-            this.lblProcessID.TabIndex = 1;
-            this.lblProcessID.Text = "Process ID:";
-            this.lblProcessName.AutoEllipsis = true;
-            this.lblProcessName.AutoSize = true;
-            this.lblProcessName.Enabled = false;
-            this.lblProcessName.ForeColor = SystemColors.ControlText;
-            this.lblProcessName.Location = new Point(8, 17);
-            this.lblProcessName.Name = "lblProcessName";
-            this.lblProcessName.Size = new Size(74, 13);
-            this.lblProcessName.TabIndex = 0;
-            this.lblProcessName.Text = "Process Name:";
-            this.grpMacro.Controls.Add((Control)this.floMacro);
-            this.grpMacro.Dock = DockStyle.Fill;
-            this.grpMacro.ForeColor = SystemColors.ActiveCaption;
-            this.grpMacro.Location = new Point(1, 0);
-            this.grpMacro.Name = "grpMacro";
-            this.grpMacro.Size = new Size(228, 132);
-            this.grpMacro.TabIndex = 0;
-            this.grpMacro.TabStop = false;
-            this.grpMacro.Text = "Macro Details";
-            this.floMacro.Controls.Add((Control)this.chkHotkey);
-            this.floMacro.Controls.Add((Control)this.txtHotkey);
-            this.floMacro.Controls.Add((Control)this.lblName);
-            this.floMacro.Controls.Add((Control)this.txtName);
-            this.floMacro.Controls.Add((Control)this.lblVersion);
-            this.floMacro.Dock = DockStyle.Fill;
-            this.floMacro.FlowDirection = FlowDirection.TopDown;
-            this.floMacro.Location = new Point(3, 17);
-            this.floMacro.Margin = new Padding(3, 5, 3, 5);
-            this.floMacro.Name = "floMacro";
-            this.floMacro.Padding = new Padding(2);
-            this.floMacro.Size = new Size(222, 112);
-            this.floMacro.TabIndex = 0;
-            this.chkHotkey.AutoSize = true;
-            this.chkHotkey.Checked = true;
-            this.chkHotkey.CheckState = CheckState.Checked;
-            this.chkHotkey.FlatStyle = FlatStyle.System;
-            this.chkHotkey.ForeColor = SystemColors.ControlText;
-            this.chkHotkey.Location = new Point(5, 5);
-            this.chkHotkey.Name = "chkHotkey";
-            this.chkHotkey.Size = new Size(98, 18);
-            this.chkHotkey.TabIndex = 5;
-            this.chkHotkey.Text = "Macro Hotkey:";
-            this.chkHotkey.CheckedChanged += new EventHandler(this.chkHotkey_CheckedChanged);
-            this.txtHotkey.Dock = DockStyle.Fill;
-            this.txtHotkey.Location = new Point(5, 29);
-            this.txtHotkey.Name = "txtHotkey";
-            this.txtHotkey.ReadOnly = true;
-            this.txtHotkey.Size = new Size(212, 21);
-            this.txtHotkey.TabIndex = 4;
-            this.txtHotkey.Text = "Press Key Combination";
-            this.txtHotkey.KeyDown += new KeyEventHandler(this.txtHotkey_KeyDown);
-            this.lblName.AutoSize = true;
-            this.lblName.ForeColor = SystemColors.ControlText;
-            this.lblName.Location = new Point(5, 53);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new Size(66, 13);
-            this.lblName.TabIndex = 0;
-            this.lblName.Text = "Macro Name:";
-            this.txtName.Dock = DockStyle.Fill;
-            this.txtName.Location = new Point(5, 69);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new Size(212, 21);
-            this.txtName.TabIndex = 1;
-            this.txtName.TextChanged += new EventHandler(this.txtName_TextChanged);
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Enabled = false;
-            this.lblVersion.ForeColor = SystemColors.ControlText;
-            this.lblVersion.Location = new Point(5, 93);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new Size(61, 13);
-            this.lblVersion.TabIndex = 2;
-            this.lblVersion.Text = "File Version:";
-            this.lblVersion.Visible = false;
-            this.lvwMacro.AllowDrop = true;
-            this.lvwMacro.BorderStyle = BorderStyle.None;
-            this.lvwMacro.Columns.AddRange(new ColumnHeader[2]
-            {
-                this.colLine,
-                this.colCommand
-            });
-            this.lvwMacro.Dock = DockStyle.Fill;
-            this.lvwMacro.FullRowSelect = true;
-            this.lvwMacro.HeaderStyle = ColumnHeaderStyle.Nonclickable;
-            this.lvwMacro.HideSelection = false;
-            this.lvwMacro.Location = new Point(5, 26);
-            this.lvwMacro.Margin = new Padding(10);
-            this.lvwMacro.Name = "lvwMacro";
-            this.lvwMacro.Size = new Size(443, 152);
-            this.lvwMacro.TabIndex = 0;
-            this.lvwMacro.View = View.Details;
-            this.lvwMacro.DragEnter += new DragEventHandler(this.lvwMacro_DragEnter);
-            this.lvwMacro.DragDrop += new DragEventHandler(this.lvwMacro_DragDrop);
-            this.lvwMacro.KeyDown += new KeyEventHandler(this.lvwMacro_KeyDown);
-            this.colLine.Text = "Line #";
-            this.colLine.Width = 45;
-            this.colCommand.Text = "Command";
-            this.colCommand.Width = 375;
-            this.tlbMacro.Items.AddRange(new ToolStripItem[13]
-            {
-                (ToolStripItem)this.btnEdit,
-                (ToolStripItem)this.btnDelete,
-                (ToolStripItem)this.btnCut,
-                (ToolStripItem)this.btnCopy,
-                (ToolStripItem)this.btnPaste,
-                (ToolStripItem)this.btnMoveUp,
-                (ToolStripItem)this.btnMoveDown,
-                (ToolStripItem)this.toolStripSeparator1,
-                (ToolStripItem)this.btnPlay,
-                (ToolStripItem)this.btnPause,
-                (ToolStripItem)this.btnStop,
-                (ToolStripItem)this.toolStripSeparator2,
-                (ToolStripItem)this.btnQuickProc
-            });
-            this.tlbMacro.Location = new Point(5, 1);
-            this.tlbMacro.Margin = new Padding(0, 10, 0, 10);
-            this.tlbMacro.Name = "tlbMacro";
-            this.tlbMacro.Size = new Size(443, 25);
-            this.tlbMacro.TabIndex = 1;
-            this.tlbMacro.Text = "toolStrip1";
-            this.btnEdit.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnEdit.Image = (Image)resources.GetObject("btnEdit.Image");
-            this.btnEdit.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnEdit.ImageTransparentColor = Color.Magenta;
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Text = "toolStripButton1";
-            this.btnEdit.ToolTipText = "Edit Command";
-            this.btnEdit.Click += new EventHandler(this.btnEdit_Click);
-            this.btnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = (Image)resources.GetObject("btnDelete.Image");
-            this.btnDelete.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnDelete.ImageTransparentColor = Color.Magenta;
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Text = "toolStripButton2";
-            this.btnDelete.ToolTipText = "Delete Command(s)";
-            this.btnDelete.Click += new EventHandler(this.btnDelete_Click);
-            this.btnCut.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnCut.Image = (Image)resources.GetObject("btnCut.Image");
-            this.btnCut.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnCut.ImageTransparentColor = Color.Magenta;
-            this.btnCut.Name = "btnCut";
-            this.btnCut.Text = "toolStripButton3";
-            this.btnCut.ToolTipText = "Cut Command(s)";
-            this.btnCut.Click += new EventHandler(this.btnCut_Click);
-            this.btnCopy.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnCopy.Image = (Image)resources.GetObject("btnCopy.Image");
-            this.btnCopy.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnCopy.ImageTransparentColor = Color.Magenta;
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Text = "toolStripButton4";
-            this.btnCopy.ToolTipText = "Copy Command(s)";
-            this.btnCopy.Click += new EventHandler(this.btnCopy_Click);
-            this.btnPaste.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPaste.Image = (Image)resources.GetObject("btnPaste.Image");
-            this.btnPaste.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnPaste.ImageTransparentColor = Color.Magenta;
-            this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Text = "toolStripButton5";
-            this.btnPaste.ToolTipText = "Paste Command(s)";
-            this.btnPaste.Click += new EventHandler(this.btnPaste_Click);
-            this.btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnMoveUp.Image = (Image)resources.GetObject("btnMoveUp.Image");
-            this.btnMoveUp.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnMoveUp.ImageTransparentColor = Color.Magenta;
-            this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Text = "toolStripButton6";
-            this.btnMoveUp.ToolTipText = "Move Up";
-            this.btnMoveUp.Click += new EventHandler(this.btnMoveUp_Click);
-            this.btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = (Image)resources.GetObject("btnMoveDown.Image");
-            this.btnMoveDown.ImageTransparentColor = Color.Magenta;
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Text = "toolStripButton7";
-            this.btnMoveDown.ToolTipText = "Move Down";
-            this.btnMoveDown.Click += new EventHandler(this.btnMoveDown_Click);
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.btnPlay.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            this.btnPlay.Image = (Image)resources.GetObject("btnPlay.Image");
-            this.btnPlay.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnPlay.ImageTransparentColor = Color.Magenta;
+            // 
+            // macroStatusBar
+            // 
+            this.macroStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
+            this.macroStatusBar.Location = new System.Drawing.Point(0, 439);
+            this.macroStatusBar.Name = "macroStatusBar";
+            this.macroStatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.macroStatusBar.Size = new System.Drawing.Size(404, 22);
+            this.macroStatusBar.TabIndex = 1;
+            this.macroStatusBar.Text = "statusStrip1";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusLabel.Image = ((System.Drawing.Image)(resources.GetObject("statusLabel.Image")));
+            this.statusLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.statusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.statusLabel.MergeAction = System.Windows.Forms.MergeAction.Replace;
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(356, 17);
+            this.statusLabel.Spring = true;
+            this.statusLabel.Text = "Macro is not running.";
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // macroSplitContainer
+            // 
+            this.macroSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.macroSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.macroSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.macroSplitContainer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.macroSplitContainer.Name = "macroSplitContainer";
+            this.macroSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // macroSplitContainer.Panel1
+            // 
+            this.macroSplitContainer.Panel1.Controls.Add(this.headerSplitContainer);
+            this.macroSplitContainer.Panel1.Padding = new System.Windows.Forms.Padding(5);
+            // 
+            // macroSplitContainer.Panel2
+            // 
+            this.macroSplitContainer.Panel2.Controls.Add(this.macroListView);
+            this.macroSplitContainer.Panel2.Controls.Add(this.macroToolStrip);
+            this.macroSplitContainer.Panel2.Margin = new System.Windows.Forms.Padding(5);
+            this.macroSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(6, 1, 5, 5);
+            this.macroSplitContainer.Size = new System.Drawing.Size(404, 439);
+            this.macroSplitContainer.SplitterDistance = 136;
+            this.macroSplitContainer.SplitterWidth = 5;
+            this.macroSplitContainer.TabIndex = 2;
+            this.macroSplitContainer.Text = "splitContainer1";
+            // 
+            // headerSplitContainer
+            // 
+            this.headerSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.headerSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.headerSplitContainer.Location = new System.Drawing.Point(5, 5);
+            this.headerSplitContainer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.headerSplitContainer.Name = "headerSplitContainer";
+            // 
+            // headerSplitContainer.Panel1
+            // 
+            this.headerSplitContainer.Panel1.AllowDrop = true;
+            this.headerSplitContainer.Panel1.Controls.Add(this.processGroupBox);
+            this.headerSplitContainer.Panel1.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
+            this.headerSplitContainer.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.processPanel_DragDrop);
+            this.headerSplitContainer.Panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.processPanel_DragEnter);
+            // 
+            // headerSplitContainer.Panel2
+            // 
+            this.headerSplitContainer.Panel2.Controls.Add(this.macroGroupBox);
+            this.headerSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.headerSplitContainer.Size = new System.Drawing.Size(394, 126);
+            this.headerSplitContainer.SplitterDistance = 211;
+            this.headerSplitContainer.SplitterWidth = 5;
+            this.headerSplitContainer.TabIndex = 0;
+            this.headerSplitContainer.Text = "splitContainer1";
+            // 
+            // processGroupBox
+            // 
+            this.processGroupBox.Controls.Add(this.characterNameLabel);
+            this.processGroupBox.Controls.Add(this.windowHandleLabel);
+            this.processGroupBox.Controls.Add(this.processIdLabel);
+            this.processGroupBox.Controls.Add(this.clientVersionLabel);
+            this.processGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.processGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.processGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.processGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.processGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.processGroupBox.Name = "processGroupBox";
+            this.processGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.processGroupBox.Size = new System.Drawing.Size(210, 126);
+            this.processGroupBox.TabIndex = 0;
+            this.processGroupBox.TabStop = false;
+            this.processGroupBox.Text = "Process Details";
+            // 
+            // characterNameLabel
+            // 
+            this.characterNameLabel.AutoEllipsis = true;
+            this.characterNameLabel.AutoSize = true;
+            this.characterNameLabel.Enabled = false;
+            this.characterNameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.characterNameLabel.Location = new System.Drawing.Point(9, 90);
+            this.characterNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.characterNameLabel.Name = "characterNameLabel";
+            this.characterNameLabel.Size = new System.Drawing.Size(96, 15);
+            this.characterNameLabel.TabIndex = 3;
+            this.characterNameLabel.Text = "Character Name:";
+            // 
+            // windowHandleLabel
+            // 
+            this.windowHandleLabel.AutoEllipsis = true;
+            this.windowHandleLabel.AutoSize = true;
+            this.windowHandleLabel.Enabled = false;
+            this.windowHandleLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.windowHandleLabel.Location = new System.Drawing.Point(9, 67);
+            this.windowHandleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.windowHandleLabel.Name = "windowHandleLabel";
+            this.windowHandleLabel.Size = new System.Drawing.Size(95, 15);
+            this.windowHandleLabel.TabIndex = 2;
+            this.windowHandleLabel.Text = "Window Handle:";
+            // 
+            // processIdLabel
+            // 
+            this.processIdLabel.AutoEllipsis = true;
+            this.processIdLabel.AutoSize = true;
+            this.processIdLabel.Enabled = false;
+            this.processIdLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.processIdLabel.Location = new System.Drawing.Point(9, 43);
+            this.processIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.processIdLabel.Name = "processIdLabel";
+            this.processIdLabel.Size = new System.Drawing.Size(64, 15);
+            this.processIdLabel.TabIndex = 1;
+            this.processIdLabel.Text = "Process ID:";
+            // 
+            // clientVersionLabel
+            // 
+            this.clientVersionLabel.AutoEllipsis = true;
+            this.clientVersionLabel.AutoSize = true;
+            this.clientVersionLabel.Enabled = false;
+            this.clientVersionLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.clientVersionLabel.Location = new System.Drawing.Point(9, 20);
+            this.clientVersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.clientVersionLabel.Name = "clientVersionLabel";
+            this.clientVersionLabel.Size = new System.Drawing.Size(82, 15);
+            this.clientVersionLabel.TabIndex = 0;
+            this.clientVersionLabel.Text = "Client Version:";
+            // 
+            // macroGroupBox
+            // 
+            this.macroGroupBox.Controls.Add(this.macroLayoutPanel);
+            this.macroGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.macroGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.macroGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.macroGroupBox.Location = new System.Drawing.Point(1, 0);
+            this.macroGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.macroGroupBox.Name = "macroGroupBox";
+            this.macroGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.macroGroupBox.Size = new System.Drawing.Size(177, 126);
+            this.macroGroupBox.TabIndex = 0;
+            this.macroGroupBox.TabStop = false;
+            this.macroGroupBox.Text = "Macro Details";
+            // 
+            // macroLayoutPanel
+            // 
+            this.macroLayoutPanel.Controls.Add(this.hotkeyCheckBox);
+            this.macroLayoutPanel.Controls.Add(this.hotkeyTextBox);
+            this.macroLayoutPanel.Controls.Add(this.nameLabel);
+            this.macroLayoutPanel.Controls.Add(this.nameTextBox);
+            this.macroLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.macroLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.macroLayoutPanel.Location = new System.Drawing.Point(4, 19);
+            this.macroLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.macroLayoutPanel.Name = "macroLayoutPanel";
+            this.macroLayoutPanel.Padding = new System.Windows.Forms.Padding(2);
+            this.macroLayoutPanel.Size = new System.Drawing.Size(169, 104);
+            this.macroLayoutPanel.TabIndex = 0;
+            // 
+            // hotkeyCheckBox
+            // 
+            this.hotkeyCheckBox.AutoSize = true;
+            this.hotkeyCheckBox.Checked = true;
+            this.hotkeyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.hotkeyCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.hotkeyCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.hotkeyCheckBox.Location = new System.Drawing.Point(6, 5);
+            this.hotkeyCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.hotkeyCheckBox.Name = "hotkeyCheckBox";
+            this.hotkeyCheckBox.Size = new System.Drawing.Size(110, 20);
+            this.hotkeyCheckBox.TabIndex = 5;
+            this.hotkeyCheckBox.Text = "Macro Hotkey:";
+            // 
+            // hotkeyTextBox
+            // 
+            this.hotkeyTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hotkeyTextBox.Location = new System.Drawing.Point(6, 31);
+            this.hotkeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.hotkeyTextBox.Name = "hotkeyTextBox";
+            this.hotkeyTextBox.ReadOnly = true;
+            this.hotkeyTextBox.Size = new System.Drawing.Size(110, 23);
+            this.hotkeyTextBox.TabIndex = 4;
+            this.hotkeyTextBox.Text = "Press Key Combination";
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.AutoSize = true;
+            this.nameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.nameLabel.Location = new System.Drawing.Point(6, 57);
+            this.nameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nameLabel.Name = "nameLabel";
+            this.nameLabel.Size = new System.Drawing.Size(79, 15);
+            this.nameLabel.TabIndex = 0;
+            this.nameLabel.Text = "Macro Name:";
+            // 
+            // nameTextBox
+            // 
+            this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nameTextBox.Location = new System.Drawing.Point(6, 75);
+            this.nameTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.Size = new System.Drawing.Size(110, 23);
+            this.nameTextBox.TabIndex = 1;
+            // 
+            // macroListView
+            // 
+            this.macroListView.AllowDrop = true;
+            this.macroListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.macroListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lineColumn,
+            this.commandColumn});
+            this.macroListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.macroListView.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.macroListView.FullRowSelect = true;
+            this.macroListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.macroListView.HideSelection = false;
+            this.macroListView.Location = new System.Drawing.Point(6, 26);
+            this.macroListView.Margin = new System.Windows.Forms.Padding(12);
+            this.macroListView.Name = "macroListView";
+            this.macroListView.Size = new System.Drawing.Size(393, 267);
+            this.macroListView.TabIndex = 0;
+            this.macroListView.UseCompatibleStateImageBehavior = false;
+            this.macroListView.View = System.Windows.Forms.View.Details;
+            this.macroListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.macroListView_DragDrop);
+            this.macroListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.macroListView_DragEnter);
+            // 
+            // lineColumn
+            // 
+            this.lineColumn.Text = "Line #";
+            this.lineColumn.Width = 50;
+            // 
+            // commandColumn
+            // 
+            this.commandColumn.Text = "Command";
+            this.commandColumn.Width = 320;
+            // 
+            // macroToolStrip
+            // 
+            this.macroToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editButton,
+            this.deleteButton,
+            this.cutButton,
+            this.copyButton,
+            this.pasteButton,
+            this.moveUpButton,
+            this.moveDownButton,
+            this.separator1,
+            this.btnPlay,
+            this.btnPause,
+            this.btnStop,
+            this.toolStripSeparator2,
+            this.quickAttachButton});
+            this.macroToolStrip.Location = new System.Drawing.Point(6, 1);
+            this.macroToolStrip.Margin = new System.Windows.Forms.Padding(0, 12, 0, 12);
+            this.macroToolStrip.Name = "macroToolStrip";
+            this.macroToolStrip.Size = new System.Drawing.Size(393, 25);
+            this.macroToolStrip.TabIndex = 1;
+            this.macroToolStrip.Text = "toolStrip1";
+            // 
+            // editButton
+            // 
+            this.editButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.editButton.Image = ((System.Drawing.Image)(resources.GetObject("editButton.Image")));
+            this.editButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.editButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(23, 22);
+            this.editButton.Text = "toolStripButton1";
+            this.editButton.ToolTipText = "Edit Command";
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
+            this.deleteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.deleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(23, 22);
+            this.deleteButton.Text = "toolStripButton2";
+            this.deleteButton.ToolTipText = "Delete Command(s)";
+            // 
+            // cutButton
+            // 
+            this.cutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cutButton.Image = ((System.Drawing.Image)(resources.GetObject("cutButton.Image")));
+            this.cutButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.cutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cutButton.Name = "cutButton";
+            this.cutButton.Size = new System.Drawing.Size(23, 22);
+            this.cutButton.Text = "toolStripButton3";
+            this.cutButton.ToolTipText = "Cut Command(s)";
+            // 
+            // copyButton
+            // 
+            this.copyButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.copyButton.Image = ((System.Drawing.Image)(resources.GetObject("copyButton.Image")));
+            this.copyButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.copyButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyButton.Name = "copyButton";
+            this.copyButton.Size = new System.Drawing.Size(23, 22);
+            this.copyButton.Text = "toolStripButton4";
+            this.copyButton.ToolTipText = "Copy Command(s)";
+            // 
+            // pasteButton
+            // 
+            this.pasteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pasteButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteButton.Image")));
+            this.pasteButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.pasteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteButton.Name = "pasteButton";
+            this.pasteButton.Size = new System.Drawing.Size(23, 22);
+            this.pasteButton.Text = "toolStripButton5";
+            this.pasteButton.ToolTipText = "Paste Command(s)";
+            // 
+            // moveUpButton
+            // 
+            this.moveUpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.moveUpButton.Image = ((System.Drawing.Image)(resources.GetObject("moveUpButton.Image")));
+            this.moveUpButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.moveUpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.moveUpButton.Name = "moveUpButton";
+            this.moveUpButton.Size = new System.Drawing.Size(23, 22);
+            this.moveUpButton.Text = "toolStripButton6";
+            this.moveUpButton.ToolTipText = "Move Up";
+            // 
+            // moveDownButton
+            // 
+            this.moveDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.moveDownButton.Image = ((System.Drawing.Image)(resources.GetObject("moveDownButton.Image")));
+            this.moveDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.moveDownButton.Name = "moveDownButton";
+            this.moveDownButton.Size = new System.Drawing.Size(23, 22);
+            this.moveDownButton.Text = "toolStripButton7";
+            this.moveDownButton.ToolTipText = "Move Down";
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            this.separator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPlay.Image = ((System.Drawing.Image)(resources.GetObject("btnPlay.Image")));
+            this.btnPlay.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(23, 22);
             this.btnPlay.Text = "Play Macro";
-            this.btnPlay.Click += new EventHandler(this.btnPlay_Click);
-            this.btnPause.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            // 
+            // btnPause
+            // 
+            this.btnPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnPause.Enabled = false;
-            this.btnPause.Image = (Image)resources.GetObject("btnPause.Image");
-            this.btnPause.ImageTransparentColor = Color.Magenta;
+            this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
+            this.btnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(23, 22);
             this.btnPause.Text = "Pause Macro";
-            this.btnPause.Click += new EventHandler(this.btnPause_Click);
-            this.btnStop.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            // 
+            // btnStop
+            // 
+            this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnStop.Enabled = false;
-            this.btnStop.Image = (Image)resources.GetObject("btnStop.Image");
-            this.btnStop.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnStop.ImageTransparentColor = Color.Magenta;
+            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
+            this.btnStop.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(23, 22);
             this.btnStop.Text = "Stop Macro";
-            this.btnStop.Click += new EventHandler(this.btnStop_Click);
+            // 
+            // toolStripSeparator2
+            // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.btnQuickProc.Image = (Image)resources.GetObject("btnQuickProc.Image");
-            this.btnQuickProc.ImageScaling = ToolStripItemImageScaling.None;
-            this.btnQuickProc.ImageTransparentColor = Color.Magenta;
-            this.btnQuickProc.Name = "btnQuickProc";
-            this.btnQuickProc.Text = " Quick Attach";
-            this.btnQuickProc.ToolTipText = "Attach to Process";
-            this.btnQuickProc.DropDownOpening += new EventHandler(this.btnQuickProc_DropDownOpening);
-            this.ilsStatusIcons.ImageStream = (ImageListStreamer)resources.GetObject("ilsStatusIcons.ImageStream");
-            this.ilsStatusIcons.Images.SetKeyName(0, "macro_play.ico");
-            this.ilsStatusIcons.Images.SetKeyName(1, "macro_pause.ico");
-            this.ilsStatusIcons.Images.SetKeyName(2, "macro_stop.ico");
-            this.ilsStatusIcons.Images.SetKeyName(3, "services.ico");
-            this.ilsStatusIcons.Images.SetKeyName(4, "Web_GlobalAppClass.ico");
-            this.tmrProcess.Enabled = true;
-            this.tmrProcess.Interval = 250;
-            this.tmrProcess.Tick += new EventHandler(this.tmrProcess_Tick);
-            this.AutoScaleDimensions = new SizeF(6f, 13f);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(452, 353);
-            this.Controls.Add((Control)this.splMacroData);
-            this.Controls.Add((Control)this.stbMain);
-            this.Font = new Font("Tahoma", 8.25f, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            this.Icon = (Icon)resources.GetObject("$this.Icon");
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // quickAttachButton
+            // 
+            this.quickAttachButton.Image = ((System.Drawing.Image)(resources.GetObject("quickAttachButton.Image")));
+            this.quickAttachButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.quickAttachButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.quickAttachButton.Name = "quickAttachButton";
+            this.quickAttachButton.Size = new System.Drawing.Size(108, 22);
+            this.quickAttachButton.Text = " Quick Attach";
+            this.quickAttachButton.ToolTipText = "Attach to Process";
+            this.quickAttachButton.DropDownOpening += new System.EventHandler(this.quickAttachButton_DropDownOpening);
+            this.quickAttachButton.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.quickAttachButton_DropDownItemClicked);
+            // 
+            // statusImageList
+            // 
+            this.statusImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("statusImageList.ImageStream")));
+            this.statusImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.statusImageList.Images.SetKeyName(0, "macro_play.ico");
+            this.statusImageList.Images.SetKeyName(1, "macro_pause.ico");
+            this.statusImageList.Images.SetKeyName(2, "macro_stop.ico");
+            this.statusImageList.Images.SetKeyName(3, "services.ico");
+            this.statusImageList.Images.SetKeyName(4, "Web_GlobalAppClass.ico");
+            // 
+            // processTimer
+            // 
+            this.processTimer.Enabled = true;
+            this.processTimer.Interval = 250;
+            // 
+            // MacroForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(404, 461);
+            this.Controls.Add(this.macroSplitContainer);
+            this.Controls.Add(this.macroStatusBar);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "MacroForm";
-            this.StartPosition = FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Macro Data";
-            this.Load += new EventHandler(this.frmMacro_Load);
-            this.Shown += new EventHandler(this.frmMacro_Shown);
-            this.Activated += new EventHandler(this.frmMacro_Activated);
-            this.FormClosing += new FormClosingEventHandler(this.frmMacro_FormClosing);
-            this.stbMain.ResumeLayout(false);
-            this.splMacroData.Panel1.ResumeLayout(false);
-            this.splMacroData.Panel2.ResumeLayout(false);
-            this.splMacroData.Panel2.PerformLayout();
-            this.splMacroData.ResumeLayout(false);
-            this.splHeader.Panel1.ResumeLayout(false);
-            this.splHeader.Panel2.ResumeLayout(false);
-            this.splHeader.ResumeLayout(false);
-            this.grpProcess.ResumeLayout(false);
-            this.grpProcess.PerformLayout();
-            this.grpMacro.ResumeLayout(false);
-            this.floMacro.ResumeLayout(false);
-            this.floMacro.PerformLayout();
-            this.tlbMacro.ResumeLayout(false);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.form_Closed);
+            this.macroStatusBar.ResumeLayout(false);
+            this.macroStatusBar.PerformLayout();
+            this.macroSplitContainer.Panel1.ResumeLayout(false);
+            this.macroSplitContainer.Panel2.ResumeLayout(false);
+            this.macroSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.macroSplitContainer)).EndInit();
+            this.macroSplitContainer.ResumeLayout(false);
+            this.headerSplitContainer.Panel1.ResumeLayout(false);
+            this.headerSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.headerSplitContainer)).EndInit();
+            this.headerSplitContainer.ResumeLayout(false);
+            this.processGroupBox.ResumeLayout(false);
+            this.processGroupBox.PerformLayout();
+            this.macroGroupBox.ResumeLayout(false);
+            this.macroLayoutPanel.ResumeLayout(false);
+            this.macroLayoutPanel.PerformLayout();
+            this.macroToolStrip.ResumeLayout(false);
+            this.macroToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
+
+        private Label characterNameLabel;
+        private Label windowHandleLabel;
+        private Label processIdLabel;
+        private Label clientVersionLabel;
+        private Label nameLabel;
+        private TextBox nameTextBox;
+        private ToolStripStatusLabel statusLabel;
+        private ListView macroListView;
+        private ImageList statusImageList;
     }
 }

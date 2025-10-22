@@ -7,85 +7,85 @@ namespace SleepHunter.Interop
     {
         public const string Version741 = "7D4E--1K";
 
-        private readonly ProcessMemoryStream _stream;
-        private bool _isDisposed;
+        private readonly ProcessMemoryStream stream;
+        private bool isDisposed;
 
-        private IMemoryVariable<string> _versionVariable;
-        private IMemoryVariable<string> _characterNameVariable;
-        private IMemoryVariable<string> _mapNameVariable;
-        private IMemoryVariable<ushort> _mapIdVariable;
-        private IMemoryVariable<ushort> _mapXVariable;
-        private IMemoryVariable<ushort> _mapYVariable;
-        private IMemoryVariable<string> _currentHealthVariable;
-        private IMemoryVariable<string> _maxHealthVariable;
-        private IMemoryVariable<string> _currentManaVariable;
-        private IMemoryVariable<string> _maxManaVariable;
+        private IMemoryVariable<string> versionVariable;
+        private IMemoryVariable<string> characterNameVariable;
+        private IMemoryVariable<string> mapNameVariable;
+        private IMemoryVariable<ushort> mapIdVariable;
+        private IMemoryVariable<ushort> mapXVariable;
+        private IMemoryVariable<ushort> mapYVariable;
+        private IMemoryVariable<string> currentHealthVariable;
+        private IMemoryVariable<string> maxHealthVariable;
+        private IMemoryVariable<string> currentManaVariable;
+        private IMemoryVariable<string> maxManaVariable;
 
         public GameClientReader(int processId)
         {
-            _stream = new ProcessMemoryStream(processId, ProcessAccess.Read);
+            stream = new ProcessMemoryStream(processId, ProcessAccess.Read);
             InitializeVariables();
         }
 
         private void InitializeVariables()
         {
             // These are for client version 7.41
-            _versionVariable = new StaticMemoryVariable<string>(_stream, (IntPtr)0x685B08, maxLength: 8);
-            _characterNameVariable = new StaticMemoryVariable<string>(_stream, (IntPtr)0x73D910, maxLength: 13);
+            versionVariable = new StaticMemoryVariable<string>(stream, (IntPtr)0x685B08, maxLength: 8);
+            characterNameVariable = new StaticMemoryVariable<string>(stream, (IntPtr)0x73D910, maxLength: 13);
 
-            _mapNameVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x82B76C, new long[] { 0x4E3C }, maxLength: 32);
-            _mapIdVariable = new DynamicMemoryVariable<ushort>(_stream, (IntPtr)0x882E68, new long[] { 0x26C });
-            _mapXVariable = new DynamicMemoryVariable<ushort>(_stream, (IntPtr)0x882E68, new long[] { 0x23C });
-            _mapYVariable = new DynamicMemoryVariable<ushort>(_stream, (IntPtr)0x882E68, new long[] { 0x238 });
+            mapNameVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x82B76C, new long[] { 0x4E3C, 0x0 }, maxLength: 32);
+            mapIdVariable = new DynamicMemoryVariable<ushort>(stream, (IntPtr)0x882E68, new long[] { 0x26C });
+            mapXVariable = new DynamicMemoryVariable<ushort>(stream, (IntPtr)0x882E68, new long[] { 0x23C });
+            mapYVariable = new DynamicMemoryVariable<ushort>(stream, (IntPtr)0x882E68, new long[] { 0x238 });
 
-            _currentHealthVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x755AA4, new long[] { 0x4C6 }, maxLength: 8);
-            _maxHealthVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x755AA4, new long[] { 0x546 }, maxLength: 8);
+            currentHealthVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x4C6 }, maxLength: 8);
+            maxHealthVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x546 }, maxLength: 8);
 
-            _currentManaVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x755AA4, new long[] { 0x5C6 }, maxLength: 8);
-            _maxManaVariable = new DynamicMemoryVariable<string>(_stream, (IntPtr)0x755AA4, new long[] { 0x646 }, maxLength: 8);
+            currentManaVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x5C6 }, maxLength: 8);
+            maxManaVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x646 }, maxLength: 8);
         }
 
         public string ReadVersion()
         {
             CheckIfDisposed();
-            return _versionVariable.Read();
+            return versionVariable.Read();
         }
 
         public string ReadCharacterName()
         {
             CheckIfDisposed();
-            return _characterNameVariable.Read();
+            return characterNameVariable.Read();
         }
 
         public string ReadMapName()
         {
             CheckIfDisposed();
-            return _mapNameVariable.Read();
+            return mapNameVariable.Read();
         }
 
         public int ReadMapId()
         {
             CheckIfDisposed();
-            return _mapIdVariable.Read();
+            return mapIdVariable.Read();
         }
 
         public int ReadMapX()
         {
             CheckIfDisposed();
-            return _mapXVariable.Read();
+            return mapXVariable.Read();
         }
 
         public int ReadMapY()
         {
             CheckIfDisposed();
-            return _mapYVariable.Read();
+            return mapYVariable.Read();
         }
 
         public long ReadCurrentHealth()
         {
             CheckIfDisposed();
 
-            var integerString = _currentHealthVariable.Read();
+            var integerString = currentHealthVariable.Read();
             if (int.TryParse(integerString, out var value))
             {
                 return value;
@@ -97,7 +97,7 @@ namespace SleepHunter.Interop
         {
             CheckIfDisposed();
 
-            var integerString = _maxHealthVariable.Read();
+            var integerString = maxHealthVariable.Read();
             if (int.TryParse(integerString, out var value))
             {
                 return value;
@@ -109,7 +109,7 @@ namespace SleepHunter.Interop
         {
             CheckIfDisposed();
 
-            var integerString = _currentManaVariable.Read();
+            var integerString = currentManaVariable.Read();
             if (int.TryParse(integerString, out var value))
             {
                 return value;
@@ -121,7 +121,7 @@ namespace SleepHunter.Interop
         {
             CheckIfDisposed();
 
-            var integerString = _maxManaVariable.Read();
+            var integerString = maxManaVariable.Read();
             if (int.TryParse(integerString, out var value))
             {
                 return value;
@@ -139,19 +139,19 @@ namespace SleepHunter.Interop
 
         private void Dispose(bool isDisposing)
         {
-            if (_isDisposed) { return; }
+            if (isDisposed) { return; }
 
             if (isDisposing)
             {
-                _stream.Dispose();
+                stream.Dispose();
             }
 
-            _isDisposed = true;
+            isDisposed = true;
         }
 
         private void CheckIfDisposed()
         {
-            if (_isDisposed)
+            if (isDisposed)
             {
                 throw new ObjectDisposedException(nameof(GameClientReader));
             }

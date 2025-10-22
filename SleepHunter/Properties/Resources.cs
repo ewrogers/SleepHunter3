@@ -13,8 +13,8 @@ namespace SleepHunter.Properties
     [GeneratedCode("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     internal class Resources
     {
-        private static ResourceManager resourceMan;
-        private static CultureInfo resourceCulture;
+        private static ResourceManager _resourceMan;
+        private static CultureInfo _resourceCulture;
 
         internal Resources()
         {
@@ -25,17 +25,17 @@ namespace SleepHunter.Properties
         {
             get
             {
-                if (object.ReferenceEquals((object)SleepHunter.Properties.Resources.resourceMan, (object)null))
-                    SleepHunter.Properties.Resources.resourceMan = new ResourceManager("SleepHunter.Properties.Resources", typeof(SleepHunter.Properties.Resources).Assembly);
-                return SleepHunter.Properties.Resources.resourceMan;
+                if (object.ReferenceEquals((object)SleepHunter.Properties.Resources._resourceMan, (object)null))
+                    SleepHunter.Properties.Resources._resourceMan = new ResourceManager("SleepHunter.Properties.Resources", typeof(SleepHunter.Properties.Resources).Assembly);
+                return SleepHunter.Properties.Resources._resourceMan;
             }
         }
 
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         internal static CultureInfo Culture
         {
-            get => SleepHunter.Properties.Resources.resourceCulture;
-            set => SleepHunter.Properties.Resources.resourceCulture = value;
+            get => SleepHunter.Properties.Resources._resourceCulture;
+            set => SleepHunter.Properties.Resources._resourceCulture = value;
         }
     }
 }

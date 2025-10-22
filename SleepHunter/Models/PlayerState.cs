@@ -4,90 +4,90 @@ namespace SleepHunter.Models
 {
     public class PlayerState : ObservableObject
     {
-        private string _name = string.Empty;
+        private string name = string.Empty;
 
-        private string _mapName = string.Empty;
-        private int _mapId;
-        private int _mapX;
-        private int _mapY;
+        private string mapName = string.Empty;
+        private int mapId;
+        private int mapX;
+        private int mapY;
 
-        private long _currentHealth;
-        private long _maxHealth;
-        private long _currentMana;
-        private long _maxMana;
+        private long currentHealth;
+        private long maxHealth;
+        private long currentMana;
+        private long maxMana;
 
         public string Name
         {
-            get => _name;
-            set => SetProperty(ref _name, value);
+            get => name;
+            set => SetProperty(ref name, value);
         }
 
         public string MapName
         {
-            get => _mapName;
-            set => SetProperty(ref _mapName, value);
+            get => mapName;
+            set => SetProperty(ref mapName, value);
         }
 
         public int MapId
         {
-            get => _mapId;
-            set => SetProperty(ref _mapId, value);
+            get => mapId;
+            set => SetProperty(ref mapId, value);
         }
 
         public int MapX
         {
-            get => _mapX;
-            set => SetProperty(ref _mapX, value);
+            get => mapX;
+            set => SetProperty(ref mapX, value);
         }
 
         public int MapY
         {
-            get => _mapY;
-            set => SetProperty(ref _mapY, value);
+            get => mapY;
+            set => SetProperty(ref mapY, value);
         }
 
         public long CurrentHealth
         {
-            get => _currentHealth;
+            get => currentHealth;
             set
             {
-                SetProperty(ref _currentHealth, value);
+                SetProperty(ref currentHealth, value);
                 OnPropertyChanged(nameof(HealthPercentage));
             }
         }
 
         public long MaxHealth
         {
-            get => _maxHealth;
+            get => maxHealth;
             set
             {
-                SetProperty(ref _maxHealth, value);
+                SetProperty(ref maxHealth, value);
                 OnPropertyChanged(nameof(HealthPercentage));
             }
         }
 
-        public int HealthPercentage => (int)(CurrentHealth * 100 / Math.Max(1, MaxHealth));
+        public double HealthPercentage => (CurrentHealth * 100.0 / Math.Max(1, MaxHealth));
 
         public long CurrentMana
         {
-            get => _currentMana;
+            get => currentMana;
             set
             {
-                SetProperty(ref _currentMana, value);
+                SetProperty(ref currentMana, value);
                 OnPropertyChanged(nameof(ManaPercentage));
             }
         }
 
         public long MaxMana
         {
-            get => _maxMana;
+            get => maxMana;
             set
             {
-                SetProperty(ref _maxMana, value);
+                SetProperty(ref maxMana, value);
                 OnPropertyChanged(nameof(ManaPercentage));
             }
         }
 
-        public int ManaPercentage => (int)(CurrentMana * 100 / Math.Max(1, MaxMana));
+        public double ManaPercentage => (CurrentMana * 100.0 / Math.Max(1, MaxMana));
     }
 }

@@ -7,11 +7,11 @@ namespace SleepHunter
 {
     public class Hotkey
     {
-        public const int MOD_ALT = 1;
-        public const int MOD_CONTROL = 2;
-        public const int MOD_SHIFT = 4;
-        public const int MOD_WIN = 8;
-        private short hotkeyID;
+        public const int ModAlt = 1;
+        public const int ModControl = 2;
+        public const int ModShift = 4;
+        public const int ModWin = 8;
+        private short hotkeyId;
         private Keys hotkeyKey;
         private int modifiers;
         private bool enabled;
@@ -33,7 +33,7 @@ namespace SleepHunter
         [DllImport("kernel32", SetLastError = true)]
         public static extern short GlobalDeleteAtom(short nAtom);
 
-        public short HotkeyID => hotkeyID;
+        public short HotkeyId => hotkeyId;
 
         public Keys ShortcutKey => hotkeyKey;
 
@@ -55,13 +55,13 @@ namespace SleepHunter
             set => targethWnd = value;
         }
 
-        public bool UseCTRL => (modifiers & 2) != 0;
+        public bool UseCtrl => (modifiers & 2) != 0;
 
-        public bool UseALT => (modifiers & 1) != 0;
+        public bool UseAlt => (modifiers & 1) != 0;
 
         public bool UseWinKey => (modifiers & 8) != 0;
 
-        public bool UseSHIFT => (modifiers & 4) != 0;
+        public bool UseShift => (modifiers & 4) != 0;
 
         public Hotkey(IntPtr hWnd, Keys keys, int modifiers)
         {
@@ -86,13 +86,13 @@ namespace SleepHunter
             try
             {
                 int num = Thread.CurrentThread.ManagedThreadId;
-                hotkeyID = GlobalAddAtom(num.ToString("X8") + (int)(hotkey + modifiers * 65536 /*0x010000*/));
-                if (hotkeyID == 0)
+                hotkeyId = GlobalAddAtom(num.ToString("X8") + (int)(hotkey + modifiers * 65536 /*0x010000*/));
+                if (hotkeyId == 0)
                 {
                     num = Marshal.GetLastWin32Error();
                     throw new Exception("Unable to generate unique hotkey ID. Error code: " + num);
                 }
-                if (RegisterHotKey(targethWnd, hotkeyID, modifiers, (int)hotkey) == 0)
+                if (RegisterHotKey(targethWnd, hotkeyId, modifiers, (int)hotkey) == 0)
                 {
                     num = Marshal.GetLastWin32Error();
                     throw new Exception("Unable to register hotkey. Error code: " + num);
@@ -112,11 +112,11 @@ namespace SleepHunter
 
         private void UnregisterGlobalHotKey()
         {
-            if (hotkeyID == 0)
+            if (hotkeyId == 0)
                 return;
-            UnregisterHotKey(targethWnd, hotkeyID);
-            int num = GlobalDeleteAtom(hotkeyID);
-            hotkeyID = 0;
+            UnregisterHotKey(targethWnd, hotkeyId);
+            int num = GlobalDeleteAtom(hotkeyId);
+            hotkeyId = 0;
         }
     }
 }

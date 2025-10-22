@@ -171,9 +171,9 @@ namespace SleepHunter
 
         public int GetWithinRef(int ListItemCount, LogicItem[] LogicData, int LineNo)
         {
-            for (int LineNo1 = LineNo; LineNo1 <= ListItemCount & LineNo1 > 0; --LineNo1)
+            for (int lineNo1 = LineNo; lineNo1 <= ListItemCount & lineNo1 > 0; --lineNo1)
             {
-                int logicStartRef = this.GetLogicStartRef(LogicData, LineNo1);
+                int logicStartRef = this.GetLogicStartRef(LogicData, lineNo1);
                 if (logicStartRef >= 0)
                     return logicStartRef;
             }
@@ -182,9 +182,9 @@ namespace SleepHunter
 
         public int GetWithinLoopRef(int ListItemCount, LogicItem[] LogicData, int LineNo)
         {
-            for (int LineNo1 = LineNo; LineNo1 <= ListItemCount & LineNo1 > 0; --LineNo1)
+            for (int lineNo1 = LineNo; lineNo1 <= ListItemCount & lineNo1 > 0; --lineNo1)
             {
-                int logicStartRef = GetLogicStartRef(LogicData, LineNo1);
+                int logicStartRef = GetLogicStartRef(LogicData, lineNo1);
                 if (logicStartRef >= 0 && LogicData[logicStartRef].CommandType == LogicCommandType.LoopStatement)
                     return logicStartRef;
             }

@@ -91,18 +91,6 @@
     <Compile Include="Forms\ArgumentsForm.Designer.cs">
       <DependentUpon>ArgumentsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ChatForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ChatForm.Designer.cs">
-      <DependentUpon>ChatForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\LogicForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\LogicForm.Designer.cs">
-      <DependentUpon>LogicForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\MacroForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,20 +130,62 @@
     <Compile Include="MacroWriter.cs" />
     <Compile Include="LogicStructure.cs" />
     <Compile Include="Hotkey.cs" />
+    <Compile Include="Macro\Commands\IMacroCommand.cs" />
+    <Compile Include="Macro\Commands\IMacroCommandFactory.cs" />
+    <Compile Include="Macro\Commands\IMacroCommandRegistry.cs" />
+    <Compile Include="Macro\Commands\Interface\SwitchPaneCommand.cs" />
+    <Compile Include="Macro\Commands\Jump\DefineLabelCommand.cs" />
+    <Compile Include="Macro\Commands\Jump\GotoLabelCommand.cs" />
+    <Compile Include="Macro\Commands\Jump\GotoLineCommand.cs" />
+    <Compile Include="Macro\Commands\Keyboard\SendKeysCommand.cs" />
+    <Compile Include="Macro\Commands\Logic\ElseCommand.cs" />
+    <Compile Include="Macro\Commands\Logic\EndIfCommand.cs" />
+    <Compile Include="Macro\Commands\Logic\IfCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\BreakCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\EndLoopCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\EndWhileCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\LoopCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\WhileCommand.cs" />
+    <Compile Include="Macro\Commands\MacroCommand.cs" />
+    <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
+    <Compile Include="Macro\Commands\MacroCommandDefinition.cs" />
+    <Compile Include="Macro\Commands\MacroCommandFactory.cs" />
+    <Compile Include="Macro\Commands\MacroCommandExtensions.cs" />
+    <Compile Include="Macro\Commands\MacroCommandKey.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Health.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Interface.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Keyboard.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Logic.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Loop.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Mana.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Map.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Mouse.cs" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Time.cs" />
+    <Compile Include="Macro\Commands\MacroCommandResult.cs" />
+    <Compile Include="Macro\Commands\MacroParameterParser.cs" />
+    <Compile Include="Macro\Commands\MacroParameterType.cs" />
+    <Compile Include="Macro\Commands\MacroParameterValue.cs" />
+    <Compile Include="Macro\Commands\Mouse\MouseClickCommand.cs" />
+    <Compile Include="Macro\Commands\Mouse\MouseMoveCommand.cs" />
+    <Compile Include="Macro\Commands\Mouse\RecallMousePositionCommand.cs" />
+    <Compile Include="Macro\Commands\Mouse\SaveMousePositionCommand.cs" />
+    <Compile Include="Macro\Commands\Time\WaitDelayCommand.cs" />
+    <Compile Include="Macro\Conditions\CompareOperator.cs" />
+    <Compile Include="Macro\Conditions\CompositeCondition.cs" />
+    <Compile Include="Macro\Conditions\FloatCondition.cs" />
+    <Compile Include="Macro\Conditions\IMacroCondition.cs" />
+    <Compile Include="Macro\Conditions\IntegerCondition.cs" />
+    <Compile Include="Macro\Conditions\LogicalOperator.cs" />
+    <Compile Include="Macro\Conditions\StringCompareOperator.cs" />
+    <Compile Include="Macro\Conditions\StringCondition.cs" />
+    <Compile Include="Macro\MacroContext.cs" />
     <Compile Include="Models\GameClientWindow.cs" />
+    <Compile Include="Models\MacroCommandObject.cs" />
     <Compile Include="Models\ObservableObject.cs" />
     <Compile Include="Models\PlayerState.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="CommandLibrary.cs" />
     <Compile Include="Properties\Resources.cs" />
-    <Compile Include="ProcessMemory\Kernel32.cs" />
-    <Compile Include="ProcessMemory\User32.cs" />
-    <Compile Include="ProcessMemory\ProcessAccess.cs" />
-    <Compile Include="ProcessMemory\MEMORY_BASIC_INFORMATION.cs" />
-    <Compile Include="ProcessMemory\AllocationTypes.cs" />
-    <Compile Include="ProcessMemory\MemoryReader.cs" />
-    <Compile Include="ProcessMemory\MemoryWriter.cs" />
-    <Compile Include="ProcessMemory\MemoryAlloc.cs" />
     <Compile Include="Services\GameClientService.cs" />
     <Compile Include="Services\IGameClientService.cs" />
   </ItemGroup>
@@ -167,14 +197,6 @@
     <EmbeddedResource Include="Forms\ArgumentsForm.resx">
       <LogicalName>SleepHunter.Forms.ArgumentsForm.resources</LogicalName>
       <DependentUpon>ArgumentsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ChatForm.resx">
-      <LogicalName>SleepHunter.Forms.ChatForm.resources</LogicalName>
-      <DependentUpon>ChatForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LogicForm.resx">
-      <LogicalName>SleepHunter.Forms.LogicForm.resources</LogicalName>
-      <DependentUpon>LogicForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MacroForm.resx">
       <LogicalName>SleepHunter.Forms.MacroForm.resources</LogicalName>
@@ -199,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="Macro\Commands\MacroCommandRegistry.Jump.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -225,5 +248,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
