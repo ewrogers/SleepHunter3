@@ -354,9 +354,17 @@ namespace SleepHunter.Forms
             AddMacroCommand(definition, parameters);
         }
 
+        private void macroListView_SizeChanged(object sender, EventArgs e)
+        {
+            var size = macroListView.Size;
+            var columnWidth = size.Width - macroListView.Columns[0].Width - 24;
+
+            macroListView.Columns[1].Width = columnWidth;
+        }
+
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-        }
+        }        
     }
 }
