@@ -52,7 +52,7 @@ namespace SleepHunter.Forms
             }
             else if (IsStringInput() && parameters.Count >= 1)
             {
-                stringInputTextBox.Text = parameters[0].ToString();
+                stringInputTextBox.Text = parameters[0].AsString();
             }
             else if (IsWaitDelay() && parameters.Count >= 1)
             {
@@ -64,7 +64,7 @@ namespace SleepHunter.Forms
             }
             else if (IsStringComparison() && parameters.Count >= 2)
             {
-                stringValueTextBox.Text = parameters[1].ToString();
+                stringValueTextBox.Text = parameters[1].AsString();
             }
             else if (IsCoordinatePoint() && parameters.Count >= 2)
             {

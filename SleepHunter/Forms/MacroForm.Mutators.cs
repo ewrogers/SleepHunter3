@@ -108,6 +108,38 @@ namespace SleepHunter.Forms
             return endingObj;
         }
         #endregion
+
+        private bool ReplaceCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int index)
+        {
+            try
+            {
+                // Create new command instance
+                var newCommand = commandFactory.Create(definition, parameters);
+                var newCommandObj = new MacroCommandObject
+                {
+                    Command = newCommand,
+                    Definition = definition,
+                    Parameters = parameters
+                };
+                
+                // Replace the command
+                macroCommands[index] = newCommandObj;
+                
+                // Update the listview
+                var selectedItem = macroListView.Items[index];
+                selectedItem.Tag = newCommandObj;
+                selectedItem.SubItems[1].Text = newCommand.ToString();
+                
+                ReformatLines();
+                return true;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(this, "Failed to edit command.", "Edit Command Failed", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+                return false;
+            }
+        }
         
         private void DeleteMacroCommands(IReadOnlyList<int> indexes)
         {
@@ -145,14 +177,12 @@ namespace SleepHunter.Forms
             {
                 // Create a list to store the commands and list view items that will be moved
                 var commandsToMove = new List<MacroCommandObject>();
-                var listViewItemsToMove = new List<ListViewItem>();
 
                 // Extract the commands and items in reverse order (to preserve indices)
                 for (var i = indexes.Count - 1; i >= 0; i--)
                 {
                     var index = indexes[i];
                     commandsToMove.Insert(0, macroCommands[index]); // Insert at beginning to maintain order
-                    listViewItemsToMove.Insert(0, macroListView.Items[index]);
 
                     // Remove from both collections
                     macroCommands.RemoveAt(index);

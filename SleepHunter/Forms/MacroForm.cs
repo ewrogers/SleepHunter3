@@ -272,7 +272,13 @@ namespace SleepHunter.Forms
                 return;
             }
 
+            var targetIndex = macroListView.SelectedIndices[0];
+
             var newParameters = ShowArgumentsForm(commandObj.Definition, commandObj.Parameters);
+            if (newParameters != null)
+            {
+                ReplaceCommand(commandObj.Definition, newParameters, targetIndex);
+            }
         }
 
         private void deleteSelected_Click(object sender, EventArgs e)
