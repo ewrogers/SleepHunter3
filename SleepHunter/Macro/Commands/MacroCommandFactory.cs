@@ -27,21 +27,21 @@ namespace SleepHunter.Macro.Commands
         {
             switch (command.Key.ToUpperInvariant())
             {
-                case "INTERFACE_INVENTORY":
+                case MacroCommandKey.SwitchToInventoryPane:
                     return new SwitchPaneCommand(InterfacePane.Inventory);
-                case "INTERFACE_TEMUAIR_SKILL":
+                case MacroCommandKey.SwitchToTemuairSkillPane:
                     return new SwitchPaneCommand(InterfacePane.TemuairSkills);
-                case "INTERFACE_TEMUAIR_SPELL":
+                case MacroCommandKey.SwitchToTemuairSpellPane:
                     return new SwitchPaneCommand(InterfacePane.TemuairSpells);
-                case "INTERFACE_MEDENIA_SKILL":
+                case MacroCommandKey.SwitchToMedeniaSkillPane:
                     return new SwitchPaneCommand(InterfacePane.MedeniaSkills);
-                case "INTERFACE_MEDENIA_SPELL":
+                case MacroCommandKey.SwitchToMedeniaSpellPane:
                     return new SwitchPaneCommand(InterfacePane.MedeniaSpells);
-                case "INTERFACE_CHAT":
+                case MacroCommandKey.SwitchToChatPane:
                     return new SwitchPaneCommand(InterfacePane.Chat);
-                case "INTERFACE_STATS":
+                case MacroCommandKey.SwitchToStatsPane:
                     return new SwitchPaneCommand(InterfacePane.Stats);
-                case "INTERFACE_WORLD_SKILL_SPELL":
+                case MacroCommandKey.SwitchToWorldSkillSpellPane:
                     return new SwitchPaneCommand(InterfacePane.WorldSkillSpells);
                 default:
                     throw new InvalidOperationException($"Invalid interface command: {command.Key}");

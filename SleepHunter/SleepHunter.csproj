@@ -138,6 +138,7 @@
     <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
     <Compile Include="Macro\Commands\MacroCommandDefinition.cs" />
     <Compile Include="Macro\Commands\MacroCommandFactory.cs" />
+    <Compile Include="Macro\Commands\MacroCommandKey.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Health.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Interface.cs" />

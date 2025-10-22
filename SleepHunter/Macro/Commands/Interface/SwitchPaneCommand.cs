@@ -7,8 +7,8 @@ namespace SleepHunter.Macro.Commands.Interface
     {
         Inventory,
         TemuairSkills,
-        MedeniaSkills,
         TemuairSpells,
+        MedeniaSkills,
         MedeniaSpells,
         Chat,
         Stats,
