@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Health,
-                Key = "IF_HP_VALUE",
+                Key = MacroCommandKey.IfHealthValue,
                 DisplayName = "If HP",
                 Description = "Performs actions if the current health value matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
@@ -17,7 +17,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Health,
-                Key = "IF_HP_PERCENT",
+                Key = MacroCommandKey.IfHealthPercent,
                 DisplayName = "If HP %",
                 Description = "Performs actions if the current health percentage matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Float },
@@ -26,7 +26,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Health,
-                Key = "WHILE_HP_VALUE",
+                Key = MacroCommandKey.WhileHealthValue,
                 DisplayName = "While HP",
                 Description = "Repeats actions while the current health value matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
@@ -35,7 +35,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Health,
-                Key = "WHILE_HP_PERCENT",
+                Key = MacroCommandKey.WhileHealthPercent,
                 DisplayName = "While HP %",
                 Description = "Repeats actions while the current health percentage matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Float },

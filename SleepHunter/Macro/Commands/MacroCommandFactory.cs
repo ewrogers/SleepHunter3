@@ -23,6 +23,20 @@ namespace SleepHunter.Macro.Commands
                     return CreateInterfaceCommand(command, parameters);
                 case MacroCommandCategory.Map:
                     return CreateMapCommand(command, parameters);
+                case MacroCommandCategory.Health:
+                    return CreateHealthCommand(command, parameters);
+                case MacroCommandCategory.Mana:
+                    return CreateManaCommand(command, parameters);
+                case MacroCommandCategory.Keyboard:
+                    return CreateKeyboardCommand(command, parameters);
+                case MacroCommandCategory.Mouse:
+                    return CreateMouseCommand(command, parameters);
+                case MacroCommandCategory.Logic:
+                    return CreateLogicCommand(command, parameters);
+                case MacroCommandCategory.Loop:
+                    return CreateLoopCommand(command, parameters);
+                case MacroCommandCategory.Wait:
+                    return CreateWaitCommand(command, parameters);
                 default:
                     throw new InvalidOperationException($"Invalid command category: {command.Category}");
             }
@@ -102,6 +116,43 @@ namespace SleepHunter.Macro.Commands
                 default:
                     throw new InvalidOperationException($"Invalid map command: {command}");
             }
+        }
+
+        private IMacroCommand CreateHealthCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters) { throw new NotImplementedException(); }
+
+        private IMacroCommand CreateKeyboardCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMacroCommand CreateMouseCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMacroCommand CreateLogicCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMacroCommand CreateLoopCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMacroCommand CreateJumpCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMacroCommand CreateWaitCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

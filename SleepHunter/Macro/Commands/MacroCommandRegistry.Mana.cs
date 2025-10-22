@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mana,
-                Key = "IF_MP_VALUE",
+                Key = MacroCommandKey.IfManaValue,
                 DisplayName = "If MP",
                 Description = "Performs actions if the current mana value matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
@@ -17,7 +17,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mana,
-                Key = "IF_MP_PERCENT",
+                Key = MacroCommandKey.IfManaPercent,
                 DisplayName = "If MP %",
                 Description = "Performs actions if the current mana percentage matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Float },
@@ -26,7 +26,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mana,
-                Key = "WHILE_MP_VALUE",
+                Key = MacroCommandKey.WhileManaValue,
                 DisplayName = "While MP",
                 Description = "Repeats actions while the current mana value matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Integer },
@@ -35,7 +35,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mana,
-                Key = "WHILE_MP_PERCENT",
+                Key = MacroCommandKey.WhileManaPercent,
                 DisplayName = "While MP %",
                 Description = "Repeats actions while the current mana percentage matches a certain condition.",
                 Parameters = { MacroParameterType.CompareOperator, MacroParameterType.Float },

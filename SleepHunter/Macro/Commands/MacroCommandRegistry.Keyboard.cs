@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Keyboard,
-                Key = "KEYBOARD_SEND_KEYS",
+                Key = MacroCommandKey.SendKeystrokes,
                 DisplayName = "Send Keystrokes",
                 Description = "Sends the specified keystrokes as if they keyboard typed them.",
                 Parameters = { MacroParameterType.Keystrokes }

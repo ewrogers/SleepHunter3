@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
-                Key = "MOUSE_LEFT_CLICK",
+                Key = MacroCommandKey.MouseLeftClick,
                 DisplayName = "Left Click",
                 Description = "Clicks the left mouse button at the current pointer position."
             });
@@ -16,7 +16,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
-                Key = "MOUSE_RIGHT_CLICK",
+                Key = MacroCommandKey.MouseRightClick,
                 DisplayName = "Right Click",
                 Description = "Clicks the right mouse button at the current pointer position."
             });
@@ -24,7 +24,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
-                Key = "MOUSE_MOVE",
+                Key = MacroCommandKey.MouseMove,
                 DisplayName = "Move Cursor",
                 Description = "Moves the mouse pointer to the position specified.",
                 Parameters = { MacroParameterType.Point }               
@@ -33,7 +33,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
-                Key = "MOUSE_SAVE_POSITION",
+                Key = MacroCommandKey.MouseSavePosition,
                 DisplayName = "Save Cursor Position",
                 Description = "Saves the mouse pointer's current position so it can be recalled later."
             });
@@ -41,7 +41,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
-                Key = "MOUSE_LOAD_POSITION",
+                Key = MacroCommandKey.MouseRecallPosition,
                 DisplayName = "Recall Cursor Position",
                 Description = "Recalls the mouse pointer to the last saved position."
             });

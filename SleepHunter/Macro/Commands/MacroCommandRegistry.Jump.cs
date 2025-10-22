@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
 			RegisterCommand(new MacroCommandDefinition
 			{
 				Category = MacroCommandCategory.Jump,
-				Key = "DEFINE_LABEL",
+				Key = MacroCommandKey.DefineLabel,
 				DisplayName = "Define Label",
 				Description = "Defines a label that can be jumped to later.",
 				Parameters = { MacroParameterType.String },
@@ -17,7 +17,7 @@ namespace SleepHunter.Macro.Commands
 			RegisterCommand(new MacroCommandDefinition
 			{
 				Category = MacroCommandCategory.Jump,
-				Key = "GOTO_LABEL",
+				Key = MacroCommandKey.GotoLabel,
 				DisplayName = "Goto Label",
 				Description = "Jumps to a previously defined label in the macro.",
 				Parameters = { MacroParameterType.String },
@@ -26,7 +26,7 @@ namespace SleepHunter.Macro.Commands
 			RegisterCommand(new MacroCommandDefinition
 			{
 				Category = MacroCommandCategory.Jump,
-				Key = "GOTO_LINE",
+				Key = MacroCommandKey.GotoLine,
 				DisplayName = "Goto Line",
 				Description = "Jumps to a specific line in the macro.",
 				Parameters = { MacroParameterType.Integer },

@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Logic,
-                Key = "IF_ELSE",
+                Key = MacroCommandKey.IfElse,
                 DisplayName = "Else",
                 Description = "Adds a statement for performing actions if conditions are not met."
             });
@@ -16,7 +16,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Logic,
-                Key = "IF_END",
+                Key = MacroCommandKey.EndIf,
                 DisplayName = "End If",
                 Description = "Closes the nearest if statement block."
             });

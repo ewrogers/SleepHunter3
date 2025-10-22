@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Loop,
-                Key = "LOOP_INFINITE",
+                Key = MacroCommandKey.LoopInfinite,
                 DisplayName = "Loop",
                 Description = "Repeats actions until the loop is broken."
             });
@@ -16,7 +16,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Loop,
-                Key = "LOOP_COUNT",
+                Key = MacroCommandKey.LoopCount,
                 DisplayName = "Loop Count",
                 Description = "Repeats actions a certain number of times.",
                 Parameters = { MacroParameterType.Integer }
@@ -25,15 +25,15 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Loop,
-                Key = "LOOP_BREAK",
-                DisplayName = "Loop Break",
-                Description = "Breaks from the current loop."
+                Key = MacroCommandKey.Break,
+                DisplayName = "Break",
+                Description = "Breaks from the current loop or while block."
             });
 
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Loop,
-                Key = "LOOP_END",
+                Key = MacroCommandKey.EndLoop,
                 DisplayName = "End Loop",
                 Description = "Closes the nearest loop statement block."
             });
@@ -41,7 +41,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Loop,
-                Key = "WHILE_END",
+                Key = MacroCommandKey.EndWhile,
                 DisplayName = "End While",
                 Description = "Closes the nearest while statement block."
             });
