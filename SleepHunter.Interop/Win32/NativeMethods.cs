@@ -38,6 +38,12 @@ namespace SleepHunter.Interop.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetCursorPos(out Win32Point point);
 
+        [DllImport("user32", EntryPoint = "MapVirtualKey", CharSet = CharSet.Auto, SetLastError = true)]
+        internal static extern uint MapVirtualKey(uint uCode, Win32VirtualKeyMapType mapType);
+
+        [DllImport("user32", EntryPoint = "VkKeyScan", CharSet = CharSet.Auto, SetLastError = true)]
+        internal static extern ushort VkKeyScan(char c);
+
         #endregion
 
         #region Kernel32.dll
