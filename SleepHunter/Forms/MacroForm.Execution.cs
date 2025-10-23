@@ -86,12 +86,21 @@ namespace SleepHunter.Forms
             {
                 StopReason = macroExecutor.StopReason;
             }
+
+            IsRunning = state == MacroRunState.Running || state == MacroRunState.Paused;
+            IsPaused = state == MacroRunState.Paused;
+            
+            UpdateToolbarAndMenuState();
+            UpdateStatusBarState();
         }
 
         private void OnMacroException(Exception ex)
         {
             MessageBox.Show(this, $"An error occurred while executing the macro: {ex.Message}",
                 "Macro Execution Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            
+            UpdateToolbarAndMenuState();
+            UpdateStatusBarState();
         }
     }
 }
