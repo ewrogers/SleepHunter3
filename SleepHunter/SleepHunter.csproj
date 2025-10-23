@@ -231,9 +231,12 @@
     <Compile Include="Macro\Conditions\LogicalOperator.cs" />
     <Compile Include="Macro\Conditions\StringCompareOperator.cs" />
     <Compile Include="Macro\Conditions\StringCondition.cs" />
+    <Compile Include="Macro\IMacroContext.cs" />
+    <Compile Include="Macro\IMacroExecutor.cs" />
     <Compile Include="Macro\Keyboard\Keystroke.cs" />
     <Compile Include="Macro\Keyboard\KeystrokeParser.cs" />
     <Compile Include="Macro\MacroContext.cs" />
+    <Compile Include="Macro\MacroExecutor.cs" />
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\JsonMacroSerializer.cs" />

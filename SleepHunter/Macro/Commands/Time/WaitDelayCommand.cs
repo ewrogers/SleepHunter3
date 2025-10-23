@@ -15,7 +15,7 @@ namespace SleepHunter.Macro.Commands.Time
             Delay = delay;
         }
 
-        public override async Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override async Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             await Task.Delay(Delay);
             return MacroCommandResult.NoOp;

@@ -7,8 +7,8 @@ namespace SleepHunter.Macro.Commands
     {
         public List<MacroParameterValue> Parameters { get; set; } = new List<MacroParameterValue>();
 
-        public virtual bool CanExecute(MacroContext context) => true;
+        public virtual bool CanExecute(IMacroContext context) => true;
 
-        public abstract Task<MacroCommandResult> ExecuteAsync(MacroContext context);
+        public abstract Task<MacroCommandResult> ExecuteAsync(IMacroContext context);
     }
 }

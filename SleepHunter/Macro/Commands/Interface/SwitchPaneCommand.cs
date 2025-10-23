@@ -24,7 +24,7 @@ namespace SleepHunter.Macro.Commands.Interface
             Pane = pane;
         }
 
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             throw new NotImplementedException();
         }

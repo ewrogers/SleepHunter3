@@ -6,24 +6,24 @@ namespace SleepHunter.Macro.Conditions
 {
     public class CompositeCondition : IMacroCondition
     {
-        private LogicalOperator @operator;
+        private LogicalOperator op;
         public List<IMacroCondition> Conditions;
 
         public CompositeCondition(LogicalOperator op, params IMacroCondition[] conditions)
         {
-            @operator = op;
+            this.op = op;
             Conditions = new List<IMacroCondition>(conditions);
         }
 
-        public bool Evaluate(MacroContext context)
+        public bool Evaluate(IMacroContext context)
         {
-            switch (@operator)
+            switch (op)
             {
                 case LogicalOperator.And: return Conditions.All(c => c.Evaluate(context));
                 case LogicalOperator.Or: return Conditions.Any(c => c.Evaluate(context));
                 case LogicalOperator.Not: return !Conditions.Single().Evaluate(context);
                 default:
-                    throw new InvalidOperationException($"Invalid operator: {@operator}");
+                    throw new InvalidOperationException($"Invalid operator: {op}");
             }
         }
     }

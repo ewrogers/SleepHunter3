@@ -5,7 +5,7 @@ namespace SleepHunter.Macro.Commands.Mouse
 {
     public sealed class SaveMousePositionCommand : MacroCommand
     {
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             throw new NotImplementedException();
         }

@@ -15,7 +15,7 @@ namespace SleepHunter.Macro.Commands.Loop
             LoopCount = loopCount;
         }
 
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             throw new NotImplementedException();
         }
