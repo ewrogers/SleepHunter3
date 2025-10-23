@@ -34,6 +34,7 @@ namespace SleepHunter.Forms
 
         public bool IsRunning { get; private set; }
         public bool IsPaused { get; private set; }
+        public MacroStopReason StopReason { get; private set; }
 
         public MacroForm(IServiceProvider serviceProvider)
         {
@@ -47,6 +48,7 @@ namespace SleepHunter.Forms
 
             UpdateProcessUI();
             UpdateToolbarAndMenuState();
+            UpdateStatusBarState();
         }
         
         private void ReformatLines()

@@ -108,5 +108,41 @@ namespace SleepHunter.Forms
 
             quickAttachButton.Enabled = !IsRunning;
         }
+
+        private void UpdateStatusBarState()
+        {
+            const int playImageIndex = 0;
+            const int pauseImageIndex = 1;
+            const int stopImageIndex = 2;
+
+            if (IsPaused)
+            {
+                statusLabel.Text = "Macro has been paused.";
+                statusLabel.Image = statusImageList.Images[pauseImageIndex];
+            }
+            else if (IsRunning)
+            {
+                statusLabel.Text = "Macro is running...";
+                statusLabel.Image = statusImageList.Images[playImageIndex];
+            }
+
+            switch (StopReason)
+            {
+                case MacroStopReason.Completed:
+                    statusLabel.Text = "Macro has finished running.";
+                    break;
+                case MacroStopReason.UserStopped:
+                    statusLabel.Text = "Macro has been stopped by the user.";
+                    break;
+                case MacroStopReason.Error:
+                    statusLabel.Text = "Macro has encountered an error.";
+                    break;
+                default:
+                    statusLabel.Text = "Macro is not running.";
+                    break;
+            }
+            
+            statusLabel.Image = statusImageList.Images[stopImageIndex];
+        }
     }
 }
