@@ -119,11 +119,14 @@ namespace SleepHunter.Forms
             {
                 statusLabel.Text = "Macro has been paused.";
                 statusLabel.Image = statusImageList.Images[pauseImageIndex];
+                return;
             }
-            else if (IsRunning)
+            
+            if (IsRunning)
             {
                 statusLabel.Text = "Macro is running...";
                 statusLabel.Image = statusImageList.Images[playImageIndex];
+                return;
             }
 
             switch (StopReason)
