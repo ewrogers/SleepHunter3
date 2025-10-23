@@ -27,8 +27,8 @@ namespace SleepHunter.Forms
         private GameClientReader clientReader;
         private bool isAttached;
 
-        private string macroName;
-        private string macroAuthor;
+        private string macroName = string.Empty;
+        private string macroAuthor = string.Empty;
 
         private bool isRunning;
         private bool isPaused;

@@ -81,6 +81,11 @@ namespace SleepHunter.Forms
             var document = activeMacro.GetMacroDocument();
             var safeFilename = string.Join("_", document.Name.Trim().Split(Path.GetInvalidFileNameChars()));
 
+            if (string.IsNullOrWhiteSpace(safeFilename))
+            {
+                safeFilename = "Untitled";
+            }
+
             saveFileDialog.FileName = $"{safeFilename}.sh3x";
             var result = saveFileDialog.ShowDialog(this);
 

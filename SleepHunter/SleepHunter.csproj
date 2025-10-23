@@ -237,6 +237,7 @@
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\JsonMacroSerializer.cs" />
+    <Compile Include="Macro\Serialization\JsonParameterValueConverter.cs" />
     <Compile Include="Macro\Serialization\LegacySerializer.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroCommand.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroDocument.cs" />
