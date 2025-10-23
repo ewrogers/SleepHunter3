@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SleepHunter.Macro.Keyboard;
 
 namespace SleepHunter.Forms
 {
@@ -98,7 +99,8 @@ namespace SleepHunter.Forms
             }
             else if (IsKeystrokes())
             {
-                yield return MacroParameterValue.Keys(new List<Keys>());
+                // TODO: parse keystrokes
+                yield return MacroParameterValue.Keys(new List<Keystroke>());
             }
             else if (IsWaitDelay())
             {

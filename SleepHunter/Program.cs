@@ -39,6 +39,7 @@ namespace SleepHunter
             services.AddSingleton<IMacroCommandFactory, MacroCommandFactory>();
             services.AddSingleton<IMacroCommandRegistry, MacroCommandRegistry>();
             services.AddSingleton<IMacroSerializer, JsonMacroSerializer>();
+            services.AddSingleton<ILegacySerializer, LegacySerializer>();
             services.AddSingleton<IWindowEnumerator, WindowEnumerator>();
 
             // Forms

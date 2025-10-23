@@ -16,7 +16,8 @@ namespace SleepHunter.Forms
         private readonly IServiceProvider serviceProvider;
         private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroSerializer serializer;
-        
+        private readonly ILegacySerializer legacySerializer;
+
         private ProcessesForm processWindow;
         private MacroForm activeMacro;
 
@@ -25,6 +26,7 @@ namespace SleepHunter.Forms
             this.serviceProvider = serviceProvider;
             commandRegistry = serviceProvider.GetService<IMacroCommandRegistry>();
             serializer = serviceProvider.GetService<IMacroSerializer>();
+            legacySerializer = serviceProvider.GetRequiredService<ILegacySerializer>();
             
             processWindow = this.serviceProvider.GetRequiredService<ProcessesForm>();
 
@@ -86,8 +88,8 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
-            SaveMacroDocument(document);
+
+            SaveMacroDocument(document, saveFileDialog.FileName);
         }
 
         private void SetStatusText(string text)

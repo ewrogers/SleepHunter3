@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.Extensions.DependencyInjection;
 using SleepHunter.Macro.Serialization;
 
 namespace SleepHunter.Forms
 {
     public partial class MainForm
     {
-        private void SaveMacroDocument(SerializableMacroDocument document)
+        private void SaveMacroDocument(SerializableMacroDocument document, string filePath)
         {
             StreamWriter writer = null;
 
             try
             {
-                SetStatusText("Saving macro...");
-
+                var filename = Path.GetFileName(filePath);
+                SetStatusText($"Saving {filename}...");
+                
                 var json = serializer.SerializeDocument(document);
-                writer = File.CreateText(saveFileDialog.FileName);
+                writer = File.CreateText(filePath);
                 writer.Write(json);
                 writer.Flush();
                 writer.Close();
 
-                SetStatusText("Macro saved successfully.");
+                SetStatusText($"Saved {filename} successfully.");
             }
             catch (Exception ex)
             {
@@ -59,6 +58,8 @@ namespace SleepHunter.Forms
 
             try
             {
+                SetStatusText($"Loading {filename}...");
+                
                 reader = File.OpenText(filePath);
                 var count = int.Parse(reader.ReadLine() ?? "0");
                 var name = reader.ReadLine();
@@ -67,10 +68,12 @@ namespace SleepHunter.Forms
                 {
                     var line = reader.ReadLine();
                 }
+                
+                SetStatusText($"Loaded {filename} successfully.");
             }
             catch (Exception ex)
             {
-                SetStatusText($"Failed to load macro {filename}: " + ex.Message);
+                SetStatusText($"Failed to load legacy macro {filename}: " + ex.Message);
             }
             finally
             {
@@ -86,19 +89,18 @@ namespace SleepHunter.Forms
 
             try
             {
+                SetStatusText($"Loading {filename}...");
+                
                 reader = File.OpenText(filePath);
                 var json = reader.ReadToEnd();
 
                 var document = serializer.DeserializeDocument(json);
                 var macroForm = CreateMacroForm();
-
-                macroForm.Text = !string.IsNullOrWhiteSpace(document.Name)
-                    ? $"Macro Data - {document.Name}"
-                    : "Macro Data";
-
+                
                 macroForm.LoadMacroDocument(document);
-
                 macroForm.Show();
+                
+                SetStatusText($"Loaded {filename} successfully.");
             }
             catch (Exception ex)
             {

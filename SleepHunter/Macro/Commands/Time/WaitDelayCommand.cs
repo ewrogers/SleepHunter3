@@ -6,6 +6,7 @@ namespace SleepHunter.Macro.Commands.Time
     public sealed class WaitDelayCommand : MacroCommand
     {
         public TimeSpan Delay { get; }
+
         public WaitDelayCommand(int milliseconds)
         : this(TimeSpan.FromMilliseconds(milliseconds)) { }
 

@@ -195,6 +195,8 @@
     <Compile Include="Macro\Commands\Loop\EndLoopCommand.cs" />
     <Compile Include="Macro\Commands\Loop\EndWhileCommand.cs" />
     <Compile Include="Macro\Commands\Loop\LoopCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\LoopResetCommand.cs" />
+    <Compile Include="Macro\Commands\Loop\ContinueCommand.cs" />
     <Compile Include="Macro\Commands\Loop\WhileCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommand.cs" />
     <Compile Include="Macro\Commands\MacroCommandCategory.cs" />
@@ -229,9 +231,13 @@
     <Compile Include="Macro\Conditions\LogicalOperator.cs" />
     <Compile Include="Macro\Conditions\StringCompareOperator.cs" />
     <Compile Include="Macro\Conditions\StringCondition.cs" />
+    <Compile Include="Macro\Keyboard\Keystroke.cs" />
     <Compile Include="Macro\MacroContext.cs" />
+    <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\JsonMacroSerializer.cs" />
+    <Compile Include="Macro\Serialization\KeystrokeParser.cs" />
+    <Compile Include="Macro\Serialization\LegacySerializer.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroCommand.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroDocument.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroParameter.cs" />

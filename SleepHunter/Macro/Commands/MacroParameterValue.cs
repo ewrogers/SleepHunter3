@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
+using SleepHunter.Macro.Keyboard;
 
 namespace SleepHunter.Macro.Commands
 {
@@ -29,7 +29,7 @@ namespace SleepHunter.Macro.Commands
         public double AsDouble() => Convert.ToDouble(Value);
         public decimal AsDecimal() => Convert.ToDecimal(Value);
         public string AsString() => Value.ToString();
-        public Keys[] AsKeystrokes() => (Keys[])Value;
+        public IReadOnlyList<Keystroke> AsKeystrokes() => Value as IReadOnlyList<Keystroke>;
         public CompareOperator AsCompareOperator() => (CompareOperator)Value;
         public LogicalOperator AsLogicalOperator() => (LogicalOperator)Value;
         public StringCompareOperator AsStringCompareOperator() => (StringCompareOperator)Value;
@@ -41,7 +41,7 @@ namespace SleepHunter.Macro.Commands
         public static MacroParameterValue Double(double value) => new MacroParameterValue { Type = MacroParameterType.Float, Value = value };
         public static MacroParameterValue String(string value) => new MacroParameterValue { Type = MacroParameterType.String, Value = value };
 
-        public static MacroParameterValue Keys(IEnumerable<Keys> keys) => new MacroParameterValue { Type = MacroParameterType.Keystrokes, Value = keys.ToArray() };
+        public static MacroParameterValue Keys(IEnumerable<Keystroke> keys) => new MacroParameterValue { Type = MacroParameterType.Keystrokes, Value = keys.ToList() };
         public static MacroParameterValue CompareOperator(CompareOperator op) => new MacroParameterValue { Type = MacroParameterType.CompareOperator, Value = op };
         public static MacroParameterValue LogicalOperator(LogicalOperator op) => new MacroParameterValue { Type = MacroParameterType.LogicalOperator, Value = op };
         public static MacroParameterValue StringCompareOperator(StringCompareOperator op) => new MacroParameterValue { Type = MacroParameterType.StringCompareOperator, Value = op };
