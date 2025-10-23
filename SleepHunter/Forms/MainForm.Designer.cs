@@ -423,7 +423,6 @@ namespace SleepHunter.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SleepHunter";
             this.Load += new System.EventHandler(this.form_Load);
-            this.MdiChildActivate += new System.EventHandler(this.MdiChild_Activate);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.mainStatusStrip.ResumeLayout(false);

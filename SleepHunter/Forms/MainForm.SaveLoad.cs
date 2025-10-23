@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using SleepHunter.Macro.Serialization;
 
 namespace SleepHunter.Forms
@@ -13,16 +15,6 @@ namespace SleepHunter.Forms
 
             try
             {
-                var safeFilename = string.Join("_", document.Name.Trim().Split(Path.GetInvalidFileNameChars()));
-
-                saveFileDialog.FileName = $"{safeFilename}.sh3x";
-                var result = saveFileDialog.ShowDialog(this);
-
-                if (result != DialogResult.OK)
-                {
-                    return;
-                }
-
                 SetStatusText("Saving macro...");
 
                 var json = serializer.SerializeDocument(document);
@@ -42,6 +34,79 @@ namespace SleepHunter.Forms
             finally
             {
                 writer?.Dispose();
+            }
+        }
+
+        private void LoadMacroFile(string filePath)
+        {
+            var isLegacyFormat = Path.GetExtension(filePath).Equals(".sh3", StringComparison.OrdinalIgnoreCase);
+
+            if (isLegacyFormat)
+            {
+                LoadLegacyFile(filePath);
+            }
+            else
+            {
+                LoadModernFile(filePath);
+            }
+        }
+
+        private void LoadLegacyFile(string filePath)
+        {
+            var filename = Path.GetFileName(filePath);
+
+            StreamReader reader = null;
+
+            try
+            {
+                reader = File.OpenText(filePath);
+                var count = int.Parse(reader.ReadLine() ?? "0");
+                var name = reader.ReadLine();
+
+                for (var i = 0; i < count; i++)
+                {
+                    var line = reader.ReadLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                SetStatusText($"Failed to load macro {filename}: " + ex.Message);
+            }
+            finally
+            {
+                reader?.Dispose();
+            }
+        }
+
+        private void LoadModernFile(string filePath)
+        {
+            var filename = Path.GetFileName(filePath);
+
+            StreamReader reader = null;
+
+            try
+            {
+                reader = File.OpenText(filePath);
+                var json = reader.ReadToEnd();
+
+                var document = serializer.DeserializeDocument(json);
+                var macroForm = CreateMacroForm();
+
+                macroForm.Text = !string.IsNullOrWhiteSpace(document.Name)
+                    ? $"Macro Data - {document.Name}"
+                    : "Macro Data";
+
+                macroForm.Show();
+
+                macroForm.LoadMacroDocument(document);
+            }
+            catch (Exception ex)
+            {
+                SetStatusText($"Failed to load macro {filename}: " + ex.Message);
+            }
+            finally
+            {
+                reader?.Dispose();
             }
         }
     }

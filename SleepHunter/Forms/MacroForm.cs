@@ -196,6 +196,11 @@ namespace SleepHunter.Forms
 
         private void macroListView_SizeChanged(object sender, EventArgs e)
         {
+            if (macroListView.Columns.Count < 2)
+            {
+                return;
+            }
+
             var size = macroListView.Size;
             var columnWidth = size.Width - macroListView.Columns[0].Width - 24;
 
