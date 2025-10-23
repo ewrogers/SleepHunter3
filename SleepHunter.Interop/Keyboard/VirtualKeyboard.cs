@@ -7,18 +7,19 @@ namespace SleepHunter.Interop.Keyboard
     public sealed class VirtualKeyboard : IVirtualKeyboard
     {
         private const uint WM_KEYDOWN = 0x100;
+
         private const uint WM_KEYUP = 0x101;
-        private const uint WM_CHAR = 0x102;
-        private const uint WM_DEADCHAR = 0x103;
-        private const uint WM_SYSKEYDOWN = 0x104;
-        private const uint WM_SYSKEYUP = 0x105;
-        private const uint WM_SYSCHAR = 0x106;
-        private const uint WM_SYSDEADCHAR = 0x107;
-        
+        //private const uint WM_CHAR = 0x102;
+        //private const uint WM_DEADCHAR = 0x103;
+        //private const uint WM_SYSKEYDOWN = 0x104;
+        //private const uint WM_SYSKEYUP = 0x105;
+        //private const uint WM_SYSCHAR = 0x106;
+        //private const uint WM_SYSDEADCHAR = 0x107;
+
         private const int VK_SHIFT = 0x10;
         private const int VK_CONTROL = 0x11;
-        private const int VK_MENU = 0x12;   // ALT key
-        
+        private const int VK_MENU = 0x12; // ALT key
+
         private readonly IntPtr windowHandle;
 
         public VirtualKeyboard(IntPtr windowHandle)
@@ -27,6 +28,7 @@ namespace SleepHunter.Interop.Keyboard
         }
 
         #region Key Down
+
         public void SendKeyDown(Keystroke keystroke)
         {
             if (keystroke.IsChar)
@@ -48,9 +50,11 @@ namespace SleepHunter.Interop.Keyboard
 
             NativeMethods.PostMessage(windowHandle, WM_KEYDOWN, (IntPtr)virtualKey, keyParameter);
         }
+
         #endregion
-        
+
         #region Key Up
+
         public void SendKeyUp(Keystroke keystroke)
         {
             if (keystroke.IsChar)
@@ -72,8 +76,9 @@ namespace SleepHunter.Interop.Keyboard
 
             NativeMethods.PostMessage(windowHandle, WM_KEYUP, (IntPtr)virtualKey, keyParameter);
         }
+
         #endregion
-        
+
         #region Modifier Keys
 
         public void SendModifierKeyDown(ModifierKeys modifier)
@@ -82,7 +87,7 @@ namespace SleepHunter.Interop.Keyboard
             {
                 var scanCode = GetScanCode(VK_SHIFT);
                 var keyParameter = GetKeyParameter(1, scanCode, false, false);
-                
+
                 NativeMethods.PostMessage(windowHandle, WM_KEYDOWN, (IntPtr)VK_SHIFT, keyParameter);
             }
 
@@ -90,7 +95,7 @@ namespace SleepHunter.Interop.Keyboard
             {
                 var scanCode = GetScanCode(VK_CONTROL);
                 var keyParameter = GetKeyParameter(1, scanCode, false, false);
-                
+
                 NativeMethods.PostMessage(windowHandle, WM_KEYDOWN, (IntPtr)VK_CONTROL, keyParameter);
             }
 
@@ -103,7 +108,7 @@ namespace SleepHunter.Interop.Keyboard
             }
         }
 
-        private void SendModifierKeyUp(ModifierKeys modifier)
+        public void SendModifierKeyUp(ModifierKeys modifier)
         {
             if (modifier.HasFlag(ModifierKeys.Shift))
             {
@@ -139,6 +144,24 @@ namespace SleepHunter.Interop.Keyboard
             // optionally send WM_CHAR here, but most games rely on WM_KEYDOWN
 
             SendKeyUp(keystroke);
+        }
+
+        public void SendKeyPress(char c)
+        {
+            SendKeyDown(c);
+
+            // optionally send WM_CHAR here, but most games rely on WM_KEYDOWN
+
+            SendKeyUp(c);
+        }
+
+        public void SendKeyPress(int virtualKey)
+        {
+            SendKeyDown(virtualKey);
+
+            // optionally send WM_CHAR here, but most games rely on WM_KEYDOWN
+
+            SendKeyUp(virtualKey);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

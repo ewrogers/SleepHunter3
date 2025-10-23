@@ -16,7 +16,7 @@ namespace SleepHunter.Interop.Mouse
         private const uint WM_MBUTTONDOWN = 0x207;
         private const uint WM_MBUTTONUP = 0x208;
         private const uint WM_MBUTTONDBLCLK = 0x209;
-        private const uint WM_MOUSEWHEEL = 0x20A;
+        // private const uint WM_MOUSEWHEEL = 0x20A;
         private const uint WM_XBUTTONDOWN = 0x20B;
         private const uint WM_XBUTTONUP = 0x20C;
         private const uint WM_XBUTTONDBLCLK = 0x20D;
