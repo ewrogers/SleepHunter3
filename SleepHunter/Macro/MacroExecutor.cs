@@ -13,8 +13,9 @@ namespace SleepHunter.Macro
 {
     public sealed class MacroExecutor : IMacroExecutor, IMacroController
     {
-        private static readonly TimeSpan UpdateInterval = TimeSpan.FromMilliseconds(33);    // Roughly 30 FPS
-        
+        private static readonly TimeSpan UpdateInterval = TimeSpan.FromMilliseconds(33); // Roughly 30 FPS
+
+        private readonly SynchronizationContext syncContext;
         private readonly List<IMacroCommand> commands;
         private readonly PlayerState player;
         private readonly GameClientReader reader;
@@ -24,21 +25,24 @@ namespace SleepHunter.Macro
 
         private int nextCommandIndex;
         private Task executingTask;
-        
+
         private DateTime lastUpdateTime;
         private bool isDisposed;
-        
+
         public MacroRunState State { get; private set; }
         public MacroStopReason StopReason { get; private set; }
-        
+
         public event Action<MacroRunState> StateChanged;
         public event Action<Exception> Exception;
-        
-        public MacroExecutor(IEnumerable<IMacroCommand> commands, GameClientReader reader, IVirtualKeyboard keyboard, IVirtualMouse mouse)
+
+        public MacroExecutor(IEnumerable<IMacroCommand> commands, GameClientReader reader, IVirtualKeyboard keyboard,
+            IVirtualMouse mouse, SynchronizationContext syncContext = null)
         {
+            this.syncContext = syncContext ?? SynchronizationContext.Current;
+
             this.commands = commands.ToList();
             this.reader = reader;
-            
+
             cancellationTokenSource = new CancellationTokenSource();
             pauseEvent = new ManualResetEventSlim(true);
 
@@ -56,13 +60,13 @@ namespace SleepHunter.Macro
             executingTask = Task.Run(async () =>
             {
                 SetState(MacroRunState.Running);
-                
+
                 var stopReason = MacroStopReason.Completed;
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
                     // Wait for resume if paused
                     pauseEvent.Wait(cancellationTokenSource.Token);
-                    
+
                     // Update the player state before performing the next action
                     if (DateTime.Now - lastUpdateTime > UpdateInterval)
                     {
@@ -99,7 +103,7 @@ namespace SleepHunter.Macro
                     catch (Exception ex)
                     {
                         stopReason = MacroStopReason.Error;
-                        Exception?.Invoke(ex);
+                        syncContext.Post(state => Exception?.Invoke(ex), null);
                         break;
                     }
                 }
@@ -158,27 +162,27 @@ namespace SleepHunter.Macro
             }
 
             State = state;
-            StateChanged?.Invoke(state);
+            syncContext.Post(_ => StateChanged?.Invoke(state), null);
         }
 
         private void UpdatePlayerState()
         {
             player.Name = reader.ReadCharacterName();
-            
+
             player.MapName = reader.ReadMapName();
             player.MapId = reader.ReadMapId();
             player.MapX = reader.ReadMapX();
             player.MapY = reader.ReadMapY();
-            
+
             player.MaxHealth = reader.ReadMaxHealth();
             player.MaxMana = reader.ReadMaxMana();
-            
+
             player.CurrentHealth = reader.ReadCurrentHealth();
             player.CurrentMana = reader.ReadCurrentMana();
 
             lastUpdateTime = DateTime.Now;
         }
-        
+
         ~MacroExecutor() => Dispose(false);
 
         public void Dispose()

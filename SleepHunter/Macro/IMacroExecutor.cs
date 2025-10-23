@@ -14,5 +14,8 @@ namespace SleepHunter.Macro
 
         Task StartAsync();
         Task StopAsync();
+
+        void Pause();
+        void Resume();
     }
 }
