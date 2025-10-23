@@ -10,10 +10,12 @@ namespace SleepHunter.Macro.Keyboard
         private static readonly Dictionary<string, int> VirtualKeyMap =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
             {
-                { "ESC", 0x1B }, { "TAB", 0x09 }, { "ENTER", 0x0D }, { "SPACE", 0x20 },
+                { "ESC", 0x1B }, { "ESCAPE", 0x1B }, { "TAB", 0x09 }, { "ENTER", 0x0D }, { "RETURN", 0x0D }, { "SPACE", 0x20 },
                 { "UP", 0x26 }, { "DOWN", 0x28 }, { "LEFT", 0x25 }, { "RIGHT", 0x27 },
                 { "INSERT", 0x2D }, { "DELETE", 0x2E }, { "BACKSPACE", 0x08 },
-                { "HOME", 0x24 }, { "END", 0x23 }, { "PGUP", 0x21 }, { "PGDN", 0x22 },
+                { "INS", 0x2D }, { "DEL", 0x2E },
+                { "HOME", 0x24 }, { "END", 0x23 },
+                { "PAGEUP", 0x21 }, { "PAGEDOWN", 0x22 }, { "PGUP", 0x21 }, { "PGDN", 0x22 },
                 { "F1", 0x70 }, { "F2", 0x71 }, { "F3", 0x72 }, { "F4", 0x73 }, { "F5", 0x74 }, { "F6", 0x75 },
                 { "F7", 0x76 }, { "F8", 0x77 }, { "F9", 0x78 }, { "F10", 0x79 }, { "F11", 0x7A }, { "F12", 0x7B },
                 { "F13", 0x7C }, { "F14", 0x7D }, { "F15", 0x7E }, { "F16", 0x7F }, { "F17", 0x80 }, { "F18", 0x81 },
