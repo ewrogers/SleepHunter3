@@ -9,5 +9,7 @@ namespace SleepHunter.Macro.Commands.Loop
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString() => "Continue";
     }
 }
