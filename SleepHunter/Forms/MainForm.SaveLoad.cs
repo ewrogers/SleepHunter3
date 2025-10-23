@@ -39,18 +39,16 @@ namespace SleepHunter.Forms
         private void LoadMacroFile(string filePath)
         {
             var isLegacyFormat = Path.GetExtension(filePath).Equals(".sh3", StringComparison.OrdinalIgnoreCase);
+            var didLoad = isLegacyFormat ? TryLoadLegacyFile(filePath) : TryLoadModernFile(filePath);
 
-            if (isLegacyFormat)
+            if (!didLoad)
             {
-                LoadLegacyFile(filePath);
-            }
-            else
-            {
-                LoadModernFile(filePath);
+                var filename = Path.GetFileName(filePath);
+                MessageBox.Show(this, $"Failed to load {filename}.", "Load Macro Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
 
-        private void LoadLegacyFile(string filePath)
+        private bool TryLoadLegacyFile(string filePath)
         {
             var filename = Path.GetFileName(filePath);
 
@@ -70,10 +68,12 @@ namespace SleepHunter.Forms
                 macroForm.Show();
                 
                 SetStatusText($"Loaded {filename} successfully.");
+                return true;
             }
             catch (Exception ex)
             {
                 SetStatusText($"Failed to load legacy macro {filename}: " + ex.Message);
+                return false;
             }
             finally
             {
@@ -81,7 +81,7 @@ namespace SleepHunter.Forms
             }
         }
 
-        private void LoadModernFile(string filePath)
+        private bool TryLoadModernFile(string filePath)
         {
             var filename = Path.GetFileName(filePath);
 
@@ -101,10 +101,12 @@ namespace SleepHunter.Forms
                 macroForm.Show();
                 
                 SetStatusText($"Loaded {filename} successfully.");
+                return true;
             }
             catch (Exception ex)
             {
                 SetStatusText($"Failed to load macro {filename}: " + ex.Message);
+                return false;
             }
             finally
             {
