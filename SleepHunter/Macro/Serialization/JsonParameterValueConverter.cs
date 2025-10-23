@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using SleepHunter.Macro.Keyboard;
+using SleepHunter.Interop.Keyboard;
 
 namespace SleepHunter.Macro.Serialization
 {

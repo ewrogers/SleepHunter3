@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SleepHunter.Macro.Keyboard;
+using SleepHunter.Interop.Keyboard;
 
 namespace SleepHunter.Forms
 {

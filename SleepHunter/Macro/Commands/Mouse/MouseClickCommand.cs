@@ -1,13 +1,9 @@
-﻿using System;
+﻿using SleepHunter.Interop.Mouse;
+using System;
 using System.Threading.Tasks;
 
 namespace SleepHunter.Macro.Commands.Mouse
 {
-    public enum MouseButton
-    {
-        Left, Right
-    };
-
     public sealed class MouseClickCommand : MacroCommand
     {
         public MouseButton Button;

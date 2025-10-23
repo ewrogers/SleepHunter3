@@ -1,7 +1,7 @@
 ﻿using SleepHunter.Macro.Commands;
 using SleepHunter.Macro.Conditions;
 using System;
-using SleepHunter.Macro.Keyboard;
+using SleepHunter.Interop.Keyboard;
 
 namespace SleepHunter.Macro.Serialization
 {

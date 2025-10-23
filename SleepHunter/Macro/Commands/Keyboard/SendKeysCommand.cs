@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SleepHunter.Macro.Keyboard;
+using SleepHunter.Interop.Keyboard;
 
 namespace SleepHunter.Macro.Commands.Keyboard
 {

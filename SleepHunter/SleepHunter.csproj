@@ -233,8 +233,6 @@
     <Compile Include="Macro\Conditions\StringCondition.cs" />
     <Compile Include="Macro\IMacroContext.cs" />
     <Compile Include="Macro\IMacroExecutor.cs" />
-    <Compile Include="Macro\Keyboard\Keystroke.cs" />
-    <Compile Include="Macro\Keyboard\KeystrokeParser.cs" />
     <Compile Include="Macro\MacroContext.cs" />
     <Compile Include="Macro\MacroExecutor.cs" />
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
@@ -312,6 +310,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Macro\Keyboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
