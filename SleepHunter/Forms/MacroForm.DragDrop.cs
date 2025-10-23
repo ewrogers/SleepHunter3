@@ -15,7 +15,7 @@ namespace SleepHunter.Forms
 
         private void processPanel_DragDrop(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(typeof(GameClientWindow)))
+            if (!e.Data.GetDataPresent(typeof(GameClientWindow)) || IsRunning)
             {
                 return;
             }
@@ -23,8 +23,6 @@ namespace SleepHunter.Forms
             try
             {
                 var gameWindow = (GameClientWindow)e.Data.GetData(typeof(GameClientWindow));
-
-                // TODO: Check macro state and stop it if already running
                 AttachToClient(gameWindow);
             }
             catch
@@ -33,10 +31,10 @@ namespace SleepHunter.Forms
                     MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
-        
+
         private void macroListView_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = e.Data.GetDataPresent(typeof(MacroCommandDefinition))
+            e.Effect = e.Data.GetDataPresent(typeof(MacroCommandDefinition)) && !IsRunning
                 ? DragDropEffects.Copy
                 : DragDropEffects.None;
         }

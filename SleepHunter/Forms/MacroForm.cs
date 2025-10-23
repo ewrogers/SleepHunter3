@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using SleepHunter.Extensions;
+using SleepHunter.Macro;
 using SleepHunter.Macro.Serialization;
 
 namespace SleepHunter.Forms
@@ -25,13 +26,14 @@ namespace SleepHunter.Forms
 
         private GameClientWindow clientWindow;
         private GameClientReader clientReader;
+        private IMacroExecutor macroExecutor;
         private bool isAttached;
 
         private string macroName = string.Empty;
         private string macroAuthor = string.Empty;
 
-        private bool isRunning;
-        private bool isPaused;
+        public bool IsRunning { get; private set; }
+        public bool IsPaused { get; private set; }
 
         public MacroForm(IServiceProvider serviceProvider)
         {
@@ -115,6 +117,46 @@ namespace SleepHunter.Forms
             UpdateProcessUI();
         }
 
+        #region Macro State Buttons
+        private void playButton_Click(object sender, EventArgs e)
+        {
+            if (IsRunning && !IsPaused)
+            {
+                return;
+            }
+
+            if (IsPaused)
+            {
+                ResumeMacro();   
+            }
+            else
+            {
+                StartMacro();
+            }
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            if (!IsRunning)
+            {
+                return;
+            }
+            
+            PauseMacro();
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            if (!IsRunning)
+            {
+                return;
+            }
+
+            StopMacro();
+        }
+
+        #endregion
+
         #region Quick Attach Toolbar
 
         private void quickAttachButton_DropDownOpening(object sender, EventArgs e)
@@ -160,12 +202,11 @@ namespace SleepHunter.Forms
 
         private void quickAttachButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (!(e.ClickedItem.Tag is GameClientWindow gameWindow))
+            if (!(e.ClickedItem.Tag is GameClientWindow gameWindow) || IsRunning)
             {
                 return;
             }
-
-            // TODO: Check macro state and stop it if already running
+            
             AttachToClient(gameWindow);
         }
 
@@ -321,6 +362,6 @@ namespace SleepHunter.Forms
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-        }        
+        }
     }
 }

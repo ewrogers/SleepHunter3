@@ -102,9 +102,11 @@ namespace SleepHunter.Forms
             moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
             moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
 
-            playButton.Enabled = !isEmpty && !isRunning;
-            pauseButton.Enabled = !isEmpty && isRunning && !isPaused;
-            stopButton.Enabled = isRunning;
+            playButton.Enabled = !isEmpty && !IsRunning;
+            pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
+            stopButton.Enabled = IsRunning;
+
+            quickAttachButton.Enabled = !IsRunning;
         }
     }
 }

@@ -134,6 +134,10 @@
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MacroForm.Execution.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MacroForm.Interface.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
