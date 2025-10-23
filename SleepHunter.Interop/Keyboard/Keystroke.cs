@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SleepHunter.Macro.Keyboard
+namespace SleepHunter.Interop.Keyboard
 {
     public readonly struct Keystroke
     {
@@ -10,7 +10,8 @@ namespace SleepHunter.Macro.Keyboard
         private static readonly Dictionary<string, int> VirtualKeyMap =
             new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
             {
-                { "ESC", 0x1B }, { "ESCAPE", 0x1B }, { "TAB", 0x09 }, { "ENTER", 0x0D }, { "RETURN", 0x0D }, { "SPACE", 0x20 },
+                { "ESC", 0x1B }, { "ESCAPE", 0x1B }, { "TAB", 0x09 }, { "ENTER", 0x0D }, { "RETURN", 0x0D },
+                { "SPACE", 0x20 },
                 { "UP", 0x26 }, { "DOWN", 0x28 }, { "LEFT", 0x25 }, { "RIGHT", 0x27 },
                 { "INSERT", 0x2D }, { "DELETE", 0x2E }, { "BACKSPACE", 0x08 },
                 { "INS", 0x2D }, { "DEL", 0x2E },
@@ -25,9 +26,9 @@ namespace SleepHunter.Macro.Keyboard
                 { "LCTRL", 0xA2 }, { "RCTRL", 0xA3 },
                 { "LALT", 0xA4 }, { "RALT", 0xA5 },
                 { "LWIN", 0x5B }, { "RWIN", 0x5C },
-                { "TILDE", 0x0E }, { "MINUS", 0xBD }, { "EQUALS", 0xBB },
+                { "TILDE", 0x0C }, { "BACKQUOTE", 0xC0 }, { "BACKTICK", 0xC0 }, { "MINUS", 0xBD }, { "EQUALS", 0xBB },
                 { "COMMA", 0xBC }, { "PERIOD", 0xBE }, { "SLASH", 0xBF }, { "SEMICOLON", 0xBA }, { "QUOTE", 0xDE },
-                { "OPENBRACKET", 0xDB }, { "CLOSEBRACKET", 0xDD }, { "BACKSLASH", 0xDC }, { "BACKQUOTE", 0xC0 },
+                { "OPENBRACKET", 0xDB }, { "CLOSEBRACKET", 0xDD }, { "BACKSLASH", 0xDC },
                 { "PAUSE", 0x13 },
                 { "NUMPAD 0", 0x60 }, { "NUMPAD 1", 0x61 }, { "NUMPAD 2", 0x62 }, { "NUMPAD 3", 0x63 },
                 { "NUMPAD 4", 0x64 }, { "NUMPAD 5", 0x65 }, { "NUMPAD 6", 0x66 }, { "NUMPAD 7", 0x67 },

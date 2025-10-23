@@ -14,7 +14,7 @@ namespace SleepHunter.Macro.Commands.Mouse
             Y = y;
         }
 
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             throw new System.NotImplementedException();
         }

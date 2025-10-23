@@ -192,8 +192,11 @@ namespace SleepHunter.Forms
             // 
             // headerSplitContainer.Panel2
             // 
+            this.headerSplitContainer.Panel2.AllowDrop = true;
             this.headerSplitContainer.Panel2.Controls.Add(this.hotkeyGroupBox);
             this.headerSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.headerSplitContainer.Panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.processPanel_DragDrop);
+            this.headerSplitContainer.Panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.processPanel_DragEnter);
             this.headerSplitContainer.Size = new System.Drawing.Size(394, 126);
             this.headerSplitContainer.SplitterDistance = 211;
             this.headerSplitContainer.SplitterWidth = 5;
@@ -545,6 +548,7 @@ namespace SleepHunter.Forms
             this.playButton.Name = "playButton";
             this.playButton.Size = new System.Drawing.Size(23, 22);
             this.playButton.Text = "Play Macro";
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
             // 
             // pauseButton
             // 
@@ -554,6 +558,7 @@ namespace SleepHunter.Forms
             this.pauseButton.Name = "pauseButton";
             this.pauseButton.Size = new System.Drawing.Size(23, 22);
             this.pauseButton.Text = "Pause Macro";
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
             // stopButton
             // 
@@ -564,6 +569,7 @@ namespace SleepHunter.Forms
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(23, 22);
             this.stopButton.Text = "Stop Macro";
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // quickAttachButton
             // 

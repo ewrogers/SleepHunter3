@@ -4,18 +4,18 @@ namespace SleepHunter.Macro.Conditions
 {
     public class IntegerCondition : IMacroCondition
     {
-        private readonly Func<MacroContext, long> getter;
+        private readonly Func<IMacroContext, long> getter;
         private readonly CompareOperator op;
         private readonly long compareValue;
 
-        public IntegerCondition(Func<MacroContext, long> valueGetter, CompareOperator op, long compareValue)
+        public IntegerCondition(Func<IMacroContext, long> valueGetter, CompareOperator op, long compareValue)
         {
             getter = valueGetter;
             this.op = op;
             this.compareValue = compareValue;
         }
 
-        public bool Evaluate(MacroContext context)
+        public bool Evaluate(IMacroContext context)
         {
             var actualValue = getter(context);
 

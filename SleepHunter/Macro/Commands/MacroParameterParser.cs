@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using SleepHunter.Interop.Keyboard;
 using SleepHunter.Macro.Conditions;
-using SleepHunter.Macro.Keyboard;
 
 namespace SleepHunter.Macro.Commands
 {

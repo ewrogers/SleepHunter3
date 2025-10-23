@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SleepHunter.Macro.Keyboard;
+using SleepHunter.Interop.Keyboard;
 
 namespace SleepHunter.Macro.Commands.Keyboard
 {
@@ -20,7 +20,7 @@ namespace SleepHunter.Macro.Commands.Keyboard
             this.keys = keys.ToList();
         }
 
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             throw new NotImplementedException();
         }

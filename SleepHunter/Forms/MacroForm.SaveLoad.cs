@@ -66,7 +66,7 @@ namespace SleepHunter.Forms
             finally
             {
                 macroListView.EndUpdate();
-                UpdateProcessUI();
+                UpdateMacroUi();
             }
         }
     }

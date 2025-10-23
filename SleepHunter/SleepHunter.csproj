@@ -134,6 +134,10 @@
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MacroForm.Execution.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MacroForm.Interface.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
@@ -231,18 +235,23 @@
     <Compile Include="Macro\Conditions\LogicalOperator.cs" />
     <Compile Include="Macro\Conditions\StringCompareOperator.cs" />
     <Compile Include="Macro\Conditions\StringCondition.cs" />
-    <Compile Include="Macro\Keyboard\Keystroke.cs" />
-    <Compile Include="Macro\Keyboard\KeystrokeParser.cs" />
+    <Compile Include="Macro\IMacroContext.cs" />
+    <Compile Include="Macro\IMacroExecutor.cs" />
     <Compile Include="Macro\MacroContext.cs" />
+    <Compile Include="Macro\IMacroController.cs" />
+    <Compile Include="Macro\MacroExecutor.cs" />
+    <Compile Include="Macro\MacroRunState.cs" />
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\JsonMacroSerializer.cs" />
+    <Compile Include="Macro\Serialization\JsonParameterValueConverter.cs" />
     <Compile Include="Macro\Serialization\LegacySerializer.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroCommand.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroDocument.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroParameter.cs" />
     <Compile Include="Models\GameClientWindow.cs" />
     <Compile Include="Models\MacroCommandObject.cs" />
+    <Compile Include="Models\MacroStopReason.cs" />
     <Compile Include="Models\ObservableObject.cs" />
     <Compile Include="Models\PlayerState.cs" />
     <Compile Include="Program.cs" />
@@ -308,6 +317,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Macro\Keyboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

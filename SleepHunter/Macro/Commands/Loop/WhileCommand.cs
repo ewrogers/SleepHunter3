@@ -14,7 +14,7 @@ namespace SleepHunter.Macro.Commands.Loop
             this.fieldName = fieldName ?? "Value";
         }
 
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             // Determine if the condition is true, and jump if necessary
             var result = condition.Evaluate(context);

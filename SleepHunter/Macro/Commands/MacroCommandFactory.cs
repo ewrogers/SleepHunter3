@@ -1,4 +1,5 @@
 ﻿using System;
+using SleepHunter.Interop.Mouse;
 using SleepHunter.Macro.Commands.Interface;
 using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Macro.Commands.Keyboard;

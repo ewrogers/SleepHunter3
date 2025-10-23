@@ -5,7 +5,7 @@ namespace SleepHunter.Macro.Commands.Loop
 {
     public sealed class ContinueCommand : MacroCommand
     {
-        public override Task<MacroCommandResult> ExecuteAsync(MacroContext context)
+        public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             throw new NotImplementedException();
         }

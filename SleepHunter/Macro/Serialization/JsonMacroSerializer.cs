@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using SleepHunter.Interop.Keyboard;
 using SleepHunter.Macro.Commands;
 using SleepHunter.Macro.Conditions;
 
@@ -16,7 +17,8 @@ namespace SleepHunter.Macro.Serialization
             WriteIndented = true,
             Converters =
             {
-                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
+                new JsonParameterValueConverter()
             }
         };
 
@@ -142,7 +144,7 @@ namespace SleepHunter.Macro.Serialization
                     ? element.GetString()
                     : parameter.Value.ToString();
 
-                throw new NotImplementedException();
+                return KeystrokeParser.ParseLine(value?.Trim() ?? string.Empty);
             }
 
             throw new ArgumentException($"Invalid parameter type: {parameter.Type}", nameof(parameter));

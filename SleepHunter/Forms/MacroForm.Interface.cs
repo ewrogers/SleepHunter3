@@ -37,7 +37,7 @@ namespace SleepHunter.Forms
                 : argsForm.Parameters.ToArray();
         }
 
-        private void UpdateProcessUI()
+        private void UpdateMacroUi()
         {
             var characterName = string.Empty;
             try
@@ -102,9 +102,53 @@ namespace SleepHunter.Forms
             moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
             moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
 
-            playButton.Enabled = !isEmpty && !isRunning;
-            pauseButton.Enabled = !isEmpty && isRunning && !isPaused;
-            stopButton.Enabled = isRunning;
+            playButton.Enabled = !isEmpty && isAttached && !IsRunning;
+            pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
+            stopButton.Enabled = IsRunning;
+
+            quickAttachButton.Enabled = !IsRunning;
+        }
+
+        private void UpdateStatusBarState()
+        {
+            const int playImageIndex = 0;
+            const int pauseImageIndex = 1;
+            const int stopImageIndex = 2;
+
+            if (IsPaused)
+            {
+                statusLabel.Text = "Macro has been paused.";
+                statusLabel.Image = statusImageList.Images[pauseImageIndex];
+                return;
+            }
+            
+            if (IsRunning)
+            {
+                statusLabel.Text = "Macro is running...";
+                statusLabel.Image = statusImageList.Images[playImageIndex];
+                return;
+            }
+
+            switch (StopReason)
+            {
+                case MacroStopReason.Completed:
+                    statusLabel.Text = "Macro has finished running.";
+                    break;
+                case MacroStopReason.UserStopped:
+                    statusLabel.Text = "Macro has been stopped by the user.";
+                    break;
+                case MacroStopReason.ProcessNotFound:
+                    statusLabel.Text = "Macro has been stopped due to missing client.";
+                    break;
+                case MacroStopReason.Error:
+                    statusLabel.Text = "Macro has encountered an error.";
+                    break;
+                default:
+                    statusLabel.Text = "Macro is not running.";
+                    break;
+            }
+            
+            statusLabel.Image = statusImageList.Images[stopImageIndex];
         }
     }
 }

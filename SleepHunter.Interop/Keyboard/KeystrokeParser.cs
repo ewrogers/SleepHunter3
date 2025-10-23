@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SleepHunter.Macro.Keyboard
+namespace SleepHunter.Interop.Keyboard
 {
     public static class KeystrokeParser
     {
