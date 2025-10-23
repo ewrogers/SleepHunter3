@@ -4,5 +4,6 @@ namespace SleepHunter.Macro
 {
     public interface IMacroExecutor : IDisposable
     {
+
     }
 }

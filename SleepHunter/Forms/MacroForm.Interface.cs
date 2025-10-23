@@ -37,7 +37,7 @@ namespace SleepHunter.Forms
                 : argsForm.Parameters.ToArray();
         }
 
-        private void UpdateProcessUI()
+        private void UpdateMacroUi()
         {
             var characterName = string.Empty;
             try
@@ -102,7 +102,7 @@ namespace SleepHunter.Forms
             moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
             moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
 
-            playButton.Enabled = !isEmpty && !IsRunning;
+            playButton.Enabled = !isEmpty && isAttached && !IsRunning;
             pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
             stopButton.Enabled = IsRunning;
 
@@ -136,6 +136,9 @@ namespace SleepHunter.Forms
                     break;
                 case MacroStopReason.UserStopped:
                     statusLabel.Text = "Macro has been stopped by the user.";
+                    break;
+                case MacroStopReason.ProcessNotFound:
+                    statusLabel.Text = "Macro has been stopped due to missing client.";
                     break;
                 case MacroStopReason.Error:
                     statusLabel.Text = "Macro has encountered an error.";

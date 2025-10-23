@@ -46,7 +46,7 @@ namespace SleepHunter.Forms
             
             InitializeComponent();
 
-            UpdateProcessUI();
+            UpdateMacroUi();
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }
@@ -108,15 +108,22 @@ namespace SleepHunter.Forms
             clientReader = new GameClientReader(clientWindow.ProcessId);
             isAttached = true;
 
-            UpdateProcessUI();
+            UpdateMacroUi();
+            UpdateToolbarAndMenuState();
         }
 
         private void DetachClient()
         {
             clientReader?.Dispose();
-
             isAttached = false;
-            UpdateProcessUI();
+
+            if (IsRunning)
+            {
+                StopMacro(MacroStopReason.ProcessNotFound);
+            }
+
+            UpdateMacroUi();
+            UpdateToolbarAndMenuState();
         }
 
         #region Macro State Buttons
@@ -154,7 +161,7 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            StopMacro();
+            StopMacro(MacroStopReason.UserStopped);
         }
 
         #endregion
@@ -184,6 +191,8 @@ namespace SleepHunter.Forms
                     var characterName = reader.ReadCharacterName();
                     var newItem = quickAttachButton.DropDownItems.Add(characterName);
                     newItem.Tag = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
+
+                    newItem.Enabled = !IsRunning;
                 }
                 catch
                 {
@@ -204,7 +213,7 @@ namespace SleepHunter.Forms
 
         private void quickAttachButton_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (!(e.ClickedItem.Tag is GameClientWindow gameWindow) || IsRunning)
+            if (IsRunning || !(e.ClickedItem.Tag is GameClientWindow gameWindow))
             {
                 return;
             }
@@ -259,7 +268,7 @@ namespace SleepHunter.Forms
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
             macroName = nameTextBox.Text.Trim();
-            UpdateProcessUI();
+            UpdateMacroUi();
         }
 
         private void authorTextBox_TextChanged(object sender, EventArgs e)
@@ -271,6 +280,11 @@ namespace SleepHunter.Forms
 
         private void edit_Click(object sender, EventArgs e)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            
             // Ensure there is a single selection of a command with parameters to edit
             if (macroListView.SelectedIndices.Count == 0 ||
                 !(macroListView.SelectedItems[0].Tag is MacroCommandObject commandObj) ||
@@ -290,6 +304,11 @@ namespace SleepHunter.Forms
 
         private void deleteSelected_Click(object sender, EventArgs e)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            
             if (macroListView.SelectedIndices.Count == 0)
             {
                 return;
@@ -303,6 +322,11 @@ namespace SleepHunter.Forms
 
         private void cutSelected_Click(object sender, EventArgs e)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            
             if (macroListView.SelectedIndices.Count == 0)
             {
                 return;
@@ -328,11 +352,21 @@ namespace SleepHunter.Forms
 
         private void paste_Click(object sender, EventArgs e)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            
             TryPasteFromClipboard();
         }
 
         private void moveUp_Click(object sender, EventArgs e)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            
             // Check if allowed to move up
             if (macroListView.SelectedIndices.Count == 0 ||
                 macroListView.SelectedIndices[0] <= 0)
@@ -347,6 +381,11 @@ namespace SleepHunter.Forms
 
         private void moveDown_Click(object sender, EventArgs e)
         {
+            if (IsRunning)
+            {
+                return;
+            }
+            
             // Check if allowed to move down
             if (macroListView.SelectedIndices.Count == 0 ||
                 macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] >= macroCommands.Count - 1)
@@ -364,6 +403,7 @@ namespace SleepHunter.Forms
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
+            macroExecutor?.Dispose();
         }
     }
 }

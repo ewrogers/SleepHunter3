@@ -192,8 +192,11 @@ namespace SleepHunter.Forms
             // 
             // headerSplitContainer.Panel2
             // 
+            this.headerSplitContainer.Panel2.AllowDrop = true;
             this.headerSplitContainer.Panel2.Controls.Add(this.hotkeyGroupBox);
             this.headerSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.headerSplitContainer.Panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.processPanel_DragDrop);
+            this.headerSplitContainer.Panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.processPanel_DragEnter);
             this.headerSplitContainer.Size = new System.Drawing.Size(394, 126);
             this.headerSplitContainer.SplitterDistance = 211;
             this.headerSplitContainer.SplitterWidth = 5;

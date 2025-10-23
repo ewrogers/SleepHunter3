@@ -3,7 +3,7 @@ using System;
 
 namespace SleepHunter.Interop
 {
-    internal class GameClientReader : IDisposable
+    public class GameClientReader : IDisposable
     {
         public const string Version741 = "7D4E--1K";
 

@@ -238,6 +238,7 @@
     <Compile Include="Macro\IMacroContext.cs" />
     <Compile Include="Macro\IMacroExecutor.cs" />
     <Compile Include="Macro\MacroContext.cs" />
+    <Compile Include="Macro\IMacroController.cs" />
     <Compile Include="Macro\MacroExecutor.cs" />
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
