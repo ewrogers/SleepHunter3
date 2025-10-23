@@ -19,7 +19,7 @@ namespace SleepHunter.Macro
         private readonly PlayerState player;
         private readonly GameClientReader reader;
         private readonly CancellationTokenSource cancellationTokenSource;
-
+        private readonly ManualResetEventSlim pauseEvent;
         private readonly IMacroContext context;
 
         private int nextCommandIndex;
@@ -40,6 +40,7 @@ namespace SleepHunter.Macro
             this.reader = reader;
             
             cancellationTokenSource = new CancellationTokenSource();
+            pauseEvent = new ManualResetEventSlim(true);
 
             player = new PlayerState();
             context = new MacroContext(this, player, keyboard, mouse, cancellationTokenSource.Token);
@@ -59,6 +60,9 @@ namespace SleepHunter.Macro
                 var stopReason = MacroStopReason.Completed;
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
+                    // Wait for resume if paused
+                    pauseEvent.Wait(cancellationTokenSource.Token);
+                    
                     // Update the player state before performing the next action
                     if (DateTime.Now - lastUpdateTime > UpdateInterval)
                     {
@@ -119,7 +123,8 @@ namespace SleepHunter.Macro
             {
                 throw new InvalidOperationException("Macro is not running");
             }
-            
+
+            pauseEvent.Reset(); // Pause the macro
             SetState(MacroRunState.Paused);
         }
 
@@ -129,10 +134,11 @@ namespace SleepHunter.Macro
             {
                 return;
             }
-            
+
+            pauseEvent.Set(); // Resume the macro
             SetState(MacroRunState.Running);
         }
-        
+
         public async Task StopAsync()
         {
             if (executingTask == null)
@@ -192,6 +198,7 @@ namespace SleepHunter.Macro
             {
                 cancellationTokenSource?.Cancel();
                 cancellationTokenSource?.Dispose();
+                pauseEvent?.Dispose();
             }
 
             isDisposed = true;
