@@ -1,5 +1,6 @@
-﻿using SleepHunter.Macro.Conditions;
-using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using SleepHunter.Macro.Conditions;
+using SleepHunter.Macro.Keyboard;
 
 namespace SleepHunter.Macro.Commands
 {
@@ -91,14 +92,8 @@ namespace SleepHunter.Macro.Commands
         private static bool TryParseFloat(string input, out double value)
             => double.TryParse(input, out value);
 
-        private static bool TryParseKeystrokes(string input, out Keys[] keystrokes)
-        {
-            keystrokes = null;
-
-            // TODO: implement this
-
-            return false;
-        }
+        private static bool TryParseKeystrokes(string input, out IReadOnlyList<Keystroke> keystrokes)
+            => KeystrokeParser.TryParseLine(input, out keystrokes);
 
         public static bool TryParseCompareOperator(string input, out CompareOperator op)
         {

@@ -57,6 +57,24 @@ namespace SleepHunter.Forms
                     return;
                 }
 
+                if (IsKeystrokes())
+                {
+                    var text = keystrokesTextbox.Text.Trim();
+                    if (text.Contains("\n") || text.Contains("\r") || text.Contains("\t"))
+                    {
+                        keystrokesTextbox.Focus();
+                        validationError = "Input string cannot contain newlines or tab characters!";
+                        return;
+                    }
+
+                    if (!KeystrokeParser.TryParseLine(text, out _))
+                    {
+                        keystrokesTextbox.Focus();
+                        validationError = "One or more invalid keystrokes were found!";
+                        return;
+                    }
+                }
+
                 validationError = string.Empty;
             }
             finally
@@ -99,7 +117,7 @@ namespace SleepHunter.Forms
             }
             else if (IsKeystrokes())
             {
-                // TODO: parse keystrokes
+                var keys = KeystrokeParser.ParseLine(keystrokesTextbox.Text.Trim());
                 yield return MacroParameterValue.Keys(new List<Keystroke>());
             }
             else if (IsWaitDelay())

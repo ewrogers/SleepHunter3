@@ -1,6 +1,7 @@
 ﻿using SleepHunter.Macro.Commands;
 using SleepHunter.Macro.Conditions;
 using System;
+using SleepHunter.Macro.Keyboard;
 
 namespace SleepHunter.Macro.Serialization
 {
@@ -377,11 +378,11 @@ namespace SleepHunter.Macro.Serialization
             {
                 return new SerializableMacroParameter(expectedType, value);
             }
-            
+
             if (expectedType == MacroParameterType.Keystrokes)
             {
-                // TODO: 
-                
+                var keystrokes = KeystrokeParser.ParseLine(value);
+                return new SerializableMacroParameter(expectedType, keystrokes);
             }
 
             throw new FormatException($"Invalid value format: {value}");
