@@ -125,7 +125,7 @@ namespace SleepHunter.Macro
         {
             if (State != MacroRunState.Running)
             {
-                throw new InvalidOperationException("Macro is not running");
+                return;
             }
 
             pauseEvent.Reset(); // Pause the macro

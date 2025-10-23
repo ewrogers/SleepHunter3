@@ -28,6 +28,8 @@ namespace SleepHunter.Forms
             macroExecutor.StateChanged += OnMacroStateChanged;
             macroExecutor.Exception += OnMacroException;
 
+            macroExecutor.StartAsync();
+
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }
