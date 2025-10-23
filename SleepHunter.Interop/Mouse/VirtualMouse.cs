@@ -34,6 +34,12 @@ namespace SleepHunter.Interop.Mouse
             this.windowHandle = windowHandle;
         }
 
+        public (int X, int Y) GetCursorPosition()
+        {
+            NativeMethods.GetCursorPos(out var point);
+            return (point.X, point.Y);
+        }
+
         public void MoveMouse(int x, int y)
         {
             var parameter = MakePointParameter(x, y);
