@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SleepHunter.Macro.Commands;
 using System;
-using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SleepHunter.Macro.Serialization;
 
 namespace SleepHunter.Forms
 {
@@ -14,104 +15,84 @@ namespace SleepHunter.Forms
 
         private readonly IServiceProvider serviceProvider;
         private readonly IMacroCommandRegistry commandRegistry;
-
+        private readonly IMacroSerializer serializer;
+        
         private ProcessesForm processWindow;
         private MacroForm activeMacro;
-        private bool dialogCancel = true;
 
         public MainForm(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
             commandRegistry = serviceProvider.GetService<IMacroCommandRegistry>();
-
+            serializer = serviceProvider.GetService<IMacroSerializer>();
+            
             processWindow = this.serviceProvider.GetRequiredService<ProcessesForm>();
 
             InitializeComponent();
+            UpdateMenuState();
         }
 
-        private void MdiChild_Activate(object sender, EventArgs e)
+        private MacroForm CreateMacroForm()
         {
-            if (!(ActiveMdiChild is MacroForm macroForm))
-                return;
+            var macroForm = serviceProvider.GetRequiredService<MacroForm>();
+            macroForm.MdiParent = this;
+            macroForm.Activated += macroForm_Activated;
+            macroForm.FormClosed += macroForm_Closed;
 
-            activeMacro = macroForm;
+            return macroForm;
+        }
+
+        private void UpdateMenuState()
+        {
+            saveMacroMenu.Enabled = activeMacro?.IsDisposed == false;
         }
 
         #region File Menu Actions
         private void NewMacroMenu_Click(object sender, EventArgs e)
         {
-            var macroForm = serviceProvider.GetRequiredService<MacroForm>();
-            macroForm.MdiParent = this;
+            var macroForm = CreateMacroForm();
             macroForm.Show();
         }
 
         private void OpenMacroMenu_Click(object sender, EventArgs e)
         {
-            dialogCancel = true;
-            var num = (int)openFileDialog.ShowDialog(this);
-            var fileNames = openFileDialog.FileNames;
-            if (fileNames == null | dialogCancel)
-                return;
-            var macroReader = new MacroReader();
-            
-            foreach (var str in fileNames)
-            {
-                if (string.IsNullOrWhiteSpace(str))
-                {
-                    continue;
-                }
+            var result = openFileDialog.ShowDialog(this);
 
-                var commands = macroReader.GetCommands(str.Trim());
-                var arguments = macroReader.GetArguments(str.Trim());
-                var fileTitle = macroReader.GetFileTitle(str.Trim());
-                statusLabel.Text = $"Opening {str}...";
-                var macroForm = serviceProvider.GetRequiredService<MacroForm>();
-                //macroReader.AddCommandsToList(frmMacro.macroListView, commands, arguments);
-                macroForm.MdiParent = this;
-                // macroForm.nameTextBox.Text = fileTitle;
-                macroForm.Show();
+            if (result != DialogResult.OK)
+            {
+                return;
             }
 
-            statusLabel.Text = "Idle.";
+            foreach (var filename in openFileDialog.FileNames)
+            {
+                LoadMacroFile(filename);
+            }
         }
 
         private void SaveMacroMenu_Click(object sender, EventArgs e)
         {
             if (activeMacro == null)
             {
-                MessageBox.Show("No macro windows are open, cannot save.", "No Data Windows", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
+                return;
             }
-            else if (false)
+
+            var document = activeMacro.GetMacroDocument();
+            var safeFilename = string.Join("_", document.Name.Trim().Split(Path.GetInvalidFileNameChars()));
+
+            saveFileDialog.FileName = $"{safeFilename}.sh3x";
+            var result = saveFileDialog.ShowDialog(this);
+
+            if (result != DialogResult.OK)
             {
-                MessageBox.Show("Macro window contains no data.", "Empty Macro", MessageBoxButtons.OK,
-                    MessageBoxIcon.Hand);
+                return;
             }
-            else
-            {
-                const string macroName = "test.sh3";
-                //saveFileDialog.FileName = activeMacro.nameTextBox.Text + ".sh3";
-                dialogCancel = true;
-                var result = saveFileDialog.ShowDialog(this);
-                if (dialogCancel)
-                    return;
-                var fileName = saveFileDialog.FileName;
-                if (fileName == null || fileName.Trim() == "")
-                    return;
-                statusLabel.Text = $"Saving {fileName}...";
-                //string[] commandList = new string[activeMacro.macroListView.Items.Count];
-                //string[] argList = new string[activeMacro.macroListView.Items.Count];
-                //int index = 0;
-                //foreach (ListViewItem listViewItem in activeMacro.macroListView.Items)
-                //{
-                //    string[] strArray = listViewItem.Tag.ToString().Split('|');
-                //    commandList[index] = strArray[0];
-                //    argList[index] = strArray[1];
-                //    ++index;
-                //}
-                //new MacroWriter().SaveData(commandList, argList, macroName, fileName);
-                statusLabel.Text = "Idle.";
-            }
+            
+            SaveMacroDocument(document);
+        }
+
+        private void SetStatusText(string text)
+        {
+            statusLabel.Text = text;
         }
 
         private void ExitMenu_Click(object sender, EventArgs e)
@@ -138,13 +119,13 @@ namespace SleepHunter.Forms
                 processWindow.MdiParent = this;
                 processWindow.Location = new Point(0, 0);
                 processWindow.Width = ClientRectangle.Width - commandsPanel.ClientRectangle.Width - 4;
-                processWindow.Show();
             }
             else
             {
                 processWindow.MdiParent = this;
-                processWindow.Show();
             }
+            
+            processWindow.Show();
         }
 
         private void OptionsWindowMenu_Click(object sender, EventArgs e)
@@ -164,7 +145,6 @@ namespace SleepHunter.Forms
             }
         }
 
-
         private void CloseAllWindowsMenu_Click(object sender, EventArgs e)
         {
             foreach (var mdiChild in MdiChildren)
@@ -173,7 +153,6 @@ namespace SleepHunter.Forms
             }
         }
 
-        private void ArrangeWindowsMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.ArrangeIcons);
         private void CascadeWindowsMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.Cascade);
         private void TileVerticalMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.TileVertical);
         private void TileHorizontalMenu_Click(object sender, EventArgs e) => LayoutMdi(MdiLayout.TileHorizontal);
@@ -190,7 +169,7 @@ namespace SleepHunter.Forms
 
         private void CommandsTreeView_DoubleClick(object sender, EventArgs e)
         {
-            TreeNode selectedNode = commandsTreeView.SelectedNode;
+            var selectedNode = commandsTreeView.SelectedNode;
             if (selectedNode == null || activeMacro == null || activeMacro.IsDisposed)
             {
                 return;
@@ -218,12 +197,6 @@ namespace SleepHunter.Forms
             var data = new DataObject(command);
             DoDragDrop(data, DragDropEffects.Copy);
         }
-
-        #region File Dialog Handlers
-        private void OpenFileDialog_FileOk(object sender, CancelEventArgs e) => dialogCancel = false;
-
-        private void SaveFileDialog_FileOk(object sender, CancelEventArgs e) => dialogCancel = false;
-        #endregion
 
         protected override void WndProc(ref Message m)
         {
@@ -254,6 +227,31 @@ namespace SleepHunter.Forms
                     //}
                 }
             }
+        }
+
+        private void macroForm_Activated(object sender, EventArgs e)
+        {
+            if (sender is MacroForm macroForm)
+            {
+                activeMacro = macroForm;
+                UpdateMenuState();
+            }
+        }
+
+        private void macroForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            if (sender is MacroForm macroForm)
+            {
+                macroForm.Activated -= macroForm_Activated;
+                macroForm.FormClosed -= macroForm_Closed;
+
+                if (activeMacro == macroForm)
+                {
+                    activeMacro = null;
+                }
+            }
+
+            UpdateMenuState();
         }
 
         private void form_Load(object sender, EventArgs e)

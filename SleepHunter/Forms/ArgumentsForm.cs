@@ -32,8 +32,8 @@ namespace SleepHunter.Forms
             InitializeComponent();
             initialSize = Size;
 
-            numericOperatorComboBox.SelectedIndex = 0;
-            stringCompareOperatorComboBox.SelectedIndex = 0;
+            numericOperatorComboBox.SelectedIndex = 3;  // >=
+            stringCompareOperatorComboBox.SelectedIndex = 0; // equals
 
             UpdateCommandUI();
         }

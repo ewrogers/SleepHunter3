@@ -130,6 +130,10 @@
     <Compile Include="Forms\MacroForm.Designer.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\MacroForm.DragDrop.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MacroForm.Interface.cs">
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
@@ -138,11 +142,19 @@
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MacroForm.SaveLoad.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainForm.SaveLoad.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\OptionsForm.cs">
       <SubType>Form</SubType>
@@ -167,9 +179,6 @@
     <Compile Include="Interop\IMemoryVariable.cs" />
     <Compile Include="Interop\MemoryVariable.cs" />
     <Compile Include="Interop\StaticMemoryVariable.cs" />
-    <Compile Include="MacroReader.cs" />
-    <Compile Include="MacroWriter.cs" />
-    <Compile Include="LogicStructure.cs" />
     <Compile Include="Hotkey.cs" />
     <Compile Include="Macro\Commands\IMacroCommand.cs" />
     <Compile Include="Macro\Commands\IMacroCommandFactory.cs" />
@@ -224,6 +233,7 @@
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\JsonMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroCommand.cs" />
+    <Compile Include="Macro\Serialization\SerializableMacroDocument.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroParameter.cs" />
     <Compile Include="Models\GameClientWindow.cs" />
     <Compile Include="Models\MacroCommandObject.cs" />

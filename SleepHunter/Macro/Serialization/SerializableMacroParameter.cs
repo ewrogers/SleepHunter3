@@ -21,5 +21,7 @@ namespace SleepHunter.Macro.Serialization
             Type = type;
             Value = value;
         }
+
+        public override string ToString() => Value?.ToString() ?? "NULL";
     }
 }

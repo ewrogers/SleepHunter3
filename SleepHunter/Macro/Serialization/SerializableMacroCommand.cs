@@ -11,15 +11,15 @@ namespace SleepHunter.Macro.Serialization
     {
         [JsonPropertyName("command")]
         public string Key { get; set; }
-        
+
         public List<SerializableMacroParameter> Parameters { get; set; }
 
         [JsonConstructor]
         internal SerializableMacroCommand()
         {
-            
+
         }
-        
+
         public SerializableMacroCommand(string key)
         {
             Key = key;
@@ -40,5 +40,10 @@ namespace SleepHunter.Macro.Serialization
                 Parameters = parameters.Select(p => new SerializableMacroParameter(p.Type, p.Value)).ToList();
             }
         }
+
+        public override string ToString() =>
+            Parameters.Count > 0 
+            ? $"{Key} ({string.Join(", ", Parameters)})"
+            : Key;
     }
 }

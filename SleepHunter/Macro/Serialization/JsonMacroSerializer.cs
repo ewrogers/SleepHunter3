@@ -25,6 +25,11 @@ namespace SleepHunter.Macro.Serialization
             return JsonSerializer.Serialize(commands, JsonOptions);
         }
 
+        public string SerializeDocument(SerializableMacroDocument document)
+        {
+            return JsonSerializer.Serialize(document, JsonOptions);
+        }
+
         public IReadOnlyList<SerializableMacroCommand> Deserialize(string json)
         {
             var commands = JsonSerializer.Deserialize<List<SerializableMacroCommand>>(json, JsonOptions);
@@ -41,6 +46,22 @@ namespace SleepHunter.Macro.Serialization
             return commands;
         }
 
+        public SerializableMacroDocument DeserializeDocument(string json)
+        {
+            var document = JsonSerializer.Deserialize<SerializableMacroDocument>(json, JsonOptions);
+
+            foreach (var command in document.Commands)
+            {
+                command.Parameters = command.Parameters ?? new List<SerializableMacroParameter>();
+                foreach (var parameter in command.Parameters)
+                {
+                    parameter.Value = GetParameterValue(parameter);
+                }
+            }
+
+            return document;
+        }
+
         private object GetParameterValue(SerializableMacroParameter parameter)
         {
             if (parameter?.Value == null)
@@ -54,6 +75,7 @@ namespace SleepHunter.Macro.Serialization
                 {
                     return element.GetBoolean();
                 }
+
                 return Convert.ToBoolean(parameter.Value);
             }
 
@@ -63,6 +85,7 @@ namespace SleepHunter.Macro.Serialization
                 {
                     return element.GetInt64();
                 }
+
                 return Convert.ToInt64(parameter.Value);
             }
 
@@ -72,6 +95,7 @@ namespace SleepHunter.Macro.Serialization
                 {
                     return element.GetDouble();
                 }
+
                 return Convert.ToDouble(parameter.Value);
             }
 
@@ -81,6 +105,7 @@ namespace SleepHunter.Macro.Serialization
                 {
                     return element.GetString();
                 }
+
                 return parameter.Value.ToString();
             }
 
@@ -92,7 +117,7 @@ namespace SleepHunter.Macro.Serialization
 
                 return Enum.Parse(typeof(CompareOperator), value ?? string.Empty, true);
             }
-            
+
             if (parameter.Type == MacroParameterType.StringCompareOperator)
             {
                 var value = parameter.Value is JsonElement element
@@ -116,7 +141,7 @@ namespace SleepHunter.Macro.Serialization
                 var value = parameter.Value is JsonElement element
                     ? element.GetString()
                     : parameter.Value.ToString();
-                
+
                 throw new NotImplementedException();
             }
 
