@@ -418,7 +418,6 @@ namespace SleepHunter.Forms
             // 
             // keystrokesTextbox
             // 
-            this.keystrokesTextbox.AcceptsReturn = true;
             this.keystrokesTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.keystrokesTextbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

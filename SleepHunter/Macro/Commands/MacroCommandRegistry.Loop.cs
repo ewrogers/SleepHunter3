@@ -25,6 +25,22 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Loop,
+                Key = MacroCommandKey.LoopReset,
+                DisplayName = "Loop Reset",
+                Description = "Restarts the loop and resets the loop counter to zero.",
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Loop,
+                Key = MacroCommandKey.Continue,
+                DisplayName = "Continue",
+                Description = "Restarts the loop or while block.",
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Loop,
                 Key = MacroCommandKey.Break,
                 DisplayName = "Break",
                 Description = "Breaks from the current loop or while block."

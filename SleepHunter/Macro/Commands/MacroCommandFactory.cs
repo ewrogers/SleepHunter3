@@ -216,7 +216,7 @@ namespace SleepHunter.Macro.Commands
         {
             switch (command.Key.ToUpperInvariant())
             {
-                case MacroCommandKey.IfElse:
+                case MacroCommandKey.Else:
                     return new ElseCommand();
                 case MacroCommandKey.EndIf:
                     return new EndIfCommand();
@@ -233,6 +233,10 @@ namespace SleepHunter.Macro.Commands
                     return new LoopCommand();
                 case MacroCommandKey.LoopCount:
                     return new LoopCommand(parameters[0].AsInteger());
+                case MacroCommandKey.LoopReset:
+                    return new LoopResetCommand();
+                case MacroCommandKey.Continue:
+                    return new ContinueCommand();
                 case MacroCommandKey.Break:
                     return new BreakCommand();
                 case MacroCommandKey.EndLoop:

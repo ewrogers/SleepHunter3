@@ -25,6 +25,18 @@ namespace SleepHunter.Macro.Serialization
             Key = key;
         }
 
+        public SerializableMacroCommand(string key, params SerializableMacroParameter[] parameters)
+        {
+            Key = key;
+            Parameters = parameters != null ? new List<SerializableMacroParameter>(parameters) : null;
+        }
+
+        public SerializableMacroCommand(string key, params MacroParameterValue[] parameters)
+        {
+            Key = key;
+            Parameters = (parameters != null) ? parameters?.Select(p => new SerializableMacroParameter(p.Type, p.Value)).ToList() : null;
+        }
+
         public SerializableMacroCommand(MacroCommandDefinition definition)
             : this(definition, Array.Empty<MacroParameterValue>())
         {
@@ -42,7 +54,7 @@ namespace SleepHunter.Macro.Serialization
         }
 
         public override string ToString() =>
-            Parameters.Count > 0 
+            Parameters.Count > 0
             ? $"{Key} ({string.Join(", ", Parameters)})"
             : Key;
     }

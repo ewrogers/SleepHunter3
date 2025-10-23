@@ -46,12 +46,14 @@ namespace SleepHunter.Macro.Commands
         public const string MouseRecallPosition = "MOUSE_RECALL_POSITION";
 
         // If Commands
-        public const string IfElse = "IF_ELSE";
+        public const string Else = "ELSE";
         public const string EndIf = "IF_END";
 
         // Loop Commands
         public const string LoopInfinite = "LOOP_INFINITE";
         public const string LoopCount = "LOOP_COUNT";
+        public const string LoopReset = "LOOP_RESET";
+        public const string Continue = "CONTINUE";
         public const string Break = "BREAK";
         public const string EndLoop = "LOOP_END";
         public const string EndWhile = "WHILE_END";

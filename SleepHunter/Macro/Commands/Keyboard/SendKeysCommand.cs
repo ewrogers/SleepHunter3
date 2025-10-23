@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using SleepHunter.Macro.Keyboard;
 
 namespace SleepHunter.Macro.Commands.Keyboard
 {
     public sealed class SendKeysCommand : MacroCommand
     {
-        private readonly List<Keys> keys = new List<Keys>();
+        private readonly List<Keystroke> keys;
 
-        public SendKeysCommand(IEnumerable<Keys> keys)
+        public SendKeysCommand()
+        {
+            keys = new List<Keystroke>();
+        }
+
+        public SendKeysCommand(IEnumerable<Keystroke> keys)
         {
             this.keys = keys.ToList();
         }
@@ -20,6 +25,10 @@ namespace SleepHunter.Macro.Commands.Keyboard
             throw new NotImplementedException();
         }
 
-        public override string ToString() => "Send Keys";
+        public override string ToString()
+        {
+            var keyString = string.Join("", keys);
+            return $"Send Keys: {keyString}";
+        }
     }
 }

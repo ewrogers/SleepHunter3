@@ -8,7 +8,7 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Logic,
-                Key = MacroCommandKey.IfElse,
+                Key = MacroCommandKey.Else,
                 DisplayName = "Else",
                 Description = "Adds a statement for performing actions if conditions are not met."
             });
