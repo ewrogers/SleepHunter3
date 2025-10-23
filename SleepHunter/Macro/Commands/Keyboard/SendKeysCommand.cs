@@ -25,6 +25,10 @@ namespace SleepHunter.Macro.Commands.Keyboard
             throw new NotImplementedException();
         }
 
-        public override string ToString() => "Send Keys";
+        public override string ToString()
+        {
+            var keyString = string.Join("", keys);
+            return $"Send Keys: {keyString}";
+        }
     }
 }

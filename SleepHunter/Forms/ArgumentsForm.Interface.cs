@@ -44,7 +44,7 @@ namespace SleepHunter.Forms
             }
             else if (IsKeystrokes() && parameters.Count >= 1)
             {
-
+                keystrokesTextbox.Text = string.Join("", parameters[0].AsKeystrokes());
             }
         }
 

@@ -61,13 +61,13 @@ namespace SleepHunter.Forms
                 SetStatusText($"Loading {filename}...");
                 
                 reader = File.OpenText(filePath);
-                var count = int.Parse(reader.ReadLine() ?? "0");
-                var name = reader.ReadLine();
+                var content = reader.ReadToEnd();
 
-                for (var i = 0; i < count; i++)
-                {
-                    var line = reader.ReadLine();
-                }
+                var document = legacySerializer.DeserializeDocument(content);
+                var macroForm = CreateMacroForm();
+
+                macroForm.LoadMacroDocument(document);
+                macroForm.Show();
                 
                 SetStatusText($"Loaded {filename} successfully.");
             }

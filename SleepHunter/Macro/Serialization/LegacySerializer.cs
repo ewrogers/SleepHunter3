@@ -29,7 +29,7 @@ namespace SleepHunter.Macro.Serialization
                 name = lines[1].Trim();
             }
 
-            var document = new SerializableMacroDocument { Name = name };
+            var document = new SerializableMacroDocument { Name = name, Author = string.Empty };
 
             if (count <= 0)
             {
@@ -39,7 +39,7 @@ namespace SleepHunter.Macro.Serialization
             // Parse each line into a modern serializable command
             for (var i = 0; i < count; i++)
             {
-                var line = lines[i].Trim();
+                var line = lines[i + 2].Trim();
                 var command = DeserializeCommand(line);
 
                 document.Commands.Add(command);

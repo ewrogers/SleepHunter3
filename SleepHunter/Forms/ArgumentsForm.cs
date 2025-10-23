@@ -118,7 +118,7 @@ namespace SleepHunter.Forms
             else if (IsKeystrokes())
             {
                 var keys = KeystrokeParser.ParseLine(keystrokesTextbox.Text.Trim());
-                yield return MacroParameterValue.Keys(new List<Keystroke>());
+                yield return MacroParameterValue.Keys(keys);
             }
             else if (IsWaitDelay())
             {
