@@ -27,6 +27,9 @@ namespace SleepHunter.Forms
         private GameClientReader clientReader;
         private bool isAttached;
 
+        private string macroName;
+        private string macroAuthor;
+
         private bool isRunning;
         private bool isPaused;
 
@@ -40,6 +43,7 @@ namespace SleepHunter.Forms
             
             InitializeComponent();
 
+            UpdateProcessUI();
             UpdateToolbarAndMenuState();
         }
         
@@ -209,6 +213,17 @@ namespace SleepHunter.Forms
 
         #endregion
 
+        private void nameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            macroName = nameTextBox.Text.Trim();
+            UpdateProcessUI();
+        }
+
+        private void authorTextBox_TextChanged(object sender, EventArgs e)
+        {
+            macroAuthor = authorTextBox.Text.Trim();
+        }
+
         #region Toolbar + Context Menu Events
 
         private void edit_Click(object sender, EventArgs e)
@@ -306,6 +321,6 @@ namespace SleepHunter.Forms
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-        }
+        }        
     }
 }

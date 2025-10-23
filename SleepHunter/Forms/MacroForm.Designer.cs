@@ -11,11 +11,9 @@ namespace SleepHunter.Forms
         private StatusStrip macroStatusBar;
         private SplitContainer macroSplitContainer;
         private SplitContainer headerSplitContainer;
-        private GroupBox processGroupBox;
         private GroupBox macroGroupBox;
-        private FlowLayoutPanel macroLayoutPanel;
+        private GroupBox hotkeyGroupBox;
         private CheckBox hotkeyCheckBox;
-        private TextBox hotkeyTextBox;
         private ColumnHeader lineColumn;
         private ColumnHeader commandColumn;
         private ToolStrip macroToolStrip;
@@ -53,17 +51,15 @@ namespace SleepHunter.Forms
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.macroSplitContainer = new System.Windows.Forms.SplitContainer();
             this.headerSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.processGroupBox = new System.Windows.Forms.GroupBox();
-            this.characterNameLabel = new System.Windows.Forms.Label();
-            this.windowHandleLabel = new System.Windows.Forms.Label();
-            this.processIdLabel = new System.Windows.Forms.Label();
-            this.clientVersionLabel = new System.Windows.Forms.Label();
             this.macroGroupBox = new System.Windows.Forms.GroupBox();
-            this.macroLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.hotkeyCheckBox = new System.Windows.Forms.CheckBox();
-            this.hotkeyTextBox = new System.Windows.Forms.TextBox();
-            this.nameLabel = new System.Windows.Forms.Label();
+            this.authorTextBox = new System.Windows.Forms.TextBox();
+            this.authorLabel = new System.Windows.Forms.Label();
             this.nameTextBox = new System.Windows.Forms.TextBox();
+            this.nameLabel = new System.Windows.Forms.Label();
+            this.hotkeyGroupBox = new System.Windows.Forms.GroupBox();
+            this.hotkeyTextBox = new System.Windows.Forms.TextBox();
+            this.characterNameLabel = new System.Windows.Forms.Label();
+            this.hotkeyCheckBox = new System.Windows.Forms.CheckBox();
             this.macroListView = new System.Windows.Forms.ListView();
             this.lineColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.commandColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -102,9 +98,8 @@ namespace SleepHunter.Forms
             this.headerSplitContainer.Panel1.SuspendLayout();
             this.headerSplitContainer.Panel2.SuspendLayout();
             this.headerSplitContainer.SuspendLayout();
-            this.processGroupBox.SuspendLayout();
             this.macroGroupBox.SuspendLayout();
-            this.macroLayoutPanel.SuspendLayout();
+            this.hotkeyGroupBox.SuspendLayout();
             this.macroContextMenu.SuspendLayout();
             this.macroToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -176,7 +171,7 @@ namespace SleepHunter.Forms
             this.macroSplitContainer.Size = new System.Drawing.Size(404, 439);
             this.macroSplitContainer.SplitterDistance = 136;
             this.macroSplitContainer.SplitterWidth = 5;
-            this.macroSplitContainer.TabIndex = 2;
+            this.macroSplitContainer.TabIndex = 0;
             this.macroSplitContainer.Text = "splitContainer1";
             // 
             // headerSplitContainer
@@ -190,14 +185,14 @@ namespace SleepHunter.Forms
             // headerSplitContainer.Panel1
             // 
             this.headerSplitContainer.Panel1.AllowDrop = true;
-            this.headerSplitContainer.Panel1.Controls.Add(this.processGroupBox);
+            this.headerSplitContainer.Panel1.Controls.Add(this.macroGroupBox);
             this.headerSplitContainer.Panel1.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.headerSplitContainer.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.processPanel_DragDrop);
             this.headerSplitContainer.Panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.processPanel_DragEnter);
             // 
             // headerSplitContainer.Panel2
             // 
-            this.headerSplitContainer.Panel2.Controls.Add(this.macroGroupBox);
+            this.headerSplitContainer.Panel2.Controls.Add(this.hotkeyGroupBox);
             this.headerSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
             this.headerSplitContainer.Size = new System.Drawing.Size(394, 126);
             this.headerSplitContainer.SplitterDistance = 211;
@@ -205,105 +200,107 @@ namespace SleepHunter.Forms
             this.headerSplitContainer.TabIndex = 0;
             this.headerSplitContainer.Text = "splitContainer1";
             // 
-            // processGroupBox
+            // macroGroupBox
             // 
-            this.processGroupBox.Controls.Add(this.characterNameLabel);
-            this.processGroupBox.Controls.Add(this.windowHandleLabel);
-            this.processGroupBox.Controls.Add(this.processIdLabel);
-            this.processGroupBox.Controls.Add(this.clientVersionLabel);
-            this.processGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.processGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.processGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.processGroupBox.Location = new System.Drawing.Point(0, 0);
-            this.processGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.processGroupBox.Name = "processGroupBox";
-            this.processGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.processGroupBox.Size = new System.Drawing.Size(210, 126);
-            this.processGroupBox.TabIndex = 0;
-            this.processGroupBox.TabStop = false;
-            this.processGroupBox.Text = "Process Details";
+            this.macroGroupBox.Controls.Add(this.authorTextBox);
+            this.macroGroupBox.Controls.Add(this.authorLabel);
+            this.macroGroupBox.Controls.Add(this.nameTextBox);
+            this.macroGroupBox.Controls.Add(this.nameLabel);
+            this.macroGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.macroGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.macroGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.macroGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.macroGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.macroGroupBox.Name = "macroGroupBox";
+            this.macroGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.macroGroupBox.Size = new System.Drawing.Size(210, 126);
+            this.macroGroupBox.TabIndex = 0;
+            this.macroGroupBox.TabStop = false;
+            this.macroGroupBox.Text = "Macro Details";
+            // 
+            // authorTextBox
+            // 
+            this.authorTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.authorTextBox.Location = new System.Drawing.Point(8, 88);
+            this.authorTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.authorTextBox.Name = "authorTextBox";
+            this.authorTextBox.Size = new System.Drawing.Size(194, 23);
+            this.authorTextBox.TabIndex = 3;
+            this.authorTextBox.TextChanged += new System.EventHandler(this.authorTextBox_TextChanged);
+            // 
+            // authorLabel
+            // 
+            this.authorLabel.AutoSize = true;
+            this.authorLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.authorLabel.Location = new System.Drawing.Point(8, 70);
+            this.authorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.authorLabel.Name = "authorLabel";
+            this.authorLabel.Size = new System.Drawing.Size(47, 15);
+            this.authorLabel.TabIndex = 2;
+            this.authorLabel.Text = "Author:";
+            // 
+            // nameTextBox
+            // 
+            this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.nameTextBox.Location = new System.Drawing.Point(8, 42);
+            this.nameTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.nameTextBox.Name = "nameTextBox";
+            this.nameTextBox.Size = new System.Drawing.Size(194, 23);
+            this.nameTextBox.TabIndex = 1;
+            this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.AutoSize = true;
+            this.nameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.nameLabel.Location = new System.Drawing.Point(8, 24);
+            this.nameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nameLabel.Name = "nameLabel";
+            this.nameLabel.Size = new System.Drawing.Size(79, 15);
+            this.nameLabel.TabIndex = 0;
+            this.nameLabel.Text = "Macro Name:";
+            // 
+            // hotkeyGroupBox
+            // 
+            this.hotkeyGroupBox.Controls.Add(this.hotkeyTextBox);
+            this.hotkeyGroupBox.Controls.Add(this.characterNameLabel);
+            this.hotkeyGroupBox.Controls.Add(this.hotkeyCheckBox);
+            this.hotkeyGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hotkeyGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hotkeyGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.hotkeyGroupBox.Location = new System.Drawing.Point(1, 0);
+            this.hotkeyGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.hotkeyGroupBox.Name = "hotkeyGroupBox";
+            this.hotkeyGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.hotkeyGroupBox.Size = new System.Drawing.Size(177, 126);
+            this.hotkeyGroupBox.TabIndex = 0;
+            this.hotkeyGroupBox.TabStop = false;
+            this.hotkeyGroupBox.Text = "Hotkey";
+            // 
+            // hotkeyTextBox
+            // 
+            this.hotkeyTextBox.Location = new System.Drawing.Point(11, 70);
+            this.hotkeyTextBox.Name = "hotkeyTextBox";
+            this.hotkeyTextBox.ReadOnly = true;
+            this.hotkeyTextBox.Size = new System.Drawing.Size(159, 23);
+            this.hotkeyTextBox.TabIndex = 2;
+            this.hotkeyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // characterNameLabel
             // 
             this.characterNameLabel.AutoEllipsis = true;
             this.characterNameLabel.AutoSize = true;
             this.characterNameLabel.Enabled = false;
+            this.characterNameLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.characterNameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.characterNameLabel.Location = new System.Drawing.Point(9, 90);
+            this.characterNameLabel.Location = new System.Drawing.Point(8, 22);
             this.characterNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.characterNameLabel.Name = "characterNameLabel";
-            this.characterNameLabel.Size = new System.Drawing.Size(96, 15);
-            this.characterNameLabel.TabIndex = 3;
-            this.characterNameLabel.Text = "Character Name:";
-            // 
-            // windowHandleLabel
-            // 
-            this.windowHandleLabel.AutoEllipsis = true;
-            this.windowHandleLabel.AutoSize = true;
-            this.windowHandleLabel.Enabled = false;
-            this.windowHandleLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.windowHandleLabel.Location = new System.Drawing.Point(9, 67);
-            this.windowHandleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.windowHandleLabel.Name = "windowHandleLabel";
-            this.windowHandleLabel.Size = new System.Drawing.Size(95, 15);
-            this.windowHandleLabel.TabIndex = 2;
-            this.windowHandleLabel.Text = "Window Handle:";
-            // 
-            // processIdLabel
-            // 
-            this.processIdLabel.AutoEllipsis = true;
-            this.processIdLabel.AutoSize = true;
-            this.processIdLabel.Enabled = false;
-            this.processIdLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.processIdLabel.Location = new System.Drawing.Point(9, 43);
-            this.processIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.processIdLabel.Name = "processIdLabel";
-            this.processIdLabel.Size = new System.Drawing.Size(64, 15);
-            this.processIdLabel.TabIndex = 1;
-            this.processIdLabel.Text = "Process ID:";
-            // 
-            // clientVersionLabel
-            // 
-            this.clientVersionLabel.AutoEllipsis = true;
-            this.clientVersionLabel.AutoSize = true;
-            this.clientVersionLabel.Enabled = false;
-            this.clientVersionLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.clientVersionLabel.Location = new System.Drawing.Point(9, 20);
-            this.clientVersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.clientVersionLabel.Name = "clientVersionLabel";
-            this.clientVersionLabel.Size = new System.Drawing.Size(82, 15);
-            this.clientVersionLabel.TabIndex = 0;
-            this.clientVersionLabel.Text = "Client Version:";
-            // 
-            // macroGroupBox
-            // 
-            this.macroGroupBox.Controls.Add(this.macroLayoutPanel);
-            this.macroGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.macroGroupBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.macroGroupBox.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.macroGroupBox.Location = new System.Drawing.Point(1, 0);
-            this.macroGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.macroGroupBox.Name = "macroGroupBox";
-            this.macroGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.macroGroupBox.Size = new System.Drawing.Size(177, 126);
-            this.macroGroupBox.TabIndex = 0;
-            this.macroGroupBox.TabStop = false;
-            this.macroGroupBox.Text = "Macro Details";
-            // 
-            // macroLayoutPanel
-            // 
-            this.macroLayoutPanel.Controls.Add(this.hotkeyCheckBox);
-            this.macroLayoutPanel.Controls.Add(this.hotkeyTextBox);
-            this.macroLayoutPanel.Controls.Add(this.nameLabel);
-            this.macroLayoutPanel.Controls.Add(this.nameTextBox);
-            this.macroLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.macroLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.macroLayoutPanel.Location = new System.Drawing.Point(4, 19);
-            this.macroLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.macroLayoutPanel.Name = "macroLayoutPanel";
-            this.macroLayoutPanel.Padding = new System.Windows.Forms.Padding(2);
-            this.macroLayoutPanel.Size = new System.Drawing.Size(169, 104);
-            this.macroLayoutPanel.TabIndex = 0;
+            this.characterNameLabel.Size = new System.Drawing.Size(106, 17);
+            this.characterNameLabel.TabIndex = 0;
+            this.characterNameLabel.Text = "Character Name";
             // 
             // hotkeyCheckBox
             // 
@@ -312,44 +309,12 @@ namespace SleepHunter.Forms
             this.hotkeyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hotkeyCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.hotkeyCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.hotkeyCheckBox.Location = new System.Drawing.Point(6, 5);
+            this.hotkeyCheckBox.Location = new System.Drawing.Point(11, 45);
             this.hotkeyCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.hotkeyCheckBox.Name = "hotkeyCheckBox";
-            this.hotkeyCheckBox.Size = new System.Drawing.Size(110, 20);
-            this.hotkeyCheckBox.TabIndex = 5;
-            this.hotkeyCheckBox.Text = "Macro Hotkey:";
-            // 
-            // hotkeyTextBox
-            // 
-            this.hotkeyTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.hotkeyTextBox.Location = new System.Drawing.Point(6, 31);
-            this.hotkeyTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.hotkeyTextBox.Name = "hotkeyTextBox";
-            this.hotkeyTextBox.ReadOnly = true;
-            this.hotkeyTextBox.Size = new System.Drawing.Size(110, 23);
-            this.hotkeyTextBox.TabIndex = 4;
-            this.hotkeyTextBox.Text = "Press Key Combination";
-            // 
-            // nameLabel
-            // 
-            this.nameLabel.AutoSize = true;
-            this.nameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.nameLabel.Location = new System.Drawing.Point(6, 57);
-            this.nameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(79, 15);
-            this.nameLabel.TabIndex = 0;
-            this.nameLabel.Text = "Macro Name:";
-            // 
-            // nameTextBox
-            // 
-            this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nameTextBox.Location = new System.Drawing.Point(6, 75);
-            this.nameTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(110, 23);
-            this.nameTextBox.TabIndex = 1;
+            this.hotkeyCheckBox.Size = new System.Drawing.Size(111, 20);
+            this.hotkeyCheckBox.TabIndex = 1;
+            this.hotkeyCheckBox.Text = "Enable Hotkey:";
             // 
             // macroListView
             // 
@@ -368,7 +333,7 @@ namespace SleepHunter.Forms
             this.macroListView.Margin = new System.Windows.Forms.Padding(12);
             this.macroListView.Name = "macroListView";
             this.macroListView.Size = new System.Drawing.Size(393, 267);
-            this.macroListView.TabIndex = 0;
+            this.macroListView.TabIndex = 1;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
             this.macroListView.SelectedIndexChanged += new System.EventHandler(this.macroListView_SelectedIndexChanged);
@@ -485,7 +450,7 @@ namespace SleepHunter.Forms
             this.macroToolStrip.Margin = new System.Windows.Forms.Padding(0, 12, 0, 12);
             this.macroToolStrip.Name = "macroToolStrip";
             this.macroToolStrip.Size = new System.Drawing.Size(393, 25);
-            this.macroToolStrip.TabIndex = 1;
+            this.macroToolStrip.TabIndex = 0;
             this.macroToolStrip.Text = "toolStrip1";
             // 
             // editButton
@@ -652,11 +617,10 @@ namespace SleepHunter.Forms
             this.headerSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.headerSplitContainer)).EndInit();
             this.headerSplitContainer.ResumeLayout(false);
-            this.processGroupBox.ResumeLayout(false);
-            this.processGroupBox.PerformLayout();
             this.macroGroupBox.ResumeLayout(false);
-            this.macroLayoutPanel.ResumeLayout(false);
-            this.macroLayoutPanel.PerformLayout();
+            this.macroGroupBox.PerformLayout();
+            this.hotkeyGroupBox.ResumeLayout(false);
+            this.hotkeyGroupBox.PerformLayout();
             this.macroContextMenu.ResumeLayout(false);
             this.macroToolStrip.ResumeLayout(false);
             this.macroToolStrip.PerformLayout();
@@ -666,9 +630,6 @@ namespace SleepHunter.Forms
         }
 
         private Label characterNameLabel;
-        private Label windowHandleLabel;
-        private Label processIdLabel;
-        private Label clientVersionLabel;
         private Label nameLabel;
         private TextBox nameTextBox;
         private ToolStripStatusLabel statusLabel;
@@ -682,5 +643,8 @@ namespace SleepHunter.Forms
         private ToolStripMenuItem deleteSelectedMenu;
         private ToolStripMenuItem moveUpMenu;
         private ToolStripMenuItem moveDownMenu;
+        private TextBox authorTextBox;
+        private Label authorLabel;
+        private TextBox hotkeyTextBox;
     }
 }

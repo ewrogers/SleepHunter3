@@ -36,7 +36,7 @@ namespace SleepHunter.Forms
                 ? null
                 : argsForm.Parameters.ToArray();
         }
-        
+
         private void UpdateProcessUI()
         {
             var characterName = string.Empty;
@@ -53,16 +53,10 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            Text = isAttached ? $"{characterName} - Macro" : "Macro Data";
+            var name = !string.IsNullOrWhiteSpace(macroName) ? macroName : "Macro";
+            Text = isAttached ? $"{characterName} - {name}" : name;
 
-            clientVersionLabel.Text = isAttached ? "Client Version: 7.41" : "Client Version:";
-            processIdLabel.Text = isAttached ? $"Process ID: {clientWindow.ProcessId}" : "Process ID:";
-            windowHandleLabel.Text = isAttached ? $"Window Handle: {clientWindow.WindowHandle}" : "Window Handle:";
-            characterNameLabel.Text = isAttached ? $"Character Name: {characterName}" : "Character Name:";
-
-            clientVersionLabel.Enabled = isAttached;
-            processIdLabel.Enabled = isAttached;
-            windowHandleLabel.Enabled = isAttached;
+            characterNameLabel.Text = isAttached ? characterName : "No Client";
             characterNameLabel.Enabled = isAttached;
         }
 

@@ -96,9 +96,9 @@ namespace SleepHunter.Forms
                     ? $"Macro Data - {document.Name}"
                     : "Macro Data";
 
-                macroForm.Show();
-
                 macroForm.LoadMacroDocument(document);
+
+                macroForm.Show();
             }
             catch (Exception ex)
             {

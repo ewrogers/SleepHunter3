@@ -10,7 +10,11 @@ namespace SleepHunter.Forms
     {
         public SerializableMacroDocument GetMacroDocument()
         {
-            var document = new SerializableMacroDocument();
+            var document = new SerializableMacroDocument
+            {
+                Name = macroName.Trim(),
+                Author = macroAuthor.Trim(),
+            };
 
             foreach (var command in macroCommands)
             {
@@ -22,7 +26,7 @@ namespace SleepHunter.Forms
 
         public bool LoadMacroDocument(SerializableMacroDocument document)
         {
-            macroListView.Clear();
+            macroListView.Items.Clear();
             macroListView.BeginUpdate();
 
             try
@@ -45,8 +49,11 @@ namespace SleepHunter.Forms
                     var parameters =
                         command.Parameters?.Select(p => new MacroParameterValue(p.Type, p.Value)).ToArray() ??
                         Array.Empty<MacroParameterValue>();
-                    AddMacroCommand(definition, parameters, addClosingCommand: false);
+                    AddMacroCommand(definition, parameters, addClosingCommand: false, autoSelect: false);
                 }
+
+                nameTextBox.Text = macroName = document.Name.Trim();
+                authorTextBox.Text = macroAuthor = document.Author.Trim();
 
                 return !hasError;
             }
@@ -59,6 +66,7 @@ namespace SleepHunter.Forms
             finally
             {
                 macroListView.EndUpdate();
+                UpdateProcessUI();
             }
         }
     }
