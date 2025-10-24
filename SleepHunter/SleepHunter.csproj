@@ -150,6 +150,9 @@
       <DependentUpon>MacroForm.cs</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\MacroForm.Validation.cs">
+      <DependentUpon>MacroForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

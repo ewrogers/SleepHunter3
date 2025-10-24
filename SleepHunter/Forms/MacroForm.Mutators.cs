@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using SleepHunter.Macro;
 using SleepHunter.Macro.Commands;
-using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Models;
 
 namespace SleepHunter.Forms
@@ -11,9 +10,10 @@ namespace SleepHunter.Forms
     public partial class MacroForm
     {
         #region Add Command Methods
-        public void AddMacroCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true)
+
+        public void AddMacroCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters,
+            int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true)
         {
-            var success = false;
             try
             {
                 // Attempt to create the built command with the parameters
@@ -28,20 +28,15 @@ namespace SleepHunter.Forms
                         Parameters = parameters
                     };
                     AddMacroCommand(commandObj, desiredIndex, addClosingCommand, autoSelect);
-                    success = true;
                 }
             }
             catch
             {
-                success = false;
-            }
-
-            if (!success)
-            {
-                MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                MessageBox.Show(this, "Failed to create the command, please try again.", "Command Creation Failed",
+                    MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         }
-        
+
         private void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true)
         {
             try
@@ -123,24 +118,6 @@ namespace SleepHunter.Forms
         }
         #endregion
 
-        private void ValidateCommand(MacroCommandObject commandObj)
-        {
-            // Check for duplicate labels
-            if (commandObj.Command is DefineLabelCommand labelCommand)
-            {
-                var labelName = labelCommand.Label;
-                for(var i = 0; i< macroCommands.Count; i++)
-                {
-                    var existingCommand = macroCommands[i];
-                    if (existingCommand.Command is DefineLabelCommand existingLabel &&
-                        string.Equals(existingLabel.Label, labelName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new MacroValidationException($"Label '{existingLabel.Label}' is already defined.", i);
-                    }
-                }
-            }
-        }
-
         private bool ReplaceCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int index)
         {
             try
@@ -153,17 +130,26 @@ namespace SleepHunter.Forms
                     Definition = definition,
                     Parameters = parameters
                 };
-                
+
+                ValidateCommand(newCommandObj);
+
                 // Replace the command
                 macroCommands[index] = newCommandObj;
-                
+
                 // Update the listview
                 var selectedItem = macroListView.Items[index];
                 selectedItem.Tag = newCommandObj;
                 selectedItem.SubItems[1].Text = newCommand.ToString();
-                
+
                 ReformatLines();
                 return true;
+            }
+            catch (MacroValidationException ex)
+            {
+                SelectMacroItem(ex.CommandIndex);
+                MessageBox.Show(this, ex.Message, "Command Validation Failed", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+                return false;
             }
             catch (Exception)
             {
