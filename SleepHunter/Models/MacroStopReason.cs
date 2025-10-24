@@ -5,6 +5,7 @@
         None,
         Completed,
         UserStopped,
+        Command,
         ProcessNotFound,
         Error,
     }

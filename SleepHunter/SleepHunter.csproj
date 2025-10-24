@@ -219,6 +219,7 @@
     <Compile Include="Macro\Commands\MacroCommandRegistry.Mouse.cs" />
     <Compile Include="Macro\Commands\MacroCommandRegistry.Time.cs" />
     <Compile Include="Macro\Commands\MacroCommandResult.cs" />
+    <Compile Include="Macro\Commands\MacroCommandResultAction.cs" />
     <Compile Include="Macro\Commands\MacroParameterParser.cs" />
     <Compile Include="Macro\Commands\MacroParameterType.cs" />
     <Compile Include="Macro\Commands\MacroParameterValue.cs" />
@@ -238,7 +239,6 @@
     <Compile Include="Macro\IMacroContext.cs" />
     <Compile Include="Macro\IMacroExecutor.cs" />
     <Compile Include="Macro\MacroContext.cs" />
-    <Compile Include="Macro\IMacroController.cs" />
     <Compile Include="Macro\MacroExecutor.cs" />
     <Compile Include="Macro\MacroRunState.cs" />
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
@@ -317,9 +317,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Macro\Keyboard\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,11 +7,12 @@ using SleepHunter.Interop;
 using SleepHunter.Interop.Keyboard;
 using SleepHunter.Interop.Mouse;
 using SleepHunter.Macro.Commands;
+using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Models;
 
 namespace SleepHunter.Macro
 {
-    public sealed class MacroExecutor : IMacroExecutor, IMacroController
+    public sealed class MacroExecutor : IMacroExecutor
     {
         private static readonly TimeSpan UpdateInterval = TimeSpan.FromMilliseconds(33); // Roughly 30 FPS
 
@@ -21,7 +22,9 @@ namespace SleepHunter.Macro
         private readonly GameClientReader reader;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ManualResetEventSlim pauseEvent;
-        private readonly IMacroContext context;
+        private readonly MacroContext context;
+
+        private readonly Dictionary<string, int> labelIndices = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         private int nextCommandIndex;
         private Task executingTask;
@@ -47,7 +50,9 @@ namespace SleepHunter.Macro
             pauseEvent = new ManualResetEventSlim(true);
 
             player = new PlayerState();
-            context = new MacroContext(this, player, keyboard, mouse, cancellationTokenSource.Token);
+            context = new MacroContext(player, keyboard, mouse, cancellationTokenSource.Token);
+            
+            RegisterLabels();
         }
 
         public Task StartAsync()
@@ -94,7 +99,36 @@ namespace SleepHunter.Macro
                         // Some commands will block the thread, so we need to execute them asynchronously
                         var commandIndex = Interlocked.Increment(ref nextCommandIndex) - 1;
                         var command = commands[commandIndex];
-                        await command.ExecuteAsync(context);
+
+                        context.CurrentCommandIndex = commandIndex;
+                        var result = await command.ExecuteAsync(context);
+
+                        // Check if pause requested
+                        if (result.Action == MacroCommandResultAction.Pause)
+                        {
+                            pauseEvent.Reset();
+                        }
+
+                        // Check if stop requested
+                        if (result.Action == MacroCommandResultAction.Stop)
+                        {
+                            stopReason = MacroStopReason.Command;
+                            break;
+                        }
+
+                        // Check if jump requested
+                        if (result.Action == MacroCommandResultAction.Jump)
+                        {
+                            if (result.JumpIndex.HasValue)
+                            {
+                                nextCommandIndex = result.JumpIndex.Value;
+                            }
+                            else if (!string.IsNullOrWhiteSpace(result.JumpLabel) &&
+                                     labelIndices.TryGetValue(result.JumpLabel, out var labelIndex))
+                            {
+                                nextCommandIndex = labelIndex;
+                            }
+                        }
                     }
                     catch (OperationCanceledException)
                     {
@@ -181,6 +215,17 @@ namespace SleepHunter.Macro
             player.CurrentMana = reader.ReadCurrentMana();
 
             lastUpdateTime = DateTime.Now;
+        }
+
+        private void RegisterLabels()
+        {
+            for (var i = 0; i < commands.Count; i++)
+            {
+                if (commands[i] is DefineLabelCommand labelCommand)
+                {
+                    labelIndices[labelCommand.Label] = i;
+                }
+            }
         }
 
         ~MacroExecutor() => Dispose(false);

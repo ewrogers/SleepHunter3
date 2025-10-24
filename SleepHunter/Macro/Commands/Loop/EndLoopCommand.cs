@@ -7,7 +7,7 @@ namespace SleepHunter.Macro.Commands.Loop
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             // Effectly a no-op, mostly used as a marker
-            return Task.FromResult(MacroCommandResult.NoOp);
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
         public override string ToString() => "End Loop";

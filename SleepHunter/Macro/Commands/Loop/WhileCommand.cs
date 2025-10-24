@@ -19,7 +19,7 @@ namespace SleepHunter.Macro.Commands.Loop
             // Determine if the condition is true, and jump if necessary
             var result = condition.Evaluate(context);
 
-            return Task.FromResult(MacroCommandResult.NoOp);
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
         public override string ToString() => $"While {fieldName} {condition}";

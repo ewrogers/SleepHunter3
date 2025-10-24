@@ -7,15 +7,14 @@ namespace SleepHunter.Macro
 {
     public class MacroContext : IMacroContext
     {
-        public IMacroController Controller { get; }
         public PlayerState Player { get; }
         public IVirtualKeyboard Keyboard { get; }
         public IVirtualMouse Mouse { get; }
         public CancellationToken CancellationToken { get; }
+        public int CurrentCommandIndex { get; set; }
 
-        public MacroContext(IMacroController controller, PlayerState player, IVirtualKeyboard keyboard, IVirtualMouse mouse, CancellationToken token = default)
+        public MacroContext(PlayerState player, IVirtualKeyboard keyboard, IVirtualMouse mouse, CancellationToken token = default)
         {
-            Controller = controller;
             Player = player;
             Keyboard = keyboard;
             Mouse = mouse;
