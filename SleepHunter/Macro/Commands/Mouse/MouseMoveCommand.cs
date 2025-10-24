@@ -1,24 +1,29 @@
 ﻿
 using System.Threading.Tasks;
+using SleepHunter.Interop.Mouse;
 
 namespace SleepHunter.Macro.Commands.Mouse
 {
     public sealed class MouseMoveCommand : MacroCommand
     {
-        public int X { get; }
-        public int Y { get; }
+        public MousePoint Position { get; }
 
         public MouseMoveCommand(int x, int y)
         {
-            X = x;
-            Y = y;
+            Position = new MousePoint(x, y);
+        }
+
+        public MouseMoveCommand(MousePoint position)
+        {
+            Position = position;
         }
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            throw new System.NotImplementedException();
+            context.Mouse.MoveMouse(Position.X, Position.Y);
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
-        public override string ToString() => $"Move Mouse to {X}, {Y}";
+        public override string ToString() => $"Move Mouse to {Position.X}, {Position.Y}";
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace SleepHunter.Macro.Commands.Mouse
 {
@@ -7,7 +6,13 @@ namespace SleepHunter.Macro.Commands.Mouse
     {
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            throw new NotImplementedException();
+            // If a saved mouse position exists, move the mouse to it
+            if (context.SavedMousePosition.HasValue)
+            {
+                context.Mouse.MoveMouse(context.SavedMousePosition.Value);
+            }
+
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
         public override string ToString() => "Recall Mouse Position";
