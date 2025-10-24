@@ -61,6 +61,10 @@ namespace SleepHunter.Macro.Commands.Interface
                 case InterfacePane.Stats:
                     keyboard.SendKeyPress('g');
                     break;
+                
+                case InterfacePane.WorldSkillSpells:
+                    keyboard.SendKeyPress('h');
+                    break;
             }
             
             return Task.FromResult(MacroCommandResult.Continue);
