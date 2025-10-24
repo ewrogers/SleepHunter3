@@ -19,15 +19,23 @@ namespace SleepHunter.Forms
 
             IsRunning = true;
 
-            macroExecutor?.Dispose();
+            if (macroExecutor != null)
+            {
+                macroExecutor.DebugStep -= OnMacroDebugStep;
+                macroExecutor.StateChanged -= OnMacroStateChanged;
+                macroExecutor.Exception -= OnMacroException;
+                macroExecutor.Dispose();                
+            }
 
             // Create a new macro executor with the current macro commands
             macroExecutor = new MacroExecutor(macroCommands.Select(c => c.Command), clientReader,
                 new VirtualKeyboard(clientWindow.WindowHandle), new VirtualMouse(clientWindow.WindowHandle));
 
+            macroExecutor.DebugStep += OnMacroDebugStep;
             macroExecutor.StateChanged += OnMacroStateChanged;
             macroExecutor.Exception += OnMacroException;
 
+            macroExecutor.SetDebugStepEnabled(debugStepEnabled);
             macroExecutor.StartAsync();
 
             UpdateToolbarAndMenuState();
@@ -44,6 +52,7 @@ namespace SleepHunter.Forms
             IsPaused = true;
             macroExecutor?.Pause();
 
+            ClearHighlight();
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }
@@ -58,6 +67,7 @@ namespace SleepHunter.Forms
             IsPaused = false;
             macroExecutor?.Resume();
 
+            ClearHighlight();
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }
@@ -75,6 +85,18 @@ namespace SleepHunter.Forms
             macroExecutor?.StopAsync();
 
             StopReason = reason;
+
+            ClearHighlight();
+            UpdateToolbarAndMenuState();
+            UpdateStatusBarState();
+        }
+
+        private void OnMacroDebugStep(int commandIndex)
+        {
+            ClearHighlight();
+
+            macroListView.SelectedIndices.Clear();
+            HighlightItem(commandIndex);
 
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();

@@ -82,6 +82,7 @@ namespace SleepHunter.Forms
             this.playButton = new System.Windows.Forms.ToolStripButton();
             this.pauseButton = new System.Windows.Forms.ToolStripButton();
             this.stopButton = new System.Windows.Forms.ToolStripButton();
+            this.debugStepButton = new System.Windows.Forms.ToolStripButton();
             this.quickAttachButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.statusImageList = new System.Windows.Forms.ImageList(this.components);
             this.processTimer = new System.Windows.Forms.Timer(this.components);
@@ -131,7 +132,7 @@ namespace SleepHunter.Forms
             this.macroStatusBar.Location = new System.Drawing.Point(0, 439);
             this.macroStatusBar.Name = "macroStatusBar";
             this.macroStatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.macroStatusBar.Size = new System.Drawing.Size(404, 22);
+            this.macroStatusBar.Size = new System.Drawing.Size(444, 22);
             this.macroStatusBar.TabIndex = 1;
             this.macroStatusBar.Text = "statusStrip1";
             // 
@@ -143,7 +144,7 @@ namespace SleepHunter.Forms
             this.statusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.statusLabel.MergeAction = System.Windows.Forms.MergeAction.Replace;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(387, 17);
+            this.statusLabel.Size = new System.Drawing.Size(427, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.Text = "Macro is not running.";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -168,7 +169,7 @@ namespace SleepHunter.Forms
             this.macroSplitContainer.Panel2.Controls.Add(this.macroToolStrip);
             this.macroSplitContainer.Panel2.Margin = new System.Windows.Forms.Padding(5);
             this.macroSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(6, 1, 5, 5);
-            this.macroSplitContainer.Size = new System.Drawing.Size(404, 439);
+            this.macroSplitContainer.Size = new System.Drawing.Size(444, 439);
             this.macroSplitContainer.SplitterDistance = 136;
             this.macroSplitContainer.SplitterWidth = 5;
             this.macroSplitContainer.TabIndex = 0;
@@ -197,7 +198,7 @@ namespace SleepHunter.Forms
             this.headerSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
             this.headerSplitContainer.Panel2.DragDrop += new System.Windows.Forms.DragEventHandler(this.processPanel_DragDrop);
             this.headerSplitContainer.Panel2.DragEnter += new System.Windows.Forms.DragEventHandler(this.processPanel_DragEnter);
-            this.headerSplitContainer.Size = new System.Drawing.Size(394, 126);
+            this.headerSplitContainer.Size = new System.Drawing.Size(434, 126);
             this.headerSplitContainer.SplitterDistance = 211;
             this.headerSplitContainer.SplitterWidth = 5;
             this.headerSplitContainer.TabIndex = 0;
@@ -277,7 +278,7 @@ namespace SleepHunter.Forms
             this.hotkeyGroupBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.hotkeyGroupBox.Name = "hotkeyGroupBox";
             this.hotkeyGroupBox.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.hotkeyGroupBox.Size = new System.Drawing.Size(177, 126);
+            this.hotkeyGroupBox.Size = new System.Drawing.Size(217, 126);
             this.hotkeyGroupBox.TabIndex = 0;
             this.hotkeyGroupBox.TabStop = false;
             this.hotkeyGroupBox.Text = "Hotkey";
@@ -335,7 +336,7 @@ namespace SleepHunter.Forms
             this.macroListView.Location = new System.Drawing.Point(6, 26);
             this.macroListView.Margin = new System.Windows.Forms.Padding(12);
             this.macroListView.Name = "macroListView";
-            this.macroListView.Size = new System.Drawing.Size(393, 267);
+            this.macroListView.Size = new System.Drawing.Size(433, 267);
             this.macroListView.TabIndex = 1;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
@@ -448,11 +449,12 @@ namespace SleepHunter.Forms
             this.pauseButton,
             this.stopButton,
             toolStripSeparator2,
+            this.debugStepButton,
             this.quickAttachButton});
             this.macroToolStrip.Location = new System.Drawing.Point(6, 1);
             this.macroToolStrip.Margin = new System.Windows.Forms.Padding(0, 12, 0, 12);
             this.macroToolStrip.Name = "macroToolStrip";
-            this.macroToolStrip.Size = new System.Drawing.Size(393, 25);
+            this.macroToolStrip.Size = new System.Drawing.Size(433, 25);
             this.macroToolStrip.TabIndex = 0;
             this.macroToolStrip.Text = "toolStrip1";
             // 
@@ -547,7 +549,7 @@ namespace SleepHunter.Forms
             this.playButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.playButton.Name = "playButton";
             this.playButton.Size = new System.Drawing.Size(23, 22);
-            this.playButton.Text = "Play Macro";
+            this.playButton.Text = "Start Macro";
             this.playButton.Click += new System.EventHandler(this.playButton_Click);
             // 
             // pauseButton
@@ -570,6 +572,18 @@ namespace SleepHunter.Forms
             this.stopButton.Size = new System.Drawing.Size(23, 22);
             this.stopButton.Text = "Stop Macro";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // debugStepButton
+            // 
+            this.debugStepButton.CheckOnClick = true;
+            this.debugStepButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.debugStepButton.Image = ((System.Drawing.Image)(resources.GetObject("debugStepButton.Image")));
+            this.debugStepButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.debugStepButton.Name = "debugStepButton";
+            this.debugStepButton.Size = new System.Drawing.Size(34, 22);
+            this.debugStepButton.Text = "Step";
+            this.debugStepButton.ToolTipText = "Enable Debug Step Mode";
+            this.debugStepButton.CheckedChanged += new System.EventHandler(this.debugStepButton_CheckedChanged);
             // 
             // quickAttachButton
             // 
@@ -602,7 +616,7 @@ namespace SleepHunter.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 461);
+            this.ClientSize = new System.Drawing.Size(444, 461);
             this.Controls.Add(this.macroSplitContainer);
             this.Controls.Add(this.macroStatusBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -652,5 +666,6 @@ namespace SleepHunter.Forms
         private TextBox authorTextBox;
         private Label authorLabel;
         private TextBox hotkeyTextBox;
+        private ToolStripButton debugStepButton;
     }
 }

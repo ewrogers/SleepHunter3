@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
@@ -126,7 +127,10 @@ namespace SleepHunter.Forms
             moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
             moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
 
-            playButton.Enabled = !isEmpty && isAttached && !IsRunning;
+            playButton.Text = IsPaused ? "Continue Macro" : "Start Macro";
+            playButton.Enabled = !isEmpty && isAttached && (!IsRunning || IsPaused);
+
+
             pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
             stopButton.Enabled = IsRunning;
 
@@ -173,6 +177,29 @@ namespace SleepHunter.Forms
             }
             
             statusLabel.Image = statusImageList.Images[stopImageIndex];
+        }
+
+        private void HighlightItem(int index)
+        {
+            if (index < 0 || index >= macroListView.Items.Count)
+            {
+                return;
+            }
+            
+            highlightedItem = macroListView.Items[index];
+            highlightedItem.BackColor = Color.Yellow;
+            highlightedItem.EnsureVisible();
+        }
+
+        private void ClearHighlight()
+        {
+            if (highlightedItem == null)
+            {
+                return;
+            }
+
+            highlightedItem.BackColor = macroListView.BackColor;
+            highlightedItem = null;
         }
     }
 }

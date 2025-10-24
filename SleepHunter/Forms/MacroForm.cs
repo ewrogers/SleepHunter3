@@ -31,7 +31,10 @@ namespace SleepHunter.Forms
 
         private string macroName = string.Empty;
         private string macroAuthor = string.Empty;
-
+        
+        private bool debugStepEnabled;
+        private ListViewItem highlightedItem;
+        
         public bool IsRunning { get; private set; }
         public bool IsPaused { get; private set; }
         public MacroStopReason StopReason { get; private set; }
@@ -398,12 +401,27 @@ namespace SleepHunter.Forms
             UpdateToolbarAndMenuState();
         }
 
+        private void debugStepButton_CheckedChanged(object sender, EventArgs e)
+        {
+            debugStepEnabled = debugStepButton.Checked;
+            macroExecutor?.SetDebugStepEnabled(debugStepEnabled);
+        }
+
         #endregion
 
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-            macroExecutor?.Dispose();
+
+            if (macroExecutor != null)
+            {
+                macroExecutor.DebugStep -= OnMacroDebugStep;
+                macroExecutor.StateChanged -= OnMacroStateChanged;
+                macroExecutor.Exception -= OnMacroException;
+
+                macroExecutor.StopAsync();
+                macroExecutor.Dispose();
+            }
         }
     }
 }
