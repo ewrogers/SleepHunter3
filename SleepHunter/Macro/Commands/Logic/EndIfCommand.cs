@@ -6,7 +6,7 @@ namespace SleepHunter.Macro.Commands.Logic
     {
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            // Effectly a no-op, mostly used as a marker
+            // Effectively a no-op, all logic is handled by the If and Else commands
             return Task.FromResult(MacroCommandResult.Continue);
         }
 
