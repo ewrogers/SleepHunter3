@@ -22,6 +22,9 @@ namespace SleepHunter.Macro.Commands.Jump
             // Use the label index to jump to the label location
             if (context.StructureCache.Labels.TryGetValue(Label, out var labelIndex))
             {
+                // Cleanup any loop states that this jump would exit
+                context.CleanupLoopStatesForJump(labelIndex);
+                
                 return Task.FromResult(MacroCommandResult.JumpToIndex(labelIndex));
             }
 

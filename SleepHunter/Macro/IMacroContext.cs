@@ -19,6 +19,7 @@ namespace SleepHunter.Macro
         void PushLoopState(MacroLoopState state);
         MacroLoopState PopLoopState();
         MacroLoopState PeekLoopState();
+        void CleanupLoopStatesForJump(int targetIndex);
 
         void SetVariable(string name, object value);
         object GetVariable(string name);

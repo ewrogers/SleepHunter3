@@ -33,7 +33,35 @@ namespace SleepHunter.Macro
         public void PushLoopState(MacroLoopState state) => loopStack.Push(state);
         public MacroLoopState PopLoopState() => loopStack.Count > 0 ? loopStack.Pop() : null;
         public MacroLoopState PeekLoopState() => loopStack.Count > 0 ? loopStack.Peek() : null;
-        
+
+        public void CleanupLoopStatesForJump(int targetIndex)
+        {
+            // Remove loop states that the jump target is not contained within
+            var statesToRemove = new List<MacroLoopState>();
+
+            foreach (var loopState in loopStack)
+            {
+                if (targetIndex <= loopState.LoopStartIndex || targetIndex > loopState.EndLoopIndex)
+                {
+                    statesToRemove.Add(loopState);
+                }
+                else
+                {
+                    // Target is inside this loop, so we keep all inner loops
+                    break;
+                }
+            }
+
+            // Remove the identified loop states
+            foreach (var state in statesToRemove)
+            {
+                if (loopStack.Count > 0 && loopStack.Peek() == state)
+                {
+                    loopStack.Pop();
+                }
+            }
+        }
+
         public void SetVariable(string name, object value) => variables[name] = value;
         public object GetVariable(string name) => variables.ContainsKey(name) ? variables[name] : null;
     }
