@@ -7,11 +7,12 @@ using SleepHunter.Interop;
 using SleepHunter.Interop.Keyboard;
 using SleepHunter.Interop.Mouse;
 using SleepHunter.Macro.Commands;
+using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Models;
 
 namespace SleepHunter.Macro
 {
-    public sealed class MacroExecutor : IMacroExecutor, IMacroController
+    public sealed class MacroExecutor : IMacroExecutor
     {
         private static readonly TimeSpan UpdateInterval = TimeSpan.FromMilliseconds(33); // Roughly 30 FPS
 
@@ -21,7 +22,8 @@ namespace SleepHunter.Macro
         private readonly GameClientReader reader;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ManualResetEventSlim pauseEvent;
-        private readonly IMacroContext context;
+        private readonly MacroStructureCache structureCache;
+        private readonly MacroContext context;
 
         private int nextCommandIndex;
         private Task executingTask;
@@ -47,7 +49,9 @@ namespace SleepHunter.Macro
             pauseEvent = new ManualResetEventSlim(true);
 
             player = new PlayerState();
-            context = new MacroContext(this, player, keyboard, mouse, cancellationTokenSource.Token);
+            structureCache = new MacroStructureCache(this.commands);
+
+            context = new MacroContext(structureCache, player, keyboard, mouse, cancellationTokenSource.Token);
         }
 
         public Task StartAsync()
@@ -94,7 +98,36 @@ namespace SleepHunter.Macro
                         // Some commands will block the thread, so we need to execute them asynchronously
                         var commandIndex = Interlocked.Increment(ref nextCommandIndex) - 1;
                         var command = commands[commandIndex];
-                        await command.ExecuteAsync(context);
+
+                        context.CurrentCommandIndex = commandIndex;
+                        var result = await command.ExecuteAsync(context);
+
+                        // Check if pause requested
+                        if (result.Action == MacroCommandResultAction.Pause)
+                        {
+                            pauseEvent.Reset();
+                        }
+
+                        // Check if stop requested
+                        if (result.Action == MacroCommandResultAction.Stop)
+                        {
+                            stopReason = MacroStopReason.Command;
+                            break;
+                        }
+
+                        // Check if jump requested
+                        if (result.Action == MacroCommandResultAction.Jump)
+                        {
+                            if (result.JumpIndex.HasValue)
+                            {
+                                nextCommandIndex = result.JumpIndex.Value;
+                            }
+                            else if (!string.IsNullOrWhiteSpace(result.JumpLabel) &&
+                                     structureCache.Labels.TryGetValue(result.JumpLabel, out var labelIndex))
+                            {
+                                nextCommandIndex = labelIndex;
+                            }
+                        }
                     }
                     catch (OperationCanceledException)
                     {

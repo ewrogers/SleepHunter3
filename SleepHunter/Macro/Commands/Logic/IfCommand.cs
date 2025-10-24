@@ -1,4 +1,5 @@
-﻿using SleepHunter.Macro.Conditions;
+﻿using System;
+using SleepHunter.Macro.Conditions;
 using System.Threading.Tasks;
 
 namespace SleepHunter.Macro.Commands.Logic
@@ -10,16 +11,33 @@ namespace SleepHunter.Macro.Commands.Logic
 
         public IfCommand(IMacroCondition condition, string fieldName = null)
         {
-            this.condition = condition;
+            this.condition = condition ?? throw new ArgumentNullException(nameof(condition));
             this.fieldName = fieldName ?? "Value";
         }
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            // Determine if the condition is true, and jump if necessary
-            var result = condition.Evaluate(context);
+            var conditionMet = condition.Evaluate(context);
 
-            return Task.FromResult(MacroCommandResult.NoOp);
+            if (conditionMet)
+            {
+                // Condition is true, continue to the next command within
+                return Task.FromResult(MacroCommandResult.Continue);
+            }
+
+            // Condition is false, find where to jump
+            var currentIndex = context.CurrentCommandIndex;
+            var elseIndex = context.StructureCache.GetElseIndex(currentIndex);
+
+            if (elseIndex >= 0)
+            {
+                // Jump to the Else command
+                return Task.FromResult(MacroCommandResult.JumpToIndex(elseIndex + 1));
+            }
+
+            // No else, jump to the end If statement
+            var endIfIndex = context.StructureCache.GetEndIfIndex(currentIndex);
+            return Task.FromResult(MacroCommandResult.JumpToIndex(endIfIndex + 1));
         }
 
         public override string ToString() => $"If {fieldName} {condition}";

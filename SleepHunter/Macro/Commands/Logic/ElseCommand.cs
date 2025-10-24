@@ -6,8 +6,13 @@ namespace SleepHunter.Macro.Commands.Logic
     {
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            // Effectly a no-op, mostly used as a marker
-            return Task.FromResult(MacroCommandResult.NoOp);
+            var currentIndex = context.CurrentCommandIndex;
+            var endIfIndex = context.StructureCache.GetEndIfIndex(currentIndex);
+
+            // Jump to the end of the If statement or continue if not found
+            return Task.FromResult(endIfIndex >= 0
+                ? MacroCommandResult.JumpToIndex(endIfIndex + 1)
+                : MacroCommandResult.Continue);
         }
 
         public override string ToString() => "Else";

@@ -34,18 +34,20 @@ namespace SleepHunter.Interop.Mouse
             this.windowHandle = windowHandle;
         }
 
-        public (int X, int Y) GetCursorPosition()
+        public MousePoint GetCursorPosition()
         {
             NativeMethods.GetCursorPos(out var point);
-            return (point.X, point.Y);
+            return new MousePoint(point.X, point.Y);
         }
-
+        
+        public void MoveMouse(MousePoint point) => MoveMouse(point.X, point.Y);
         public void MoveMouse(int x, int y)
         {
             var parameter = MakePointParameter(x, y);
             NativeMethods.PostMessage(windowHandle, WM_MOUSEMOVE, IntPtr.Zero, parameter);
         }
 
+        public void SendButtonDown(MouseButton button, MousePoint point) => SendButtonDown(button, point.X, point.Y);
         public void SendButtonDown(MouseButton button, int x = 0, int y = 0)
         {
             var parameter = MakePointParameter(x, y);
@@ -76,6 +78,7 @@ namespace SleepHunter.Interop.Mouse
             }
         }
 
+        public void SendButtonUp(MouseButton button, MousePoint point) => SendButtonUp(button, point.X, point.Y);
         public void SendButtonUp(MouseButton button, int x = 0, int y = 0)
         {
             var parameter = MakePointParameter(x, y);
@@ -106,17 +109,15 @@ namespace SleepHunter.Interop.Mouse
             }
         }
 
-        public void Click(MouseButton button, int x = 0, int y = 0, bool moveMouse = true)
-        {
-            if (moveMouse)
-            {
-                MoveMouse(x, y);
-            }
+        public void Click(MouseButton button, MousePoint point) => Click(button, point.X, point.Y);
 
+        public void Click(MouseButton button, int x = 0, int y = 0)
+        {
             SendButtonDown(button, x, y);
             SendButtonUp(button, x, y);
         }
 
+        public void DoubleClick(MouseButton button, MousePoint point) => DoubleClick(button, point.X, point.Y);
         public void DoubleClick(MouseButton button, int x = 0, int y = 0)
         {
             var parameter = MakePointParameter(x, y);

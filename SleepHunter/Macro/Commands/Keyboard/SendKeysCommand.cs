@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SleepHunter.Interop.Keyboard;
@@ -22,7 +21,14 @@ namespace SleepHunter.Macro.Commands.Keyboard
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            throw new NotImplementedException();
+            var keyboard = context.Keyboard;
+            foreach (var key in keys)
+            {
+                context.CancellationToken.ThrowIfCancellationRequested();
+                keyboard.SendKeyPress(key);
+            }
+
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
         public override string ToString()

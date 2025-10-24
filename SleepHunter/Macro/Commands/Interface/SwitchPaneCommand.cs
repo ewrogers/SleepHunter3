@@ -1,5 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using SleepHunter.Interop.Keyboard;
 
 namespace SleepHunter.Macro.Commands.Interface
 {
@@ -26,7 +26,48 @@ namespace SleepHunter.Macro.Commands.Interface
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            throw new NotImplementedException();
+            var keyboard = context.Keyboard;
+
+            switch (Pane)
+            {
+                case InterfacePane.Inventory:
+                    keyboard.SendKeyPress('a');
+                    break;
+                
+                case InterfacePane.TemuairSkills:
+                    keyboard.SendKeyPress('s');
+                    break;
+                
+                case InterfacePane.TemuairSpells:
+                    keyboard.SendKeyPress('d');
+                    break;
+                
+                case InterfacePane.MedeniaSkills:
+                    keyboard.SendModifierKeyDown(ModifierKeys.Shift);
+                    keyboard.SendKeyPress('s');
+                    keyboard.SendModifierKeyUp(ModifierKeys.Shift);
+                    break;
+                
+                case InterfacePane.MedeniaSpells:
+                    keyboard.SendModifierKeyDown(ModifierKeys.Shift);
+                    keyboard.SendKeyPress('d');
+                    keyboard.SendModifierKeyUp(ModifierKeys.Shift);
+                    break;
+                
+                case InterfacePane.Chat:
+                    keyboard.SendKeyPress('f');
+                    break;
+                
+                case InterfacePane.Stats:
+                    keyboard.SendKeyPress('g');
+                    break;
+                
+                case InterfacePane.WorldSkillSpells:
+                    keyboard.SendKeyPress('h');
+                    break;
+            }
+            
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
         public override string ToString()

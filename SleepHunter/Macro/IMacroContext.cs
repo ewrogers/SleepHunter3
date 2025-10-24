@@ -7,10 +7,20 @@ namespace SleepHunter.Macro
 {
     public interface IMacroContext
     {
-        IMacroController Controller { get; }
+        IMacroStructureCache StructureCache { get; }
         PlayerState Player { get; }
         IVirtualKeyboard Keyboard { get; }
         IVirtualMouse Mouse { get; }
         CancellationToken CancellationToken { get; }
+        int CurrentCommandIndex { get; }
+        MousePoint? SavedMousePosition { get; set; }
+
+        bool HasActiveLoops { get; }
+        void PushLoopState(MacroLoopState state);
+        MacroLoopState PopLoopState();
+        MacroLoopState PeekLoopState();
+
+        void SetVariable(string name, object value);
+        object GetVariable(string name);
     }
 }

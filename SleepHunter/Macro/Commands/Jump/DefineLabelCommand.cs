@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace SleepHunter.Macro.Commands.Jump
 {
@@ -8,13 +9,19 @@ namespace SleepHunter.Macro.Commands.Jump
 
         public DefineLabelCommand(string label)
         {
+            if (string.IsNullOrWhiteSpace(label))
+            {
+                throw new ArgumentException("Label cannot be null or whitespace", nameof(label));
+            }
+
             Label = label;
         }
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            // Effectly a no-op, mostly used as a marker
-            return Task.FromResult(MacroCommandResult.NoOp);
+            // Labels are a passive marker
+            // The label location is registered in the macro structure
+            return Task.FromResult(MacroCommandResult.Continue);
         }
 
         public override string ToString() => $"@{Label}";
