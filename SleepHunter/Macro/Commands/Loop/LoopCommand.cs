@@ -24,6 +24,7 @@ namespace SleepHunter.Macro.Commands.Loop
             // Create a new loop state
             var loopState = new MacroLoopState
             {
+                LoopType = MacroLoopType.Loop,
                 LoopStartIndex = currentIndex,
                 EndLoopIndex = endLoopIndex,
                 CurrentIteration = 0,

@@ -1,4 +1,5 @@
-﻿using SleepHunter.Macro.Conditions;
+﻿using System;
+using SleepHunter.Macro.Conditions;
 using System.Threading.Tasks;
 
 namespace SleepHunter.Macro.Commands.Logic
@@ -10,7 +11,7 @@ namespace SleepHunter.Macro.Commands.Logic
 
         public IfCommand(IMacroCondition condition, string fieldName = null)
         {
-            this.condition = condition;
+            this.condition = condition ?? throw new ArgumentNullException(nameof(condition));
             this.fieldName = fieldName ?? "Value";
         }
 

@@ -9,7 +9,7 @@ namespace SleepHunter.Macro.Commands.Loop
             var loopState = context.PeekLoopState();
 
             // If not in a loop, do nothing and proceed
-            if (loopState == null)
+            if (loopState == null || loopState.LoopType != MacroLoopType.Loop)
             {
                 return Task.FromResult(MacroCommandResult.Continue);
             }
