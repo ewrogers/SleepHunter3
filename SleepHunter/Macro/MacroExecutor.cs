@@ -145,6 +145,8 @@ namespace SleepHunter.Macro
                                 nextCommandIndex = labelIndex;
                             }
                         }
+
+                        await Task.Yield();
                     }
                     catch (OperationCanceledException)
                     {

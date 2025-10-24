@@ -15,6 +15,7 @@ namespace SleepHunter.Macro.Serialization
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             WriteIndented = true,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
             Converters =
             {
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),

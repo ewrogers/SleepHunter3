@@ -107,6 +107,11 @@ namespace SleepHunter.Forms
             if (state == MacroRunState.Stopped)
             {
                 StopReason = macroExecutor.StopReason;
+
+                if (StopReason == MacroStopReason.ProcessNotFound)
+                {
+                    DetachClient();
+                }
             }
 
             IsRunning = state == MacroRunState.Running || state == MacroRunState.Paused;

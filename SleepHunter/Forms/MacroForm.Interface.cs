@@ -116,16 +116,16 @@ namespace SleepHunter.Forms
                 editSelectedMenu.ShortcutKeyDisplayString = "Space";
             }
 
-            editButton.Enabled = editSelectedMenu.Enabled = !isEmpty && hasSingleSelection && hasParameters;
-            deleteButton.Enabled = deleteSelectedMenu.Enabled = !isEmpty && hasSelection;
+            editButton.Enabled = editSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSingleSelection && hasParameters;
+            deleteButton.Enabled = deleteSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
-            cutButton.Enabled = cutSelectedMenu.Enabled = !isEmpty && hasSelection;
+            cutButton.Enabled = cutSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
             copyButton.Enabled = copySelectedMenu.Enabled = !isEmpty && hasSelection;
-            pasteButton.Enabled = pasteSelectedMenu.Enabled =
+            pasteButton.Enabled = pasteSelectedMenu.Enabled = !IsRunning &&
                 Clipboard.ContainsData("MacroCommands") || Clipboard.ContainsText();
 
-            moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
-            moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
+            moveUpButton.Enabled = moveUpMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
+            moveDownButton.Enabled = moveDownMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
             playButton.Text = IsPaused ? "Continue Macro" : "Start Macro";
             playButton.Enabled = !isEmpty && isAttached && (!IsRunning || IsPaused);
