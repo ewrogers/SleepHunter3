@@ -10,10 +10,14 @@ namespace SleepHunter.Macro
         int GetEndIfIndex(int ifIndex);
         int GetEndIfIndexFromElse(int elseIndex);
 
-        int GetLoopIndex(int endLoopIndex);
-        int GetEndLoopIndex(int loopIndex);
-
         int GetWhileIndex(int endWhileIndex);
         int GetEndWhileIndex(int whileIndex);
+        bool IsInsideWhile(int commandIndex);
+        int GetInnerWhileIndex(int commandIndex);
+        
+        int GetLoopIndex(int endLoopIndex);
+        int GetEndLoopIndex(int loopIndex);
+        bool IsInsideLoop(int commandIndex);
+        int GetInnerLoopIndex(int commandIndex);
     }
 }

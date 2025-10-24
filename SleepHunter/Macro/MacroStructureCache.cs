@@ -22,6 +22,13 @@ namespace SleepHunter.Macro
         private readonly Dictionary<int, int> loopToEndLoop = new Dictionary<int, int>();
         private readonly Dictionary<int, int> endLoopToLoop = new Dictionary<int, int>();
 
+        // Break/Continue mappings
+        private readonly Dictionary<int, List<(int Start, int End)>> commandToWhileBlock =
+            new Dictionary<int, List<(int Start, int End)>>();
+
+        private readonly Dictionary<int, List<(int Start, int End)>> commandToLoopBlock =
+            new Dictionary<int, List<(int Start, int End)>>();
+
         // Labels mappings
         private readonly Dictionary<string, int> labels = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
@@ -30,6 +37,7 @@ namespace SleepHunter.Macro
         public MacroStructureCache(IReadOnlyList<IMacroCommand> commands)
         {
             BuildStructure(commands);
+            BuildContainmentMaps(commands);
         }
 
         #region If/Else/EndIf Methods
@@ -53,6 +61,19 @@ namespace SleepHunter.Macro
         public int GetEndWhileIndex(int whileIndex)
             => whileToEndWhile.TryGetValue(whileIndex, out var endWhileIndex) ? endWhileIndex : -1;
 
+        public bool IsInsideWhile(int commandIndex) =>
+            commandToWhileBlock.ContainsKey(commandIndex);
+
+        public int GetInnerWhileIndex(int commandIndex)
+        {
+            if (!commandToWhileBlock.TryGetValue(commandIndex, out var list) || list.Count == 0)
+            {
+                return -1;
+            }
+
+            return list[list.Count - 1].Start;
+        }
+
         #endregion
 
         #region Loop Methods
@@ -62,6 +83,19 @@ namespace SleepHunter.Macro
 
         public int GetEndLoopIndex(int loopIndex)
             => loopToEndLoop.TryGetValue(loopIndex, out var endLoopIndex) ? endLoopIndex : -1;
+
+        public bool IsInsideLoop(int commandIndex) =>
+            commandToLoopBlock.ContainsKey(commandIndex);
+
+        public int GetInnerLoopIndex(int commandIndex)
+        {
+            if (!commandToLoopBlock.TryGetValue(commandIndex, out var list) || list.Count == 0)
+            {
+                return -1;
+            }
+
+            return list[list.Count - 1].Start;
+        }
 
         #endregion
 
@@ -166,6 +200,46 @@ namespace SleepHunter.Macro
             if (loopStack.Count > 0)
             {
                 throw new MacroValidationException("Unterminated Loop block", loopStack.Peek());
+            }
+        }
+
+        private void BuildContainmentMaps(IReadOnlyList<IMacroCommand> commands)
+        {
+            // Build maps of which commands are inside which while/loop blocks
+            // We can use our existing loop and while dictionaries to do this
+
+            foreach (var range in whileToEndWhile)
+            {
+                var whileStart = range.Key;
+                var whileEnd = range.Value;
+
+                for (var i = whileStart; i < whileEnd; i++)
+                {
+                    if (!commandToWhileBlock.TryGetValue(i, out var list))
+                    {
+                        list = new List<(int Start, int End)>();
+                        commandToWhileBlock[i] = list;
+                    }
+
+                    list.Add((whileStart, whileEnd));
+                }
+            }
+
+            foreach (var range in loopToEndLoop)
+            {
+                var loopStart = range.Key;
+                var loopEnd = range.Value;
+
+                for (var i = loopStart; i < loopEnd; i++)
+                {
+                    if (!commandToLoopBlock.TryGetValue(i, out var list))
+                    {
+                        list = new List<(int Start, int End)>();
+                        commandToLoopBlock[i] = list;
+                    }
+
+                    list.Add((loopStart, loopEnd));
+                }
             }
         }
     }
