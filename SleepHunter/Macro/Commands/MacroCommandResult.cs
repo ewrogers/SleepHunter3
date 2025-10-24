@@ -32,6 +32,9 @@ namespace SleepHunter.Macro.Commands
         public static MacroCommandResult JumpToLine(int lineNumber)
             => new MacroCommandResult(MacroCommandResultAction.Jump, jumpToIndex: Math.Max(0, lineNumber - 1));
 
+        public static MacroCommandResult JumpToIndex(int index)
+            => new MacroCommandResult(MacroCommandResultAction.Jump, jumpToIndex: Math.Max(0, index));
+
         public static MacroCommandResult JumpToLabel(string label)
             => new MacroCommandResult(MacroCommandResultAction.Jump, jumpToLabel: label);
     }

@@ -241,6 +241,7 @@
     <Compile Include="Macro\IMacroStructureCache.cs" />
     <Compile Include="Macro\MacroContext.cs" />
     <Compile Include="Macro\MacroExecutor.cs" />
+    <Compile Include="Macro\MacroLoopState.cs" />
     <Compile Include="Macro\MacroRunState.cs" />
     <Compile Include="Macro\MacroStructureCache.cs" />
     <Compile Include="Macro\MacroValidationException.cs" />

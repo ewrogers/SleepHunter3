@@ -13,5 +13,10 @@ namespace SleepHunter.Macro
         IVirtualMouse Mouse { get; }
         CancellationToken CancellationToken { get; }
         int CurrentCommandIndex { get; }
+
+        bool HasActiveLoops { get; }
+        void PushLoopState(MacroLoopState state);
+        MacroLoopState PopLoopState();
+        MacroLoopState PeekLoopState();
     }
 }
