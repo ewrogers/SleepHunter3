@@ -22,9 +22,8 @@ namespace SleepHunter.Macro
         private readonly GameClientReader reader;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ManualResetEventSlim pauseEvent;
+        private readonly MacroStructureCache structureCache;
         private readonly MacroContext context;
-
-        private readonly Dictionary<string, int> labelIndices = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
 
         private int nextCommandIndex;
         private Task executingTask;
@@ -50,9 +49,9 @@ namespace SleepHunter.Macro
             pauseEvent = new ManualResetEventSlim(true);
 
             player = new PlayerState();
-            context = new MacroContext(player, keyboard, mouse, cancellationTokenSource.Token);
-            
-            RegisterLabels();
+            structureCache = new MacroStructureCache(this.commands);
+
+            context = new MacroContext(structureCache, player, keyboard, mouse, cancellationTokenSource.Token);
         }
 
         public Task StartAsync()
@@ -124,7 +123,7 @@ namespace SleepHunter.Macro
                                 nextCommandIndex = result.JumpIndex.Value;
                             }
                             else if (!string.IsNullOrWhiteSpace(result.JumpLabel) &&
-                                     labelIndices.TryGetValue(result.JumpLabel, out var labelIndex))
+                                     structureCache.Labels.TryGetValue(result.JumpLabel, out var labelIndex))
                             {
                                 nextCommandIndex = labelIndex;
                             }
@@ -215,17 +214,6 @@ namespace SleepHunter.Macro
             player.CurrentMana = reader.ReadCurrentMana();
 
             lastUpdateTime = DateTime.Now;
-        }
-
-        private void RegisterLabels()
-        {
-            for (var i = 0; i < commands.Count; i++)
-            {
-                if (commands[i] is DefineLabelCommand labelCommand)
-                {
-                    labelIndices[labelCommand.Label] = i;
-                }
-            }
         }
 
         ~MacroExecutor() => Dispose(false);

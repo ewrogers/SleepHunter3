@@ -238,9 +238,12 @@
     <Compile Include="Macro\Conditions\StringCondition.cs" />
     <Compile Include="Macro\IMacroContext.cs" />
     <Compile Include="Macro\IMacroExecutor.cs" />
+    <Compile Include="Macro\IMacroStructureCache.cs" />
     <Compile Include="Macro\MacroContext.cs" />
     <Compile Include="Macro\MacroExecutor.cs" />
     <Compile Include="Macro\MacroRunState.cs" />
+    <Compile Include="Macro\MacroStructureCache.cs" />
+    <Compile Include="Macro\MacroValidationException.cs" />
     <Compile Include="Macro\Serialization\ILegacySerializer.cs" />
     <Compile Include="Macro\Serialization\IMacroSerializer.cs" />
     <Compile Include="Macro\Serialization\JsonMacroSerializer.cs" />

@@ -7,6 +7,7 @@ namespace SleepHunter.Macro
 {
     public interface IMacroContext
     {
+        IMacroStructureCache StructureCache { get; }
         PlayerState Player { get; }
         IVirtualKeyboard Keyboard { get; }
         IVirtualMouse Mouse { get; }
