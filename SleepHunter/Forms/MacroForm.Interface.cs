@@ -10,6 +10,20 @@ namespace SleepHunter.Forms
 {
     public partial class MacroForm : Form
     {
+        public void SelectMacroItem(int index)
+        {
+            if (index < 0 || macroListView.Items.Count == 0)
+            {
+                return;
+            }
+
+            index = Math.Min(index, macroListView.Items.Count - 1);
+
+            macroListView.EnsureVisible(index);
+            macroListView.SelectedIndices.Clear();
+            macroListView.SelectedIndices.Add(index);
+        }
+
         public MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command,
             IReadOnlyList<MacroParameterValue> parameters = null)
         {
@@ -22,6 +36,16 @@ namespace SleepHunter.Forms
             // Set the command definition and existing parameters (if provided)
             var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
             argsForm.Command = command;
+
+            if (command.MaxLength.HasValue)
+            {
+                argsForm.SetMaxLength(command.MaxLength.Value);
+            }
+
+            if (command.Pattern != null)
+            {
+                argsForm.SetPatternConstraint(command.Pattern);
+            }
 
             if (parameters != null)
             {

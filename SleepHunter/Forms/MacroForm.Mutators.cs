@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SleepHunter.Macro;
 using SleepHunter.Macro.Commands;
+using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Models;
 
 namespace SleepHunter.Forms
@@ -42,6 +44,18 @@ namespace SleepHunter.Forms
         
         private void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true)
         {
+            try
+            {
+                ValidateCommand(commandObj);
+            }
+            catch (MacroValidationException ex)
+            {
+                SelectMacroItem(ex.CommandIndex);
+                MessageBox.Show(this, ex.Message, "Command Validation Failed", MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
+                return;
+            }
+
             if (desiredIndex >= 0)
             {
                 // Determine the specified index, capping at the end of the collection
@@ -108,6 +122,24 @@ namespace SleepHunter.Forms
             return endingObj;
         }
         #endregion
+
+        private void ValidateCommand(MacroCommandObject commandObj)
+        {
+            // Check for duplicate labels
+            if (commandObj.Command is DefineLabelCommand labelCommand)
+            {
+                var labelName = labelCommand.Label;
+                for(var i = 0; i< macroCommands.Count; i++)
+                {
+                    var existingCommand = macroCommands[i];
+                    if (existingCommand.Command is DefineLabelCommand existingLabel &&
+                        string.Equals(existingLabel.Label, labelName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new MacroValidationException($"Label '{existingLabel.Label}' is already defined.", i);
+                    }
+                }
+            }
+        }
 
         private bool ReplaceCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int index)
         {

@@ -24,6 +24,6 @@ namespace SleepHunter.Macro.Commands.Jump
             return Task.FromResult(MacroCommandResult.Continue);
         }
 
-        public override string ToString() => $"@{Label}";
+        public override string ToString() => $"@{Label}:";
     }
 }

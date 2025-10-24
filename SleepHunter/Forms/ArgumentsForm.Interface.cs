@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using SleepHunter.Macro.Commands;
 using SleepHunter.Macro.Conditions;
 
@@ -8,6 +9,17 @@ namespace SleepHunter.Forms
 {
     public partial class ArgumentsForm
     {
+        public void SetMaxLength(int maxLength)
+        {
+            stringInputTextBox.MaxLength = maxLength;
+            stringValueTextBox.MaxLength = maxLength;
+        }
+        
+        public void SetPatternConstraint(Regex pattern)
+        {
+            regexPattern = pattern;
+        }
+        
         public void SetDefaultParameters(IReadOnlyList<MacroParameterValue> parameters)
         {
             if (parameters == null || parameters.Count == 0)

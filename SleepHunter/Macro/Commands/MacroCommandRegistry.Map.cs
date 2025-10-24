@@ -11,6 +11,7 @@
                 DisplayName = "If Map Name",
                 Description = "Performs actions if the map name matches a certain condition.",
                 Parameters = { MacroParameterType.StringCompareOperator, MacroParameterType.String },
+                MaxLength = 50,
             });
 
             RegisterCommand(new MacroCommandDefinition
@@ -47,6 +48,7 @@
                 DisplayName = "While Map Name",
                 Description = "Repeats actions while the map name matches a certain condition.",
                 Parameters = { MacroParameterType.StringCompareOperator, MacroParameterType.String },
+                MaxLength = 50
             });
 
             RegisterCommand(new MacroCommandDefinition

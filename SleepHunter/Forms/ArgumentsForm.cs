@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SleepHunter.Interop.Keyboard;
 
@@ -13,6 +14,7 @@ namespace SleepHunter.Forms
         private readonly Size initialSize;
 
         private MacroCommandDefinition command;
+        private Regex regexPattern;
         private string validationError;
 
         public IReadOnlyList<MacroParameterValue> Parameters { get; private set; }
@@ -43,18 +45,41 @@ namespace SleepHunter.Forms
         {
             try
             {
-                if (IsStringInput() && string.IsNullOrWhiteSpace(stringInputTextBox.Text))
+                if (IsStringInput())
                 {
-                    stringInputTextBox.Focus();
-                    validationError = "Input string cannot be empty!";
-                    return;
+                    var text = stringInputTextBox.Text;
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        stringInputTextBox.Focus();
+                        validationError = "Input string cannot be empty!";
+                        return;
+                    }
+
+                    if (regexPattern != null && !regexPattern.IsMatch(text))
+                    {
+                        stringInputTextBox.Focus();
+                        validationError = "Input string does not match the specified pattern!";
+                        return;
+                    }
                 }
 
-                if (IsStringComparison() && string.IsNullOrWhiteSpace(stringValueTextBox.Text))
+                if (IsStringComparison())
                 {
-                    stringValueTextBox.Focus();
-                    validationError = "Input string cannot be empty!";
-                    return;
+                    var text = stringValueTextBox.Text;
+
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        stringValueTextBox.Focus();
+                        validationError = "Input string cannot be empty!";
+                        return;
+                    }
+
+                    if (regexPattern != null && !regexPattern.IsMatch(text))
+                    {
+                        stringValueTextBox.Focus();
+                        validationError = "Input string does not match the specified pattern!";
+                        return;
+                    }
                 }
 
                 if (IsKeystrokes())
