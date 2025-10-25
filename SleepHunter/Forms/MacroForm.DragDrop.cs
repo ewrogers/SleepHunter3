@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using SleepHunter.Macro.Commands;
 using SleepHunter.Models;
 
@@ -34,6 +37,12 @@ namespace SleepHunter.Forms
 
         private void macroListView_DragEnter(object sender, DragEventArgs e)
         {
+            if (e.Data.GetDataPresent(typeof(List<int>)))
+            {
+                e.Effect = DragDropEffects.Move;
+                return;
+            }
+
             e.Effect = e.Data.GetDataPresent(typeof(MacroCommandDefinition)) && !IsRunning
                 ? DragDropEffects.Copy
                 : DragDropEffects.None;
@@ -57,5 +66,61 @@ namespace SleepHunter.Forms
 
             AddMacroCommand(definition, parameters);
         }
+
+        private void macroListView_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
+            {
+                e.Effect = DragDropEffects.Copy;
+                return;
+            }
+            
+            if (!e.Data.GetDataPresent(typeof(List<int>)))
+            {
+                e.Effect = DragDropEffects.None;
+                macroListView.InsertionMark.Index = -1;
+                return;
+            }
+        }
+
+        private void macroListView_DragLeave(object sender, EventArgs e)
+        {
+            macroListView.InsertionMark.Index = -1;
+        }
+
+        private void macroListView_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (!IsSelectionContiguous())
+            {
+                return;
+            }
+
+            var selectedItems = macroListView.SelectedItems.Cast<ListViewItem>().ToList();
+            macroListView.DoDragDrop(selectedItems, DragDropEffects.Move);
+        }
+
+        private bool IsSelectionContiguous()
+        {
+            switch (macroListView.SelectedItems.Count)
+            {
+                case 0:
+                    return false;
+                case 1:
+                    return true;
+            }
+
+            var selectedIndices = GetSelectedIndices().ToList();
+
+            for (var i = 1; i < selectedIndices.Count; i++)
+            {
+                if (selectedIndices[i] != selectedIndices[i - 1] + 1)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
     }
 }

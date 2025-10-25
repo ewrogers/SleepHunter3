@@ -188,6 +188,9 @@ namespace SleepHunter.Forms
             statusLabel.Image = statusImageList.Images[stopImageIndex];
         }
 
+        private IEnumerable<int> GetSelectedIndices()
+            => macroListView.SelectedIndices.Cast<int>().OrderBy(i => i);
+
         private void HighlightItem(int index, Color? color = null)
         {
             if (index < 0 || index >= macroListView.Items.Count)

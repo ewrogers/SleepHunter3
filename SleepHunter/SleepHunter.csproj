@@ -99,7 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\BinaryReaderExtensions.cs" />
-    <Compile Include="Extensions\SelectedIndexCollectionExtensions.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>

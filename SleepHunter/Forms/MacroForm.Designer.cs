@@ -144,7 +144,7 @@ namespace SleepHunter.Forms
             this.statusLabel.MergeAction = System.Windows.Forms.MergeAction.Replace;
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Padding = new System.Windows.Forms.Padding(1);
-            this.statusLabel.Size = new System.Drawing.Size(396, 19);
+            this.statusLabel.Size = new System.Drawing.Size(427, 19);
             this.statusLabel.Spring = true;
             this.statusLabel.Text = "Macro is not running.";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -340,10 +340,13 @@ namespace SleepHunter.Forms
             this.macroListView.TabIndex = 1;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
+            this.macroListView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.macroListView_ItemDrag);
             this.macroListView.SelectedIndexChanged += new System.EventHandler(this.macroListView_SelectedIndexChanged);
             this.macroListView.SizeChanged += new System.EventHandler(this.macroListView_SizeChanged);
             this.macroListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.macroListView_DragDrop);
             this.macroListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.macroListView_DragEnter);
+            this.macroListView.DragOver += new System.Windows.Forms.DragEventHandler(this.macroListView_DragOver);
+            this.macroListView.DragLeave += new System.EventHandler(this.macroListView_DragLeave);
             this.macroListView.DoubleClick += new System.EventHandler(this.macroListView_DoubleClick);
             this.macroListView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.macroListView_KeyPress);
             // 
