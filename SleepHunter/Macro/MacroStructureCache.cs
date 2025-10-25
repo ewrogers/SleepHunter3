@@ -119,7 +119,7 @@ namespace SleepHunter.Macro
                     case ElseCommand _:
                         if (ifStack.Count == 0)
                         {
-                            throw new MacroValidationException("Else has no matching If block", i);
+                            throw new MacroValidationException("Else has no matching If command", i);
                         }
 
                         var ifIndex = ifStack.Peek();
@@ -129,7 +129,7 @@ namespace SleepHunter.Macro
                     case EndIfCommand _:
                         if (ifStack.Count == 0)
                         {
-                            throw new MacroValidationException("EndIf has no matching If block", i);
+                            throw new MacroValidationException("EndIf has no matching If command", i);
                         }
 
                         var matchingIf = ifStack.Pop();
@@ -151,7 +151,7 @@ namespace SleepHunter.Macro
                     case EndLoopCommand _:
                         if (loopStack.Count == 0)
                         {
-                            throw new MacroValidationException("EndLoop has no matching Loop block", i);
+                            throw new MacroValidationException("EndLoop has no matching Loop command", i);
                         }
 
                         var matchingLoop = loopStack.Pop();
@@ -167,7 +167,7 @@ namespace SleepHunter.Macro
                     case EndWhileCommand _:
                         if (whileStack.Count == 0)
                         {
-                            throw new MacroValidationException("EndWhile has no matching While block", i);
+                            throw new MacroValidationException("EndWhile has no matching While command", i);
                         }
 
                         var matchingWhile = whileStack.Pop();
@@ -189,17 +189,17 @@ namespace SleepHunter.Macro
 
             if (ifStack.Count > 0)
             {
-                throw new MacroValidationException("Unterminated If block", ifStack.Peek());
+                throw new MacroValidationException("Unterminated If command", ifStack.Peek());
             }
 
             if (whileStack.Count > 0)
             {
-                throw new MacroValidationException("Unterminated While block", whileStack.Peek());
+                throw new MacroValidationException("Unterminated While command", whileStack.Peek());
             }
 
             if (loopStack.Count > 0)
             {
-                throw new MacroValidationException("Unterminated Loop block", loopStack.Peek());
+                throw new MacroValidationException("Unterminated Loop command", loopStack.Peek());
             }
         }
 

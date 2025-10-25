@@ -7,15 +7,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using SleepHunter.Extensions;
 using SleepHunter.Macro;
 using SleepHunter.Macro.Serialization;
+using System.Linq;
+using System.Drawing;
 
 namespace SleepHunter.Forms
 {
 
     public partial class MacroForm
     {
+        private static readonly Color DebugStepHighlightColor = Color.FromArgb(0xFF, 0xF0, 0x85);
+        private static readonly Color ValidationHighlightColor = Color.FromArgb(0xFF, 0xC9, 0xC9);
+        private static readonly Color ValidationTextColor = Color.FromArgb(0xE7, 0x00, 0x0B);
+
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
         private readonly IMacroCommandRegistry commandRegistry;
@@ -32,6 +37,10 @@ namespace SleepHunter.Forms
         private string macroName = string.Empty;
         private string macroAuthor = string.Empty;
 
+        private bool debugStepEnabled;
+        private ListViewItem highlightedItem;
+        private string validationErrorMessage;
+
         public bool IsRunning { get; private set; }
         public bool IsPaused { get; private set; }
         public MacroStopReason StopReason { get; private set; }
@@ -43,14 +52,14 @@ namespace SleepHunter.Forms
             commandRegistry = serviceProvider.GetRequiredService<IMacroCommandRegistry>();
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
             serializer = serviceProvider.GetRequiredService<IMacroSerializer>();
-            
+
             InitializeComponent();
 
             UpdateMacroUi();
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }
-        
+
         private void ReformatLines()
         {
             macroListView.BeginUpdate();
@@ -127,6 +136,7 @@ namespace SleepHunter.Forms
         }
 
         #region Macro State Buttons
+
         private void playButton_Click(object sender, EventArgs e)
         {
             if (IsRunning && !IsPaused)
@@ -136,11 +146,16 @@ namespace SleepHunter.Forms
 
             if (IsPaused)
             {
-                ResumeMacro();   
+                ResumeMacro();
             }
             else
             {
-                StartMacro();
+                ValidateMacro();
+
+                if (string.IsNullOrWhiteSpace(validationErrorMessage))
+                {
+                    StartMacro();
+                }
             }
         }
 
@@ -150,7 +165,7 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             PauseMacro();
         }
 
@@ -173,6 +188,7 @@ namespace SleepHunter.Forms
             quickAttachButton.DropDownItems.Clear();
 
             var clientWindows = windowEnumerator.FindWindows("Darkages");
+            var sortedList = new SortedList<string, GameClientWindow>();
 
             foreach (var gameWindow in clientWindows)
             {
@@ -189,10 +205,8 @@ namespace SleepHunter.Forms
                     }
 
                     var characterName = reader.ReadCharacterName();
-                    var newItem = quickAttachButton.DropDownItems.Add(characterName);
-                    newItem.Tag = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
-
-                    newItem.Enabled = !IsRunning;
+                    var clientWindow = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
+                    sortedList.Add(characterName, clientWindow);
                 }
                 catch
                 {
@@ -202,6 +216,15 @@ namespace SleepHunter.Forms
                 {
                     reader?.Dispose();
                 }
+            }
+
+            // Ensure we add them in sorted alphabetical order
+            foreach (var item in sortedList)
+            {
+                var newItem = quickAttachButton.DropDownItems.Add(item.Key);
+                newItem.Tag = item.Value;
+
+                newItem.Enabled = !IsRunning;
             }
 
             if (quickAttachButton.DropDownItems.Count == 0)
@@ -217,13 +240,14 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             AttachToClient(gameWindow);
         }
 
         #endregion
 
         #region Macro List View Events
+
         private void macroListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateToolbarAndMenuState();
@@ -284,7 +308,7 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             // Ensure there is a single selection of a command with parameters to edit
             if (macroListView.SelectedIndices.Count == 0 ||
                 !(macroListView.SelectedItems[0].Tag is MacroCommandObject commandObj) ||
@@ -308,15 +332,15 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             if (macroListView.SelectedIndices.Count == 0)
             {
                 return;
             }
 
-            DeleteMacroCommands(macroListView.SelectedIndices.ToList());
+            DeleteMacroCommands(GetSelectedIndices().ToList());
             macroListView.SelectedIndices.Clear();
-            
+
             UpdateToolbarAndMenuState();
         }
 
@@ -326,15 +350,15 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             if (macroListView.SelectedIndices.Count == 0)
             {
                 return;
             }
 
-            var selectedIndexes = macroListView.SelectedIndices.ToList();
+            var selectedIndexes = GetSelectedIndices().ToList();
             CopyToClipboard(selectedIndexes);
-            
+
             DeleteMacroCommands(selectedIndexes);
             UpdateToolbarAndMenuState();
         }
@@ -345,8 +369,8 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
-            CopyToClipboard(macroListView.SelectedIndices.ToList());
+
+            CopyToClipboard(GetSelectedIndices().ToList());
             UpdateToolbarAndMenuState();
         }
 
@@ -356,7 +380,7 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             TryPasteFromClipboard();
         }
 
@@ -366,7 +390,7 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             // Check if allowed to move up
             if (macroListView.SelectedIndices.Count == 0 ||
                 macroListView.SelectedIndices[0] <= 0)
@@ -375,7 +399,7 @@ namespace SleepHunter.Forms
             }
 
             var targetIndex = macroListView.SelectedIndices[0] - 1;
-            MoveMacroCommands(macroListView.SelectedIndices.ToList(), targetIndex);
+            MoveMacroCommands(GetSelectedIndices().ToList(), targetIndex);
             UpdateToolbarAndMenuState();
         }
 
@@ -385,7 +409,7 @@ namespace SleepHunter.Forms
             {
                 return;
             }
-            
+
             // Check if allowed to move down
             if (macroListView.SelectedIndices.Count == 0 ||
                 macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] >= macroCommands.Count - 1)
@@ -394,8 +418,14 @@ namespace SleepHunter.Forms
             }
 
             var tagetIndex = macroListView.SelectedIndices[macroListView.SelectedIndices.Count - 1] + 2;
-            MoveMacroCommands(macroListView.SelectedIndices.ToList(), tagetIndex);
+            MoveMacroCommands(GetSelectedIndices().ToList(), tagetIndex);
             UpdateToolbarAndMenuState();
+        }
+
+        private void debugStepButton_CheckedChanged(object sender, EventArgs e)
+        {
+            debugStepEnabled = debugStepButton.Checked;
+            macroExecutor?.SetDebugStepEnabled(debugStepEnabled);
         }
 
         #endregion
@@ -403,7 +433,16 @@ namespace SleepHunter.Forms
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
             clientReader?.Dispose();
-            macroExecutor?.Dispose();
+
+            if (macroExecutor != null)
+            {
+                macroExecutor.DebugStep -= OnMacroDebugStep;
+                macroExecutor.StateChanged -= OnMacroStateChanged;
+                macroExecutor.Exception -= OnMacroException;
+
+                macroExecutor.StopAsync();
+                macroExecutor.Dispose();
+            }
         }
     }
 }

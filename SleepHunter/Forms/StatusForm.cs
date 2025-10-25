@@ -105,16 +105,25 @@ namespace SleepHunter.Forms
 
         private static string FormatHealthManaValue(long value)
         {
+            // Less than 1000 -> show no decimal places
             if (value < 1000)
             {
                 return value.ToString();
             }
 
+            // Less than 100k -> show 1 decimal place
+            if (value < 100000)
+            {
+                return (value / 1000.0).ToString("F1") + "k"; 
+            }
+            
+            // Less than 1mil -> show no decimal places
             if (value < 1000000)
             {
-                return (value / 1000.0).ToString("F1") + "k";
+                return (value / 1000.0).ToString("F0") + "k";
             }
 
+            // More than 1mil -> show 2 decimal places
             return (value / 1000000.0).ToString("F2") + "m";
         }
 

@@ -84,6 +84,7 @@ namespace SleepHunter.Forms
             this.doubleClickTimer = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.versionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             fileMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             toolsMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             windowMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -129,7 +130,6 @@ namespace SleepHunter.Forms
             this.toolsMenu,
             this.windowMenu,
             this.helpMenu});
-            this.mainMenuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.MdiWindowListItem = this.windowMenu;
             this.mainMenuStrip.Name = "mainMenuStrip";
@@ -337,19 +337,22 @@ namespace SleepHunter.Forms
             this.mainStatusStrip.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mainStatusStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabel});
-            this.mainStatusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.mainStatusStrip.Location = new System.Drawing.Point(0, 619);
+            this.statusLabel,
+            this.versionLabel});
+            this.mainStatusStrip.Location = new System.Drawing.Point(0, 617);
             this.mainStatusStrip.Name = "mainStatusStrip";
             this.mainStatusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.mainStatusStrip.Size = new System.Drawing.Size(1008, 22);
+            this.mainStatusStrip.Size = new System.Drawing.Size(1008, 24);
             this.mainStatusStrip.TabIndex = 2;
             // 
             // statusLabel
             // 
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(106, 17);
-            this.statusLabel.Text = "SleepHunter v3.1";
+            this.statusLabel.Padding = new System.Windows.Forms.Padding(1);
+            this.statusLabel.Size = new System.Drawing.Size(919, 19);
+            this.statusLabel.Spring = true;
+            this.statusLabel.Text = "Ready";
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // commandsPanel
             // 
@@ -359,7 +362,7 @@ namespace SleepHunter.Forms
             this.commandsPanel.Location = new System.Drawing.Point(0, 27);
             this.commandsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.commandsPanel.Name = "commandsPanel";
-            this.commandsPanel.Size = new System.Drawing.Size(303, 592);
+            this.commandsPanel.Size = new System.Drawing.Size(303, 590);
             this.commandsPanel.TabIndex = 1;
             // 
             // commandsTreeView
@@ -374,7 +377,7 @@ namespace SleepHunter.Forms
             this.commandsTreeView.Name = "commandsTreeView";
             this.commandsTreeView.SelectedImageIndex = 0;
             this.commandsTreeView.ShowNodeToolTips = true;
-            this.commandsTreeView.Size = new System.Drawing.Size(299, 588);
+            this.commandsTreeView.Size = new System.Drawing.Size(299, 586);
             this.commandsTreeView.Sorted = true;
             this.commandsTreeView.TabIndex = 0;
             this.commandsTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.CommandsTreeView_ItemDrag);
@@ -405,6 +408,13 @@ namespace SleepHunter.Forms
             this.saveFileDialog.Filter = "SleepHunter v3 Macro Files (*.sh3x)|*.sh3x";
             this.saveFileDialog.Title = "Save Macro";
             // 
+            // versionLabel
+            // 
+            this.versionLabel.Enabled = false;
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(41, 19);
+            this.versionLabel.Text = "v3.1.0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -433,5 +443,6 @@ namespace SleepHunter.Forms
 
         }
         private NotifyIcon notifyIcon;
+        private ToolStripStatusLabel versionLabel;
     }
 }

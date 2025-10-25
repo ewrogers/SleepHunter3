@@ -7,7 +7,6 @@ using SleepHunter.Interop;
 using SleepHunter.Interop.Keyboard;
 using SleepHunter.Interop.Mouse;
 using SleepHunter.Macro.Commands;
-using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Models;
 
 namespace SleepHunter.Macro
@@ -22,11 +21,13 @@ namespace SleepHunter.Macro
         private readonly GameClientReader reader;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ManualResetEventSlim pauseEvent;
+        private readonly ManualResetEventSlim debugStepEvent;
         private readonly MacroStructureCache structureCache;
         private readonly MacroContext context;
 
         private int nextCommandIndex;
         private Task executingTask;
+        private bool debugStepEnabled;
 
         private DateTime lastUpdateTime;
         private bool isDisposed;
@@ -34,6 +35,7 @@ namespace SleepHunter.Macro
         public MacroRunState State { get; private set; }
         public MacroStopReason StopReason { get; private set; }
 
+        public event Action<int> DebugStep;
         public event Action<MacroRunState> StateChanged;
         public event Action<Exception> Exception;
 
@@ -47,11 +49,17 @@ namespace SleepHunter.Macro
 
             cancellationTokenSource = new CancellationTokenSource();
             pauseEvent = new ManualResetEventSlim(true);
+            debugStepEvent = new ManualResetEventSlim(false);
 
             player = new PlayerState();
             structureCache = new MacroStructureCache(this.commands);
 
             context = new MacroContext(structureCache, player, keyboard, mouse, cancellationTokenSource.Token);
+        }
+
+        public void SetDebugStepEnabled(bool enabled)
+        {
+            debugStepEnabled = enabled;
         }
 
         public Task StartAsync()
@@ -71,20 +79,6 @@ namespace SleepHunter.Macro
                     // Wait for resume if paused
                     pauseEvent.Wait(cancellationTokenSource.Token);
 
-                    // Update the player state before performing the next action
-                    if (DateTime.Now - lastUpdateTime > UpdateInterval)
-                    {
-                        try
-                        {
-                            UpdatePlayerState();
-                        }
-                        catch
-                        {
-                            stopReason = MacroStopReason.ProcessNotFound;
-                            break;
-                        }
-                    }
-
                     try
                     {
                         // Stop if the command list is empty or we've reached the end of the list
@@ -100,6 +94,29 @@ namespace SleepHunter.Macro
                         var command = commands[commandIndex];
 
                         context.CurrentCommandIndex = commandIndex;
+
+                        if (debugStepEnabled)
+                        {
+                            SetState(MacroRunState.Paused);
+                            syncContext.Post(state => DebugStep?.Invoke(commandIndex), null);
+                            debugStepEvent.Wait(cancellationTokenSource.Token);
+                            debugStepEvent.Reset();
+                        }
+                        
+                        // Update the player state before performing the next action
+                        if (DateTime.Now - lastUpdateTime > UpdateInterval)
+                        {
+                            try
+                            {
+                                UpdatePlayerState();
+                            }
+                            catch
+                            {
+                                stopReason = MacroStopReason.ProcessNotFound;
+                                break;
+                            }
+                        }
+                        
                         var result = await command.ExecuteAsync(context);
 
                         // Check if pause requested
@@ -128,6 +145,8 @@ namespace SleepHunter.Macro
                                 nextCommandIndex = labelIndex;
                             }
                         }
+
+                        await Task.Yield();
                     }
                     catch (OperationCanceledException)
                     {
@@ -171,7 +190,8 @@ namespace SleepHunter.Macro
             {
                 return;
             }
-
+            
+            debugStepEvent.Set();
             pauseEvent.Set(); // Resume the macro
             SetState(MacroRunState.Running);
         }

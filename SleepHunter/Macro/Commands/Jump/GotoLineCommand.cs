@@ -23,6 +23,9 @@ namespace SleepHunter.Macro.Commands.Jump
             // Convert 1-based index to 0-based index
             var targetIndex = Math.Max(0, LineNumber - 1);
 
+            // Cleanup any loop states that this jump would exit
+            context.CleanupLoopStatesForJump(targetIndex);
+
             // Jump to the target index, executor will cap it at the end of the macro
             return Task.FromResult(MacroCommandResult.JumpToIndex(targetIndex));
         }

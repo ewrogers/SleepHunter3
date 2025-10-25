@@ -9,8 +9,11 @@ namespace SleepHunter.Macro
         MacroRunState State { get; }
         MacroStopReason StopReason { get; }
 
+        event Action<int> DebugStep;
         event Action<MacroRunState> StateChanged;
         event Action<Exception> Exception;
+
+        void SetDebugStepEnabled(bool enabled);
 
         Task StartAsync();
         Task StopAsync();

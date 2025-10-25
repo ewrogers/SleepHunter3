@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,20 @@ namespace SleepHunter.Forms
 {
     public partial class MacroForm : Form
     {
+        public void SelectMacroItem(int index)
+        {
+            if (index < 0 || macroListView.Items.Count == 0)
+            {
+                return;
+            }
+
+            index = Math.Min(index, macroListView.Items.Count - 1);
+
+            macroListView.EnsureVisible(index);
+            macroListView.SelectedIndices.Clear();
+            macroListView.SelectedIndices.Add(index);
+        }
+
         public MacroParameterValue[] ShowArgumentsForm(MacroCommandDefinition command,
             IReadOnlyList<MacroParameterValue> parameters = null)
         {
@@ -22,6 +37,16 @@ namespace SleepHunter.Forms
             // Set the command definition and existing parameters (if provided)
             var argsForm = serviceProvider.GetRequiredService<ArgumentsForm>();
             argsForm.Command = command;
+
+            if (command.MaxLength.HasValue)
+            {
+                argsForm.SetMaxLength(command.MaxLength.Value);
+            }
+
+            if (command.Pattern != null)
+            {
+                argsForm.SetPatternConstraint(command.Pattern);
+            }
 
             if (parameters != null)
             {
@@ -91,18 +116,21 @@ namespace SleepHunter.Forms
                 editSelectedMenu.ShortcutKeyDisplayString = "Space";
             }
 
-            editButton.Enabled = editSelectedMenu.Enabled = !isEmpty && hasSingleSelection && hasParameters;
-            deleteButton.Enabled = deleteSelectedMenu.Enabled = !isEmpty && hasSelection;
+            editButton.Enabled = editSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSingleSelection && hasParameters;
+            deleteButton.Enabled = deleteSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
-            cutButton.Enabled = cutSelectedMenu.Enabled = !isEmpty && hasSelection;
+            cutButton.Enabled = cutSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
             copyButton.Enabled = copySelectedMenu.Enabled = !isEmpty && hasSelection;
-            pasteButton.Enabled = pasteSelectedMenu.Enabled =
+            pasteButton.Enabled = pasteSelectedMenu.Enabled = !IsRunning &&
                 Clipboard.ContainsData("MacroCommands") || Clipboard.ContainsText();
 
-            moveUpButton.Enabled = moveUpMenu.Enabled = !isEmpty && hasSelection;
-            moveDownButton.Enabled = moveDownMenu.Enabled = !isEmpty && hasSelection;
+            moveUpButton.Enabled = moveUpMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
+            moveDownButton.Enabled = moveDownMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
-            playButton.Enabled = !isEmpty && isAttached && !IsRunning;
+            playButton.Text = IsPaused ? "Continue Macro" : "Start Macro";
+            playButton.Enabled = string.IsNullOrWhiteSpace(validationErrorMessage) && !isEmpty && isAttached &&
+                                 (!IsRunning || IsPaused);
+            
             pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
             stopButton.Enabled = IsRunning;
 
@@ -115,13 +143,21 @@ namespace SleepHunter.Forms
             const int pauseImageIndex = 1;
             const int stopImageIndex = 2;
 
+            if (!string.IsNullOrWhiteSpace(validationErrorMessage))
+            {
+                statusLabel.Text = validationErrorMessage;
+                statusLabel.ForeColor = ValidationTextColor;
+                statusLabel.Image = deleteButton.Image;
+                return;
+            }
+
             if (IsPaused)
             {
                 statusLabel.Text = "Macro has been paused.";
                 statusLabel.Image = statusImageList.Images[pauseImageIndex];
                 return;
             }
-            
+
             if (IsRunning)
             {
                 statusLabel.Text = "Macro is running...";
@@ -147,8 +183,35 @@ namespace SleepHunter.Forms
                     statusLabel.Text = "Macro is not running.";
                     break;
             }
-            
+
+            statusLabel.ForeColor = SystemColors.ControlText;
             statusLabel.Image = statusImageList.Images[stopImageIndex];
+        }
+
+        private IEnumerable<int> GetSelectedIndices()
+            => macroListView.SelectedIndices.Cast<int>().OrderBy(i => i);
+
+        private void HighlightItem(int index, Color? color = null)
+        {
+            if (index < 0 || index >= macroListView.Items.Count)
+            {
+                return;
+            }
+
+            highlightedItem = macroListView.Items[index];
+            highlightedItem.BackColor = color ?? Color.Yellow;
+            highlightedItem.EnsureVisible();
+        }
+
+        private void ClearHighlight()
+        {
+            if (highlightedItem == null)
+            {
+                return;
+            }
+
+            highlightedItem.BackColor = macroListView.BackColor;
+            highlightedItem = null;
         }
     }
 }
