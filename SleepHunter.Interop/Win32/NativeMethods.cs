@@ -29,10 +29,10 @@ namespace SleepHunter.Interop.Win32
         internal static extern int GetWindowText(IntPtr hWnd, StringBuilder buffer, int maxLength);
 
         [DllImport("user32", EntryPoint = "PostMessage", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern bool PostMessage(IntPtr windowHandle, uint message, IntPtr wParam, IntPtr lParam);
+        internal static extern bool PostMessage(IntPtr hWnd, uint message, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32", EntryPoint = "SendMessage", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern IntPtr SendMessage(IntPtr windowHandle, uint message, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr SendMessage(IntPtr hWnd, uint message, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32", EntryPoint = "GetCursorPos", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -44,6 +44,14 @@ namespace SleepHunter.Interop.Win32
         [DllImport("user32", EntryPoint = "VkKeyScan", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern ushort VkKeyScan(char c);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint modifiers, uint virtualKey);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        
         #endregion
 
         #region Kernel32.dll
