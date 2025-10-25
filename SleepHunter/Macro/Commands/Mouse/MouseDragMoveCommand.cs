@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using SleepHunter.Interop.Mouse;
 
@@ -13,7 +14,7 @@ namespace SleepHunter.Macro.Commands.Mouse
         
         public MousePoint Position { get; }
 
-        public float Step { get; set; } = 0.15f;
+        public float Step { get; set; } = 0.2f;
 
         public MouseDragMoveCommand(int x, int y, MouseButton button = MouseButton.Left, MouseMoveKind kind = MouseMoveKind.Absolute)
         :this(new MousePoint(x, y), button, kind) { }
@@ -45,14 +46,14 @@ namespace SleepHunter.Macro.Commands.Mouse
                 var deltaY = destination.Y - current.Y;
                 var distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                if (distance < 4)
+                if (distance < 8)
                 {
                     current = destination;
                 }
                 else
                 {
-                    var newX = current.X + (int)Math.Ceiling(deltaX * Step);
-                    var newY = current.Y + (int)Math.Ceiling(deltaY * Step);
+                    var newX = LerpStep(current.X, destination.X, Step);
+                    var newY = LerpStep(current.Y, destination.Y, Step);
                     current = new MousePoint(newX, newY);
                 }
 
@@ -75,6 +76,29 @@ namespace SleepHunter.Macro.Commands.Mouse
             var dragString = Button == MouseButton.Left ? "Drag Mouse" : $"Drag {Button} Mouse";
 
             return Kind == MouseMoveKind.Relative ? $"{dragString} by {Position}" : $"{dragString} to {Position}";
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int LerpStep(int current, int target, float step)
+        {
+            if (current == target)
+            {
+                return target;
+            }
+
+            var distance = target - current;
+
+            if (Math.Abs(distance) < 2)
+            {
+                return target;
+            }
+
+            var stepAmount = Math.Abs(distance) * step;
+            var stepInt = Math.Max(1, (int)Math.Round(stepAmount));
+
+            return distance > 0
+                ? Math.Min(current + stepInt, target)
+                : Math.Max(current - stepInt, target);
         }
     }
 }
