@@ -49,7 +49,7 @@ namespace SleepHunter.Forms
             this.lblAuthor.Name = "lblAuthor";
             this.lblAuthor.Size = new System.Drawing.Size(383, 23);
             this.lblAuthor.TabIndex = 0;
-            this.lblAuthor.Text = "Created by Erik \'SiLo\' Rogers 2024-2025";
+            this.lblAuthor.Text = "Created by Erik \'SiLo\' Rogers  [2004-2025]";
             // 
             // githubLabel
             // 
