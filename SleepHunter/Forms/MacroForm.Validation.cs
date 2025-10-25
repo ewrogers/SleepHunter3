@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using SleepHunter.Macro;
 using SleepHunter.Macro.Commands.Jump;
 using SleepHunter.Models;
@@ -23,6 +24,24 @@ namespace SleepHunter.Forms
                     }
                 }
             }
+        }
+
+        private void ValidateMacro()
+        {
+            try
+            {
+                _ = new MacroStructureCache(macroCommands.Select(c => c.Command).ToList());
+                validationErrorMessage = null;
+            }
+            catch (MacroValidationException ex)
+            {
+                validationErrorMessage = ex.Message;
+                ClearHighlight();
+                HighlightItem(ex.CommandIndex);
+            }
+
+            UpdateToolbarAndMenuState();
+            UpdateStatusBarState();
         }
     }
 }

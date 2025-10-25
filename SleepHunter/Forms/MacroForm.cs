@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using SleepHunter.Extensions;
 using SleepHunter.Macro;
 using SleepHunter.Macro.Serialization;
+using System.Linq;
 
 namespace SleepHunter.Forms
 {
@@ -34,6 +35,7 @@ namespace SleepHunter.Forms
         
         private bool debugStepEnabled;
         private ListViewItem highlightedItem;
+        private string validationErrorMessage;
         
         public bool IsRunning { get; private set; }
         public bool IsPaused { get; private set; }
@@ -176,6 +178,7 @@ namespace SleepHunter.Forms
             quickAttachButton.DropDownItems.Clear();
 
             var clientWindows = windowEnumerator.FindWindows("Darkages");
+            var sortedList = new SortedList<string, GameClientWindow>();
 
             foreach (var gameWindow in clientWindows)
             {
@@ -192,10 +195,8 @@ namespace SleepHunter.Forms
                     }
 
                     var characterName = reader.ReadCharacterName();
-                    var newItem = quickAttachButton.DropDownItems.Add(characterName);
-                    newItem.Tag = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
-
-                    newItem.Enabled = !IsRunning;
+                    var clientWindow = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
+                    sortedList.Add(characterName, clientWindow);
                 }
                 catch
                 {
@@ -205,6 +206,15 @@ namespace SleepHunter.Forms
                 {
                     reader?.Dispose();
                 }
+            }
+
+            // Ensure we add them in sorted alphabetical order
+            foreach (var item in sortedList)
+            {
+                var newItem = quickAttachButton.DropDownItems.Add(item.Key);
+                newItem.Tag = item.Value;
+
+                newItem.Enabled = !IsRunning;
             }
 
             if (quickAttachButton.DropDownItems.Count == 0)

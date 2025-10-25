@@ -128,9 +128,9 @@ namespace SleepHunter.Forms
             moveDownButton.Enabled = moveDownMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
             playButton.Text = IsPaused ? "Continue Macro" : "Start Macro";
-            playButton.Enabled = !isEmpty && isAttached && (!IsRunning || IsPaused);
-
-
+            playButton.Enabled = string.IsNullOrWhiteSpace(validationErrorMessage) && !isEmpty && isAttached &&
+                                 (!IsRunning || IsPaused);
+            
             pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
             stopButton.Enabled = IsRunning;
 

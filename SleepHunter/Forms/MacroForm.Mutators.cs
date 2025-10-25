@@ -93,6 +93,8 @@ namespace SleepHunter.Forms
                 macroListView.SelectedIndices.Clear();
                 macroListView.SelectedIndices.Add(desiredIndex);
             }
+            
+            ValidateMacro();
         }
         
         private MacroCommandObject AddClosingCommand(MacroCommandObject commandObj, int desiredIndex)
@@ -114,6 +116,8 @@ namespace SleepHunter.Forms
             
             macroListView.SelectedIndices.Clear();
             macroListView.SelectedIndices.Add(Math.Max(0, desiredIndex - 1));
+            
+            ValidateMacro();
             return endingObj;
         }
         #endregion
@@ -157,6 +161,10 @@ namespace SleepHunter.Forms
                     MessageBoxIcon.Hand);
                 return false;
             }
+            finally
+            {
+                ValidateMacro();
+            }
         }
         
         private void DeleteMacroCommands(IReadOnlyList<int> indexes)
@@ -181,6 +189,7 @@ namespace SleepHunter.Forms
             finally
             {
                 macroListView.EndUpdate();
+                ValidateMacro();
             }
         }
 
@@ -245,6 +254,7 @@ namespace SleepHunter.Forms
             finally
             {
                 macroListView.EndUpdate();
+                ValidateMacro();
             }
         }
     }
