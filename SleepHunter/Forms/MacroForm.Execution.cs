@@ -12,7 +12,7 @@ namespace SleepHunter.Forms
     {
         public void StartMacro()
         {
-            if (IsRunning)
+            if (IsRunning || !IsClientAttached)
             {
                 return;
             }
@@ -61,6 +61,12 @@ namespace SleepHunter.Forms
         {
             if (!IsPaused)
             {
+                return;
+            }
+
+            if (!IsClientAttached)
+            {
+                StopMacro(MacroStopReason.ProcessNotFound);
                 return;
             }
 

@@ -11,6 +11,7 @@ using SleepHunter.Macro;
 using SleepHunter.Macro.Serialization;
 using System.Linq;
 using System.Drawing;
+using SleepHunter.Interop.Hotkey;
 using SleepHunter.Macro.Commands.Logic;
 
 namespace SleepHunter.Forms
@@ -33,7 +34,7 @@ namespace SleepHunter.Forms
         private GameClientWindow clientWindow;
         private GameClientReader clientReader;
         private IMacroExecutor macroExecutor;
-        private bool isAttached;
+        private GlobalHotkey hotkey;
 
         private string macroName = string.Empty;
         private string macroAuthor = string.Empty;
@@ -42,6 +43,7 @@ namespace SleepHunter.Forms
         private ListViewItem highlightedItem;
         private string validationErrorMessage;
 
+        public bool IsClientAttached { get; private set; }
         public bool IsRunning { get; private set; }
         public bool IsPaused { get; private set; }
         public MacroStopReason StopReason { get; private set; }
@@ -116,7 +118,7 @@ namespace SleepHunter.Forms
 
             clientWindow = window;
             clientReader = new GameClientReader(clientWindow.ProcessId);
-            isAttached = true;
+            IsClientAttached = true;
 
             UpdateMacroUi();
             UpdateToolbarAndMenuState();
@@ -125,7 +127,7 @@ namespace SleepHunter.Forms
         private void DetachClient()
         {
             clientReader?.Dispose();
-            isAttached = false;
+            IsClientAttached = false;
 
             if (IsRunning)
             {
@@ -433,6 +435,7 @@ namespace SleepHunter.Forms
 
         private void form_Closed(object sender, FormClosedEventArgs e)
         {
+            hotkey?.Dispose();
             clientReader?.Dispose();
 
             if (macroExecutor != null)

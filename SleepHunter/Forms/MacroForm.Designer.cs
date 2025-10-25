@@ -57,6 +57,7 @@ namespace SleepHunter.Forms
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.nameLabel = new System.Windows.Forms.Label();
             this.hotkeyGroupBox = new System.Windows.Forms.GroupBox();
+            this.hotkeyHelpText = new System.Windows.Forms.Label();
             this.hotkeyTextBox = new System.Windows.Forms.TextBox();
             this.characterNameLabel = new System.Windows.Forms.Label();
             this.hotkeyCheckBox = new System.Windows.Forms.CheckBox();
@@ -268,6 +269,7 @@ namespace SleepHunter.Forms
             // 
             // hotkeyGroupBox
             // 
+            this.hotkeyGroupBox.Controls.Add(this.hotkeyHelpText);
             this.hotkeyGroupBox.Controls.Add(this.hotkeyTextBox);
             this.hotkeyGroupBox.Controls.Add(this.characterNameLabel);
             this.hotkeyGroupBox.Controls.Add(this.hotkeyCheckBox);
@@ -283,6 +285,15 @@ namespace SleepHunter.Forms
             this.hotkeyGroupBox.TabStop = false;
             this.hotkeyGroupBox.Text = "Hotkey";
             // 
+            // hotkeyHelpText
+            // 
+            this.hotkeyHelpText.AutoSize = true;
+            this.hotkeyHelpText.Location = new System.Drawing.Point(23, 96);
+            this.hotkeyHelpText.Name = "hotkeyHelpText";
+            this.hotkeyHelpText.Size = new System.Drawing.Size(137, 15);
+            this.hotkeyHelpText.TabIndex = 3;
+            this.hotkeyHelpText.Text = "Press to Set, ESC to Clear";
+            // 
             // hotkeyTextBox
             // 
             this.hotkeyTextBox.Location = new System.Drawing.Point(11, 70);
@@ -291,6 +302,7 @@ namespace SleepHunter.Forms
             this.hotkeyTextBox.Size = new System.Drawing.Size(159, 23);
             this.hotkeyTextBox.TabIndex = 2;
             this.hotkeyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.hotkeyTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hotkeyTextBox_KeyDown);
             // 
             // characterNameLabel
             // 
@@ -316,9 +328,10 @@ namespace SleepHunter.Forms
             this.hotkeyCheckBox.Location = new System.Drawing.Point(11, 45);
             this.hotkeyCheckBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.hotkeyCheckBox.Name = "hotkeyCheckBox";
-            this.hotkeyCheckBox.Size = new System.Drawing.Size(111, 20);
+            this.hotkeyCheckBox.Size = new System.Drawing.Size(108, 20);
             this.hotkeyCheckBox.TabIndex = 1;
-            this.hotkeyCheckBox.Text = "Enable Hotkey:";
+            this.hotkeyCheckBox.Text = "Enable Hotkey";
+            this.hotkeyCheckBox.CheckedChanged += new System.EventHandler(this.hotkeyCheckBox_CheckedChanged);
             // 
             // macroListView
             // 
@@ -670,5 +683,6 @@ namespace SleepHunter.Forms
         private Label authorLabel;
         private TextBox hotkeyTextBox;
         private ToolStripButton debugStepButton;
+        private Label hotkeyHelpText;
     }
 }

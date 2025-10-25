@@ -16,8 +16,8 @@ namespace SleepHunter.Interop.Hotkey
         private readonly SynchronizationContext syncContext;
         private readonly IntPtr windowHandle;
         private readonly int hotkeyId;
-        private readonly HotkeyModifiers modifiers;
-        private readonly VirtualKeys key;
+        private HotkeyModifiers modifiers;
+        private VirtualKeys key;
 
         private bool isDisposed;
         
@@ -30,6 +30,7 @@ namespace SleepHunter.Interop.Hotkey
         public VirtualKeys Key => key;
         
         public bool IsRegistered { get; private set; }
+        public bool Enabled { get; set; } = true;
 
         public event EventHandler HotkeyPressed;
         
@@ -50,7 +51,7 @@ namespace SleepHunter.Interop.Hotkey
             Register();
         }
 
-        public void Register()
+        private void Register()
         {
             if (IsRegistered)
             {
@@ -66,6 +67,19 @@ namespace SleepHunter.Interop.Hotkey
             IsRegistered = true;
         }
 
+        public void Rebind(VirtualKeys newKey, HotkeyModifiers newModifiers = HotkeyModifiers.None)
+        {
+            if (IsRegistered)
+            {
+                Unregister();
+            }
+
+            modifiers = newModifiers;
+            key = newKey;
+
+            Register();
+        }
+
         public void Unregister()
         {
             if (!IsRegistered)
@@ -77,9 +91,9 @@ namespace SleepHunter.Interop.Hotkey
             IsRegistered = false;
         }
 
-        public bool ProcessMessage(uint message, IntPtr wParam, IntPtr lParam)
+        public bool ProcessMessage(int message, IntPtr wParam, IntPtr lParam)
         {
-            if (message == WM_HOTKEY && wParam.ToInt32() == hotkeyId && IsRegistered)
+            if (message == WM_HOTKEY && wParam.ToInt32() == hotkeyId && IsRegistered && Enabled)
             {
                 OnHotkeyPressed();
                 return true;
@@ -94,6 +108,27 @@ namespace SleepHunter.Interop.Hotkey
             {
                 syncContext.Post(_ => HotkeyPressed(this, EventArgs.Empty), null);
             }
+        }
+
+        public override string ToString()
+        {
+            var modifierText = string.Empty;
+            if (modifiers.HasFlag(HotkeyModifiers.Control))
+            {
+                modifierText += "Ctrl + ";
+            }
+
+            if (modifiers.HasFlag(HotkeyModifiers.Alt))
+            {
+                modifierText += "Alt + ";
+            }
+
+            if (modifiers.HasFlag(HotkeyModifiers.Shift))
+            {
+                modifierText += "Shift + ";
+            }
+
+            return $"{modifierText}{key.ToAlias()}";
         }
 
         ~GlobalHotkey() => Dispose(false);
