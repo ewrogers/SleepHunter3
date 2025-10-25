@@ -2,7 +2,7 @@
 
 namespace SleepHunter.Macro.Conditions
 {
-    public class IntegerCondition : IMacroCondition
+    public sealed class IntegerCondition : IMacroCondition
     {
         private readonly Func<IMacroContext, long> getter;
         private readonly CompareOperator op;

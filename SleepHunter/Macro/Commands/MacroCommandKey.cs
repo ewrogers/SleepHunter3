@@ -12,6 +12,8 @@ namespace SleepHunter.Macro.Commands
         public const string SwitchToChatPane = "INTERFACE_CHAT";
         public const string SwitchToStatsPane = "INTERFACE_STATS";
         public const string SwitchToWorldSkillSpellPane = "INTERFACE_WORLD_SKILL_SPELL";
+        public const string IfChatInputOpen = "IF_CHAT_INPUT_OPEN";
+        public const string WhileChatInputOpen = "WHILE_CHAT_INPUT_OPEN";
 
         // Map Commands
         public const string IfMapName = "IF_MAP_NAME";

@@ -67,6 +67,22 @@
                 DisplayName = "Switch to World Skill/Spell Pane",
                 Description = "Switches to the world skill/spell pane."
             });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.IfChatInputOpen,
+                DisplayName = "If Chat Input Open",
+                Description = "Performs actions if the chat input text area is open."
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.WhileChatInputOpen,
+                DisplayName = "While Chat Input Open",
+                Description = "Repeats actions while the chat input text area is open."
+            });
         }
     }
 }

@@ -16,6 +16,8 @@ namespace SleepHunter.Models
         private long currentMana;
         private long maxMana;
 
+        private bool chatHasFocus;
+        
         public string Name
         {
             get => name;
@@ -88,6 +90,12 @@ namespace SleepHunter.Models
             }
         }
 
-        public double ManaPercentage => (CurrentMana * 100.0 / Math.Max(1, MaxMana));
+        public double ManaPercentage => CurrentMana * 100.0 / Math.Max(1, MaxMana);
+
+        public bool ChatHasFocus
+        {
+            get => chatHasFocus;
+            set => SetProperty(ref chatHasFocus, value);
+        }
     }
 }

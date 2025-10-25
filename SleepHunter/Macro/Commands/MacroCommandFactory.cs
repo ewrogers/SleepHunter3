@@ -69,6 +69,16 @@ namespace SleepHunter.Macro.Commands
                     return new SwitchPaneCommand(InterfacePane.Stats);
                 case MacroCommandKey.SwitchToWorldSkillSpellPane:
                     return new SwitchPaneCommand(InterfacePane.WorldSkillSpells);
+                case MacroCommandKey.IfChatInputOpen:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.ChatHasFocus, "Open");
+                    return new IfCommand(condition, "Chat Input");
+                }
+                case MacroCommandKey.WhileChatInputOpen:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.ChatHasFocus, "Open");
+                    return new WhileCommand(condition, "Chat Input");
+                }
                 default:
                     throw new InvalidOperationException($"Invalid interface command: {command.Key}");
             }

@@ -231,6 +231,7 @@
     <Compile Include="Macro\Commands\Mouse\RecallMousePositionCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\SaveMousePositionCommand.cs" />
     <Compile Include="Macro\Commands\Time\WaitDelayCommand.cs" />
+    <Compile Include="Macro\Conditions\BooleanCondition.cs" />
     <Compile Include="Macro\Conditions\CompareOperator.cs" />
     <Compile Include="Macro\Conditions\CompositeCondition.cs" />
     <Compile Include="Macro\Conditions\FloatCondition.cs" />

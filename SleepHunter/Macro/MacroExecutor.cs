@@ -32,6 +32,8 @@ namespace SleepHunter.Macro
         private DateTime lastUpdateTime;
         private bool isDisposed;
 
+        public int CurrentCommandIndex => context.CurrentCommandIndex;
+        
         public MacroRunState State { get; private set; }
         public MacroStopReason StopReason { get; private set; }
 
@@ -76,9 +78,6 @@ namespace SleepHunter.Macro
                 var stopReason = MacroStopReason.Completed;
                 while (!cancellationTokenSource.IsCancellationRequested)
                 {
-                    // Wait for resume if paused
-                    pauseEvent.Wait(cancellationTokenSource.Token);
-
                     try
                     {
                         // Stop if the command list is empty or we've reached the end of the list
@@ -95,6 +94,9 @@ namespace SleepHunter.Macro
 
                         context.CurrentCommandIndex = commandIndex;
 
+                        // Wait for resume if paused
+                        pauseEvent.Wait(cancellationTokenSource.Token);
+                        
                         if (debugStepEnabled)
                         {
                             SetState(MacroRunState.Paused);
@@ -233,6 +235,8 @@ namespace SleepHunter.Macro
             player.CurrentHealth = reader.ReadCurrentHealth();
             player.CurrentMana = reader.ReadCurrentMana();
 
+            player.ChatHasFocus = reader.ReadChatHasFocus();
+            
             lastUpdateTime = DateTime.Now;
         }
 

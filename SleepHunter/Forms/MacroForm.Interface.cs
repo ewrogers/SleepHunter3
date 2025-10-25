@@ -200,7 +200,7 @@ namespace SleepHunter.Forms
             }
 
             highlightedItem = macroListView.Items[index];
-            highlightedItem.BackColor = color ?? Color.Yellow;
+            highlightedItem.BackColor = color ?? DebugStepHighlightColor;
             highlightedItem.EnsureVisible();
         }
 

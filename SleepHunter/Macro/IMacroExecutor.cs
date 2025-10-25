@@ -6,6 +6,7 @@ namespace SleepHunter.Macro
 {
     public interface IMacroExecutor : IDisposable
     {
+        int CurrentCommandIndex { get; }
         MacroRunState State { get; }
         MacroStopReason StopReason { get; }
 

@@ -114,6 +114,12 @@ namespace SleepHunter.Forms
                 }
             }
 
+            if (state == MacroRunState.Paused && macroExecutor != null)
+            {
+                macroListView.SelectedIndices.Clear();
+                HighlightItem(macroExecutor.CurrentCommandIndex, DebugStepHighlightColor);
+            }
+
             IsRunning = state == MacroRunState.Running || state == MacroRunState.Paused;
             IsPaused = state == MacroRunState.Paused;
 

@@ -20,6 +20,7 @@ namespace SleepHunter.Interop
         private IMemoryVariable<string> maxHealthVariable;
         private IMemoryVariable<string> currentManaVariable;
         private IMemoryVariable<string> maxManaVariable;
+        private IMemoryVariable<byte> chatHasFocusVariable;
 
         public GameClientReader(int processId)
         {
@@ -43,6 +44,8 @@ namespace SleepHunter.Interop
 
             currentManaVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x5C6 }, maxLength: 8);
             maxManaVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x646 }, maxLength: 8);
+            
+            chatHasFocusVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x6EB118, new long[] { 0x438 });
         }
 
         public string ReadVersion()
@@ -127,6 +130,12 @@ namespace SleepHunter.Interop
                 return value;
             }
             return 0;
+        }
+
+        public bool ReadChatHasFocus()
+        {
+            CheckIfDisposed();
+            return chatHasFocusVariable.Read() == 1;
         }
 
         ~GameClientReader() => Dispose(false);
