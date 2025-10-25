@@ -11,8 +11,6 @@ namespace SleepHunter.Forms
 {
     public partial class MainForm
     {
-        private const int WM_HOTKEY = 0x312;
-
         private readonly IServiceProvider serviceProvider;
         private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroSerializer serializer;
@@ -203,37 +201,6 @@ namespace SleepHunter.Forms
 
             var data = new DataObject(command);
             DoDragDrop(data, DragDropEffects.Copy);
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-            if (m.Msg != WM_HOTKEY)
-            {
-                return;
-            }
-
-            HotkeyAction((int)m.WParam);
-        }
-
-        private void HotkeyAction(int hotkeyId)
-        {
-            foreach (var mdiChild in MdiChildren)
-            {
-                if (mdiChild is MacroForm macroForm)
-                {
-                    //if (macroForm.hotkey.hotkeyId == hotkeyID)
-                    //{
-                    //    if (macroForm.MacroRunning)
-                    //    {
-                    //        macroForm.StopButton();
-                    //        break;
-                    //    }
-                    //    macroForm.PlayButton();
-                    //    break;
-                    //}
-                }
-            }
         }
 
         private void macroForm_Activated(object sender, EventArgs e)

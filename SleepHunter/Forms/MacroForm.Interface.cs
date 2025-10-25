@@ -67,7 +67,7 @@ namespace SleepHunter.Forms
             var characterName = string.Empty;
             try
             {
-                if (isAttached)
+                if (IsClientAttached)
                 {
                     characterName = clientReader.ReadCharacterName();
                 }
@@ -79,10 +79,10 @@ namespace SleepHunter.Forms
             }
 
             var name = !string.IsNullOrWhiteSpace(macroName) ? macroName : "Macro";
-            Text = isAttached ? $"{characterName} - {name}" : name;
+            Text = IsClientAttached ? $"{characterName} - {name}" : name;
 
-            characterNameLabel.Text = isAttached ? characterName : "No Client";
-            characterNameLabel.Enabled = isAttached;
+            characterNameLabel.Text = IsClientAttached ? characterName : "No Client";
+            characterNameLabel.Enabled = IsClientAttached;
         }
 
         private void UpdateToolbarAndMenuState()
@@ -129,7 +129,7 @@ namespace SleepHunter.Forms
             moveDownButton.Enabled = moveDownMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
             playButton.Text = IsPaused ? "Continue Macro" : "Start Macro";
-            playButton.Enabled = string.IsNullOrWhiteSpace(validationErrorMessage) && !isEmpty && isAttached &&
+            playButton.Enabled = string.IsNullOrWhiteSpace(validationErrorMessage) && !isEmpty && IsClientAttached &&
                                  (!IsRunning || IsPaused);
 
             pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
