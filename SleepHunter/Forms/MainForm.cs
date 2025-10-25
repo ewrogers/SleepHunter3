@@ -11,11 +11,13 @@ namespace SleepHunter.Forms
 {
     public partial class MainForm
     {
+        private static readonly TimeSpan NotificationDuration = TimeSpan.FromSeconds(5);
+        
         private readonly IServiceProvider serviceProvider;
         private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroSerializer serializer;
         private readonly ILegacySerializer legacySerializer;
-
+        
         private ProcessesForm processWindow;
         private MacroForm activeMacro;
 
@@ -27,7 +29,7 @@ namespace SleepHunter.Forms
             legacySerializer = serviceProvider.GetRequiredService<ILegacySerializer>();
             
             processWindow = this.serviceProvider.GetRequiredService<ProcessesForm>();
-
+            
             InitializeComponent();
             UpdateMenuState();
         }

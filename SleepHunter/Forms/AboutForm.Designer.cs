@@ -8,15 +8,8 @@ namespace SleepHunter.Forms
     partial class AboutForm
     {
         private IContainer components = null;
-        private Label lblVersion;
-        private Label lblThanks;
-        private GroupBox Seperator;
-        private Label label1;
-        private Label label2;
-        private WebBrowser webDonate;
+        private Label versionLabel;
         private Label lblAuthor;
-        private Label label3;
-        private Label label4;
 
         protected override void Dispose(bool disposing)
         {
@@ -29,112 +22,68 @@ namespace SleepHunter.Forms
 
         private void InitializeComponent()
         {
-            this.components = (IContainer)new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
-            this.lblVersion = new System.Windows.Forms.Label();
-            this.lblThanks = new System.Windows.Forms.Label();
-            this.Seperator = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.webDonate = new System.Windows.Forms.WebBrowser();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.lblAuthor = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.githubLabel = new System.Windows.Forms.Label();
+            this.infoLabel = new System.Windows.Forms.Label();
+            this.editionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblVersion
+            // versionLabel
             // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.ForeColor = System.Drawing.Color.FromArgb(192, 255, 255);
-            this.lblVersion.Location = new System.Drawing.Point(401, 328);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(58, 13);
-            this.lblVersion.TabIndex = 0;
-            this.lblVersion.Text = "Beta 1.2.5";
-            // 
-            // lblThanks
-            // 
-            this.lblThanks.AutoSize = true;
-            this.lblThanks.ForeColor = System.Drawing.Color.White;
-            this.lblThanks.Location = new System.Drawing.Point(19, 351);
-            this.lblThanks.Name = "lblThanks";
-            this.lblThanks.Size = new System.Drawing.Size(94, 13);
-            this.lblThanks.TabIndex = 2;
-            this.lblThanks.Text = "Special Thanks to:";
-            // 
-            // Seperator
-            // 
-            this.Seperator.Enabled = false;
-            this.Seperator.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.Seperator.Location = new System.Drawing.Point(13, 344);
-            this.Seperator.Name = "Seperator";
-            this.Seperator.Size = new System.Drawing.Size(455, 4);
-            this.Seperator.TabIndex = 3;
-            this.Seperator.TabStop = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Silver;
-            this.label1.Location = new System.Drawing.Point(19, 364);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Eru -- Chat Pointers";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(192, 255, 255);
-            this.label2.Location = new System.Drawing.Point(19, 328);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(352, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Currently Developed By: Brandon 'saytheb' Blank -- saytheb@gmail.com";
-            // 
-            // webDonate
-            // 
-            this.webDonate.AllowWebBrowserDrop = false;
-            this.webDonate.IsWebBrowserContextMenuEnabled = false;
-            this.webDonate.Location = new System.Drawing.Point(381, 353);
-            this.webDonate.Name = "webDonate";
-            this.webDonate.ScriptErrorsSuppressed = true;
-            this.webDonate.ScrollBarsEnabled = false;
-            this.webDonate.Size = new System.Drawing.Size(87, 48);
-            this.webDonate.TabIndex = 0;
-            this.webDonate.Url = new System.Uri("http://eriknet.no-ip.com", System.UriKind.Absolute);
-            this.webDonate.Visible = false;
-            this.webDonate.WebBrowserShortcutsEnabled = false;
-            this.webDonate.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webDonate_Navigated);
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.versionLabel.Location = new System.Drawing.Point(427, 328);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(41, 17);
+            this.versionLabel.TabIndex = 4;
+            this.versionLabel.Text = "v3.1.0";
             // 
             // lblAuthor
             // 
-            this.lblAuthor.ForeColor = System.Drawing.Color.FromArgb(192, 192, 255);
-            this.lblAuthor.Location = new System.Drawing.Point(186, 353);
+            this.lblAuthor.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAuthor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.lblAuthor.Location = new System.Drawing.Point(12, 328);
             this.lblAuthor.Name = "lblAuthor";
-            this.lblAuthor.Size = new System.Drawing.Size(189, 45);
-            this.lblAuthor.TabIndex = 1;
-            this.lblAuthor.Text = "Originally Developed By: Erik 'SiLo' Rogers -- ewrogers@gmail.com -- http://eriknet.no-ip.com";
+            this.lblAuthor.Size = new System.Drawing.Size(383, 23);
+            this.lblAuthor.TabIndex = 0;
+            this.lblAuthor.Text = "Created by Erik \'SiLo\' Rogers  [2004-2025]";
             // 
-            // label3
+            // githubLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.ForeColor = System.Drawing.Color.Silver;
-            this.label3.Location = new System.Drawing.Point(19, 377);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(116, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Swinky-- Chat Pointers";
+            this.githubLabel.AutoSize = true;
+            this.githubLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.githubLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.githubLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.githubLabel.Location = new System.Drawing.Point(223, 392);
+            this.githubLabel.Name = "githubLabel";
+            this.githubLabel.Size = new System.Drawing.Size(109, 21);
+            this.githubLabel.TabIndex = 3;
+            this.githubLabel.Text = "Project Github";
+            this.githubLabel.Click += new System.EventHandler(this.githubLabel_Click);
             // 
-            // label4
+            // infoLabel
             // 
-            this.label4.ForeColor = System.Drawing.Color.Silver;
-            this.label4.Location = new System.Drawing.Point(19, 404);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(440, 30);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Updates (11/29/05): Fixed HP/MP, Map Name, XLoc, YLoc. Chat Disabled due to errors with new DA version.";
+            this.infoLabel.AutoSize = true;
+            this.infoLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoLabel.ForeColor = System.Drawing.Color.White;
+            this.infoLabel.Location = new System.Drawing.Point(12, 392);
+            this.infoLabel.Name = "infoLabel";
+            this.infoLabel.Size = new System.Drawing.Size(205, 21);
+            this.infoLabel.TabIndex = 2;
+            this.infoLabel.Text = "Visit the GitHub for updates:";
+            // 
+            // editionLabel
+            // 
+            this.editionLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.editionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.editionLabel.Location = new System.Drawing.Point(12, 351);
+            this.editionLabel.Name = "editionLabel";
+            this.editionLabel.Size = new System.Drawing.Size(383, 23);
+            this.editionLabel.TabIndex = 1;
+            this.editionLabel.Text = "Revived Edition";
             // 
             // AboutForm
             // 
@@ -144,15 +93,11 @@ namespace SleepHunter.Forms
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(480, 436);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.webDonate);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.Seperator);
-            this.Controls.Add(this.lblThanks);
+            this.Controls.Add(this.editionLabel);
+            this.Controls.Add(this.infoLabel);
+            this.Controls.Add(this.githubLabel);
             this.Controls.Add(this.lblAuthor);
-            this.Controls.Add(this.lblVersion);
+            this.Controls.Add(this.versionLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -163,11 +108,13 @@ namespace SleepHunter.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About SleepHunter";
-            this.Shown += new System.EventHandler(this.frmAbout_Shown);
-            this.Load += new System.EventHandler(this.frmAbout_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
+
+        private Label githubLabel;
+        private Label infoLabel;
+        private Label editionLabel;
     }
 }

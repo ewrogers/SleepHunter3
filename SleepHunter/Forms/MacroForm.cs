@@ -28,7 +28,7 @@ namespace SleepHunter.Forms
         private readonly IMacroCommandRegistry commandRegistry;
         private readonly IMacroCommandFactory commandFactory;
         private readonly IMacroSerializer serializer;
-
+        
         private readonly List<MacroCommandObject> macroCommands = new List<MacroCommandObject>();
 
         private GameClientWindow clientWindow;
@@ -55,7 +55,7 @@ namespace SleepHunter.Forms
             commandRegistry = serviceProvider.GetRequiredService<IMacroCommandRegistry>();
             commandFactory = serviceProvider.GetRequiredService<IMacroCommandFactory>();
             serializer = serviceProvider.GetRequiredService<IMacroSerializer>();
-
+            
             InitializeComponent();
 
             UpdateMacroUi();
@@ -208,12 +208,12 @@ namespace SleepHunter.Forms
                     }
 
                     var characterName = reader.ReadCharacterName();
-                    var clientWindow = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
-                    sortedList.Add(characterName, clientWindow);
+                    var newWindow = new GameClientWindow(gameWindow.Handle, gameWindow.ProcessId);
+                    sortedList.Add(characterName, newWindow);
                 }
                 catch
                 {
-                    continue;
+                    // Do nothing
                 }
                 finally
                 {
