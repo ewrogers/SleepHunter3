@@ -22,9 +22,25 @@ namespace SleepHunter.Macro.Serialization
                 var keysString = string.Join("", keystrokes);
                 JsonSerializer.Serialize(writer, keysString, options);
             }
-            else
+            else if (value is long longValue)
             {
-                JsonSerializer.Serialize(writer, value, options);
+                JsonSerializer.Serialize(writer, longValue, options);
+            }
+            else if (value is int intValue)
+            {
+                JsonSerializer.Serialize(writer, intValue, options);
+            }
+            else if (value is double doubleValue)
+            {
+                JsonSerializer.Serialize(writer, doubleValue, options);
+            }
+            else if (value is float floatValue)
+            {
+                JsonSerializer.Serialize(writer, floatValue, options);
+            }
+            else if (value is string stringValue)
+            {
+                JsonSerializer.Serialize(writer, stringValue, options);
             }
         }
     }

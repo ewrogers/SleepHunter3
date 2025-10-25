@@ -24,7 +24,7 @@ namespace SleepHunter.Forms
                 macroExecutor.DebugStep -= OnMacroDebugStep;
                 macroExecutor.StateChanged -= OnMacroStateChanged;
                 macroExecutor.Exception -= OnMacroException;
-                macroExecutor.Dispose();                
+                macroExecutor.Dispose();
             }
 
             // Create a new macro executor with the current macro commands
@@ -114,9 +114,15 @@ namespace SleepHunter.Forms
                 }
             }
 
+            if (state == MacroRunState.Paused && macroExecutor != null)
+            {
+                macroListView.SelectedIndices.Clear();
+                HighlightItem(macroExecutor.CurrentCommandIndex, DebugStepHighlightColor);
+            }
+
             IsRunning = state == MacroRunState.Running || state == MacroRunState.Paused;
             IsPaused = state == MacroRunState.Paused;
-            
+
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }
@@ -125,7 +131,7 @@ namespace SleepHunter.Forms
         {
             MessageBox.Show(this, $"An error occurred while executing the macro: {ex.Message}",
                 "Macro Execution Failed", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-            
+
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();
         }

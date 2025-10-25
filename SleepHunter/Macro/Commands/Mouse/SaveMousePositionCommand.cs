@@ -6,9 +6,7 @@ namespace SleepHunter.Macro.Commands.Mouse
     {
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
-            // Save the current mouse position
-            var cursor = context.Mouse.GetCursorPosition();
-            context.SavedMousePosition = cursor;
+            context.SavedMousePosition = context.MousePosition;
             
             return Task.FromResult(MacroCommandResult.Continue);
         }

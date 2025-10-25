@@ -20,7 +20,11 @@ namespace SleepHunter.Interop
         private IMemoryVariable<string> maxHealthVariable;
         private IMemoryVariable<string> currentManaVariable;
         private IMemoryVariable<string> maxManaVariable;
-
+        private IMemoryVariable<byte> activePaneVariable;
+        private IMemoryVariable<byte> chatHasFocusVariable;
+        private IMemoryVariable<byte> minimizedModeVariable;
+        private IMemoryVariable<byte> inventoryExpandedVariable;
+        
         public GameClientReader(int processId)
         {
             stream = new ProcessMemoryStream(processId, ProcessAccess.Read);
@@ -33,16 +37,27 @@ namespace SleepHunter.Interop
             versionVariable = new StaticMemoryVariable<string>(stream, (IntPtr)0x685B08, maxLength: 8);
             characterNameVariable = new StaticMemoryVariable<string>(stream, (IntPtr)0x73D910, maxLength: 13);
 
-            mapNameVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x82B76C, new long[] { 0x4E3C, 0x0 }, maxLength: 32);
+            mapNameVariable =
+                new DynamicMemoryVariable<string>(stream, (IntPtr)0x82B76C, new long[] { 0x4E3C, 0x0 }, maxLength: 32);
             mapIdVariable = new DynamicMemoryVariable<ushort>(stream, (IntPtr)0x882E68, new long[] { 0x26C });
             mapXVariable = new DynamicMemoryVariable<ushort>(stream, (IntPtr)0x882E68, new long[] { 0x23C });
             mapYVariable = new DynamicMemoryVariable<ushort>(stream, (IntPtr)0x882E68, new long[] { 0x238 });
 
-            currentHealthVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x4C6 }, maxLength: 8);
-            maxHealthVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x546 }, maxLength: 8);
+            currentHealthVariable =
+                new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x4C6 }, maxLength: 8);
+            maxHealthVariable =
+                new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x546 }, maxLength: 8);
 
-            currentManaVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x5C6 }, maxLength: 8);
-            maxManaVariable = new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x646 }, maxLength: 8);
+            currentManaVariable =
+                new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x5C6 }, maxLength: 8);
+            maxManaVariable =
+                new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x646 }, maxLength: 8);
+
+            activePaneVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x82B76C, new long[] { 0x4FA8 });
+            chatHasFocusVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x6EB118, new long[] { 0x438 });
+            minimizedModeVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x82B76C, new long[] { 0x4DF0 });
+            inventoryExpandedVariable =
+                new DynamicMemoryVariable<byte>(stream, (IntPtr)0x82B76C, new long[] { 0x4FB0 });
         }
 
         public string ReadVersion()
@@ -127,6 +142,30 @@ namespace SleepHunter.Interop
                 return value;
             }
             return 0;
+        }
+
+        public byte ReadActivePane()
+        {
+            CheckIfDisposed();
+            return activePaneVariable.Read();
+        }
+
+        public bool ReadChatHasFocus()
+        {
+            CheckIfDisposed();
+            return chatHasFocusVariable.Read() == 1;
+        }
+        
+        public bool ReadMinimizedMode()
+        {
+            CheckIfDisposed();
+            return minimizedModeVariable.Read() == 1;
+        }
+        
+        public bool ReadInventoryExpanded()
+        {
+            CheckIfDisposed();
+            return inventoryExpandedVariable.Read() == 1;
         }
 
         ~GameClientReader() => Dispose(false);

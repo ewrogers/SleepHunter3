@@ -111,6 +111,32 @@ namespace SleepHunter.Forms
                 return null;
             }
 
+            // Intelligent balance check: only add a closing command if there are more matching openings than closings
+            var openings = 0;
+            var closings = 0;
+            foreach (var macroCommand in macroCommands)
+            {
+                var cmd = macroCommand.Command;
+                // Count openings that correspond to the same closing type
+                var cmdClosing = cmd.GetClosingCommand();
+                if (cmdClosing != null && cmdClosing.GetType() == closingCommand.GetType())
+                {
+                    openings++;
+                }
+
+                // Count existing closings of the same type
+                if (cmd.IsClosingCommand() && cmd.GetType() == closingCommand.GetType())
+                {
+                    closings++;
+                }
+            }
+
+            // If already balanced or over-closed, do not add another closing command
+            if (openings <= closings)
+            {
+                return null;
+            }
+
             var endingObj = new MacroCommandObject
             {
                 Command = closingCommand,

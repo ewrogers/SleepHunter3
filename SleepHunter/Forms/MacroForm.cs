@@ -11,6 +11,7 @@ using SleepHunter.Macro;
 using SleepHunter.Macro.Serialization;
 using System.Linq;
 using System.Drawing;
+using SleepHunter.Macro.Commands.Logic;
 
 namespace SleepHunter.Forms
 {
@@ -80,8 +81,8 @@ namespace SleepHunter.Forms
                     // Re-calculate the line number
                     listViewItem.SubItems[0].Text = (lineNumber++).ToString().PadLeft(8, ' ');
 
-                    // Reduce indent for a closing command
-                    if (commandObj != null && commandObj.Command.IsClosingCommand())
+                    // Reduce indent for a closing command, and also for Else (acts as close-then-open)
+                    if (commandObj != null && (commandObj.Command.IsClosingCommand() || commandObj.Command is ElseCommand))
                     {
                         indent = Math.Max(0, indent - 1);
                     }

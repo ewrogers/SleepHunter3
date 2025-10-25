@@ -14,7 +14,7 @@ namespace SleepHunter.Forms
             if (commandObj.Command is DefineLabelCommand labelCommand)
             {
                 var labelName = labelCommand.Label;
-                for(var i = 0; i< macroCommands.Count; i++)
+                for (var i = 0; i < macroCommands.Count; i++)
                 {
                     var existingCommand = macroCommands[i];
                     if (existingCommand.Command is DefineLabelCommand existingLabel &&
@@ -29,7 +29,7 @@ namespace SleepHunter.Forms
         private void ValidateMacro()
         {
             try
-            {               
+            {
                 _ = new MacroStructureCache(macroCommands.Select(c => c.Command).ToList());
 
                 ClearHighlight();

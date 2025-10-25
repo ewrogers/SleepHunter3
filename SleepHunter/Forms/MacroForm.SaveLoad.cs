@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SleepHunter.Macro.Commands;
@@ -24,7 +25,7 @@ namespace SleepHunter.Forms
             return document;
         }
 
-        public bool LoadMacroDocument(SerializableMacroDocument document)
+        public bool LoadMacroDocument(SerializableMacroDocument document, string filename = "")
         {
             macroListView.Items.Clear();
             macroListView.BeginUpdate();
@@ -49,10 +50,13 @@ namespace SleepHunter.Forms
                     var parameters =
                         command.Parameters?.Select(p => new MacroParameterValue(p.Type, p.Value)).ToArray() ??
                         Array.Empty<MacroParameterValue>();
-                    AddMacroCommand(definition, parameters, addClosingCommand: false, autoSelect: false, validate: false);
+                    AddMacroCommand(definition, parameters, addClosingCommand: false, autoSelect: false,
+                        validate: false);
                 }
 
-                nameTextBox.Text = macroName = document.Name.Trim();
+                var documentName = document.Name.Trim();
+
+                nameTextBox.Text = macroName = !string.IsNullOrEmpty(documentName) ? documentName : Path.GetFileNameWithoutExtension(filename);
                 authorTextBox.Text = macroAuthor = document.Author.Trim();
 
                 return !hasError;
@@ -66,9 +70,9 @@ namespace SleepHunter.Forms
             finally
             {
                 macroListView.EndUpdate();
-                
+
                 ValidateMacro();
-                
+
                 UpdateMacroUi();
                 UpdateToolbarAndMenuState();
                 UpdateStatusBarState();

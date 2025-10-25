@@ -4,14 +4,20 @@ namespace SleepHunter.Macro.Commands
     public static class MacroCommandKey
     {
         // Interface Commands
-        public const string SwitchToInventoryPane = "INTERFACE_INVENTORY";
-        public const string SwitchToTemuairSkillPane = "INTERFACE_TEMUAIR_SKILL";
-        public const string SwitchToTemuairSpellPane = "INTERFACE_TEMUAIR_SPELL";
-        public const string SwitchToMedeniaSkillPane = "INTERFACE_MEDENIA_SKILL";
-        public const string SwitchToMedeniaSpellPane = "INTERFACE_MEDENIA_SPELL";
-        public const string SwitchToChatPane = "INTERFACE_CHAT";
-        public const string SwitchToStatsPane = "INTERFACE_STATS";
-        public const string SwitchToWorldSkillSpellPane = "INTERFACE_WORLD_SKILL_SPELL";
+        public const string SwitchToInventoryPane = "SWITCH_TO_INVENTORY";
+        public const string SwitchToTemuairSkillPane = "SWITCH_TO_TEMUAIR_SKILL";
+        public const string SwitchToTemuairSpellPane = "SWITCH_TO_TEMUAIR_SPELL";
+        public const string SwitchToMedeniaSkillPane = "SWITCH_TO_MEDENIA_SKILL";
+        public const string SwitchToMedeniaSpellPane = "SWITCH_TO_MEDENIA_SPELL";
+        public const string SwitchToChatPane = "SWITCH_TO_CHAT";
+        public const string SwitchToChatHistoryPane = "SWITCH_TO_CHAT_HISTORY";
+        public const string SwitchToStatsPane = "SWITCH_TO_STATS";
+        public const string SwitchToModifiersPane = "SWITCH_TO_MODIFIERS";
+        public const string SwitchToWorldSkillSpellPane = "SWITCH_TO_WORLD_SKILL_SPELL";
+        public const string IfChatInputOpen = "IF_CHAT_INPUT_OPEN";
+        public const string WhileChatInputOpen = "WHILE_CHAT_INPUT_OPEN";
+        public const string IfMinimizedMode = "IF_MINIMIZED_MODE";
+        public const string IfInventoryExpanded = "IF_INVENTORY_EXPANDED";
 
         // Map Commands
         public const string IfMapName = "IF_MAP_NAME";
@@ -40,8 +46,17 @@ namespace SleepHunter.Macro.Commands
 
         // Mouse Commands
         public const string MouseLeftClick = "MOUSE_LEFT_CLICK";
+        public const string MouseLeftDoubleClick = "MOUSE_LEFT_DOUBLE_CLICK";
         public const string MouseRightClick = "MOUSE_RIGHT_CLICK";
+        public const string MouseRightDoubleClick = "MOUSE_RIGHT_DOUBLE_CLICK";
+        public const string MouseLeftButtonDown = "MOUSE_LEFT_BUTTON_DOWN";
+        public const string MouseLeftButtonUp = "MOUSE_LEFT_BUTTON_UP";
+        public const string MouseRightButtonDown = "MOUSE_RIGHT_BUTTON_DOWN";
+        public const string MouseRightButtonUp = "MOUSE_RIGHT_BUTTON_UP";
         public const string MouseMove = "MOUSE_MOVE";
+        public const string MouseMoveOffset = "MOUSE_MOVE_OFFSET";
+        public const string MouseDrag = "MOUSE_DRAG";
+        public const string MouseDragOffset = "MOUSE_DRAG_OFFSET";
         public const string MouseSavePosition = "MOUSE_SAVE_POSITION";
         public const string MouseRecallPosition = "MOUSE_RECALL_POSITION";
 

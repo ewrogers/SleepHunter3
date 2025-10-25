@@ -64,7 +64,7 @@ namespace SleepHunter.Forms
                 var document = legacySerializer.DeserializeDocument(content);
                 var macroForm = CreateMacroForm();
 
-                macroForm.LoadMacroDocument(document);
+                macroForm.LoadMacroDocument(document, filename);
                 macroForm.Show();
                 
                 SetStatusText($"Loaded {filename} successfully.");
@@ -97,7 +97,7 @@ namespace SleepHunter.Forms
                 var document = serializer.DeserializeDocument(json);
                 var macroForm = CreateMacroForm();
                 
-                macroForm.LoadMacroDocument(document);
+                macroForm.LoadMacroDocument(document, filename);
                 macroForm.Show();
                 
                 SetStatusText($"Loaded {filename} successfully.");

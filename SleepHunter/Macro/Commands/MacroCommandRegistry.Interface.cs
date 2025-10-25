@@ -51,6 +51,14 @@
                 DisplayName = "Switch to Chat Pane",
                 Description = "Switches to the chat pane."
             });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.SwitchToChatHistoryPane,
+                DisplayName = "Switch to Chat History Pane",
+                Description = "Switches to the chat history pane."
+            });
 
             RegisterCommand(new MacroCommandDefinition
             {
@@ -59,6 +67,14 @@
                 DisplayName = "Switch to Stats Pane",
                 Description = "Switches to the character stats pane."
             });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.SwitchToModifiersPane,
+                DisplayName = "Switch to Modifiers Pane",
+                Description = "Switches to the character modifiers pane."
+            });
 
             RegisterCommand(new MacroCommandDefinition
             {
@@ -66,6 +82,39 @@
                 Key = MacroCommandKey.SwitchToWorldSkillSpellPane,
                 DisplayName = "Switch to World Skill/Spell Pane",
                 Description = "Switches to the world skill/spell pane."
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.IfChatInputOpen,
+                DisplayName = "If Chat Input Open",
+                Description = "Performs actions if the chat input text area is open."
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.WhileChatInputOpen,
+                DisplayName = "While Chat Input Open",
+                Description = "Repeats actions while the chat input text area is open."
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.IfMinimizedMode,
+                DisplayName = "If Minimized Mode",
+                Description = "Performs actions if the game viewport is in the minimized view mode.",
+                HelpText = "This is when you click the button or press forward slash (/) key."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.IfInventoryExpanded,
+                DisplayName = "If Inventory Expanded",
+                Description = "Performs actions if the inventory pane is expanded to show the entire inventory."
             });
         }
     }

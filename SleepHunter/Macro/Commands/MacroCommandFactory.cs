@@ -8,12 +8,13 @@ using SleepHunter.Macro.Commands.Loop;
 using SleepHunter.Macro.Commands.Mouse;
 using SleepHunter.Macro.Commands.Time;
 using SleepHunter.Macro.Conditions;
+using SleepHunter.Models;
 
 namespace SleepHunter.Macro.Commands
 {
     public class MacroCommandFactory : IMacroCommandFactory
     {
-        public IMacroCommand Create(MacroCommandDefinition command) => Create(command);
+        public IMacroCommand Create(MacroCommandDefinition command) => Create(command, null);
 
         public IMacroCommand Create(MacroCommandDefinition command, params MacroParameterValue[] parameters)
         {
@@ -49,32 +50,56 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateInterfaceCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateInterfaceCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
                 case MacroCommandKey.SwitchToInventoryPane:
-                    return new SwitchPaneCommand(InterfacePane.Inventory);
+                    return new SwitchPaneCommand(InterfacePanel.Inventory);
                 case MacroCommandKey.SwitchToTemuairSkillPane:
-                    return new SwitchPaneCommand(InterfacePane.TemuairSkills);
+                    return new SwitchPaneCommand(InterfacePanel.TemuairSkills);
                 case MacroCommandKey.SwitchToTemuairSpellPane:
-                    return new SwitchPaneCommand(InterfacePane.TemuairSpells);
+                    return new SwitchPaneCommand(InterfacePanel.TemuairSpells);
                 case MacroCommandKey.SwitchToMedeniaSkillPane:
-                    return new SwitchPaneCommand(InterfacePane.MedeniaSkills);
+                    return new SwitchPaneCommand(InterfacePanel.MedeniaSkills);
                 case MacroCommandKey.SwitchToMedeniaSpellPane:
-                    return new SwitchPaneCommand(InterfacePane.MedeniaSpells);
+                    return new SwitchPaneCommand(InterfacePanel.MedeniaSpells);
                 case MacroCommandKey.SwitchToChatPane:
-                    return new SwitchPaneCommand(InterfacePane.Chat);
+                    return new SwitchPaneCommand(InterfacePanel.Chat);
+                case MacroCommandKey.SwitchToChatHistoryPane:
+                    return new SwitchPaneCommand(InterfacePanel.ChatHistory);
                 case MacroCommandKey.SwitchToStatsPane:
-                    return new SwitchPaneCommand(InterfacePane.Stats);
+                    return new SwitchPaneCommand(InterfacePanel.Stats);
+                case MacroCommandKey.SwitchToModifiersPane:
+                    return new SwitchPaneCommand(InterfacePanel.Modifiers);
                 case MacroCommandKey.SwitchToWorldSkillSpellPane:
-                    return new SwitchPaneCommand(InterfacePane.WorldSkillSpells);
+                    return new SwitchPaneCommand(InterfacePanel.WorldSkillSpells);
+                case MacroCommandKey.IfChatInputOpen:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.ChatHasFocus, "Open");
+                    return new IfCommand(condition, "Chat Input");
+                }
+                case MacroCommandKey.WhileChatInputOpen:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.ChatHasFocus, "Open");
+                    return new WhileCommand(condition, "Chat Input");
+                }
+                case MacroCommandKey.IfMinimizedMode:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.IsMinimizedMode, "Mode");
+                    return new IfCommand(condition, "Minimized");
+                }
+                case MacroCommandKey.IfInventoryExpanded:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.IsInventoryExpanded, "Expanded");
+                    return new IfCommand(condition, "Inventory");   
+                }
                 default:
                     throw new InvalidOperationException($"Invalid interface command: {command.Key}");
             }
         }
 
-        private IMacroCommand CreateMapCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateMapCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -125,7 +150,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateHealthCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateHealthCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -154,7 +179,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -183,7 +208,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateKeyboardCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateKeyboardCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -194,16 +219,36 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateMouseCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateMouseCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
                 case MacroCommandKey.MouseLeftClick:
                     return new MouseClickCommand(MouseButton.Left);
+                case MacroCommandKey.MouseLeftDoubleClick:
+                    return new MouseClickCommand(MouseButton.Left, isDoubleClick: true);
                 case MacroCommandKey.MouseRightClick:
                     return new MouseClickCommand(MouseButton.Right);
+                case MacroCommandKey.MouseRightDoubleClick:
+                    return new MouseClickCommand(MouseButton.Right, isDoubleClick: true);
+                case MacroCommandKey.MouseLeftButtonDown:
+                    return new MouseButtonDownCommand(MouseButton.Left);
+                case MacroCommandKey.MouseLeftButtonUp:
+                    return new MouseButtonUpCommand(MouseButton.Left);
+                case MacroCommandKey.MouseRightButtonDown:
+                    return new MouseButtonDownCommand(MouseButton.Right);
+                case MacroCommandKey.MouseRightButtonUp:
+                    return new MouseButtonUpCommand(MouseButton.Right);
                 case MacroCommandKey.MouseMove:
                     return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger());
+                case MacroCommandKey.MouseMoveOffset:
+                    return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger(),
+                        MouseMoveKind.Relative);
+                case MacroCommandKey.MouseDrag:
+                    return new MouseDragMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger());
+                case MacroCommandKey.MouseDragOffset:
+                    return new MouseDragMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger(),
+                        kind: MouseMoveKind.Relative);
                 case MacroCommandKey.MouseSavePosition:
                     return new SaveMousePositionCommand();
                 case MacroCommandKey.MouseRecallPosition:
@@ -213,7 +258,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateLogicCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateLogicCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -226,7 +271,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateLoopCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateLoopCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -249,7 +294,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateJumpCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateJumpCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -264,7 +309,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateTimeCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateTimeCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {

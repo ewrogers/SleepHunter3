@@ -226,11 +226,15 @@
     <Compile Include="Macro\Commands\MacroParameterParser.cs" />
     <Compile Include="Macro\Commands\MacroParameterType.cs" />
     <Compile Include="Macro\Commands\MacroParameterValue.cs" />
+    <Compile Include="Macro\Commands\Mouse\MouseButtonUpCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\MouseClickCommand.cs" />
+    <Compile Include="Macro\Commands\Mouse\MouseButtonDownCommand.cs" />
+    <Compile Include="Macro\Commands\Mouse\MouseDragMoveCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\MouseMoveCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\RecallMousePositionCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\SaveMousePositionCommand.cs" />
     <Compile Include="Macro\Commands\Time\WaitDelayCommand.cs" />
+    <Compile Include="Macro\Conditions\BooleanCondition.cs" />
     <Compile Include="Macro\Conditions\CompareOperator.cs" />
     <Compile Include="Macro\Conditions\CompositeCondition.cs" />
     <Compile Include="Macro\Conditions\FloatCondition.cs" />
@@ -258,6 +262,7 @@
     <Compile Include="Macro\Serialization\SerializableMacroDocument.cs" />
     <Compile Include="Macro\Serialization\SerializableMacroParameter.cs" />
     <Compile Include="Models\GameClientWindow.cs" />
+    <Compile Include="Models\InterfacePanel.cs" />
     <Compile Include="Models\MacroCommandObject.cs" />
     <Compile Include="Models\MacroStopReason.cs" />
     <Compile Include="Models\ObservableObject.cs" />

@@ -17,6 +17,7 @@ namespace SleepHunter.Macro
         public IVirtualMouse Mouse { get; }
         public CancellationToken CancellationToken { get; }
         public int CurrentCommandIndex { get; set; }
+        public MousePoint? MousePosition { get; set; }
         public MousePoint? SavedMousePosition { get; set; }
         
         public bool HasActiveLoops => loopStack.Count > 0;

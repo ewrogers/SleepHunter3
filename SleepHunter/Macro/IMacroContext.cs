@@ -13,6 +13,7 @@ namespace SleepHunter.Macro
         IVirtualMouse Mouse { get; }
         CancellationToken CancellationToken { get; }
         int CurrentCommandIndex { get; }
+        MousePoint? MousePosition { get; set; }
         MousePoint? SavedMousePosition { get; set; }
 
         bool HasActiveLoops { get; }
