@@ -42,20 +42,9 @@ namespace SleepHunter.Macro.Commands.Mouse
             // Basic linear interpolation loop
             do
             {
-                var deltaX = destination.X - current.X;
-                var deltaY = destination.Y - current.Y;
-                var distance = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-
-                if (distance < 8)
-                {
-                    current = destination;
-                }
-                else
-                {
-                    var newX = LerpStep(current.X, destination.X, Step);
-                    var newY = LerpStep(current.Y, destination.Y, Step);
-                    current = new MousePoint(newX, newY);
-                }
+                var newX = LerpStep(current.X, destination.X, Step);
+                var newY = LerpStep(current.Y, destination.Y, Step);
+                current = new MousePoint(newX, newY);
 
                 // Move the mouse
                 context.Mouse.MoveMouse(current);
@@ -63,7 +52,8 @@ namespace SleepHunter.Macro.Commands.Mouse
 
                 await Task.Delay(DragInterval, context.CancellationToken);
 
-            } while (!context.CancellationToken.IsCancellationRequested && (current.X != destination.X || current.Y != destination.Y));
+            } while (!context.CancellationToken.IsCancellationRequested &&
+                     (current.X != destination.X || current.Y != destination.Y));
 
             // Finally release the mouse button
             context.Mouse.SendButtonUp(Button, current);
