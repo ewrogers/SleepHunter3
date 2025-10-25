@@ -83,6 +83,23 @@
                 DisplayName = "While Chat Input Open",
                 Description = "Repeats actions while the chat input text area is open."
             });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.IfMinimizedMode,
+                DisplayName = "If Minimized Mode",
+                Description = "Performs actions if the game viewport is in the minimized view mode.",
+                HelpText = "This is when you click the button or press forward slash (/) key."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.IfInventoryExpanded,
+                DisplayName = "If Inventory Expanded",
+                Description = "Performs actions if the inventory pane is expanded to show the entire inventory."
+            });
         }
     }
 }

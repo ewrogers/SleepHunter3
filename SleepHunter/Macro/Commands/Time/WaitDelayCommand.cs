@@ -34,7 +34,17 @@ namespace SleepHunter.Macro.Commands.Time
                 return "Wait 1 ms";
             }
 
-            return $"Wait {totalMilliseconds} ms";
+            if (totalMilliseconds < 1000)
+            {
+                return $"Wait {totalMilliseconds} ms";
+            }
+            if (totalMilliseconds == 1000)
+            {
+                return "Wait 1 second";           
+            }
+
+            var totalSeconds = totalMilliseconds / 1000.0;
+            return $"Wait {totalSeconds} seconds";
         }
     }
 }

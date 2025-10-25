@@ -4,16 +4,18 @@ namespace SleepHunter.Macro.Commands
     public static class MacroCommandKey
     {
         // Interface Commands
-        public const string SwitchToInventoryPane = "INTERFACE_INVENTORY";
-        public const string SwitchToTemuairSkillPane = "INTERFACE_TEMUAIR_SKILL";
-        public const string SwitchToTemuairSpellPane = "INTERFACE_TEMUAIR_SPELL";
-        public const string SwitchToMedeniaSkillPane = "INTERFACE_MEDENIA_SKILL";
-        public const string SwitchToMedeniaSpellPane = "INTERFACE_MEDENIA_SPELL";
-        public const string SwitchToChatPane = "INTERFACE_CHAT";
-        public const string SwitchToStatsPane = "INTERFACE_STATS";
-        public const string SwitchToWorldSkillSpellPane = "INTERFACE_WORLD_SKILL_SPELL";
+        public const string SwitchToInventoryPane = "SWITCH_TO_INVENTORY";
+        public const string SwitchToTemuairSkillPane = "SWITCH_TO_TEMUAIR_SKILL";
+        public const string SwitchToTemuairSpellPane = "SWITCH_TO_TEMUAIR_SPELL";
+        public const string SwitchToMedeniaSkillPane = "SWITCH_TO_MEDENIA_SKILL";
+        public const string SwitchToMedeniaSpellPane = "SWITCH_TO_MEDENIA_SPELL";
+        public const string SwitchToChatPane = "SWITCH_TO_CHAT";
+        public const string SwitchToStatsPane = "SWITCH_TO_STATS";
+        public const string SwitchToWorldSkillSpellPane = "SWITCH_TO_WORLD_SKILL_SPELL";
         public const string IfChatInputOpen = "IF_CHAT_INPUT_OPEN";
         public const string WhileChatInputOpen = "WHILE_CHAT_INPUT_OPEN";
+        public const string IfMinimizedMode = "IF_MINIMIZED_MODE";
+        public const string IfInventoryExpanded = "IF_INVENTORY_EXPANDED";
 
         // Map Commands
         public const string IfMapName = "IF_MAP_NAME";

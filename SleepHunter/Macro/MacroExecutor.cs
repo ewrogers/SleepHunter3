@@ -236,7 +236,9 @@ namespace SleepHunter.Macro
             player.CurrentMana = reader.ReadCurrentMana();
 
             player.ChatHasFocus = reader.ReadChatHasFocus();
-            
+            player.IsMinimizedMode = reader.ReadMinimizedMode();
+            player.IsInventoryExpanded = reader.ReadInventoryExpanded();
+
             lastUpdateTime = DateTime.Now;
         }
 

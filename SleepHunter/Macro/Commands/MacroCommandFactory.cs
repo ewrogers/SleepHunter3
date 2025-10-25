@@ -79,6 +79,16 @@ namespace SleepHunter.Macro.Commands
                     var condition = new BooleanCondition(ctx => ctx.Player.ChatHasFocus, "Open");
                     return new WhileCommand(condition, "Chat Input");
                 }
+                case MacroCommandKey.IfMinimizedMode:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.IsMinimizedMode, "Mode");
+                    return new IfCommand(condition, "Minimized");
+                }
+                case MacroCommandKey.IfInventoryExpanded:
+                {
+                    var condition = new BooleanCondition(ctx => ctx.Player.IsInventoryExpanded, "Expanded");
+                    return new IfCommand(condition, "Inventory");   
+                }
                 default:
                     throw new InvalidOperationException($"Invalid interface command: {command.Key}");
             }

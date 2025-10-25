@@ -19,7 +19,7 @@ namespace SleepHunter.Forms
 
         private void processPanel_DragDrop(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(typeof(GameClientWindow)) || IsRunning)
+            if (!e.Data.GetDataPresent(typeof(GameClientWindow)))
             {
                 return;
             }
@@ -38,6 +38,12 @@ namespace SleepHunter.Forms
 
         private void macroListView_DragEnter(object sender, DragEventArgs e)
         {
+            if (IsRunning)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+
             if (e.Data.GetDataPresent(typeof(List<int>)))
             {
                 e.Effect = e.AllowedEffect & DragDropEffects.Move;
@@ -55,7 +61,7 @@ namespace SleepHunter.Forms
 
         private void macroListView_DragDrop(object sender, DragEventArgs e)
         {
-            if (!(sender is ListView listView))
+            if (!(sender is ListView listView) || IsRunning)
             {
                 return;
             }
@@ -70,10 +76,7 @@ namespace SleepHunter.Forms
                 // Handle adding a command via drag and drop
                 if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
                 {
-                    if (IsRunning)
-                    {
-                        return;
-                    }
+                    
 
                     var definition = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
                     var parameters = ShowArgumentsForm(definition);
@@ -105,6 +108,12 @@ namespace SleepHunter.Forms
         {
             if (!(sender is ListView listView))
             {
+                return;
+            }
+
+            if (IsRunning)
+            {
+                e.Effect = DragDropEffects.None;
                 return;
             }
 
@@ -201,7 +210,7 @@ namespace SleepHunter.Forms
 
         private void macroListView_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            if (!IsSelectionContiguous())
+            if (IsRunning || !IsSelectionContiguous())
             {
                 return;
             }

@@ -17,7 +17,9 @@ namespace SleepHunter.Models
         private long maxMana;
 
         private bool chatHasFocus;
-        
+        private bool isMinimizedMode;
+        private bool isInventoryExpanded;
+
         public string Name
         {
             get => name;
@@ -96,6 +98,18 @@ namespace SleepHunter.Models
         {
             get => chatHasFocus;
             set => SetProperty(ref chatHasFocus, value);
+        }
+
+        public bool IsMinimizedMode
+        {
+            get => isMinimizedMode;
+            set => SetProperty(ref isMinimizedMode, value);
+        }
+
+        public bool IsInventoryExpanded
+        {
+            get => isInventoryExpanded;
+            set => SetProperty(ref isInventoryExpanded, value);
         }
     }
 }
