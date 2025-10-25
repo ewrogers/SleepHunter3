@@ -82,7 +82,8 @@ namespace SleepHunter.Forms
 
                     // Add the command to the list (add closing tag only if this the last command in the pasted set)
                     var isLastCommand = i + 1 >= commands.Count;
-                    AddMacroCommand(definition, parameters, insertIndex++, addClosingCommand: isLastCommand, autoSelect: true, validate: false);
+                    AddMacroCommand(definition, parameters, insertIndex++, addClosingCommand: isLastCommand,
+                        autoSelect: true, validate: false);
                 }
 
                 return !hasError;

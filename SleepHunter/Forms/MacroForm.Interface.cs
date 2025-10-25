@@ -116,7 +116,8 @@ namespace SleepHunter.Forms
                 editSelectedMenu.ShortcutKeyDisplayString = "Space";
             }
 
-            editButton.Enabled = editSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSingleSelection && hasParameters;
+            editButton.Enabled =
+                editSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSingleSelection && hasParameters;
             deleteButton.Enabled = deleteSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
 
             cutButton.Enabled = cutSelectedMenu.Enabled = !IsRunning && !isEmpty && hasSelection;
@@ -130,7 +131,7 @@ namespace SleepHunter.Forms
             playButton.Text = IsPaused ? "Continue Macro" : "Start Macro";
             playButton.Enabled = string.IsNullOrWhiteSpace(validationErrorMessage) && !isEmpty && isAttached &&
                                  (!IsRunning || IsPaused);
-            
+
             pauseButton.Enabled = !isEmpty && IsRunning && !IsPaused;
             stopButton.Enabled = IsRunning;
 

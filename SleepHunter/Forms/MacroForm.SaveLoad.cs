@@ -49,7 +49,8 @@ namespace SleepHunter.Forms
                     var parameters =
                         command.Parameters?.Select(p => new MacroParameterValue(p.Type, p.Value)).ToArray() ??
                         Array.Empty<MacroParameterValue>();
-                    AddMacroCommand(definition, parameters, addClosingCommand: false, autoSelect: false, validate: false);
+                    AddMacroCommand(definition, parameters, addClosingCommand: false, autoSelect: false,
+                        validate: false);
                 }
 
                 nameTextBox.Text = macroName = document.Name.Trim();
@@ -66,9 +67,9 @@ namespace SleepHunter.Forms
             finally
             {
                 macroListView.EndUpdate();
-                
+
                 ValidateMacro();
-                
+
                 UpdateMacroUi();
                 UpdateToolbarAndMenuState();
                 UpdateStatusBarState();

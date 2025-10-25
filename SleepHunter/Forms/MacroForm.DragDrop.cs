@@ -63,9 +63,9 @@ namespace SleepHunter.Forms
             try
             {
                 var actualInsertionIndex =
-                        listView.InsertionMark.AppearsAfterItem ?
-                        listView.InsertionMark.Index + 1 :
-                        listView.InsertionMark.Index;
+                    listView.InsertionMark.AppearsAfterItem
+                        ? listView.InsertionMark.Index + 1
+                        : listView.InsertionMark.Index;
 
                 // Handle adding a command via drag and drop
                 if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
