@@ -17,26 +17,10 @@ namespace SleepHunter.Macro.Commands
             {
                 Category = MacroCommandCategory.Mouse,
                 Key = MacroCommandKey.MouseLeftDoubleClick,
-                DisplayName = "Left Click",
+                DisplayName = "Double Left Click",
                 Description = "Double-clicks the left mouse button at the current pointer position."
             });
 
-            RegisterCommand(new MacroCommandDefinition
-            {
-                Category = MacroCommandCategory.Mouse,
-                Key = MacroCommandKey.MouseRightClick,
-                DisplayName = "Right Click",
-                Description = "Clicks the right mouse button at the current pointer position."
-            });
-            
-            RegisterCommand(new MacroCommandDefinition
-            {
-                Category = MacroCommandCategory.Mouse,
-                Key = MacroCommandKey.MouseRightDoubleClick,
-                DisplayName = "Right Click",
-                Description = "Double-clicks the right mouse button at the current pointer position."
-            });
-            
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
@@ -52,7 +36,23 @@ namespace SleepHunter.Macro.Commands
                 DisplayName = "Left Mouse Button Up",
                 Description = "Releases the left mouse button at the current pointer position."
             });
-            
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseRightClick,
+                DisplayName = "Right Click",
+                Description = "Clicks the right mouse button at the current pointer position."
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseRightDoubleClick,
+                DisplayName = "Double Right Click",
+                Description = "Double-clicks the right mouse button at the current pointer position."
+            });
+
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
@@ -73,7 +73,7 @@ namespace SleepHunter.Macro.Commands
             {
                 Category = MacroCommandCategory.Mouse,
                 Key = MacroCommandKey.MouseMove,
-                DisplayName = "Move Cursor",
+                DisplayName = "Move Mouse",
                 Description = "Moves the mouse pointer to the position specified.",
                 Parameters = { MacroParameterType.Integer, MacroParameterType.Integer }               
             });
@@ -81,8 +81,17 @@ namespace SleepHunter.Macro.Commands
             RegisterCommand(new MacroCommandDefinition
             {
                 Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseMoveOffset,
+                DisplayName = "Move Mouse Offset",
+                Description = "Moves the mouse pointer by the offset specified.",
+                Parameters = { MacroParameterType.Integer, MacroParameterType.Integer }
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
                 Key = MacroCommandKey.MouseSavePosition,
-                DisplayName = "Save Cursor Position",
+                DisplayName = "Save Mouse Position",
                 Description = "Saves the last mouse move position so it can be recalled later."
             });
 
@@ -90,8 +99,8 @@ namespace SleepHunter.Macro.Commands
             {
                 Category = MacroCommandCategory.Mouse,
                 Key = MacroCommandKey.MouseRecallPosition,
-                DisplayName = "Recall Cursor Position",
-                Description = "Recalls the mouse pointer to the last saved position."
+                DisplayName = "Recall Mouse Position",
+                Description = "Recalls the mouse position to the last saved position."
             });
         }
     }

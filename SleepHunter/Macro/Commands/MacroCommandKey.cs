@@ -54,6 +54,7 @@ namespace SleepHunter.Macro.Commands
         public const string MouseRightButtonDown = "MOUSE_RIGHT_BUTTON_DOWN";
         public const string MouseRightButtonUp = "MOUSE_RIGHT_BUTTON_UP";
         public const string MouseMove = "MOUSE_MOVE";
+        public const string MouseMoveOffset = "MOUSE_MOVE_OFFSET";
         public const string MouseSavePosition = "MOUSE_SAVE_POSITION";
         public const string MouseRecallPosition = "MOUSE_RECALL_POSITION";
 

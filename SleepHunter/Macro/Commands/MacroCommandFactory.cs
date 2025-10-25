@@ -14,7 +14,7 @@ namespace SleepHunter.Macro.Commands
 {
     public class MacroCommandFactory : IMacroCommandFactory
     {
-        public IMacroCommand Create(MacroCommandDefinition command) => Create(command);
+        public IMacroCommand Create(MacroCommandDefinition command) => Create(command, null);
 
         public IMacroCommand Create(MacroCommandDefinition command, params MacroParameterValue[] parameters)
         {
@@ -50,7 +50,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateInterfaceCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateInterfaceCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -99,7 +99,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateMapCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateMapCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -150,7 +150,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateHealthCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateHealthCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -179,7 +179,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateManaCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -208,7 +208,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateKeyboardCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateKeyboardCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -219,7 +219,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateMouseCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateMouseCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -241,6 +241,9 @@ namespace SleepHunter.Macro.Commands
                     return new MouseButtonUpCommand(MouseButton.Right);
                 case MacroCommandKey.MouseMove:
                     return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger());
+                case MacroCommandKey.MouseMoveOffset:
+                    return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger(),
+                        MouseMoveKind.Relative);
                 case MacroCommandKey.MouseSavePosition:
                     return new SaveMousePositionCommand();
                 case MacroCommandKey.MouseRecallPosition:
@@ -250,7 +253,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateLogicCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateLogicCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -263,7 +266,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateLoopCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateLoopCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -286,7 +289,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateJumpCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateJumpCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {
@@ -301,7 +304,7 @@ namespace SleepHunter.Macro.Commands
             }
         }
 
-        private IMacroCommand CreateTimeCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
+        private static IMacroCommand CreateTimeCommand(MacroCommandDefinition command, MacroParameterValue[] parameters)
         {
             switch (command.Key.ToUpperInvariant())
             {

@@ -16,12 +16,11 @@ namespace SleepHunter.Macro.Commands.Mouse
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
+            context.Mouse.Click(Button);
+
             if (IsDoubleClick)
             {
-                context.Mouse.DoubleClick(Button);
-            }
-            else
-            {
+                // The game does not respond to the Windows double-click message, so we send too standard clicks
                 context.Mouse.Click(Button);
             }
 
