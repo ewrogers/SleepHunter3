@@ -16,6 +16,7 @@ namespace SleepHunter.Models
         private long currentMana;
         private long maxMana;
 
+        private InterfacePanel activePane;
         private bool chatHasFocus;
         private bool isMinimizedMode;
         private bool isInventoryExpanded;
@@ -93,6 +94,12 @@ namespace SleepHunter.Models
         }
 
         public double ManaPercentage => CurrentMana * 100.0 / Math.Max(1, MaxMana);
+
+        public InterfacePanel ActivePane
+        {
+            get => activePane;
+            set => SetProperty(ref activePane, value);
+        }
 
         public bool ChatHasFocus
         {

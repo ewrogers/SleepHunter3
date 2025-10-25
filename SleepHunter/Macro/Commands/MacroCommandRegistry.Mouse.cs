@@ -12,6 +12,14 @@ namespace SleepHunter.Macro.Commands
                 DisplayName = "Left Click",
                 Description = "Clicks the left mouse button at the current pointer position."
             });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseLeftDoubleClick,
+                DisplayName = "Left Click",
+                Description = "Double-clicks the left mouse button at the current pointer position."
+            });
 
             RegisterCommand(new MacroCommandDefinition
             {
@@ -19,6 +27,46 @@ namespace SleepHunter.Macro.Commands
                 Key = MacroCommandKey.MouseRightClick,
                 DisplayName = "Right Click",
                 Description = "Clicks the right mouse button at the current pointer position."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseRightDoubleClick,
+                DisplayName = "Right Click",
+                Description = "Double-clicks the right mouse button at the current pointer position."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseLeftButtonDown,
+                DisplayName = "Left Mouse Button Down",
+                Description = "Begins holding the left mouse button down at the current pointer position."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseLeftButtonUp,
+                DisplayName = "Left Mouse Button Up",
+                Description = "Releases the left mouse button at the current pointer position."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseRightButtonDown,
+                DisplayName = "Right Mouse Button Down",
+                Description = "Begins holding the right mouse button down at the current pointer position."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseRightButtonUp,
+                DisplayName = "Right Mouse Button Up",
+                Description = "Releases the right mouse button at the current pointer position."
             });
 
             RegisterCommand(new MacroCommandDefinition
@@ -35,7 +83,7 @@ namespace SleepHunter.Macro.Commands
                 Category = MacroCommandCategory.Mouse,
                 Key = MacroCommandKey.MouseSavePosition,
                 DisplayName = "Save Cursor Position",
-                Description = "Saves the mouse pointer's current position so it can be recalled later."
+                Description = "Saves the last mouse move position so it can be recalled later."
             });
 
             RegisterCommand(new MacroCommandDefinition

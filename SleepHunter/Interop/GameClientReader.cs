@@ -20,6 +20,7 @@ namespace SleepHunter.Interop
         private IMemoryVariable<string> maxHealthVariable;
         private IMemoryVariable<string> currentManaVariable;
         private IMemoryVariable<string> maxManaVariable;
+        private IMemoryVariable<byte> activePaneVariable;
         private IMemoryVariable<byte> chatHasFocusVariable;
         private IMemoryVariable<byte> minimizedModeVariable;
         private IMemoryVariable<byte> inventoryExpandedVariable;
@@ -52,6 +53,7 @@ namespace SleepHunter.Interop
             maxManaVariable =
                 new DynamicMemoryVariable<string>(stream, (IntPtr)0x755AA4, new long[] { 0x646 }, maxLength: 8);
 
+            activePaneVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x82B76C, new long[] { 0x4FA8 });
             chatHasFocusVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x6EB118, new long[] { 0x438 });
             minimizedModeVariable = new DynamicMemoryVariable<byte>(stream, (IntPtr)0x82B76C, new long[] { 0x4DF0 });
             inventoryExpandedVariable =
@@ -140,6 +142,12 @@ namespace SleepHunter.Interop
                 return value;
             }
             return 0;
+        }
+
+        public byte ReadActivePane()
+        {
+            CheckIfDisposed();
+            return activePaneVariable.Read();
         }
 
         public bool ReadChatHasFocus()

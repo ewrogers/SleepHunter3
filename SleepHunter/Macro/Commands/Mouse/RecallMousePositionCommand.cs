@@ -10,6 +10,7 @@ namespace SleepHunter.Macro.Commands.Mouse
             if (context.SavedMousePosition.HasValue)
             {
                 context.Mouse.MoveMouse(context.SavedMousePosition.Value);
+                context.MousePosition = context.SavedMousePosition.Value;
             }
 
             return Task.FromResult(MacroCommandResult.Continue);

@@ -8,6 +8,7 @@ using SleepHunter.Macro.Commands.Loop;
 using SleepHunter.Macro.Commands.Mouse;
 using SleepHunter.Macro.Commands.Time;
 using SleepHunter.Macro.Conditions;
+using SleepHunter.Models;
 
 namespace SleepHunter.Macro.Commands
 {
@@ -54,21 +55,25 @@ namespace SleepHunter.Macro.Commands
             switch (command.Key.ToUpperInvariant())
             {
                 case MacroCommandKey.SwitchToInventoryPane:
-                    return new SwitchPaneCommand(InterfacePane.Inventory);
+                    return new SwitchPaneCommand(InterfacePanel.Inventory);
                 case MacroCommandKey.SwitchToTemuairSkillPane:
-                    return new SwitchPaneCommand(InterfacePane.TemuairSkills);
+                    return new SwitchPaneCommand(InterfacePanel.TemuairSkills);
                 case MacroCommandKey.SwitchToTemuairSpellPane:
-                    return new SwitchPaneCommand(InterfacePane.TemuairSpells);
+                    return new SwitchPaneCommand(InterfacePanel.TemuairSpells);
                 case MacroCommandKey.SwitchToMedeniaSkillPane:
-                    return new SwitchPaneCommand(InterfacePane.MedeniaSkills);
+                    return new SwitchPaneCommand(InterfacePanel.MedeniaSkills);
                 case MacroCommandKey.SwitchToMedeniaSpellPane:
-                    return new SwitchPaneCommand(InterfacePane.MedeniaSpells);
+                    return new SwitchPaneCommand(InterfacePanel.MedeniaSpells);
                 case MacroCommandKey.SwitchToChatPane:
-                    return new SwitchPaneCommand(InterfacePane.Chat);
+                    return new SwitchPaneCommand(InterfacePanel.Chat);
+                case MacroCommandKey.SwitchToChatHistoryPane:
+                    return new SwitchPaneCommand(InterfacePanel.ChatHistory);
                 case MacroCommandKey.SwitchToStatsPane:
-                    return new SwitchPaneCommand(InterfacePane.Stats);
+                    return new SwitchPaneCommand(InterfacePanel.Stats);
+                case MacroCommandKey.SwitchToModifiersPane:
+                    return new SwitchPaneCommand(InterfacePanel.Modifiers);
                 case MacroCommandKey.SwitchToWorldSkillSpellPane:
-                    return new SwitchPaneCommand(InterfacePane.WorldSkillSpells);
+                    return new SwitchPaneCommand(InterfacePanel.WorldSkillSpells);
                 case MacroCommandKey.IfChatInputOpen:
                 {
                     var condition = new BooleanCondition(ctx => ctx.Player.ChatHasFocus, "Open");
@@ -220,8 +225,20 @@ namespace SleepHunter.Macro.Commands
             {
                 case MacroCommandKey.MouseLeftClick:
                     return new MouseClickCommand(MouseButton.Left);
+                case MacroCommandKey.MouseLeftDoubleClick:
+                    return new MouseClickCommand(MouseButton.Left, isDoubleClick: true);
                 case MacroCommandKey.MouseRightClick:
                     return new MouseClickCommand(MouseButton.Right);
+                case MacroCommandKey.MouseRightDoubleClick:
+                    return new MouseClickCommand(MouseButton.Right, isDoubleClick: true);
+                case MacroCommandKey.MouseLeftButtonDown:
+                    return new MouseButtonDownCommand(MouseButton.Left);
+                case MacroCommandKey.MouseLeftButtonUp:
+                    return new MouseButtonUpCommand(MouseButton.Left);
+                case MacroCommandKey.MouseRightButtonDown:
+                    return new MouseButtonDownCommand(MouseButton.Right);
+                case MacroCommandKey.MouseRightButtonUp:
+                    return new MouseButtonUpCommand(MouseButton.Right);
                 case MacroCommandKey.MouseMove:
                     return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger());
                 case MacroCommandKey.MouseSavePosition:

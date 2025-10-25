@@ -51,6 +51,14 @@
                 DisplayName = "Switch to Chat Pane",
                 Description = "Switches to the chat pane."
             });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.SwitchToChatHistoryPane,
+                DisplayName = "Switch to Chat History Pane",
+                Description = "Switches to the chat history pane."
+            });
 
             RegisterCommand(new MacroCommandDefinition
             {
@@ -58,6 +66,14 @@
                 Key = MacroCommandKey.SwitchToStatsPane,
                 DisplayName = "Switch to Stats Pane",
                 Description = "Switches to the character stats pane."
+            });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Interface,
+                Key = MacroCommandKey.SwitchToModifiersPane,
+                DisplayName = "Switch to Modifiers Pane",
+                Description = "Switches to the character modifiers pane."
             });
 
             RegisterCommand(new MacroCommandDefinition

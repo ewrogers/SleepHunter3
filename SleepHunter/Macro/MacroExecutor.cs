@@ -235,6 +235,7 @@ namespace SleepHunter.Macro
             player.CurrentHealth = reader.ReadCurrentHealth();
             player.CurrentMana = reader.ReadCurrentMana();
 
+            player.ActivePane = (InterfacePanel)reader.ReadActivePane();
             player.ChatHasFocus = reader.ReadChatHasFocus();
             player.IsMinimizedMode = reader.ReadMinimizedMode();
             player.IsInventoryExpanded = reader.ReadInventoryExpanded();

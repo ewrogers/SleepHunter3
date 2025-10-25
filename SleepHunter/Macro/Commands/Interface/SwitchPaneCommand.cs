@@ -1,68 +1,75 @@
 ﻿using System.Threading.Tasks;
 using SleepHunter.Interop.Keyboard;
+using SleepHunter.Models;
 
 namespace SleepHunter.Macro.Commands.Interface
 {
-    public enum InterfacePane
-    {
-        Inventory,
-        TemuairSkills,
-        TemuairSpells,
-        MedeniaSkills,
-        MedeniaSpells,
-        Chat,
-        Stats,
-        WorldSkillSpells
-    }
-
     public sealed class SwitchPaneCommand : MacroCommand
     {
-        public InterfacePane Pane { get; }
+        public InterfacePanel Pane { get; }
 
-        public SwitchPaneCommand(InterfacePane pane)
+        public SwitchPaneCommand(InterfacePanel pane)
         {
             Pane = pane;
         }
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
+            // If the active pane is already the desired pane, do nothing
+            if (context.Player.ActivePane == Pane)
+            {
+                return Task.FromResult(MacroCommandResult.Continue);
+            }
+
             var keyboard = context.Keyboard;
 
             switch (Pane)
             {
-                case InterfacePane.Inventory:
+                case InterfacePanel.Inventory:
                     keyboard.SendKeyPress('a');
                     break;
                 
-                case InterfacePane.TemuairSkills:
+                case InterfacePanel.TemuairSkills:
                     keyboard.SendKeyPress('s');
                     break;
                 
-                case InterfacePane.TemuairSpells:
+                case InterfacePanel.TemuairSpells:
                     keyboard.SendKeyPress('d');
                     break;
                 
-                case InterfacePane.MedeniaSkills:
+                case InterfacePanel.MedeniaSkills:
                     keyboard.SendModifierKeyDown(ModifierKeys.Shift);
                     keyboard.SendKeyPress('s');
                     keyboard.SendModifierKeyUp(ModifierKeys.Shift);
                     break;
                 
-                case InterfacePane.MedeniaSpells:
+                case InterfacePanel.MedeniaSpells:
                     keyboard.SendModifierKeyDown(ModifierKeys.Shift);
                     keyboard.SendKeyPress('d');
                     keyboard.SendModifierKeyUp(ModifierKeys.Shift);
                     break;
                 
-                case InterfacePane.Chat:
+                case InterfacePanel.Chat:
                     keyboard.SendKeyPress('f');
                     break;
                 
-                case InterfacePane.Stats:
+                case InterfacePanel.ChatHistory:
+                    keyboard.SendModifierKeyDown(ModifierKeys.Shift);
+                    keyboard.SendKeyPress('f');
+                    keyboard.SendModifierKeyUp(ModifierKeys.Shift);
+                    break;
+                
+                case InterfacePanel.Stats:
                     keyboard.SendKeyPress('g');
                     break;
                 
-                case InterfacePane.WorldSkillSpells:
+                case InterfacePanel.Modifiers:
+                    keyboard.SendModifierKeyDown(ModifierKeys.Shift);
+                    keyboard.SendKeyPress('g');
+                    keyboard.SendModifierKeyUp(ModifierKeys.Shift);
+                    break;
+                
+                case InterfacePanel.WorldSkillSpells:
                     keyboard.SendKeyPress('h');
                     break;
             }
@@ -74,14 +81,16 @@ namespace SleepHunter.Macro.Commands.Interface
         {
             switch (Pane)
             {
-                case InterfacePane.Inventory: return "Switch to Inventory Pane";
-                case InterfacePane.TemuairSkills: return "Switch to Temuair Skill Pane";
-                case InterfacePane.TemuairSpells: return "Switch to Temuair Spell Pane";
-                case InterfacePane.MedeniaSkills: return "Switch to Medenia Skill Pane";
-                case InterfacePane.MedeniaSpells: return "Switch to Medenia Spell Pane";
-                case InterfacePane.Chat: return "Switch to Chat Pane";
-                case InterfacePane.Stats: return "Switch to Stats Pane";
-                case InterfacePane.WorldSkillSpells: return "Switch to World Skill/Spell Pane";
+                case InterfacePanel.Inventory: return "Switch to Inventory Pane";
+                case InterfacePanel.TemuairSkills: return "Switch to Temuair Skill Pane";
+                case InterfacePanel.TemuairSpells: return "Switch to Temuair Spell Pane";
+                case InterfacePanel.MedeniaSkills: return "Switch to Medenia Skill Pane";
+                case InterfacePanel.MedeniaSpells: return "Switch to Medenia Spell Pane";
+                case InterfacePanel.Chat: return "Switch to Chat Pane";
+                case InterfacePanel.ChatHistory: return "Switch to Chat History Pane";
+                case InterfacePanel.Stats: return "Switch to Stats Pane";
+                case InterfacePanel.Modifiers: return "Switch to Modifiers Pane";
+                case InterfacePanel.WorldSkillSpells: return "Switch to World Skill/Spell Pane";
                 default: return "Switch to Unknown Pane";
             }
         }

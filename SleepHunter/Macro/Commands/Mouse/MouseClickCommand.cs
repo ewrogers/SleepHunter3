@@ -8,9 +8,10 @@ namespace SleepHunter.Macro.Commands.Mouse
         public MouseButton Button { get; }
         public bool IsDoubleClick { get; }
 
-        public MouseClickCommand(MouseButton button)
+        public MouseClickCommand(MouseButton button, bool isDoubleClick = false)
         {
             Button = button;
+            IsDoubleClick = isDoubleClick;
         }
 
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
@@ -27,6 +28,6 @@ namespace SleepHunter.Macro.Commands.Mouse
             return Task.FromResult(MacroCommandResult.Continue);
         }
 
-        public override string ToString() => $"{Button} Click";
+        public override string ToString() => IsDoubleClick ? $"Double {Button} Click" : $"{Button} Click";
     }
 }

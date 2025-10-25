@@ -21,6 +21,8 @@ namespace SleepHunter.Macro.Commands.Mouse
         public override Task<MacroCommandResult> ExecuteAsync(IMacroContext context)
         {
             context.Mouse.MoveMouse(Position.X, Position.Y);
+            context.MousePosition = Position;
+            
             return Task.FromResult(MacroCommandResult.Continue);
         }
 
