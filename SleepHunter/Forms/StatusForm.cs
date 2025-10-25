@@ -23,7 +23,9 @@ namespace SleepHunter.Forms
         private readonly Pen highlightPen;
         private readonly Pen shadowPen;
         private readonly Brush progressBackgroundBrush;
-
+        private readonly LinearGradientBrush healthGradientBrush;
+        private readonly LinearGradientBrush manaGradientBrush;
+        
         private GameClientReader clientReader;
         private PlayerState playerState;
         private bool isAttached;
@@ -38,6 +40,16 @@ namespace SleepHunter.Forms
             shadowPen = new Pen(SystemColors.ControlDarkDark);
 
             progressBackgroundBrush = new SolidBrush(Color.White);
+
+            var healthProgressHeight = healthPictureBox.Height - (ProgressPadding.Top + ProgressPadding.Bottom);
+            healthGradientBrush = new LinearGradientBrush(
+                new Rectangle(0, 0, DefaultSegmentWidth, healthProgressHeight),
+                HealthGradientStartColor, HealthGradientEndColor, LinearGradientMode.Vertical);
+
+            var manaProgressHeight = manaPictureBox.Height - (ProgressPadding.Top + ProgressPadding.Bottom);
+            manaGradientBrush = new LinearGradientBrush(
+                new Rectangle(0, 0, DefaultSegmentWidth, manaProgressHeight),
+                ManaGradientStartColor, ManaGradientEndColor, LinearGradientMode.Vertical);
         }
 
         private void updateTimer_Tick(object sender, EventArgs e)
@@ -91,9 +103,9 @@ namespace SleepHunter.Forms
             var formattedMaxMana = FormatHealthManaValue(playerState.MaxMana);
 
             healthLabel.Text = $"{formattedHealth} / {formattedMaxHealth}";
-            healthPercentLabel.Text = playerState.HealthPercentage + " %";
+            healthPercentLabel.Text = Math.Round(playerState.HealthPercentage, 1) + " %";
             manaLabel.Text = $"{formattedMana} / {formattedMaxMana}";
-            manaPercentLabel.Text = playerState.ManaPercentage + " %";
+            manaPercentLabel.Text = Math.Round(playerState.ManaPercentage, 1) + " %";
             mapLabel.Text = $"{playerState.MapName} ({playerState.MapId})";
             mapXLabel.Text = playerState.MapX.ToString();
             mapYLabel.Text = playerState.MapY.ToString();
@@ -114,17 +126,17 @@ namespace SleepHunter.Forms
             // Less than 100k -> show 1 decimal place
             if (value < 100000)
             {
-                return (value / 1000.0).ToString("F1") + "k"; 
+                return (value / 1000.0).ToString("0.#") + "k"; 
             }
             
             // Less than 1mil -> show no decimal places
             if (value < 1000000)
             {
-                return (value / 1000.0).ToString("F0") + "k";
+                return (value / 1000.0).ToString("0") + "k";
             }
 
             // More than 1mil -> show 2 decimal places
-            return (value / 1000000.0).ToString("F2") + "m";
+            return (value / 1000000.0).ToString("0.##") + "m";
         }
 
         private void healthPictureBox_Paint(object sender, PaintEventArgs e)
@@ -136,9 +148,8 @@ namespace SleepHunter.Forms
             var currentHealth = playerState?.CurrentHealth ?? 0;
             var maxHealth = playerState?.MaxHealth ?? 0;
 
-            DrawProgress(e.Graphics, clientRect, currentHealth, 0L, maxHealth,
-                DefaultSegmentWidth, DefaultSegmentSpacing, false, ProgressPadding,
-                HealthGradientStartColor, HealthGradientEndColor, LinearGradientMode.Vertical);
+            DrawProgress(e.Graphics, clientRect, ProgressPadding, currentHealth, 0L, maxHealth,
+                DefaultSegmentWidth, DefaultSegmentSpacing, false, healthGradientBrush);
 
             DrawBorder(e.Graphics, clientRect, BorderStyle.Fixed3D);
         }
@@ -152,9 +163,8 @@ namespace SleepHunter.Forms
             var currentMana = playerState?.CurrentMana ?? 0;
             var maxMana = playerState?.MaxMana ?? 0;
 
-            DrawProgress(e.Graphics, clientRect, currentMana, 0L, maxMana,
-                DefaultSegmentWidth, DefaultSegmentSpacing, false, ProgressPadding,
-                ManaGradientStartColor, ManaGradientEndColor, LinearGradientMode.Vertical);
+            DrawProgress(e.Graphics, clientRect, ProgressPadding, currentMana, 0L, maxMana,
+                DefaultSegmentWidth, DefaultSegmentSpacing, false, manaGradientBrush);
 
             DrawBorder(e.Graphics, clientRect, BorderStyle.Fixed3D);
         }
@@ -193,18 +203,16 @@ namespace SleepHunter.Forms
         }
 
         private void DrawProgress(
-          Graphics g,
-          Rectangle clientRect,
-          long value,
-          long min,
-          long max,
-          int segmentWidth,
-          int segmentSpacing,
-          bool isSmoothFill,
-          Padding padding,
-          Color gradientColorA,
-          Color gradientColorB,
-          LinearGradientMode gradientMode)
+            Graphics g,
+            Rectangle clientRect,
+            Padding padding,
+            long value,
+            long min,
+            long max,
+            int segmentWidth,
+            int segmentSpacing,
+            bool isSmoothFill,
+            LinearGradientBrush gradientBrush)
         {
             if (value <= min)
             {
@@ -222,16 +230,21 @@ namespace SleepHunter.Forms
                 (int)((double)(clientRect.Width - 5 - padding.Left - padding.Right) * ratio),
                 clientRect.Height - 5 - (padding.Top + padding.Bottom));
 
-            g.FillRectangle(new LinearGradientBrush(rect, gradientColorA, gradientColorB, gradientMode), rect);
+            if (rect.Width > 0 && rect.Height > 0)
+            {
+                g.FillRectangle(gradientBrush, rect);
+            }
 
             if (isSmoothFill)
             {
                 return;
             }
 
-            for (int index = 1; index < rect.Width / (segmentWidth + segmentSpacing) + 1; ++index)
+            for (var index = 1; index < rect.Width / (segmentWidth + segmentSpacing) + 1; ++index)
             {
-                g.FillRectangle(progressBackgroundBrush, rect.Left + index * segmentWidth + (index - 1) * segmentSpacing, rect.Top, segmentSpacing, rect.Height);
+                g.FillRectangle(progressBackgroundBrush,
+                    rect.Left + index * segmentWidth + (index - 1) * segmentSpacing, rect.Top, segmentSpacing,
+                    rect.Height);
             }
         }
 
@@ -285,6 +298,8 @@ namespace SleepHunter.Forms
             highlightPen.Dispose();
             shadowPen.Dispose();
             progressBackgroundBrush.Dispose();
+            healthGradientBrush.Dispose();
+            manaGradientBrush.Dispose();
         }
     }
 }
