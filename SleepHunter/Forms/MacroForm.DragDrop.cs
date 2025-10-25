@@ -40,13 +40,17 @@ namespace SleepHunter.Forms
         {
             if (e.Data.GetDataPresent(typeof(List<int>)))
             {
-                e.Effect = DragDropEffects.Move;
+                e.Effect = e.AllowedEffect & DragDropEffects.Move;
                 return;
             }
 
-            e.Effect = e.Data.GetDataPresent(typeof(MacroCommandDefinition)) && !IsRunning
-                ? DragDropEffects.Copy
-                : DragDropEffects.None;
+            if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
+            {
+                e.Effect = e.AllowedEffect & DragDropEffects.Copy;
+                return;
+            }
+
+            e.Effect = DragDropEffects.None;
         }
 
         private void macroListView_DragDrop(object sender, DragEventArgs e)
@@ -61,6 +65,11 @@ namespace SleepHunter.Forms
                 // Handle adding a command via drag and drop
                 if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
                 {
+                    if (IsRunning)
+                    {
+                        return;
+                    }
+
                     var definition = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
                     var parameters = ShowArgumentsForm(definition);
 
@@ -70,7 +79,12 @@ namespace SleepHunter.Forms
                         return;
                     }
 
-                    AddMacroCommand(definition, parameters, listView.InsertionMark.Index);
+                    var actualInsertionIndex =
+                        listView.InsertionMark.AppearsAfterItem ?
+                        listView.InsertionMark.Index + 1 :
+                        listView.InsertionMark.Index;
+
+                    AddMacroCommand(definition, parameters, actualInsertionIndex);
                     return;
                 }
 
@@ -94,16 +108,19 @@ namespace SleepHunter.Forms
                 return;
             }
 
+            var isCommand = e.Data.GetDataPresent(typeof(MacroCommandDefinition));
+            var isReorder = e.Data.GetDataPresent(typeof(List<int>));
+
             var firstSelectedIndex = -1;
             var lastSelectedIndex = -1;
 
-            if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
+            if (isCommand)
             {
-                e.Effect = DragDropEffects.Copy;
+                e.Effect = e.AllowedEffect & DragDropEffects.Copy;
             }
-            else if (e.Data.GetDataPresent(typeof(List<int>)))
+            else if (isReorder)
             {
-                e.Effect = DragDropEffects.Move;
+                e.Effect = e.AllowedEffect & DragDropEffects.Move;
                 var draggedIndices = (List<int>)e.Data.GetData(typeof(List<int>));
                 firstSelectedIndex = draggedIndices.Min();
                 lastSelectedIndex = draggedIndices.Max();
@@ -155,20 +172,26 @@ namespace SleepHunter.Forms
             // Calculate actual insertion index
             var actualInsertionIndex = appearsAfter ? insertionIndex + 1 : insertionIndex;
 
-            // Do not allow dropping within or adjacent to the selection
-            if (actualInsertionIndex >= firstSelectedIndex && actualInsertionIndex <= lastSelectedIndex)
+            if (isReorder)
             {
-                e.Effect = DragDropEffects.None;
-                listView.InsertionMark.Index = -1;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.Move;
+                // Do not allow dropping within or adjacent to the selection
+                if (actualInsertionIndex >= firstSelectedIndex && actualInsertionIndex <= lastSelectedIndex)
+                {
+                    e.Effect = DragDropEffects.None;
+                    listView.InsertionMark.Index = -1;
+                    return;
+                }
 
-                // Set the insertion mark
-                listView.InsertionMark.Index = actualInsertionIndex;
-                listView.InsertionMark.AppearsAfterItem = appearsAfter;
+                e.Effect = e.AllowedEffect & DragDropEffects.Move;
             }
+            else if (isCommand)
+            {
+                e.Effect = e.AllowedEffect & DragDropEffects.Copy;
+            }
+
+            // Set the insertion mark
+            listView.InsertionMark.Index = actualInsertionIndex;
+            listView.InsertionMark.AppearsAfterItem = appearsAfter;
         }
 
         private void macroListView_DragLeave(object sender, EventArgs e)
