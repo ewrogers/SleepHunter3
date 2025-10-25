@@ -129,12 +129,11 @@ namespace SleepHunter.Forms
             // 
             this.macroStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-            this.macroStatusBar.Location = new System.Drawing.Point(0, 439);
+            this.macroStatusBar.Location = new System.Drawing.Point(0, 437);
             this.macroStatusBar.Name = "macroStatusBar";
             this.macroStatusBar.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.macroStatusBar.Size = new System.Drawing.Size(444, 22);
+            this.macroStatusBar.Size = new System.Drawing.Size(444, 24);
             this.macroStatusBar.TabIndex = 1;
-            this.macroStatusBar.Text = "statusStrip1";
             // 
             // statusLabel
             // 
@@ -144,7 +143,8 @@ namespace SleepHunter.Forms
             this.statusLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.statusLabel.MergeAction = System.Windows.Forms.MergeAction.Replace;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(427, 17);
+            this.statusLabel.Padding = new System.Windows.Forms.Padding(1);
+            this.statusLabel.Size = new System.Drawing.Size(396, 19);
             this.statusLabel.Spring = true;
             this.statusLabel.Text = "Macro is not running.";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -169,7 +169,7 @@ namespace SleepHunter.Forms
             this.macroSplitContainer.Panel2.Controls.Add(this.macroToolStrip);
             this.macroSplitContainer.Panel2.Margin = new System.Windows.Forms.Padding(5);
             this.macroSplitContainer.Panel2.Padding = new System.Windows.Forms.Padding(6, 1, 5, 5);
-            this.macroSplitContainer.Size = new System.Drawing.Size(444, 439);
+            this.macroSplitContainer.Size = new System.Drawing.Size(444, 437);
             this.macroSplitContainer.SplitterDistance = 136;
             this.macroSplitContainer.SplitterWidth = 5;
             this.macroSplitContainer.TabIndex = 0;
@@ -336,7 +336,7 @@ namespace SleepHunter.Forms
             this.macroListView.Location = new System.Drawing.Point(6, 26);
             this.macroListView.Margin = new System.Windows.Forms.Padding(12);
             this.macroListView.Name = "macroListView";
-            this.macroListView.Size = new System.Drawing.Size(433, 267);
+            this.macroListView.Size = new System.Drawing.Size(433, 265);
             this.macroListView.TabIndex = 1;
             this.macroListView.UseCompatibleStateImageBehavior = false;
             this.macroListView.View = System.Windows.Forms.View.Details;
@@ -604,8 +604,8 @@ namespace SleepHunter.Forms
             this.statusImageList.Images.SetKeyName(0, "macro_play.ico");
             this.statusImageList.Images.SetKeyName(1, "macro_pause.ico");
             this.statusImageList.Images.SetKeyName(2, "macro_stop.ico");
-            this.statusImageList.Images.SetKeyName(3, "services.ico");
-            this.statusImageList.Images.SetKeyName(4, "Web_GlobalAppClass.ico");
+            this.statusImageList.Images.SetKeyName(3, "macro_error.ico");
+            this.statusImageList.Images.SetKeyName(4, "services.ico");
             // 
             // processTimer
             // 

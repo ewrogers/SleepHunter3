@@ -29,15 +29,17 @@ namespace SleepHunter.Forms
         private void ValidateMacro()
         {
             try
-            {
+            {               
                 _ = new MacroStructureCache(macroCommands.Select(c => c.Command).ToList());
+
+                ClearHighlight();
                 validationErrorMessage = null;
             }
             catch (MacroValidationException ex)
             {
                 validationErrorMessage = ex.Message;
                 ClearHighlight();
-                HighlightItem(ex.CommandIndex);
+                HighlightItem(ex.CommandIndex, ValidationHighlightColor);
             }
 
             UpdateToolbarAndMenuState();

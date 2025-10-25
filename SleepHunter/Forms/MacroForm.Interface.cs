@@ -143,13 +143,21 @@ namespace SleepHunter.Forms
             const int pauseImageIndex = 1;
             const int stopImageIndex = 2;
 
+            if (!string.IsNullOrWhiteSpace(validationErrorMessage))
+            {
+                statusLabel.Text = validationErrorMessage;
+                statusLabel.ForeColor = ValidationTextColor;
+                statusLabel.Image = deleteButton.Image;
+                return;
+            }
+
             if (IsPaused)
             {
                 statusLabel.Text = "Macro has been paused.";
                 statusLabel.Image = statusImageList.Images[pauseImageIndex];
                 return;
             }
-            
+
             if (IsRunning)
             {
                 statusLabel.Text = "Macro is running...";
@@ -175,19 +183,20 @@ namespace SleepHunter.Forms
                     statusLabel.Text = "Macro is not running.";
                     break;
             }
-            
+
+            statusLabel.ForeColor = SystemColors.ControlText;
             statusLabel.Image = statusImageList.Images[stopImageIndex];
         }
 
-        private void HighlightItem(int index)
+        private void HighlightItem(int index, Color? color = null)
         {
             if (index < 0 || index >= macroListView.Items.Count)
             {
                 return;
             }
-            
+
             highlightedItem = macroListView.Items[index];
-            highlightedItem.BackColor = Color.Yellow;
+            highlightedItem.BackColor = color ?? Color.Yellow;
             highlightedItem.EnsureVisible();
         }
 

@@ -76,11 +76,13 @@ namespace SleepHunter.Forms
                     }
 
                     // Create the command parameters
-                    var parameters = command.Parameters?.Select(p => new MacroParameterValue(p.Type, p.Value)).ToArray() ?? Array.Empty<MacroParameterValue>();
+                    var parameters =
+                        command.Parameters?.Select(p => new MacroParameterValue(p.Type, p.Value)).ToArray() ??
+                        Array.Empty<MacroParameterValue>();
 
                     // Add the command to the list (add closing tag only if this the last command in the pasted set)
                     var isLastCommand = i + 1 >= commands.Count;
-                    AddMacroCommand(definition, parameters, insertIndex++, addClosingCommand: isLastCommand);
+                    AddMacroCommand(definition, parameters, insertIndex++, addClosingCommand: isLastCommand, autoSelect: true, validate: false);
                 }
 
                 return !hasError;
@@ -96,6 +98,13 @@ namespace SleepHunter.Forms
                 MessageBox.Show(this, "Failed to create commands.", "Paste Commands Failed", MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
                 return false;
+            }
+            finally
+            {
+                ValidateMacro();
+
+                UpdateToolbarAndMenuState();
+                UpdateStatusBarState();
             }
         }
     }

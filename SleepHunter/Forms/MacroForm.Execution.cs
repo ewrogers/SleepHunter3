@@ -96,7 +96,7 @@ namespace SleepHunter.Forms
             ClearHighlight();
 
             macroListView.SelectedIndices.Clear();
-            HighlightItem(commandIndex);
+            HighlightItem(commandIndex, DebugStepHighlightColor);
 
             UpdateToolbarAndMenuState();
             UpdateStatusBarState();

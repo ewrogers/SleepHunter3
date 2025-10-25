@@ -11,12 +11,17 @@ using SleepHunter.Extensions;
 using SleepHunter.Macro;
 using SleepHunter.Macro.Serialization;
 using System.Linq;
+using System.Drawing;
 
 namespace SleepHunter.Forms
 {
 
     public partial class MacroForm
     {
+        private static readonly Color DebugStepHighlightColor = Color.FromArgb(0xFF, 0xF0, 0x85);
+        private static readonly Color ValidationHighlightColor = Color.FromArgb(0xFF, 0xC9, 0xC9);
+        private static readonly Color ValidationTextColor = Color.FromArgb(0xE7, 0x00, 0x0B);
+
         private readonly IServiceProvider serviceProvider;
         private readonly IWindowEnumerator windowEnumerator;
         private readonly IMacroCommandRegistry commandRegistry;

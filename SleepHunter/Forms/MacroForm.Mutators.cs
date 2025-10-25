@@ -12,7 +12,7 @@ namespace SleepHunter.Forms
         #region Add Command Methods
 
         public void AddMacroCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters,
-            int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true)
+            int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true, bool validate = true)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace SleepHunter.Forms
                         Definition = definition,
                         Parameters = parameters
                     };
-                    AddMacroCommand(commandObj, desiredIndex, addClosingCommand, autoSelect);
+                    AddMacroCommand(commandObj, desiredIndex, addClosingCommand, autoSelect, validate);
                 }
             }
             catch
@@ -37,7 +37,8 @@ namespace SleepHunter.Forms
             }
         }
 
-        private void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1, bool addClosingCommand = true, bool autoSelect = true)
+        private void AddMacroCommand(MacroCommandObject commandObj, int desiredIndex = -1,
+            bool addClosingCommand = true, bool autoSelect = true, bool validate = true)
         {
             try
             {
@@ -81,7 +82,8 @@ namespace SleepHunter.Forms
             listViewItem.SubItems.Add(commandObj.Command.ToString());
 
             // Automatically add an accompanying closing command for stuff like if/while/loop
-            if (addClosingCommand && commandObj.Command.IsOpeningCommand() && AddClosingCommand(commandObj, desiredIndex + 1) != null)
+            if (addClosingCommand && commandObj.Command.IsOpeningCommand() &&
+                AddClosingCommand(commandObj, desiredIndex + 1, validate) != null)
             {
                 return;
             }
@@ -93,11 +95,15 @@ namespace SleepHunter.Forms
                 macroListView.SelectedIndices.Clear();
                 macroListView.SelectedIndices.Add(desiredIndex);
             }
-            
-            ValidateMacro();
+
+            if (validate)
+            {
+                ValidateMacro();
+            }
         }
-        
-        private MacroCommandObject AddClosingCommand(MacroCommandObject commandObj, int desiredIndex)
+
+        private MacroCommandObject AddClosingCommand(MacroCommandObject commandObj, int desiredIndex,
+            bool validate = true)
         {
             var closingCommand = commandObj.Command.GetClosingCommand();
             if (closingCommand == null)
@@ -113,16 +119,22 @@ namespace SleepHunter.Forms
             };
 
             AddMacroCommand(endingObj, desiredIndex, autoSelect: false);
-            
+
             macroListView.SelectedIndices.Clear();
             macroListView.SelectedIndices.Add(Math.Max(0, desiredIndex - 1));
-            
-            ValidateMacro();
+
+            if (validate)
+            {
+                ValidateMacro();
+            }
+
             return endingObj;
         }
+
         #endregion
 
-        private bool ReplaceCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int index)
+        private bool ReplaceCommand(MacroCommandDefinition definition, MacroParameterValue[] parameters, int index,
+            bool validate = true)
         {
             try
             {
@@ -146,6 +158,12 @@ namespace SleepHunter.Forms
                 selectedItem.SubItems[1].Text = newCommand.ToString();
 
                 ReformatLines();
+
+                if (validate)
+                {
+                    ValidateMacro();
+                }
+
                 return true;
             }
             catch (MacroValidationException ex)
@@ -161,39 +179,39 @@ namespace SleepHunter.Forms
                     MessageBoxIcon.Hand);
                 return false;
             }
-            finally
-            {
-                ValidateMacro();
-            }
         }
-        
-        private void DeleteMacroCommands(IReadOnlyList<int> indexes)
+
+        private void DeleteMacroCommands(IReadOnlyList<int> indexes, bool validate = true)
         {
             if (indexes == null || indexes.Count == 0)
                 return;
-            
+
             macroListView.BeginUpdate();
 
             try
             {
                 // Remove in reverse order, so the indices don't change
-                for (var i = indexes.Count - 1; i >=0; i--)
+                for (var i = indexes.Count - 1; i >= 0; i--)
                 {
                     var index = indexes[i];
                     macroCommands.RemoveAt(index);
                     macroListView.Items.RemoveAt(index);
                 }
-                
+
                 ReformatLines();
+
+                if (validate)
+                {
+                    ValidateMacro();
+                }
             }
             finally
             {
                 macroListView.EndUpdate();
-                ValidateMacro();
             }
         }
 
-        private void MoveMacroCommands(IReadOnlyList<int> indexes, int desiredIndex)
+        private void MoveMacroCommands(IReadOnlyList<int> indexes, int desiredIndex, bool validate = true)
         {
             if (indexes == null || indexes.Count == 0)
                 return;
@@ -250,11 +268,15 @@ namespace SleepHunter.Forms
                 {
                     macroListView.SelectedIndices.Add(adjustedIndex + i);
                 }
+
+                if (validate)
+                {
+                    ValidateMacro();
+                }
             }
             finally
             {
                 macroListView.EndUpdate();
-                ValidateMacro();
             }
         }
     }
