@@ -62,6 +62,7 @@
         OpenBracket = 0xDB,
         CloseBracket = 0xDD,
         Semicolon = 0xBA,
+        Quote = 0xDE,
         Comma = 0xBC,
         Period = 0xBE,
         ForwardSlash = 0xBF,
