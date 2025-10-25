@@ -244,6 +244,11 @@ namespace SleepHunter.Macro.Commands
                 case MacroCommandKey.MouseMoveOffset:
                     return new MouseMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger(),
                         MouseMoveKind.Relative);
+                case MacroCommandKey.MouseDrag:
+                    return new MouseDragMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger());
+                case MacroCommandKey.MouseDragOffset:
+                    return new MouseDragMoveCommand(parameters[0].AsInteger(), parameters[1].AsInteger(),
+                        kind: MouseMoveKind.Relative);
                 case MacroCommandKey.MouseSavePosition:
                     return new SaveMousePositionCommand();
                 case MacroCommandKey.MouseRecallPosition:

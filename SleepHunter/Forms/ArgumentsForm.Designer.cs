@@ -222,6 +222,7 @@ namespace SleepHunter.Forms
             this.numericValueNumeric.TabIndex = 3;
             this.numericValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericValueNumeric.ThousandsSeparator = true;
+            this.numericValueNumeric.Enter += new System.EventHandler(this.input_GotFocus);
             // 
             // numericComparisonGroupBox
             // 
@@ -358,6 +359,7 @@ namespace SleepHunter.Forms
             this.xValueNumeric.Size = new System.Drawing.Size(100, 25);
             this.xValueNumeric.TabIndex = 1;
             this.xValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.xValueNumeric.Enter += new System.EventHandler(this.input_GotFocus);
             // 
             // xValueLabel
             // 
@@ -390,6 +392,7 @@ namespace SleepHunter.Forms
             this.yValueNumeric.Size = new System.Drawing.Size(100, 25);
             this.yValueNumeric.TabIndex = 3;
             this.yValueNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.yValueNumeric.Enter += new System.EventHandler(this.input_GotFocus);
             // 
             // yValueLabel
             // 
@@ -559,6 +562,7 @@ namespace SleepHunter.Forms
             this.numericInputNumeric.TabIndex = 1;
             this.numericInputNumeric.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numericInputNumeric.ThousandsSeparator = true;
+            this.numericInputNumeric.Enter += new System.EventHandler(this.input_GotFocus);
             // 
             // numericInputLabel
             // 

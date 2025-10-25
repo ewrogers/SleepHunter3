@@ -216,5 +216,14 @@ namespace SleepHunter.Forms
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void input_GotFocus(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown numericUpDown)
+            {
+                numericUpDown.Select(0, 100);
+                return;
+            }
+        }
     }
 }

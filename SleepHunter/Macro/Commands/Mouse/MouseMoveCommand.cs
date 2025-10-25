@@ -17,10 +17,7 @@ namespace SleepHunter.Macro.Commands.Mouse
         public MousePoint Position { get; }
 
         public MouseMoveCommand(int x, int y, MouseMoveKind kind = MouseMoveKind.Absolute)
-        {
-            Kind = kind;
-            Position = new MousePoint(x, y);
-        }
+        :this(new MousePoint(x, y), kind) { }
 
         public MouseMoveCommand(MousePoint position, MouseMoveKind kind = MouseMoveKind.Absolute)
         {

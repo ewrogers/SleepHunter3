@@ -86,6 +86,24 @@ namespace SleepHunter.Macro.Commands
                 Description = "Moves the mouse pointer by the offset specified.",
                 Parameters = { MacroParameterType.Integer, MacroParameterType.Integer }
             });
+            
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseDrag,
+                DisplayName = "Drag Mouse",
+                Description = "Click and drag from the current position to the position specified.",
+                Parameters = { MacroParameterType.Integer, MacroParameterType.Integer }
+            });
+
+            RegisterCommand(new MacroCommandDefinition
+            {
+                Category = MacroCommandCategory.Mouse,
+                Key = MacroCommandKey.MouseDragOffset,
+                DisplayName = "Drag Mouse Offset",
+                Description = "Click and drag from the current position by the offset specified.",
+                Parameters = { MacroParameterType.Integer, MacroParameterType.Integer }
+            });
 
             RegisterCommand(new MacroCommandDefinition
             {

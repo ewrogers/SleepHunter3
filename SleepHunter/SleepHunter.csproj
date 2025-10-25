@@ -229,6 +229,7 @@
     <Compile Include="Macro\Commands\Mouse\MouseButtonUpCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\MouseClickCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\MouseButtonDownCommand.cs" />
+    <Compile Include="Macro\Commands\Mouse\MouseDragMoveCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\MouseMoveCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\RecallMousePositionCommand.cs" />
     <Compile Include="Macro\Commands\Mouse\SaveMousePositionCommand.cs" />
