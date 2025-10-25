@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SleepHunter.Macro.Commands;
@@ -50,36 +51,123 @@ namespace SleepHunter.Forms
 
         private void macroListView_DragDrop(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
+            if (!(sender is ListView listView))
             {
                 return;
             }
 
-            var definition = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
-            var parameters = ShowArgumentsForm(definition);
-
-            // Ignore if not enough parameters provided
-            if (parameters == null)
+            try
             {
-                return;
-            }
+                // Handle adding a command via drag and drop
+                if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
+                {
+                    var definition = (MacroCommandDefinition)e.Data.GetData(typeof(MacroCommandDefinition));
+                    var parameters = ShowArgumentsForm(definition);
 
-            AddMacroCommand(definition, parameters);
+                    // Ignore if not enough parameters provided
+                    if (parameters == null)
+                    {
+                        return;
+                    }
+
+                    AddMacroCommand(definition, parameters, listView.InsertionMark.Index);
+                    return;
+                }
+
+                // Handle drag and drop of selected items to re-arrange
+                if (e.Data.GetDataPresent(typeof(List<int>)))
+                {
+                    var selectedIndices = (List<int>)e.Data.GetData(typeof(List<int>));
+                    MoveMacroCommands(selectedIndices, listView.InsertionMark.Index);
+                }
+            }
+            finally
+            {
+                listView.InsertionMark.Index = -1;
+            }
         }
 
         private void macroListView_DragOver(object sender, DragEventArgs e)
         {
+            if (!(sender is ListView listView))
+            {
+                return;
+            }
+
+            var firstSelectedIndex = -1;
+            var lastSelectedIndex = -1;
+
             if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
             {
                 e.Effect = DragDropEffects.Copy;
+            }
+            else if (e.Data.GetDataPresent(typeof(List<int>)))
+            {
+                e.Effect = DragDropEffects.Move;
+                var draggedIndices = (List<int>)e.Data.GetData(typeof(List<int>));
+                firstSelectedIndex = draggedIndices.Min();
+                lastSelectedIndex = draggedIndices.Max();
+            }
+            else
+            {
+                listView.InsertionMark.Index = -1;
                 return;
             }
-            
-            if (!e.Data.GetDataPresent(typeof(List<int>)))
+
+            var clientPoint = listView.PointToClient(new Point(e.X, e.Y));
+
+            // Find insertion point
+            var itemOver = listView.GetItemAt(clientPoint.X, clientPoint.Y);
+            var insertionIndex = 0;
+            var appearsAfter = false;
+
+            if (itemOver == null)
+            {
+                // Dragging below the last item or empty space
+                if (listView.Items.Count > 0)
+                {
+                    insertionIndex = listView.Items.Count - 1;
+                    appearsAfter = true;
+                }
+                else
+                {
+                    insertionIndex = 0;
+                    appearsAfter = false;
+                }
+            }
+            else
+            {
+                var itemBounds = itemOver.Bounds;
+                if (clientPoint.Y < itemBounds.Top + itemBounds.Height / 2)
+                {
+                    // Insert before this item
+                    insertionIndex = itemOver.Index;
+                    appearsAfter = false;
+                }
+                else
+                {
+                    // Insert after this item
+                    insertionIndex = itemOver.Index - 1;
+                    appearsAfter = true;
+                }
+            }
+
+            // Calculate actual insertion index
+            var actualInsertionIndex = appearsAfter ? insertionIndex + 1 : insertionIndex;
+
+            // Do not allow dropping within or adjacent to the selection
+            if (actualInsertionIndex >= firstSelectedIndex && actualInsertionIndex <= lastSelectedIndex)
             {
                 e.Effect = DragDropEffects.None;
-                macroListView.InsertionMark.Index = -1;
-                return;
+                listView.InsertionMark.Index = -1;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.Move;
+
+                // Set the insertion mark
+                listView.InsertionMark.Index = actualInsertionIndex;
+                listView.InsertionMark.AppearsAfterItem = appearsAfter;
             }
         }
 
@@ -95,8 +183,8 @@ namespace SleepHunter.Forms
                 return;
             }
 
-            var selectedItems = macroListView.SelectedItems.Cast<ListViewItem>().ToList();
-            macroListView.DoDragDrop(selectedItems, DragDropEffects.Move);
+            var selectedIndices = macroListView.SelectedIndices.Cast<int>().ToList();
+            macroListView.DoDragDrop(selectedIndices, DragDropEffects.Move);
         }
 
         private bool IsSelectionContiguous()
