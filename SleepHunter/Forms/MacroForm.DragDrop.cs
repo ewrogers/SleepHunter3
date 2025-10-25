@@ -62,6 +62,11 @@ namespace SleepHunter.Forms
 
             try
             {
+                var actualInsertionIndex =
+                        listView.InsertionMark.AppearsAfterItem ?
+                        listView.InsertionMark.Index + 1 :
+                        listView.InsertionMark.Index;
+
                 // Handle adding a command via drag and drop
                 if (e.Data.GetDataPresent(typeof(MacroCommandDefinition)))
                 {
@@ -79,11 +84,6 @@ namespace SleepHunter.Forms
                         return;
                     }
 
-                    var actualInsertionIndex =
-                        listView.InsertionMark.AppearsAfterItem ?
-                        listView.InsertionMark.Index + 1 :
-                        listView.InsertionMark.Index;
-
                     AddMacroCommand(definition, parameters, actualInsertionIndex);
                     return;
                 }
@@ -92,7 +92,7 @@ namespace SleepHunter.Forms
                 if (e.Data.GetDataPresent(typeof(List<int>)))
                 {
                     var selectedIndices = (List<int>)e.Data.GetData(typeof(List<int>));
-                    MoveMacroCommands(selectedIndices, listView.InsertionMark.Index);
+                    MoveMacroCommands(selectedIndices, actualInsertionIndex);
                 }
             }
             finally
