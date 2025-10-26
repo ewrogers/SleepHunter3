@@ -56,3 +56,8 @@ I have tried to improve the UI and workflow to make it easier to use, but it is 
 SleepHunter v4.
 
 The good part is you can save and share your scripts with others!
+
+## Development
+
+If you want to build the project yourself, you will need to install the latest Visual Studio.
+Unfortunately, due to the WinForms Designer and other legacy things, it is not advised to use other IDEs.
