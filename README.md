@@ -29,11 +29,15 @@ In attempts to make it as seamless of a transition as possible, both the origina
 and the new SleepHunter v3 extended macro files (`.sh3x`) can be loaded. Saving an older macro format will result in the
 newer format being saved. Considering the old version no longer works, this should not be an issue.
 
+## What's New?
+
+You can find the full changelog [here](CHANGELOG.md).
+
 ## Why Bother?
 
 Despite SleepHunter v4 being popular and widely used, I would often get asked about the status of SleepHunter v3.
-For non-Dojo tasks and other repetitive tasks, it still filled a need for a lot of people. I would often tell them
-that I did not keep the original source code, so it would not be easy for me to update it.
+For non-Dojo tasks and other repetitive tasks, it still filled a need for a lot of people. I would tell them
+that I did not keep the original source code from 2004-2005, so it would not be easy for me to update it.
 
 I got curious of how much I would be able to recover with a tool like [dotPeek](https://www.jetbrains.com/decompiler/),
 and decided to give it a shot. To my surprise, it was actually quite easy to recover most of the code and get it
