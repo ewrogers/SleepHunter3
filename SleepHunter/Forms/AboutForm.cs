@@ -16,7 +16,5 @@ namespace SleepHunter.Forms
         {
             Process.Start(new ProcessStartInfo("https://github.com/ewrogers/SleepHunter3") { UseShellExecute = true });
         }
-
-        
     }
 }
