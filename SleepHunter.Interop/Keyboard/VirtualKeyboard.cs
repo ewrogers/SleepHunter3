@@ -46,7 +46,8 @@ namespace SleepHunter.Interop.Keyboard
         public void SendKeyDown(int virtualKey)
         {
             var scanCode = GetScanCode(virtualKey);
-            var keyParameter = GetKeyParameter(1, scanCode, false, false);
+            var isExtended = IsExtendedKey(virtualKey);
+            var keyParameter = GetKeyParameter(1, scanCode, false, false, isExtended);
 
             NativeMethods.PostMessage(windowHandle, WM_KEYDOWN, (IntPtr)virtualKey, keyParameter);
         }
@@ -72,7 +73,8 @@ namespace SleepHunter.Interop.Keyboard
         public void SendKeyUp(int virtualKey)
         {
             var scanCode = GetScanCode(virtualKey);
-            var keyParameter = GetKeyParameter(1, scanCode, true);
+            var isExtended = IsExtendedKey(virtualKey);
+            var keyParameter = GetKeyParameter(1, scanCode, true, true, isExtended);
 
             NativeMethods.PostMessage(windowHandle, WM_KEYUP, (IntPtr)virtualKey, keyParameter);
         }
@@ -221,6 +223,29 @@ namespace SleepHunter.Interop.Keyboard
 
             modifiers = (ModifierKeys)modifiersScan;
             return vkey;
+        }
+
+        private static bool IsExtendedKey(int vkey)
+        {
+            switch (vkey)
+            {
+                case 0x26:  // Up arrow
+                case 0x28:  // Down arrow
+                case 0x25:  // Left arrow
+                case 0x27:  // Right arrow
+                case 0x24:  // Home
+                case 0x23:  // End
+                case 0x21:  // Page Up
+                case 0x22:  // Page Down
+                case 0x2D:  // Insert
+                case 0x2E:  // Delete
+                case 0xA5:  // Right Alt
+                case 0xA3:  // Right Ctrl
+                case 0x6F:  // Numpad /
+                case 0x2C:  // Print Screen
+                    return true;
+                default: return false;
+            }
         }
     }
 }

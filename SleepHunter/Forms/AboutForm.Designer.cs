@@ -37,9 +37,9 @@ namespace SleepHunter.Forms
             this.versionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.versionLabel.Location = new System.Drawing.Point(427, 328);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(41, 17);
+            this.versionLabel.Size = new System.Drawing.Size(81, 36);
             this.versionLabel.TabIndex = 4;
-            this.versionLabel.Text = "v3.1.0";
+            this.versionLabel.Text = "v3.1.1";
             // 
             // lblAuthor
             // 
@@ -59,7 +59,7 @@ namespace SleepHunter.Forms
             this.githubLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.githubLabel.Location = new System.Drawing.Point(223, 392);
             this.githubLabel.Name = "githubLabel";
-            this.githubLabel.Size = new System.Drawing.Size(109, 21);
+            this.githubLabel.Size = new System.Drawing.Size(224, 45);
             this.githubLabel.TabIndex = 3;
             this.githubLabel.Text = "Project Github";
             this.githubLabel.Click += new System.EventHandler(this.githubLabel_Click);
@@ -71,7 +71,7 @@ namespace SleepHunter.Forms
             this.infoLabel.ForeColor = System.Drawing.Color.White;
             this.infoLabel.Location = new System.Drawing.Point(12, 392);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(205, 21);
+            this.infoLabel.Size = new System.Drawing.Size(425, 45);
             this.infoLabel.TabIndex = 2;
             this.infoLabel.Text = "Visit the GitHub for updates:";
             // 
@@ -87,7 +87,7 @@ namespace SleepHunter.Forms
             // 
             // AboutForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));

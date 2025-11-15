@@ -42,6 +42,14 @@ namespace SleepHunter.Macro.Serialization
             {
                 JsonSerializer.Serialize(writer, stringValue, options);
             }
+            else if (value is Enum enumValue)
+            {
+                JsonSerializer.Serialize(writer, enumValue.ToString(), options);
+            }
+            else
+            {
+                JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            }
         }
     }
 }
